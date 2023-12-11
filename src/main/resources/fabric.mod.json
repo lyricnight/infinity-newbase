@@ -13,6 +13,7 @@
 	},
 	"license": "",
 	"icon": "assets/infinity/icon.png",
+	"accessWidener": "infinity.accesswidener",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
