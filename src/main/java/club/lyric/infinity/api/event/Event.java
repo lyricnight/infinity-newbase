@@ -6,7 +6,6 @@ package club.lyric.infinity.api.event;
  */
 
 public class Event {
-
     private boolean cancelled = false;
 
     public boolean isCancelled()

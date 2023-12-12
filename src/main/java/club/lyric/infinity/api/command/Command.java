@@ -23,6 +23,10 @@ public class Command {
         return command;
     }
 
+    public String theCommand() {
+        return "";
+    }
+
     public void state(CommandState state) {
         switch (state) {
             case ERROR: {

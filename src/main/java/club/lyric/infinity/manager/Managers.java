@@ -1,6 +1,7 @@
 package club.lyric.infinity.manager;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.manager.client.CommandManager;
 import club.lyric.infinity.manager.fabric.EventManager;
 
 import java.util.Arrays;
@@ -11,6 +12,8 @@ import java.util.Arrays;
  */
 public class Managers {
     public static final EventManager EVENTS = new EventManager();
+
+    public static final CommandManager COMMANDS = new CommandManager();
 
     /**
      * method used to subscribe all managers to the relevant eventbuses.
