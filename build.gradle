@@ -14,9 +14,14 @@ repositories {
 		url "https://jitpack.io"
 	}
 	maven {
-		name = "meteorRepositoryReleases"
+		name = "meteor-maven"
 		url = "https://maven.meteordev.org/releases"
 	}
+}
+
+compileJava {
+	// unicode fixer
+	options.encoding 'UTF-8'
 }
 
 dependencies {
@@ -24,7 +29,7 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	implementation "meteordevelopment:orbit:0.2.3"
+	modImplementation("meteordevelopment:orbit:0.2.3")
 }
 
 processResources {

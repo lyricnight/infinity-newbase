@@ -2,6 +2,8 @@ package club.lyric.infinity.manager;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.manager.client.CommandManager;
+import club.lyric.infinity.manager.client.ConfigManager;
+import club.lyric.infinity.manager.client.FriendsManager;
 import club.lyric.infinity.manager.fabric.EventManager;
 
 import java.util.Arrays;
@@ -14,6 +16,8 @@ public class Managers {
     public static final EventManager EVENTS = new EventManager();
 
     public static final CommandManager COMMANDS = new CommandManager();
+    public static final FriendsManager FRIENDS = new FriendsManager();
+    public static final ConfigManager CONFIG = new ConfigManager();
 
     /**
      * method used to subscribe all managers to the relevant eventbuses.
@@ -21,7 +25,9 @@ public class Managers {
     public static void subscribe()
     {
         Infinity.LOGGER.info("Starting subscription of managers.");
-        subscribe(EVENTS, COMMANDS);
+        subscribe(COMMANDS, FRIENDS, CONFIG);
+        COMMANDS.init();
+        CONFIG.load();
     }
 
 

@@ -35,7 +35,6 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 		LOGGER.info("Infinity has received onInitializeClient()!");
 		Managers.subscribe();
 		//shutdownhook goes here to save config on shutdown
-		//Runtime.getRuntime().addShutdownHook(new Thread(() - > configmanager.save()));
-
+		//Runtime.getRuntime().addShutdownHook(new Thread(() -> configManager.save()));
 	}
 }

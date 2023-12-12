@@ -3,10 +3,11 @@ package club.lyric.infinity.manager.client;
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.util.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.commands.Prefix;
+import club.lyric.infinity.impl.commands.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,9 +24,15 @@ public class CommandManager implements IMinecraft, JsonElements {
 
     public void init()
     {
-        commands.add(new Prefix());
+        register(
+                new Prefix(),
+                new Friend()
+        );
     }
 
+    public void register(Command... command) {
+        Collections.addAll(commands, command);
+    }
 
     /**
      * this returns the command we need to get
