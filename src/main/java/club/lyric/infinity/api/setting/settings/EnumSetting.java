@@ -32,8 +32,8 @@ public class EnumSetting<T extends Enum<?>> extends Base<T> {
     }
 
     /**
-     * this searches if the enum given is actually valid - so you can't pass invalid values to the setting, which can cause crashes.
-     * USE THIS BEFORE ASSIGNING AN ENUMSETTING ANYTHING.
+     * this searches if the enum given is actually available to be assigned by the class - so you can't pass invalid values to the setting, which can cause crashes.
+     * USE THIS BEFORE ASSIGNING AN ENUMSETTING ANYTHING IN CONFIGMANAGER.
      * @param string enum in.
      */
     public void search(String string) {
