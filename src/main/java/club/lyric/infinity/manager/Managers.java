@@ -21,6 +21,7 @@ public class Managers {
     public static void subscribe()
     {
         Infinity.LOGGER.info("Starting subscription of managers.");
+        subscribe(EVENTS, COMMANDS);
     }
 
 
@@ -35,13 +36,13 @@ public class Managers {
 
     /**
      * subscribes a manager.
-     * @param manager - the manager to subscribe
+     * @param sub - the manager to subscribe
      */
 
-    private void subscribe(Object ... manager)
+    private static void subscribe(Object... sub)
     {
-        Infinity.LOGGER.info("Subscribing " + Arrays.toString(manager));
-        Infinity.EVENT_BUS.subscribe(manager);
+        Infinity.LOGGER.info("Subscribing " + Arrays.toString(sub));
+        Infinity.EVENT_BUS.subscribe(sub);
     }
 
 }
