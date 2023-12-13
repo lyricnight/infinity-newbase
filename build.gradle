@@ -9,9 +9,15 @@ group = project.maven_group
 base {
 	archivesName = project.archives_base_name
 }
+
+loom {
+	accessWidenerPath = file("src/main/resources/infinity.accesswidener")
+}
+
 repositories {
 	maven {
-		url "https://jitpack.io"
+		name = "jitpack.io"
+		url = "https://jitpack.io"
 	}
 	maven {
 		name = "meteor-maven"

@@ -1,7 +1,9 @@
 package club.lyric.infinity.manager.fabric;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.event.mc.ChatEvent;
+import club.lyric.infinity.api.event.network.PacketEvent;
 import club.lyric.infinity.api.util.chat.ChatUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
@@ -50,6 +52,13 @@ public class EventManager implements IMinecraft {
                 ChatUtils.sendMessagePrivate(Formatting.RED + "Unknown command. Try " + Managers.COMMANDS.getPrefix() + "commands for a list of available commands.");
             }
         }
+    }
+
+    @EventHandler
+    public void onPacket(PacketEvent.Send event)
+    {
+        Infinity.LOGGER.info("This works??");
+        ChatUtils.sendMessagePrivate("THIS WORKS");
     }
 
 
