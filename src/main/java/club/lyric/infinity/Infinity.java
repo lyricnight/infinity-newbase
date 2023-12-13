@@ -19,7 +19,6 @@ import java.lang.invoke.MethodHandles;
 
 public class Infinity implements ModInitializer, ClientModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("infinity");
-
 	public static final IEventBus EVENT_BUS = new EventBus();
 
 	@Override
