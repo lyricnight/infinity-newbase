@@ -18,6 +18,8 @@ import java.util.Set;
 
 public class CommandManager implements IMinecraft, JsonElements {
 
+    //TODO: this will have formatting added once we make modules.
+    private String clientMessage = "[Infinity]";
     private static String prefix = "-";
     private static final Set<Command> commands = new HashSet<>();
 
@@ -26,7 +28,8 @@ public class CommandManager implements IMinecraft, JsonElements {
     {
         register(
                 new Prefix(),
-                new Friend()
+                new Friend(),
+                new List()
         );
     }
 
@@ -40,7 +43,7 @@ public class CommandManager implements IMinecraft, JsonElements {
      * @return the Command corresponding to commandStr
      */
 
-    public static Command get(String commandStr) {
+    public Command get(String commandStr) {
         Command command = null;
 
         for (Command commands : getCommands()) {
@@ -69,7 +72,7 @@ public class CommandManager implements IMinecraft, JsonElements {
      * @return the commands
      */
 
-    public static Set<Command> getCommands() {
+    public Set<Command> getCommands() {
         return commands;
     }
 
@@ -77,7 +80,7 @@ public class CommandManager implements IMinecraft, JsonElements {
      * for -commands / -help
      * @return all commands
      */
-    public static StringBuilder getCommandsAsString()
+    public StringBuilder getCommandsAsString()
     {
         StringBuilder str = new StringBuilder();
         for(Command commands : getCommands())
@@ -86,6 +89,24 @@ public class CommandManager implements IMinecraft, JsonElements {
         }
         return str;
     }
+
+    /**
+     * gets client message
+     * @return the above
+     */
+
+    public String getClientMessage() {
+        return this.clientMessage;
+    }
+
+    /**
+     * sets client message
+     * @param clientMessage - string to set it to
+     */
+    public void setClientMessage(String clientMessage) {
+        this.clientMessage = clientMessage;
+    }
+
 
     /**
      * makes prefix a json element for configs

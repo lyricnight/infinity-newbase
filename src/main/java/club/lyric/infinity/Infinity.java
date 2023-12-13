@@ -28,12 +28,13 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 		LOGGER.info("Initialising eventbus.");
 		EVENT_BUS.registerLambdaFactory("infinity", (lookupInMethod, klass) -> (MethodHandles.Lookup) lookupInMethod.invoke(null, klass, MethodHandles.lookup()));
 		LOGGER.info("LambdaFactory has been initialised...");
+		Managers.subscribe();
 	}
 
 	@Override
 	public void onInitializeClient() {
 		LOGGER.info("Infinity has received onInitializeClient()!");
-		Managers.subscribe();
+		Managers.init();
 		Runtime.getRuntime().addShutdownHook(new Thread(Managers.CONFIG::save));
 	}
 }

@@ -9,8 +9,11 @@
 	],
 	"icon": "assets/infinity/icon.png",
 	"accessWidener": "infinity.accesswidener",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
+		"client": [
+			"club.lyric.infinity.Infinity"
+		],
 		"main": [
 			"club.lyric.infinity.Infinity"
 		]

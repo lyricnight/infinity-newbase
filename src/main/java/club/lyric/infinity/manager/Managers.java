@@ -14,7 +14,6 @@ import java.util.Arrays;
  */
 public class Managers {
     public static final EventManager EVENTS = new EventManager();
-
     public static final CommandManager COMMANDS = new CommandManager();
     public static final FriendsManager FRIENDS = new FriendsManager();
     public static final ConfigManager CONFIG = new ConfigManager();
@@ -25,7 +24,13 @@ public class Managers {
     public static void subscribe()
     {
         Infinity.LOGGER.info("Starting subscription of managers.");
-        subscribe(COMMANDS, FRIENDS, CONFIG);
+        subscribe(EVENTS, COMMANDS, FRIENDS, CONFIG);
+        Infinity.LOGGER.info("Finished subscription of managers.");
+    }
+
+    public static void init()
+    {
+        Infinity.LOGGER.info("Initialising Managers....");
         COMMANDS.init();
         CONFIG.load();
     }
@@ -39,7 +44,6 @@ public class Managers {
 
     }
 
-
     /**
      * subscribes a manager.
      * @param sub - the manager to subscribe
@@ -47,8 +51,11 @@ public class Managers {
 
     private static void subscribe(Object... sub)
     {
-        Infinity.LOGGER.info("Subscribing " + Arrays.toString(sub));
-        Infinity.EVENT_BUS.subscribe(sub);
+        for (Object subscriber : sub)
+        {
+            Infinity.LOGGER.info("Subscribing " + Arrays.toString(sub));
+            Infinity.EVENT_BUS.subscribe(sub);
+        }
     }
 
 }
