@@ -22,7 +22,7 @@ import java.util.List;
 public class ConfigManager {
     private static final Path PATH = FabricLoader.getInstance().getGameDir().resolve("Infinity");
     private static final Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
-    private final List<JsonElements> jsonElements = List.of(Managers.COMMANDS);
+    private final List<JsonElements> jsonElements = List.of(Managers.COMMANDS, Managers.FRIENDS);
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void setValueFromJson(Setting setting, JsonElement element) {

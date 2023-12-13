@@ -1,6 +1,9 @@
 package club.lyric.infinity.api.command;
 
 
+import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.util.chat.ChatUtils;
+
 /**
  * @author lyric
  * command global that can be extended.
@@ -30,11 +33,12 @@ public class Command {
     public void state(CommandState state) {
         switch (state) {
             case ERROR: {
-                //insert chat message here
+                ChatUtils.sendMessagePrivate("Command error. Try the command with correct formatting...");
                 break;
             }
 
             case PERFORMED: {
+                Infinity.LOGGER.info("Command success registered.");
                 break;
             }
         }

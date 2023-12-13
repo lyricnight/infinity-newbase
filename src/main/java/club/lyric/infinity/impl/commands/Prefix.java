@@ -2,7 +2,9 @@ package club.lyric.infinity.impl.commands;
 
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.command.CommandState;
+import club.lyric.infinity.api.util.chat.ChatUtils;
 import club.lyric.infinity.manager.Managers;
+import net.minecraft.util.Formatting;
 
 /**
  * @author lyric
@@ -31,13 +33,12 @@ public class Prefix extends Command {
 
         if (character == null || args.length > 2) {
             state(CommandState.ERROR);
-
             return;
         }
 
         Managers.COMMANDS.setPrefix(character);
 
-        //ChatUtils.sendMessage("Prefix changed to " + ChatFormatting.WHITE + character);
+        ChatUtils.sendMessagePrivate(Formatting.GREEN + "Prefix changed to " + Formatting.WHITE + character);
 
         state(CommandState.PERFORMED);
     }

@@ -1,9 +1,8 @@
 package club.lyric.infinity.impl.commands;
 
 import club.lyric.infinity.api.command.Command;
-import club.lyric.infinity.api.util.chat.ChatUtils;
+import club.lyric.infinity.api.command.CommandState;
 import club.lyric.infinity.manager.Managers;
-import net.minecraft.util.Formatting;
 
 /**
  * @author vasler
@@ -28,14 +27,20 @@ public class Friend extends Command {
             switch (args[0]) {
                 case "add", "new" -> {
                     Managers.FRIENDS.addFriend(args[1]);
+                    state(CommandState.PERFORMED);
                     return;
                 }
                 case "del", "remove" -> {
                     Managers.FRIENDS.removeFriend(args[1]);
+                    state(CommandState.PERFORMED);
                     return;
                 }
             }
-            ChatUtils.sendMessagePrivate("Unknown formatting, try to use this format: friend <add/new/del/remove> <username>");
+            state(CommandState.ERROR);
+        }
+        else
+        {
+            state(CommandState.ERROR);
         }
     }
 }

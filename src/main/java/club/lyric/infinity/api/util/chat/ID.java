@@ -1,6 +1,6 @@
 package club.lyric.infinity.api.util.chat;
 
-public class IDedMessages
+public class ID
 {
     public static final int NONE = -1;
     public static final int TOTEM_POPS = 1000;
