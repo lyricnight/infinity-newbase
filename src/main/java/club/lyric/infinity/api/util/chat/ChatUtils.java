@@ -12,15 +12,17 @@ import net.minecraft.util.Formatting;
 
 public class ChatUtils implements IMinecraft
 {
-    public static final String CLIENT_MESSAGE = StringUtils.coloredString("[Infinity]");
+    public static final String CLIENT_MESSAGE = StringUtils.coloredString("[Infinity]", Formatting.LIGHT_PURPLE);
 
     public static void sendMessagePrivate(String message)
     {
         //you need to add infinity prefix to this
         mc.inGameHud.getChatHud().addMessage(Text.literal(message));
     }
+
     public static void sendOverwriteMessage(String message, int id)
     {
         //for id messages
     }
+
 }

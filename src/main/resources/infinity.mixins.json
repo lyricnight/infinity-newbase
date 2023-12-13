@@ -3,7 +3,8 @@
   "package": "club.lyric.infinity.asm",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "MixinClientConnection"
+    "MixinClientConnection",
+    "MixinTitleScreen"
   ],
   "client": [
     "MixinMinecraftClient"

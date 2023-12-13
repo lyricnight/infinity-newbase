@@ -33,7 +33,7 @@ public class Command {
     public void state(CommandState state) {
         switch (state) {
             case ERROR: {
-                ChatUtils.sendMessagePrivate("Command error. Try the command with correct formatting...");
+                ChatUtils.sendMessagePrivate("Invalid command.");
                 break;
             }
 
