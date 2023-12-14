@@ -1,5 +1,6 @@
 package club.lyric.infinity.manager.client;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.Bind;
 import club.lyric.infinity.api.setting.settings.EnumConverter;
@@ -22,7 +23,7 @@ import java.util.List;
 public class ConfigManager {
     private static final Path PATH = FabricLoader.getInstance().getGameDir().resolve("Infinity");
     private static final Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
-    private final List<JsonElements> jsonElements = List.of(Managers.COMMANDS, Managers.FRIENDS, Managers.MODULES);
+    private List<JsonElements> jsonElements;
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void setValueFromJson(Setting setting, JsonElement element) {
@@ -57,6 +58,16 @@ public class ConfigManager {
                 }
             }
         }
+    }
+
+
+    /**
+     * avoids crash
+     */
+
+    public void init()
+    {
+        jsonElements = List.of(Infinity.COMMANDS, Infinity.MODULES, Infinity.FRIENDS);
     }
 
 

@@ -1,5 +1,6 @@
 package club.lyric.infinity.impl.commands;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.command.CommandState;
 import club.lyric.infinity.manager.Managers;
@@ -26,12 +27,12 @@ public class Friend extends Command {
         if (args.length >= 2) {
             switch (args[0]) {
                 case "add", "new" -> {
-                    Managers.FRIENDS.addFriend(args[1]);
+                    Infinity.FRIENDS.addFriend(args[1]);
                     state(CommandState.PERFORMED);
                     return;
                 }
                 case "del", "remove" -> {
-                    Managers.FRIENDS.removeFriend(args[1]);
+                    Infinity.FRIENDS.removeFriend(args[1]);
                     state(CommandState.PERFORMED);
                     return;
                 }

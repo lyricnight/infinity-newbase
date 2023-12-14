@@ -15,7 +15,7 @@ public class ChatUtils implements IMinecraft
 
     public static void sendMessagePrivate(String message)
     {
-        mc.inGameHud.getChatHud().addMessage(Text.literal(CLIENT_MESSAGE + "" + Text.literal(message)));
+        mc.inGameHud.getChatHud().addMessage(Text.of(CLIENT_MESSAGE + "" + message));
     }
 
     public static void sendOverwriteMessage(String message, int id)

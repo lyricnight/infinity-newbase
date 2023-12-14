@@ -20,7 +20,7 @@ public class CommandManager implements IMinecraft, JsonElements {
 
     //TODO: this will have formatting added once we make modules.
     private String clientMessage = "[Infinity]";
-    private static String prefix = "-";
+    private static String prefix = ",";
     private static final Set<Command> commands = new HashSet<>();
 
 
