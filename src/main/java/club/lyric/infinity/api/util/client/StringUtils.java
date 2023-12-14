@@ -14,6 +14,4 @@ public class StringUtils {
 
         return coloredString;
     }
-
-
 }

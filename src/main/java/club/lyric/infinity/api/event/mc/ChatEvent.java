@@ -1,5 +1,6 @@
 package club.lyric.infinity.api.event.mc;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.Event;
 
 /**
@@ -12,6 +13,7 @@ public class ChatEvent extends Event {
 
     public ChatEvent(String message) {
         this.message = message;
+        Infinity.LOGGER.info("ChatEvent fired!");
     }
 
     public String getMessage() {

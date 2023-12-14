@@ -58,7 +58,7 @@ public class EventManager implements IMinecraft {
     public void onPacket(PacketEvent.Send event)
     {
         Infinity.LOGGER.info("This works??");
-        ChatUtils.sendMessagePrivate("THIS WORKS");
+        ChatUtils.sendMessagePrivate("THIS WORKS??");
     }
 
 

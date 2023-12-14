@@ -21,6 +21,8 @@ public class Command {
         this.command = command;
     }
 
+    //overridden methods
+
     public String getCommand()
     {
         return command;

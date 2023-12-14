@@ -6,8 +6,8 @@ import meteordevelopment.orbit.IEventBus;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.invoke.MethodHandles;
 
@@ -18,14 +18,14 @@ import java.lang.invoke.MethodHandles;
  */
 
 public class Infinity implements ModInitializer, ClientModInitializer {
-    public static final Logger LOGGER = LoggerFactory.getLogger("infinity");
+    public static final Logger LOGGER = LogManager.getLogger("infinity");
 	public static final IEventBus EVENT_BUS = new EventBus();
 
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Infinity has received onInitialize()!");
 		LOGGER.info("Initialising eventbus.");
-		EVENT_BUS.registerLambdaFactory("infinity", (lookupInMethod, klass) -> (MethodHandles.Lookup) lookupInMethod.invoke(null, klass, MethodHandles.lookup()));
+		EVENT_BUS.registerLambdaFactory("club.lyric.infinity", (lookupInMethod, klass) -> (MethodHandles.Lookup) lookupInMethod.invoke(null, klass, MethodHandles.lookup()));
 		LOGGER.info("LambdaFactory has been initialised...");
 		Managers.subscribe();
 	}

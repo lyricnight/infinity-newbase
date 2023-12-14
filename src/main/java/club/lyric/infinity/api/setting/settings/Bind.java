@@ -10,6 +10,7 @@ import org.lwjgl.glfw.GLFW;
 
 /**
  * @author 3arth
+ * we can't wrap this without causing issues
  */
 
 public class Bind implements IMinecraft {

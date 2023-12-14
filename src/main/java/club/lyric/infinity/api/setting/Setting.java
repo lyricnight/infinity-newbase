@@ -15,21 +15,13 @@ import java.util.function.Predicate;
 public class Setting<T> {
     private final String name;
     private final T defaultValue;
-    private T value;
-    private T plannedValue;
-    private T min;
-    private T max;
+    public T value;
+    public T plannedValue;
+    public T min;
+    public T max;
     private boolean hasRestriction;
     private Predicate<T> visibility;
     private String description;
-
-    public Setting(String name, T defaultValue) {
-        this.name = name;
-        this.defaultValue = defaultValue;
-        this.value = defaultValue;
-        this.plannedValue = defaultValue;
-        this.description = "";
-    }
 
     public Setting(String name, T defaultValue, String description) {
         this.name = name;
@@ -50,17 +42,6 @@ public class Setting<T> {
         this.hasRestriction = true;
     }
 
-    public Setting(String name, T defaultValue, T min, T max) {
-        this.name = name;
-        this.defaultValue = defaultValue;
-        this.value = defaultValue;
-        this.min = min;
-        this.max = max;
-        this.plannedValue = defaultValue;
-        this.description = "";
-        this.hasRestriction = true;
-    }
-
     public Setting(String name, T defaultValue, T min, T max, Predicate<T> visibility, String description) {
         this.name = name;
         this.defaultValue = defaultValue;
@@ -73,24 +54,13 @@ public class Setting<T> {
         this.hasRestriction = true;
     }
 
-    public Setting(String name, T defaultValue, T min, T max, Predicate<T> visibility) {
-        this.name = name;
-        this.defaultValue = defaultValue;
-        this.value = defaultValue;
-        this.min = min;
-        this.max = max;
-        this.plannedValue = defaultValue;
-        this.visibility = visibility;
-        this.description = "";
-        this.hasRestriction = true;
-    }
-
-    public Setting(String name, T defaultValue, Predicate<T> visibility) {
+    public Setting(String name, T defaultValue, Predicate<T> visibility, String description) {
         this.name = name;
         this.defaultValue = defaultValue;
         this.value = defaultValue;
         this.visibility = visibility;
         this.plannedValue = defaultValue;
+        this.description = description;
     }
 
     public String getName() {
