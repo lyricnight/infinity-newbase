@@ -5,9 +5,21 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import org.joml.Matrix4f;
 
+/**
+ * @author vasler
+ * render util
+ */
 public class Render2DUtils
 {
 
+    /**
+     * @param matrices - amount of arrays used in the rectangle (context.getMatrices())
+     * @param x - location of the rectangle on the x-axis
+     * @param y - location of the rectangle on the y-axis
+     * @param width - the horizontal measurement of the rectangle from angle to angle
+     * @param height - the vertical measurement of the rectangle from angle to angle
+     * @param color - color of the rectangle in RGB
+     */
     public static void drawRect(MatrixStack matrices, float x, float y, float width, float height, int color)
     {
         Matrix4f matrix = matrices.peek().getPositionMatrix();

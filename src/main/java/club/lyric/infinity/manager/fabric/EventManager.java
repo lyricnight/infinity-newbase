@@ -20,7 +20,6 @@ import net.minecraft.util.Formatting;
 
 public class EventManager implements IMinecraft {
 
-
     /**
      * for commands.
      * @param event - the chat event

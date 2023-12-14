@@ -27,7 +27,7 @@ public class IntegerSetting extends Setting<Integer> {
     @Override
     public Integer getMax()
     {
-        return (int)max;
+        return max;
     }
 
     @Override
