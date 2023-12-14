@@ -19,7 +19,7 @@ import java.util.Set;
 public class CommandManager implements IMinecraft, JsonElements {
 
     //TODO: this will have formatting added once we make modules.
-    private String clientMessage = "[Infinity]";
+    private String clientMessage = "[Infinity] ";
     private static String prefix = ",";
     private static final Set<Command> commands = new HashSet<>();
 
@@ -140,6 +140,6 @@ public class CommandManager implements IMinecraft, JsonElements {
     @Override
     public String getFileName()
     {
-        return "command.json";
+        return "command_prefix.json";
     }
 }

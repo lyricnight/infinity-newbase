@@ -23,6 +23,7 @@ import java.lang.invoke.MethodHandles;
  */
 
 public class Infinity implements ModInitializer, ClientModInitializer {
+	public static final String CLIENT_NAME = "Infinity";
     public static final Logger LOGGER = LogManager.getLogger("infinity");
 	public static final IEventBus EVENT_BUS = new EventBus();
 
