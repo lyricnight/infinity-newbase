@@ -1,7 +1,10 @@
 {
   "required": true,
-  "package": "club.lyric.infinity.asm",
   "compatibilityLevel": "JAVA_17",
+  "priority": 2147483645,
+  "mixinPriority": 2147483645,
+  "minVersion": "0.8.5",
+  "package": "club.lyric.infinity.asm",
   "mixins": [
     "MixinClientConnection",
     "MixinTitleScreen"
@@ -12,5 +15,5 @@
   ],
   "injectors": {
     "defaultRequire": 1
-	}
+  }
 }

@@ -5,9 +5,11 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import org.joml.Matrix4f;
 
-public class Render2DUtils {
+public class Render2DUtils
+{
 
-    public static void drawRect(MatrixStack matrices, float x, float y, float width, float height, int color) {
+    public static void drawRect(MatrixStack matrices, float x, float y, float width, float height, int color)
+    {
         Matrix4f matrix = matrices.peek().getPositionMatrix();
 
         // Colors
@@ -30,12 +32,14 @@ public class Render2DUtils {
         // Rect ends here
     }
 
-    public static void setup() {
+    public static void setup()
+    {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
     }
 
-    public static void end() {
+    public static void end()
+    {
         RenderSystem.disableBlend();
     }
 

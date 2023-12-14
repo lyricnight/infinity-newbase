@@ -20,6 +20,6 @@ public abstract class MixinTitleScreen {
 
         TextUtils.drawStringWithShadow(context, mc.textRenderer, Text.of("t.me/dotgod.cc"), 2, 2, -1);
 
-        Render2DUtils.drawRect(context.getMatrices(), 20, 20, 20, 20, -1);
+        Render2DUtils.drawRect(context.getMatrices(), 20, 20, 20, 20, -3977919);
     }
 }
