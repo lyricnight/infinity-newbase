@@ -1,5 +1,9 @@
 package club.lyric.infinity.api.util.chat;
 
+/**
+ * @author valser
+ * ids for chat
+ */
 public class ID
 {
     public static final int NONE = -1;

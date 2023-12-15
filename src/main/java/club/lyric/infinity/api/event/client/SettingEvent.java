@@ -1,6 +1,5 @@
 package club.lyric.infinity.api.event.client;
 
-import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.Event;
 
 /**
@@ -8,10 +7,4 @@ import club.lyric.infinity.api.event.Event;
  * event fired on setting change
  */
 
-public class SettingEvent extends Event {
-
-    public SettingEvent()
-    {
-        Infinity.LOGGER.info("SettingEvent fired!");
-    }
-}
+public class SettingEvent extends Event {}

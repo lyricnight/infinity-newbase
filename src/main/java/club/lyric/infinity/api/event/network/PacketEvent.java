@@ -1,6 +1,5 @@
 package club.lyric.infinity.api.event.network;
 
-import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.Event;
 import net.minecraft.network.packet.Packet;
 
@@ -14,7 +13,6 @@ public class PacketEvent extends Event {
 
     public PacketEvent(Packet<?> packet) {
         this.packet = packet;
-        Infinity.LOGGER.info("PacketEvent fired!");
     }
 
     public <T extends Packet<?>> T getPacket() {

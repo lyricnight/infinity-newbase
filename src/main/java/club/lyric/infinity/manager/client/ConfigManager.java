@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * @author cattyn???
+ * this needs to be replaced
  */
 
 public class ConfigManager {

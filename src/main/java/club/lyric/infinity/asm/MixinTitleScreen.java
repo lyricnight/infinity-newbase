@@ -22,9 +22,10 @@ public abstract class MixinTitleScreen {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)I", ordinal = 0))
     private void onRender(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 
-
         TextUtils.drawStringWithShadow(context, mc.textRenderer, Text.of(Infinity.CLIENT_NAME), 2, 2, 0x68478D);
 
         TextUtils.drawStringWithShadow(context, mc.textRenderer, Text.of(Formatting.GRAY + " build (" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + ")"), mc.textRenderer.getWidth(Infinity.CLIENT_NAME) + 2, 2, -1);
+
+        TextUtils.drawStringWithShadow(context, mc.textRenderer, Text.of("Created by " + Formatting.BOLD + Formatting.GREEN + " lyric and valser"), mc.textRenderer.getWidth(Infinity.CLIENT_NAME) + 2, -mc.textRenderer.fontHeight -2, -1);
     }
 }

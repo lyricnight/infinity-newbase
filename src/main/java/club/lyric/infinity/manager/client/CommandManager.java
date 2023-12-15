@@ -19,6 +19,8 @@ import java.util.Set;
 public class CommandManager implements IMinecraft, JsonElements {
 
     //TODO: this will have formatting added once we make modules.
+
+    //TODO: make overwrite chat messages and add id to the messages here
     private String clientMessage = "[Infinity] ";
     private static String prefix = ",";
     private static final Set<Command> commands = new HashSet<>();

@@ -14,6 +14,7 @@ import java.util.Set;
  * @author vasler
  * register the modules borther
 */
+
 public class ModuleManager implements JsonElements, IMinecraft
 {
     private final Set<ModuleBase> modules = new HashSet<>();

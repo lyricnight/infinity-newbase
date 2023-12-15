@@ -1,5 +1,9 @@
 package club.lyric.infinity.api.util.math;
 
+/**
+ * @author vasler
+ * timer
+ */
 public class Timer {
     private volatile long time;
 
