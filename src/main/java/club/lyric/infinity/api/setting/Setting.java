@@ -2,6 +2,7 @@ package club.lyric.infinity.api.setting;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.client.SettingEvent;
+import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.Bind;
 import club.lyric.infinity.api.setting.settings.EnumConverter;
 
@@ -22,6 +23,8 @@ public class Setting<T> {
     private boolean hasRestriction;
     private Predicate<T> visibility;
     private String description;
+
+    public ModuleBase module;
 
     public Setting(String name, T defaultValue, String description) {
         this.name = name;
@@ -175,6 +178,16 @@ public class Setting<T> {
             return "Enum";
         }
         return this.getClassName(this.defaultValue);
+    }
+
+    public ModuleBase getModule()
+    {
+        return module;
+    }
+
+    public void setModule(ModuleBase module)
+    {
+        this.module = module;
     }
 
     public <T> String getClassName(T value) {
