@@ -2,10 +2,9 @@ package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.setting.Setting;
-import club.lyric.infinity.api.setting.settings.Bind;
+import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.setting.settings.EnumConverter;
 import club.lyric.infinity.api.util.config.JsonElements;
-import club.lyric.infinity.manager.Managers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;

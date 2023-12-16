@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.setting.settings;
+package club.lyric.infinity.api.setting.settings.util;
 
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;

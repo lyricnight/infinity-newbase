@@ -1,8 +1,9 @@
 package club.lyric.infinity.api.module;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.setting.Setting;
-import club.lyric.infinity.api.setting.settings.Bind;
+import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.config.JsonElements;
@@ -23,11 +24,11 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
     /**
      * name
      */
-    private String name;
+    private final String name;
     /**
      * description
      */
-    private String description;
+    private final String description;
     /**
      * module's animation factor for HUD
      */
@@ -142,6 +143,10 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
         this.bind.setValue(new Bind(key));
     }
 
+    /**
+     * Call to 'printStackTrace()' should probably be replaced by more robust logging
+     * so I replaced it with more robust logging, no clue if it works
+     */
     @Override
     public JsonElement toJson() {
         JsonObject object = new JsonObject();
@@ -153,7 +158,7 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
                     object.addProperty(setting.getName(), setting.getValueAsString());
                 }
             } catch (Throwable e) {
-                e.printStackTrace();
+                Infinity.LOGGER.atError();
             }
         }
         return object;
@@ -168,7 +173,7 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
             try {
                 ConfigManager.setValueFromJson(setting, object.get(setting.getName()));
             } catch (Throwable throwable) {
-                throwable.printStackTrace();
+                Infinity.LOGGER.atError();
             }
         }
     }

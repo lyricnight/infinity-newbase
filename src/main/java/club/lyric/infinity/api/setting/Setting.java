@@ -3,7 +3,7 @@ package club.lyric.infinity.api.setting;
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.client.SettingEvent;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.setting.settings.Bind;
+import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.setting.settings.EnumConverter;
 
 import java.util.function.Predicate;

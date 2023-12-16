@@ -1,6 +1,7 @@
 package club.lyric.infinity.api.setting.settings;
 
 import club.lyric.infinity.api.setting.Setting;
+import club.lyric.infinity.api.setting.settings.util.Bind;
 
 import java.util.function.Predicate;
 
