@@ -62,7 +62,8 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
         this.description = description;
         this.category = category;
 
-        instantiate(this, enabled, bind, drawn);
+        instantiate(this, enabled, drawn);
+        instantiate(this, bind);
     }
 
     public void onEnable() {

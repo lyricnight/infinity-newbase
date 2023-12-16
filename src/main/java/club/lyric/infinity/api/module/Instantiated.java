@@ -17,12 +17,14 @@ public class Instantiated {
 
     /**
      * function that adds all the settings of a module to its setting list.
-     * may cause issues, due to unchecked cast.
+     * you can only add multiple settings IF THEY ARE OF THE SAME CAPTURE OF <?>
+     * LIKE: instantiate(this, booleansetting1, booleansetting2)
+     *       intstantiate(this, intsetting1, intsetting2)
      * @param module - module in
      * @param setting - setting in
      */
-    protected void instantiate(ModuleBase module, Setting... setting) {
+    protected void instantiate(ModuleBase module, Setting<?>... setting) {
         Arrays.stream(setting).iterator().forEachRemaining(s -> s.setModule(module));
-        settingList.addAll((Collection<? extends Setting<?>>) Arrays.stream(setting).toList());
+        settingList.addAll(Arrays.stream(setting).toList());
     }
 }
