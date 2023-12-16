@@ -2,6 +2,7 @@ package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.render.Render2DEvent;
+import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
@@ -124,6 +125,10 @@ public class ModuleManager implements JsonElements, IMinecraft
      */
     public void onRender2D(Render2DEvent event) {
         modules.stream().filter(ModuleBase::isEnabled).forEach(module -> module.onRender2D(event));
+    }
+
+    public void onRender3D(Render3DEvent event) {
+        modules.stream().filter(ModuleBase::isEnabled).forEach(module -> module.onRender3D(event));
     }
 
     public void onUpdate() {

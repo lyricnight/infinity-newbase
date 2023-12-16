@@ -6,6 +6,7 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.event.mc.ChatEvent;
 import club.lyric.infinity.api.event.render.Render2DEvent;
+import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.util.chat.ChatUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import meteordevelopment.orbit.EventHandler;
@@ -55,6 +56,11 @@ public class EventManager implements IMinecraft {
     public void onUpdate(UpdateEvent event)
     {
         Infinity.MODULES.onUpdate();
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onWorldRender(Render3DEvent event) {
+        Infinity.MODULES.onRender3D(event);
     }
 
     public void onTick()

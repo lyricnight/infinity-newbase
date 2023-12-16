@@ -2,6 +2,7 @@ package club.lyric.infinity.api.module;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.render.Render2DEvent;
+import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.setting.settings.BindSetting;
@@ -72,9 +73,6 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
     public void onDisable() {
     }
 
-    public void onLoad() {
-    }
-
     public void onTick() {
     }
 
@@ -84,10 +82,7 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
     public void onRender2D(Render2DEvent event) {
     }
 
-   // public void onRender3D(Render3DEvent event) {
-    //}
-
-    public void onUnload() {
+    public void onRender3D(Render3DEvent event) {
     }
 
     public String getDisplayInfo() {
@@ -95,11 +90,11 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
     }
 
     public boolean isOn() {
-        return this.enabled.getValue();
+        return enabled.getValue();
     }
 
     public boolean isOff() {
-        return !this.enabled.getValue();
+        return !enabled.getValue();
     }
 
     public void setEnabled(boolean enabled) {
