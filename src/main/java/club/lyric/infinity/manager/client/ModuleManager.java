@@ -1,6 +1,7 @@
 package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
@@ -116,6 +117,21 @@ public class ModuleManager implements JsonElements, IMinecraft
                 module.fromJson(element.getAsJsonObject().get(module.getName()));
             }
         */
+    }
+
+    /**
+     * TODO: maybe put these in a diff class?? idk
+     */
+    public void onRender2D(Render2DEvent event) {
+        modules.stream().filter(ModuleBase::isEnabled).forEach(module -> module.onRender2D(event));
+    }
+
+    public void onUpdate() {
+        modules.stream().filter(ModuleBase::isEnabled).forEach(ModuleBase::onUpdate);
+    }
+
+    public void onTick() {
+        modules.stream().filter(ModuleBase::isEnabled).forEach(ModuleBase::onTick);
     }
 
     @Override

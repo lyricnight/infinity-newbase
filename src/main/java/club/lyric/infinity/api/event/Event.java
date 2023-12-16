@@ -17,4 +17,9 @@ public class Event {
     {
         cancelled = true;
     }
+
+    public enum Stage {
+        PRE,
+        POST;
+    }
 }

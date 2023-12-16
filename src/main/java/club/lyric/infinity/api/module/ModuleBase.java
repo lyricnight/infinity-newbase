@@ -1,5 +1,6 @@
 package club.lyric.infinity.api.module;
 
+import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.Bind;
 import club.lyric.infinity.api.setting.settings.BindSetting;
@@ -78,8 +79,8 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
     public void onUpdate() {
     }
 
-    //public void onRender2D(Render2DEvent event) {
-    //}
+    public void onRender2D(Render2DEvent event) {
+    }
 
    // public void onRender3D(Render3DEvent event) {
     //}
