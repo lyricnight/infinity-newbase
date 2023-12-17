@@ -12,7 +12,8 @@ import java.util.function.Function;
  * Also used so lyric doesn't use some bullshit
  */
 public enum Easings {
-    LINEAR(x -> x);
+    LINEAR(x -> x),
+    LINEAR2(x -> x + 1 - 1);
 
     private final Function<Double, Double> func;
 

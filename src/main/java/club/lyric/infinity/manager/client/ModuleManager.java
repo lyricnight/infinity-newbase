@@ -3,12 +3,15 @@ package club.lyric.infinity.manager.client;
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.event.render.Render3DEvent;
+import club.lyric.infinity.api.module.Instantiated;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.modules.client.HUD;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,12 +20,15 @@ import java.util.Set;
  * register the modules borther
 */
 
-public class ModuleManager implements JsonElements, IMinecraft
+public class ModuleManager extends Instantiated implements JsonElements, IMinecraft
 {
     private final Set<ModuleBase> modules = new HashSet<>();
 
     public void init()
     {
+        register(
+                new HUD()
+        );
         Infinity.LOGGER.info("Initialising modules.");
     }
 
@@ -89,12 +95,10 @@ public class ModuleManager implements JsonElements, IMinecraft
     /**
      * Allows you to register every module at once
      */
-    /*
-        public void register(Module... module)
-        {
-            Collections.addAll(modules, modules);
-        }
-     */
+    public void register(ModuleBase... module)
+    {
+        Collections.addAll(modules, module);
+    }
 
     @Override
     public JsonElement toJson()

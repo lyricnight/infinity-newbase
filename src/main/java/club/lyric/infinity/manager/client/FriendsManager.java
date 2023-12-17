@@ -11,6 +11,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author DONT KNOW
+ * LYRIC OR ME NO CLUE
+ */
 public class FriendsManager implements JsonElements {
     private final List<String> friends = new ArrayList<>();
 

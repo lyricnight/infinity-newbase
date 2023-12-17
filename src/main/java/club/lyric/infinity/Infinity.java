@@ -10,7 +10,6 @@ import meteordevelopment.orbit.EventBus;
 import meteordevelopment.orbit.IEventBus;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +23,7 @@ import java.lang.invoke.MethodHandles;
 
 public class Infinity implements ModInitializer, ClientModInitializer {
 	public static final String CLIENT_NAME = "Infinity";
+	public static final String VERSION = " v2";
     public static final Logger LOGGER = LogManager.getLogger("infinity");
 	public static final IEventBus EVENT_BUS = new EventBus();
 
@@ -33,7 +33,6 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 	public static CommandManager COMMANDS = new CommandManager();
 	public static FriendsManager FRIENDS = new FriendsManager();
 	public static ModuleManager MODULES = new ModuleManager();
-
 
 	@Override
 	public void onInitialize() {
