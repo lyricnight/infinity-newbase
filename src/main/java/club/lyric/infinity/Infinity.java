@@ -45,6 +45,7 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 		EVENT_BUS.subscribe(COMMANDS);
 		EVENT_BUS.subscribe(FRIENDS);
 		EVENT_BUS.subscribe(MODULES);
+		MODULES.getModules().forEach(EVENT_BUS::subscribe);
 	}
 
 	@Override
