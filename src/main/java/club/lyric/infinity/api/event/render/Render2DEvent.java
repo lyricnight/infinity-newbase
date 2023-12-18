@@ -1,6 +1,6 @@
 package club.lyric.infinity.api.event.render;
 
-import club.lyric.infinity.api.event.Event;
+import me.bush.eventbus.event.Event;
 import net.minecraft.client.gui.DrawContext;
 
 public class Render2DEvent extends Event {
@@ -14,4 +14,8 @@ public class Render2DEvent extends Event {
         return drawContext;
     }
 
+    @Override
+    protected boolean isCancellable() {
+        return true;
+    }
 }

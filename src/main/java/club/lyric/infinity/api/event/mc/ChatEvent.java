@@ -1,6 +1,6 @@
 package club.lyric.infinity.api.event.mc;
 
-import club.lyric.infinity.api.event.Event;
+import me.bush.eventbus.event.Event;
 
 /**
  * @author lyric
@@ -16,5 +16,10 @@ public class ChatEvent extends Event {
 
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    protected boolean isCancellable() {
+        return false;
     }
 }

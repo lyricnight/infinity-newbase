@@ -1,5 +1,10 @@
 package club.lyric.infinity.api.event.mc.update;
 
-import club.lyric.infinity.api.event.Event;
+import me.bush.eventbus.event.Event;
 
-public class UpdateEvent extends Event {}
+public class UpdateEvent extends Event {
+    @Override
+    protected boolean isCancellable() {
+        return true;
+    }
+}

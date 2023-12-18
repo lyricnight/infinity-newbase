@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author DONT KNOW
- * LYRIC OR ME NO CLUE
+ * @author lyric
  */
 public class FriendsManager implements JsonElements {
     private final List<String> friends = new ArrayList<>();

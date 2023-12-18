@@ -1,8 +1,6 @@
 package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.Infinity;
-import club.lyric.infinity.api.event.render.Render2DEvent;
-import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.module.Instantiated;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.config.JsonElements;
@@ -16,8 +14,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author vasler
- * register the modules borther
+ * @author lyric and valser
+ * register the modules
 */
 
 public class ModuleManager extends Instantiated implements JsonElements, IMinecraft
@@ -40,25 +38,23 @@ public class ModuleManager extends Instantiated implements JsonElements, IMinecr
         return modules;
     }
 
-
     /**
-     * gets a module by string
-     * @param string - string in
-     * @return - corresponding module
-
+     * gets a module
+     * @param string - string to compare to
+     * @return - the module it corresponds to
+     */
 
     public ModuleBase getModuleByString(String string)
     {
         ModuleBase moduleBase = null;
         for (ModuleBase modules : getModules()) {
-            if (modules.name.equalsIgnoreCase(string)) {
+            if (modules.getName().equalsIgnoreCase(string)) {
                 moduleBase = modules;
                 break;
             }
         }
         return moduleBase;
     }
-    */
 
     /**
      * gets a module from a class.
@@ -79,19 +75,6 @@ public class ModuleManager extends Instantiated implements JsonElements, IMinecr
         return null;
     }
 
-
-
-
-
-    /*
-        private void add(Module module)
-        {
-            modules.put(module.getClass(), module);
-        }
-    */
-
-    // use add or register not both
-
     /**
      * Allows you to register every module at once
      */
@@ -104,43 +87,21 @@ public class ModuleManager extends Instantiated implements JsonElements, IMinecr
     public JsonElement toJson()
     {
         JsonObject object = new JsonObject();
-        /*
-            for (Module module : modules)
-            {
-                object.add(module.getName(), module.toJson());
-            }
-        */
+        for (ModuleBase module : modules)
+        {
+            object.add(module.getName(), module.toJson());
+        }
+
         return object;
     }
 
     @Override
     public void fromJson(JsonElement jsonElement)
     {
-        /*
-            for (Module module : modules)
-            {
-                module.fromJson(element.getAsJsonObject().get(module.getName()));
-            }
-        */
-    }
-
-    /**
-     * TODO: maybe put these in a diff class?? idk
-     */
-    public void onRender2D(Render2DEvent event) {
-        modules.stream().filter(ModuleBase::isEnabled).forEach(module -> module.onRender2D(event));
-    }
-
-    public void onRender3D(Render3DEvent event) {
-        modules.stream().filter(ModuleBase::isEnabled).forEach(module -> module.onRender3D(event));
-    }
-
-    public void onUpdate() {
-        modules.stream().filter(ModuleBase::isEnabled).forEach(ModuleBase::onUpdate);
-    }
-
-    public void onTick() {
-        modules.stream().filter(ModuleBase::isEnabled).forEach(ModuleBase::onTick);
+        for (ModuleBase module : modules)
+        {
+            module.fromJson(jsonElement.getAsJsonObject().get(module.getName()));
+        }
     }
 
     @Override

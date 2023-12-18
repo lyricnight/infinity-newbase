@@ -110,15 +110,11 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
 
     public void enable() {
         this.enabled.setValue(true);
-        Infinity.LOGGER.info("tried to sub module : " + this);
-        Infinity.EVENT_BUS.subscribe(this);
         this.onEnable();
     }
 
     public void disable() {
         this.enabled.setValue(false);
-        Infinity.LOGGER.info("tried to unsub module : " + this);
-        Infinity.EVENT_BUS.unsubscribe(this);
         this.onDisable();
     }
 

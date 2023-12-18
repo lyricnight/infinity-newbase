@@ -1,2 +1,2 @@
 # infinty-newbase
-Don't change loader versions
+Don't change loader or minecraft versions
