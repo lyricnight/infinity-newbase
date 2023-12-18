@@ -6,6 +6,6 @@ import net.minecraft.text.Text;
 public class ClickGui extends Screen {
 
     public ClickGui() {
-        super(Text.of("GUI"));
+        super(Text.literal("GUI"));
     }
 }

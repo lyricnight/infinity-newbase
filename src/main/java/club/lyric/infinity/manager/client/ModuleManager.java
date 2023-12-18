@@ -3,6 +3,7 @@ package club.lyric.infinity.manager.client;
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.event.render.Render3DEvent;
+import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.Instantiated;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.config.JsonElements;
@@ -11,9 +12,8 @@ import club.lyric.infinity.impl.modules.client.HUD;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author vasler
@@ -100,6 +100,14 @@ public class ModuleManager extends Instantiated implements JsonElements, IMinecr
         Collections.addAll(modules, module);
     }
 
+    public ModuleBase getModuleByName(String name) {
+        for (ModuleBase module : this.modules) {
+            if (!module.getName().equalsIgnoreCase(name)) continue;
+            return module;
+        }
+        return null;
+    }
+
     @Override
     public JsonElement toJson()
     {
@@ -111,6 +119,10 @@ public class ModuleManager extends Instantiated implements JsonElements, IMinecr
             }
         */
         return object;
+    }
+
+    public List<ModuleBase> getModulesInCategory(Category c) {
+        return this.modules.stream().filter(m -> m.getCategory() == c).collect(Collectors.toList());
     }
 
     @Override

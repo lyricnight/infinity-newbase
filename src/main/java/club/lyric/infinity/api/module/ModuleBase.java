@@ -15,6 +15,8 @@ import com.google.gson.JsonObject;
 
 import java.util.List;
 
+import static club.lyric.infinity.Infinity.EVENT_BUS;
+
 /**
  * @author lyric
  * module
@@ -26,6 +28,10 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
      * name
      */
     private final String name;
+    /**
+     * categoryCounting
+     */
+    public static int categoryCount;
     /**
      * description
      */
@@ -111,14 +117,14 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
     public void enable() {
         this.enabled.setValue(true);
         Infinity.LOGGER.info("tried to sub module : " + this);
-        Infinity.EVENT_BUS.subscribe(this);
+        EVENT_BUS.subscribe(this);
         this.onEnable();
     }
 
     public void disable() {
         this.enabled.setValue(false);
         Infinity.LOGGER.info("tried to unsub module : " + this);
-        Infinity.EVENT_BUS.unsubscribe(this);
+        EVENT_BUS.unsubscribe(this);
         this.onDisable();
     }
 
