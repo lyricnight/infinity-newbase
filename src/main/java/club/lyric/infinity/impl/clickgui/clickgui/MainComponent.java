@@ -23,16 +23,6 @@ public class MainComponent implements Screen {
 
     @Override
     public void initGui() {
-        if (moduleRects == null) {
-            moduleRects = new ArrayList<>();
-            for (ModuleBase module : Infinity.MODULES.getModulesInCategory(category).stream().sorted(Comparator.comparing(ModuleBase::getName)).toList()) {
-                moduleRects.add(new ModuleRect(module));
-            }
-        }
-
-        if (moduleRects != null) {
-            moduleRects.forEach(ModuleRect::initGui);
-        }
     }
 
     @Override
