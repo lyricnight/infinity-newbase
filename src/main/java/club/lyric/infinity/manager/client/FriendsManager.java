@@ -71,6 +71,6 @@ public class FriendsManager implements JsonElements {
 
     @Override
     public String getFileName() {
-        return "friends.json";
+        return "friends.txt";
     }
 }
