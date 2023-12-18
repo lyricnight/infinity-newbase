@@ -5,6 +5,7 @@ import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.setting.settings.EnumConverter;
 import club.lyric.infinity.api.util.config.JsonElements;
+import club.lyric.infinity.manager.Managers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -67,7 +68,7 @@ public class ConfigManager {
 
     public void init()
     {
-        jsonElements = List.of(Infinity.COMMANDS, Infinity.MODULES, Infinity.FRIENDS);
+        jsonElements = List.of(Managers.COMMANDS, Managers.MODULES, Managers.FRIENDS);
     }
 
 

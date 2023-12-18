@@ -1,6 +1,6 @@
 package club.lyric.infinity.api.event.network;
 
-import club.lyric.infinity.api.event.Event;
+import me.bush.eventbus.event.Event;
 import net.minecraft.network.packet.Packet;
 
 /**
@@ -18,7 +18,6 @@ public class PacketEvent extends Event {
     public <T extends Packet<?>> T getPacket() {
         return (T) this.packet;
     }
-
     public static class Send extends PacketEvent {
         public Send(Packet<?> packet) {
             super(packet);
@@ -29,5 +28,10 @@ public class PacketEvent extends Event {
         public Receive(Packet<?> packet) {
             super(packet);
         }
+    }
+
+    @Override
+    protected boolean isCancellable() {
+        return true;
     }
 }

@@ -1,16 +1,22 @@
 package club.lyric.infinity.api.event.mc.update;
 
 
-import club.lyric.infinity.api.event.Event;
+import me.bush.eventbus.event.Event;
 
 public class UpdateWalkingPlayerEvent extends Event {
-    private final Stage stage;
+    private final int stage;
+    @Override
+    protected boolean isCancellable() {
+        return true;
+    }
 
-    public UpdateWalkingPlayerEvent(Stage stage) {
+    public UpdateWalkingPlayerEvent(int stage)
+    {
         this.stage = stage;
     }
 
-    public Stage getStage() {
+    public int getStage()
+    {
         return stage;
     }
 }

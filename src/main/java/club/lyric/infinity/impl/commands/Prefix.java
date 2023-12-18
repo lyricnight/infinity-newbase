@@ -1,6 +1,5 @@
 package club.lyric.infinity.impl.commands;
 
-import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.command.CommandState;
 import club.lyric.infinity.api.util.chat.ChatUtils;
@@ -37,7 +36,7 @@ public class Prefix extends Command {
             return;
         }
 
-        Infinity.COMMANDS.setPrefix(character);
+        Managers.COMMANDS.setPrefix(character);
 
         ChatUtils.sendMessagePrivate(Formatting.GREEN + "Prefix changed to " + Formatting.WHITE + character);
 
