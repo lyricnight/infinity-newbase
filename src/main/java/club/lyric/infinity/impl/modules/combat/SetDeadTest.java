@@ -4,7 +4,6 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
-import
 
 public class SetDeadTest extends ModuleBase {
 
@@ -14,7 +13,7 @@ public class SetDeadTest extends ModuleBase {
 
     @Override
     public void onUpdate() {
-        Entity crystal = new EndCrystalEntity();
-        crystal.remove(Entity.RemovalReason.KILLED);
+        //Entity crystal = new EndCrystalEntity();
+        //crystal.remove(Entity.RemovalReason.KILLED);
     }
 }
