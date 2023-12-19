@@ -113,7 +113,7 @@ public class ModuleManager extends Instantiated implements JsonElements, IMinecr
     }
 
     public List<ModuleBase> getModulesInCategory(Category c) {
-        return this.modules.stream().filter(m -> m.getCategory() == c).collect(Collectors.toList());
+        return modules.stream().filter(m -> m.getCategory() == c).collect(Collectors.toList());
     }
 
     @Override
