@@ -1,8 +1,8 @@
 package club.lyric.infinity;
 
 import club.lyric.infinity.manager.Managers;
-import me.bush.eventbus.bus.EventBus;
-import me.bush.eventbus.handler.handlers.LambdaHandler;
+import me.lyric.eventbus.bus.EventBus;
+import me.lyric.eventbus.handler.handlers.LambdaHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
@@ -30,5 +30,6 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 		LOGGER.info("Infinity has received onInitializeClient()!");
 		Managers.init();
 		Runtime.getRuntime().addShutdownHook(new Thread(Managers.CONFIG::save));
+		EVENT_BUS.getInfo();
 	}
 }

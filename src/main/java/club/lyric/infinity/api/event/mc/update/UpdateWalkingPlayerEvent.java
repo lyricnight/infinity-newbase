@@ -1,7 +1,7 @@
 package club.lyric.infinity.api.event.mc.update;
 
 
-import me.bush.eventbus.event.Event;
+import me.lyric.eventbus.event.Event;
 
 public class UpdateWalkingPlayerEvent extends Event {
     private final int stage;

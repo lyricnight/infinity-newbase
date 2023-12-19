@@ -1,6 +1,7 @@
 package club.lyric.infinity.api.event.network;
 
-import me.bush.eventbus.event.Event;
+
+import me.lyric.eventbus.event.Event;
 import net.minecraft.network.packet.Packet;
 
 /**

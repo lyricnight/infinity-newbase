@@ -1,6 +1,6 @@
 package club.lyric.infinity.api.event.mc;
 
-import me.bush.eventbus.event.Event;
+import me.lyric.eventbus.event.Event;
 import net.minecraft.entity.LivingEntity;
 
 public class DeathEvent extends Event {

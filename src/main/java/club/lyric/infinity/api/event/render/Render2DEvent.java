@@ -1,6 +1,6 @@
 package club.lyric.infinity.api.event.render;
 
-import me.bush.eventbus.event.Event;
+import me.lyric.eventbus.event.Event;
 import net.minecraft.client.gui.DrawContext;
 
 public class Render2DEvent extends Event {

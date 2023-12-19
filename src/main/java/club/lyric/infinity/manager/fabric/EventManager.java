@@ -12,8 +12,8 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.chat.ChatUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
-import me.bush.eventbus.annotation.EventListener;
-import me.bush.eventbus.annotation.ListenerPriority;
+import me.lyric.eventbus.annotation.EventListener;
+import me.lyric.eventbus.annotation.ListenerPriority;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Formatting;
 
@@ -86,20 +86,20 @@ public class EventManager implements IMinecraft {
     @EventListener(priority = ListenerPriority.HIGHEST)
     public void onUpdate(UpdateEvent ignored)
     {
-        moduleCache.stream().filter(ModuleBase::isEnabled).forEach(ModuleBase::onUpdate);
+        moduleCache.stream().filter(ModuleBase::isOn).forEach(ModuleBase::onUpdate);
     }
 
     @SuppressWarnings("unused")
     @EventListener(priority = ListenerPriority.HIGH)
     public void onWorldRender(Render3DEvent event) {
-        moduleCache.stream().filter(ModuleBase::isEnabled).forEach(module -> module.onRender3D(event));
+        moduleCache.stream().filter(ModuleBase::isOn).forEach(module -> module.onRender3D(event));
     }
 
     @SuppressWarnings("unused")
     @EventListener(priority = ListenerPriority.HIGH)
     public void onWorldRender(Render2DEvent event)
     {
-        moduleCache.stream().filter(ModuleBase::isEnabled).forEach(module -> module.onRender2D(event));
+        moduleCache.stream().filter(ModuleBase::isOn).forEach(module -> module.onRender2D(event));
     }
 
     //TODO: add this

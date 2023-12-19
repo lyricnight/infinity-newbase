@@ -1,6 +1,7 @@
 package club.lyric.infinity.api.event.render;
 
-import me.bush.eventbus.event.Event;
+
+import me.lyric.eventbus.event.Event;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class Render3DEvent extends Event {

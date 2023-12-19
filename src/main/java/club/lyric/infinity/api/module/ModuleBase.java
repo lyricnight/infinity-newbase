@@ -123,10 +123,6 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
         this.enabled.setValue(false);
         this.onDisable();
     }
-
-    public boolean isEnabled() {
-        return isOn();
-    }
     public boolean isDrawn() {
         return drawn.getValue();
     }
