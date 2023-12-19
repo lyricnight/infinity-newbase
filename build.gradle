@@ -35,8 +35,8 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	implementation "com.github.therealbush:eventbus:1.0.2"
-	include("com.github.therealbush:eventbus:1.0.2")
+	implementation "com.github.lyricnight:eventbus:1.0.4"
+	include("com.github.lyricnight:eventbus:1.0.4")
 }
 
 processResources {

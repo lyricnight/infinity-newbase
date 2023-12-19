@@ -15,6 +15,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin( InGameHud.class )
 public class MixinInGameHud {
 
+    //what does this even do?
+    //why are there a ton of RenderSystem methods???
+    //where did you get this from?????
+
     @Inject(method = "render", at = @At("RETURN"))
     public void render(DrawContext context, float tickDelta, CallbackInfo ci) {
         if(MinecraftClient.getInstance().options.debugEnabled) return;
@@ -33,7 +37,6 @@ public class MixinInGameHud {
 
         RenderSystem.enableDepthTest();
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
-
     }
 
 }
