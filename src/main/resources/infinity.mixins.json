@@ -13,7 +13,6 @@
   "client": [
     "MixinClientPlayerEntity",
     "MixinClientPlayNetworkHandler",
-    "MixinMinecraftClient",
     "MixinWorldRenderer"
   ],
   "injectors": {

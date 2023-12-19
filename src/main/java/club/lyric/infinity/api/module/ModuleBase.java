@@ -70,7 +70,7 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
         this.category = category;
 
         /**
-         * you can only instantiate the same types of settings at a time.
+         * you can only instantiate the same types of settings at a time, because Sets are retarded
          */
         instantiate(this, enabled, drawn);
         instantiate(this, bind);

@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -16,9 +17,8 @@ import java.util.Date;
 
 import static club.lyric.infinity.api.util.minecraft.IMinecraft.mc;
 
-@Mixin(value={TitleScreen.class})
+@Mixin(value = TitleScreen.class)
 public abstract class MixinTitleScreen {
-
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)I", ordinal = 0))
     private void onRender(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 

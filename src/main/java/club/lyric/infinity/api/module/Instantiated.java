@@ -4,7 +4,6 @@ import club.lyric.infinity.api.setting.Setting;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -12,6 +11,10 @@ import java.util.List;
  * convenience function for instantiating settings.
  */
 public class Instantiated {
+
+    /**
+     * list of all module settings
+     */
 
     protected List<Setting<?>> settingList = new ArrayList<>();
 

@@ -15,6 +15,7 @@ public enum Category {
     MOVEMENT,
     RENDER;
 
+    // please be GOOD
     private final Drag drag;
     public final int posX;
     public int posY = 20;

@@ -38,6 +38,7 @@ public class Managers {
         MODULES.init();
         CONFIG.init();
         CONFIG.load();
+        EVENTS.init();
         COMMANDS.init();
         Infinity.LOGGER.info("Manager initialisation complete.");
     }
@@ -51,6 +52,10 @@ public class Managers {
 
     }
 
+    /**
+     * subscribes all managers
+     * @param subscribers the managers to subscribe
+     */
 
     private static void subscribe(Object... subscribers)
     {

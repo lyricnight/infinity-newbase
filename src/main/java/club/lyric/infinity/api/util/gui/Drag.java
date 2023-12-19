@@ -1,5 +1,9 @@
 package club.lyric.infinity.api.util.gui;
 
+/**
+ * @author valser idfk
+ * where did you paste this from??
+ */
 public class Drag {
 
     private float xPos, yPos;

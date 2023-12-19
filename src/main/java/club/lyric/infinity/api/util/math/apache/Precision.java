@@ -5,6 +5,9 @@
 
 package club.lyric.infinity.api.util.math.apache;
 
+/**
+ * WHAT DOES THIS DO???
+ */
 public class Precision {
     /**
      * <p>

@@ -17,7 +17,7 @@
 
 /**
  * @author Apache Commons
- * use this to create precise opengl rounded shit
+ * use this to create precise opengl rounded shit - WHAT???
  */
 
 package club.lyric.infinity.api.util.math.apache;
