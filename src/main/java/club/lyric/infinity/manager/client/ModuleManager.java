@@ -80,14 +80,23 @@ public class ModuleManager extends Instantiated implements JsonElements, IMinecr
      */
     public void register(ModuleBase... module)
     {
+        Arrays.stream(module).forEach(Infinity.EVENT_BUS::subscribe);
         Collections.addAll(modules, module);
     }
 
+
+    /**
+     * for toggle command
+     * @param name - name of module in
+     * @return relevant module
+     */
     public ModuleBase getModuleByName(String name) {
         for (ModuleBase module : this.modules) {
             if (!module.getName().equalsIgnoreCase(name)) continue;
             return module;
         }
+        Infinity.LOGGER.info("getModuleByName() returned null! Value passed:" + name);
+        Infinity.LOGGER.info("Available values:" + modules);
         return null;
     }
 

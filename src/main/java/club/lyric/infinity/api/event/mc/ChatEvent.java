@@ -21,6 +21,6 @@ public class ChatEvent extends Event {
 
     @Override
     protected boolean isCancellable() {
-        return false;
+        return true;
     }
 }

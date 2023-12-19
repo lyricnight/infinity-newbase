@@ -38,7 +38,6 @@ public class Managers {
         MODULES.init();
         CONFIG.init();
         CONFIG.load();
-        EVENTS.init();
         COMMANDS.init();
         Infinity.LOGGER.info("Manager initialisation complete.");
     }

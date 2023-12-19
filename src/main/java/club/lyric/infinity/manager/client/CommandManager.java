@@ -21,8 +21,8 @@ public class CommandManager implements IMinecraft, JsonElements {
     //TODO: this will have formatting added once we make modules.
 
     //TODO: make overwrite chat messages and add id to the messages here
-    private String clientMessage = "[Infinity] ";
-    private static String prefix = ",";
+    private String clientMessage = "[Infinity]";
+    private static String prefix = "-";
     private static final Set<Command> commands = new HashSet<>();
 
 
@@ -31,32 +31,13 @@ public class CommandManager implements IMinecraft, JsonElements {
         register(
                 new Prefix(),
                 new Friend(),
-                new List()
+                new List(),
+                new Toggle()
         );
     }
 
     public void register(Command... command) {
         Collections.addAll(commands, command);
-    }
-
-    /**
-     * this returns the command we need to get
-     * @param commandStr - string of the command
-     * @return the Command corresponding to commandStr
-     */
-
-    public Command get(String commandStr) {
-        Command command = null;
-
-        for (Command commands : getCommands()) {
-            if (commands.getCommand().equalsIgnoreCase(commandStr)) {
-                command = commands;
-
-                break;
-            }
-        }
-
-        return command;
     }
 
     //prefix methods

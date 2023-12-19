@@ -4,12 +4,25 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.util.chat.ChatUtils;
 import org.lwjgl.glfw.GLFW;
 
 public class HUD extends ModuleBase {
     public HUD() {
         super("HUD", "Displays HUD elements on the screen.", Category.CLIENT);
         setBind(GLFW.GLFW_KEY_RIGHT_SHIFT);
+    }
+
+    @Override
+    public void onUpdate()
+    {
+        ChatUtils.sendMessagePrivate("update");
+    }
+
+    @Override
+    public void onTick()
+    {
+        ChatUtils.sendMessagePrivate("tick");
     }
 
     @Override

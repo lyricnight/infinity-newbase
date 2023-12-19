@@ -11,8 +11,10 @@
     "MixinTitleScreen"
   ],
   "client": [
+    "MixinChatHud",
     "MixinClientPlayerEntity",
     "MixinClientPlayNetworkHandler",
+    "MixinMinecraftClient",
     "MixinWorldRenderer"
   ],
   "injectors": {

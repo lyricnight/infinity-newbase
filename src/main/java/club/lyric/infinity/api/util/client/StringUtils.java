@@ -14,4 +14,18 @@ public class StringUtils {
 
         return coloredString;
     }
+
+    public static boolean contains(String name, String... items) {
+        boolean flag = false;
+
+        for (String i : items) {
+            if (i.equalsIgnoreCase(name)) {
+                flag = true;
+
+                break;
+            }
+        }
+
+        return flag;
+    }
 }

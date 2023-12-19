@@ -2,6 +2,7 @@ package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.event.client.SettingEvent;
 import club.lyric.infinity.api.event.mc.DeathEvent;
+import club.lyric.infinity.api.event.mc.TickEvent;
 import club.lyric.infinity.api.event.mc.update.UpdateEvent;
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.command.Command;
@@ -17,51 +18,21 @@ import me.lyric.eventbus.annotation.ListenerPriority;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Formatting;
 
-import java.util.HashSet;
-import java.util.Set;
-
-
 /**
  * @author lyric
  * for events
  */
 
+@SuppressWarnings("unused")
 public class EventManager implements IMinecraft {
-
-    /**
-     * made this to cache modules, meaning that we don't need to run Managers.MODULES.getModules() everytime an event is fired
-     */
-    private Set<ModuleBase> moduleCache = new HashSet<>();
-
-
-    /**
-     * only call this after modules have been initialised.
-     */
-    public void init()
-    {
-        moduleCache = Managers.MODULES.getModules();
-    }
-
-
-    @SuppressWarnings("unused")
-    @EventListener(priority = ListenerPriority.LOWEST)
-    public void onSetting(SettingEvent ignored)
-    {
-        Infinity.LOGGER.info("Tried to refresh moduleCache");
-        moduleCache.clear();
-        moduleCache = Managers.MODULES.getModules();
-    }
-
-
     /**
      * for commands.
      * @param event - the chat event
      */
-    @SuppressWarnings("unused")
     @EventListener(priority = ListenerPriority.LOWEST)
     public void onChat(ChatEvent event) {
         if (event.getMessage().startsWith(Managers.COMMANDS.getPrefix())) {
-            event.cancel();
+            event.setCancelled(true);
 
             String[] arguments = event.getMessage().replaceFirst(Managers.COMMANDS.getPrefix(), "").split(" ");
 
@@ -82,32 +53,33 @@ public class EventManager implements IMinecraft {
         }
     }
 
-    @SuppressWarnings("unused")
+    /**
+     * this needs highest priority for eventbus
+     * @param ignored - event
+     */
+
     @EventListener(priority = ListenerPriority.HIGHEST)
     public void onUpdate(UpdateEvent ignored)
     {
-        moduleCache.stream().filter(ModuleBase::isOn).forEach(ModuleBase::onUpdate);
+        Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onUpdate);
     }
 
-    @SuppressWarnings("unused")
-    @EventListener(priority = ListenerPriority.HIGH)
+    @EventListener(priority = ListenerPriority.LOW)
     public void onWorldRender(Render3DEvent event) {
-        moduleCache.stream().filter(ModuleBase::isOn).forEach(module -> module.onRender3D(event));
+        Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(module -> module.onRender3D(event));
     }
 
-    @SuppressWarnings("unused")
-    @EventListener(priority = ListenerPriority.HIGH)
+    @EventListener(priority = ListenerPriority.LOW)
     public void onWorldRender(Render2DEvent event)
     {
-        moduleCache.stream().filter(ModuleBase::isOn).forEach(module -> module.onRender2D(event));
+        Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(module -> module.onRender2D(event));
     }
 
-    //TODO: add this
-    public void onTick()
+    @EventListener(priority = ListenerPriority.HIGHEST)
+    public void onTick(TickEvent event)
     {
-        if (mc.player == null || mc.world == null)
-            return;
-        //Managers.MODULES.onTick();
+        if (mc.player == null || mc.world == null) return;
+        Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTick);
         for (PlayerEntity player : mc.world.getPlayers()) {
             if (player == null || player.getHealth() > 0.0F)
                 continue;

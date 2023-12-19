@@ -19,6 +19,7 @@ public class MixinClientPlayNetworkHandler {
     private void sendChatMessageHook(String message, CallbackInfo ci) {
         ChatEvent event = new ChatEvent(message);
         Infinity.EVENT_BUS.post(event);
-        if (event.isCancelled()) ci.cancel();
+        if (event.isCancelled())
+            ci.cancel();
     }
 }
