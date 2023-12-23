@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import org.joml.Matrix4f;
+import org.lwjgl.opengl.GL11;
 
 /**
  * @author vasler
@@ -43,6 +44,17 @@ public class Render2DUtils
         end();
         // Rect ends here
     }
+
+
+    public static void disableStandardItemLighting()
+    {
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_LIGHT0);
+        GL11.glDisable(GL11.GL_LIGHT1);
+        GL11.glDisable(GL11.GL_COLOR_MATERIAL);
+    }
+
+
 
     public static void setup()
     {

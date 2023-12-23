@@ -25,6 +25,7 @@ import java.util.List;
 @Mixin(ChatHud.class)
 public abstract class MixinChatHud implements IChatHud {
 
+    /**
     @Shadow
     @Final
     private List<ChatHudLine.Visible> visibleMessages;
@@ -64,7 +65,7 @@ public abstract class MixinChatHud implements IChatHud {
                 messages.remove(i);
             }
         }
-    }
+    } */
 
 
 }

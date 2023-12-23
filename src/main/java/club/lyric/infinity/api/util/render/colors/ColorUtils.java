@@ -106,4 +106,5 @@ public class ColorUtils implements IMinecraft {
     public static Color darker(Color color, float factor) {
         return new Color(Math.max((int) (color.getRed() * factor), 0), Math.max((int) (color.getGreen() * factor), 0), Math.max((int) (color.getBlue() * factor), 0), color.getAlpha());
     }
+
 }

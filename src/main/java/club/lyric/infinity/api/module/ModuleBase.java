@@ -4,9 +4,9 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.setting.Setting;
-import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.util.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.client.ConfigManager;
@@ -14,8 +14,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.List;
-
-import static club.lyric.infinity.Infinity.EVENT_BUS;
 
 /**
  * @author lyric
