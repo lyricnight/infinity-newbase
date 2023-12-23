@@ -13,6 +13,11 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 
+/**
+ * @author vasler
+ * hud
+ * @since a while ago
+ */
 public class HUD extends ModuleBase {
     public HUD() {
         super("HUD", "Displays HUD elements on the screen.", Category.CLIENT);
@@ -40,7 +45,7 @@ public class HUD extends ModuleBase {
                 context.getMatrices().push();
                 context.getMatrices().scale(0.75F, 0.75F, 1F);
                 RenderSystem.disableDepthTest();
-                TextUtils.drawStringWithShadow(context, mc.textRenderer, Text.of(((int) (percent)) + "%"), (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333F), (int) ((height - y - 3) * 1.333F), ColorUtils.toColor(percent / 100.0F * 120.0F, 100.0F, 50.0F, 1.0F).getRGB());
+                TextUtils.drawStringWithShadow(context, mc.textRenderer, Text.of(((int) (percent)) + "%"), (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333F), (int) ((height - y - 5) * 1.333F), ColorUtils.toColor(percent / 100.0F * 120.0F, 100.0F, 50.0F, 1.0F).getRGB());
                 RenderSystem.enableDepthTest();
                 context.getMatrices().scale(1.0F, 1.0F, 1.0F);
                 context.getMatrices().pop();

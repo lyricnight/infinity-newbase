@@ -5,6 +5,7 @@ import me.lyric.eventbus.bus.EventBus;
 import me.lyric.eventbus.handler.handlers.LambdaHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,6 +22,15 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 	public static EventBus EVENT_BUS = new EventBus(LambdaHandler.class, LOGGER::error, LOGGER::info);
 	@Override
 	public void onInitialize() {
+		// mio does it like this and it looks good so dont fix it
+        LOGGER.log(Level.INFO, "  _        __ _       _ _         ");
+		LOGGER.log(Level.INFO, " (_)      / _(_)     (_) |        ");
+		LOGGER.log(Level.INFO, "  _ _ __ | |_ _ _ __  _| |_ _   _ ");
+		LOGGER.log(Level.INFO, " | | '_ \\|  _| | '_ \\| | __| | | |");
+		LOGGER.log(Level.INFO, " | | | | | | | | | | | | |_| |_| |");
+		LOGGER.log(Level.INFO, " |_|_| |_|_| |_|_| |_|_|\\__|\\__, |");
+		LOGGER.log(Level.INFO, "                             __/ |");
+		LOGGER.log(Level.INFO, "                            |___/ ");
 		LOGGER.info("Infinity has received onInitialize()!");
 		Managers.sub();
 	}

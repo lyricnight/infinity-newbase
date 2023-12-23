@@ -11,7 +11,11 @@ public class SetDeadTest extends ModuleBase {
 
     @Override
     public void onUpdate() {
-        //Entity crystal = new EndCrystalEntity();
-        //crystal.remove(Entity.RemovalReason.KILLED);
+        /**
+        Entity crystal = new EndCrystalEntity();
+        crystal.remove(Entity.RemovalReason.KILLED);
+         PlaySoundS2CPacket can be used as a replacement for SPacketSoundEffect. This will make our ca much quicker than most of the other autocrystals on the market (maybe faster than future?)
+        PlaySoundS2CPacket
+         */
     }
 }

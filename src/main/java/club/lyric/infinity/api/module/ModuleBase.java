@@ -47,7 +47,7 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
     /**
      * enabled/disabled
      */
-    public BooleanSetting enabled = new BooleanSetting("Enabled", false, "Whether to enable module or not.");
+    public static BooleanSetting enabled = new BooleanSetting("Enabled", false, "Whether to enable module or not.");
 
     /**
      * module's bind.
