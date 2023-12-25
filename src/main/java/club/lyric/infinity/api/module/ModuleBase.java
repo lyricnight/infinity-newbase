@@ -12,7 +12,6 @@ import club.lyric.infinity.api.util.chat.ID;
 import club.lyric.infinity.api.util.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Notifications;
-import club.lyric.infinity.impl.modules.movement.NoJumpDelay;
 import club.lyric.infinity.manager.Managers;
 import club.lyric.infinity.manager.client.ConfigManager;
 import com.google.gson.JsonElement;
@@ -120,6 +119,7 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
 
     public void enable() {
         enabled.setValue(true);
+        Infinity.EVENT_BUS.subscribe(this);
         this.onEnable();
         if (Managers.MODULES.getModuleFromClass(Notifications.class).enable.getValue()) {
             ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", ID.MODULE);
@@ -129,6 +129,7 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
     public void disable() {
         enabled.setValue(false);
         this.onDisable();
+        Infinity.EVENT_BUS.unsubscribe(this);
         if (Managers.MODULES.getModuleFromClass(Notifications.class).disable.getValue()) {
             ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", ID.MODULE);
         }
