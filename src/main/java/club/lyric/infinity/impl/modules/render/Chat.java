@@ -21,15 +21,35 @@ import java.util.Date;
 
 //TODO: Fix this
 public class Chat extends ModuleBase {
-    public BooleanSetting clear = new BooleanSetting("Clear", true, "Makes chat clear.");
+    public BooleanSetting clear = new BooleanSetting(
+            "Clear",
+            true,
+            "Makes chat clear."
+    );
 
-    public BooleanSetting remove = new BooleanSetting("RemoveLine", true, "Removes the line on the side of chat messages.");
+    public BooleanSetting remove = new BooleanSetting(
+            "RemoveLine",
+            true,
+            "Removes the line on the side of chat messages."
+    );
 
-    public BooleanSetting infiniteMessages = new BooleanSetting("InfiniteMessages", true, "Allows you to type infinitely long messages.");
+    public BooleanSetting infiniteMessages = new BooleanSetting(
+            "InfiniteMessages",
+            true,
+            "Allows you to type infinitely long messages."
+    );
 
-    public BooleanSetting timeStamps = new BooleanSetting("TimeStamps", true, "Renders timestamps before all messages.");
+    public BooleanSetting timeStamps = new BooleanSetting(
+            "TimeStamps",
+            true,
+            "Renders timestamps before all messages."
+    );
 
-    public BooleanSetting keep = new BooleanSetting("Keep", true, "Keeps chat messages when you disconnect.");
+    public BooleanSetting keep = new BooleanSetting(
+            "Keep",
+            true,
+            "Keeps chat messages when you disconnect."
+    );
 
 
     // for timestamps

@@ -11,11 +11,24 @@ import club.lyric.infinity.api.setting.settings.EnumSetting;
  */
 public class AntiCheat extends ModuleBase {
 
-    public BooleanSetting rotate = new BooleanSetting("Rotate", false, "Rotations...");
+    public BooleanSetting rotate = new BooleanSetting(
+            "Rotate",
+            false,
+            "Rotations..."
+    );
 
-    public EnumSetting rotationType = new EnumSetting("RotationType", RotationType.Packet, v -> rotate.getValue(), "What type of rotation to use.");
+    public EnumSetting rotationType = new EnumSetting(
+            "RotationType",
+            RotationType.Packet,
+            v -> rotate.getValue(),
+            "What type of rotation to use."
+    );
 
-    public BooleanSetting strictDirection = new BooleanSetting("StrictDirection", false, "Whether to have strictDirection checks.");
+    public BooleanSetting strictDirection = new BooleanSetting(
+            "StrictDirection",
+            false,
+            "Whether to have strictDirection checks."
+    );
 
 
     public AntiCheat()

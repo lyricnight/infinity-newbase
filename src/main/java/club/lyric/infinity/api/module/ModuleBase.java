@@ -8,8 +8,12 @@ import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.util.chat.ChatUtils;
+import club.lyric.infinity.api.util.chat.ID;
 import club.lyric.infinity.api.util.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.modules.client.Notifications;
+import club.lyric.infinity.impl.modules.movement.NoJumpDelay;
+import club.lyric.infinity.manager.Managers;
 import club.lyric.infinity.manager.client.ConfigManager;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -116,15 +120,20 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
 
     public void enable() {
         enabled.setValue(true);
-        ChatUtils.sendMessagePrivate(getName() + " has been " + Formatting.RED + "disabled.");
         this.onEnable();
+        if (Managers.MODULES.getModuleFromClass(Notifications.class).enable.getValue()) {
+            ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", ID.MODULE);
+        }
     }
 
     public void disable() {
         enabled.setValue(false);
-        ChatUtils.sendMessagePrivate(getName() + " has been " + Formatting.GREEN + "enabled.");
         this.onDisable();
+        if (Managers.MODULES.getModuleFromClass(Notifications.class).disable.getValue()) {
+            ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", ID.MODULE);
+        }
     }
+
     public boolean isDrawn() {
         return drawn.getValue();
     }

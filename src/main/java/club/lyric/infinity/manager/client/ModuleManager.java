@@ -8,6 +8,7 @@ import club.lyric.infinity.api.util.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.AntiCheat;
 import club.lyric.infinity.impl.modules.client.HUD;
+import club.lyric.infinity.impl.modules.client.Notifications;
 import club.lyric.infinity.impl.modules.exploit.HitboxDesync;
 import club.lyric.infinity.impl.modules.movement.NoJumpDelay;
 import club.lyric.infinity.impl.modules.render.Chat;
@@ -33,7 +34,8 @@ public class ModuleManager extends Instantiated implements JsonElements, IMinecr
                 new Chat(),
                 new HUD(),
                 new NoJumpDelay(),
-                new HitboxDesync()
+                new HitboxDesync(),
+                new Notifications()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }
