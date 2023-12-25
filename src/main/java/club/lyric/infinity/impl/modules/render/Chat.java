@@ -1,6 +1,6 @@
 package club.lyric.infinity.impl.modules.render;
 
-import club.lyric.infinity.api.event.mc.update.ReceiveChatEvent;
+import club.lyric.infinity.api.event.mc.ReceiveChatEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -48,7 +48,6 @@ public class Chat extends ModuleBase {
     public void onChatReceive(ReceiveChatEvent event)
     {
         Text message = event.getMessage();
-
         if (timeStamps.getValue()) {
             //TODO: add custom colors
             Text timestamp = Text.literal("<" + date.format(new Date()) + "> ").formatted(Formatting.LIGHT_PURPLE);

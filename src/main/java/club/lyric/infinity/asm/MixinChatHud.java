@@ -3,7 +3,7 @@ package club.lyric.infinity.asm;
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.ducks.IChatHud;
 import club.lyric.infinity.api.ducks.IChatHudLine;
-import club.lyric.infinity.api.event.mc.update.ReceiveChatEvent;
+import club.lyric.infinity.api.event.mc.ReceiveChatEvent;
 import club.lyric.infinity.impl.modules.render.Chat;
 import club.lyric.infinity.manager.Managers;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
