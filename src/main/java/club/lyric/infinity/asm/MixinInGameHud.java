@@ -2,6 +2,8 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.render.Render2DEvent;
+import club.lyric.infinity.impl.modules.render.Chat;
+import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -32,6 +34,13 @@ public class MixinInGameHud {
 
         RenderSystem.enableDepthTest();
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
+    }
+
+    @Inject(method = "clear", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;clear(Z)V"), cancellable = true)
+    private void onClear(CallbackInfo info) {
+        if (Managers.MODULES.getModuleFromClass(Chat.class).keep.getValue()) {
+            info.cancel();
+        }
     }
 
 }

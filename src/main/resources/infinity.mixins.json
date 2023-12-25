@@ -9,14 +9,20 @@
     "MixinClientConnection",
     "MixinInGameHud",
     "MixinLivingEntity",
+    "MixinStringHelper",
     "MixinTitleScreen"
   ],
   "client": [
     "MixinChatHud",
+    "MixinChatHudLine",
+    "MixinChatHudLineVisible",
+    "MixinChatScreen",
     "MixinClientPlayerEntity",
     "MixinClientPlayNetworkHandler",
     "MixinMinecraftClient",
-    "MixinWorldRenderer"
+    "MixinSplashTextResourceSupplier",
+    "MixinWorldRenderer",
+    "accessors.IChatHudLine"
   ],
   "injectors": {
     "defaultRequire": 1

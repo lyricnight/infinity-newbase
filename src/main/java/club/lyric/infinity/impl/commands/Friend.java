@@ -47,7 +47,7 @@ public class Friend extends Command {
             Managers.FRIENDS.addFriend(friend);
             state(CommandState.PERFORMED);
         }
-        if (StringUtils.contains(task, "add"))
+        if (StringUtils.contains(task, "del"))
         {
             Managers.FRIENDS.removeFriend(friend);
             state(CommandState.PERFORMED);

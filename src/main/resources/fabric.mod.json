@@ -28,7 +28,13 @@
 		"fabric-api": "*"
 	},
 	"breaks": {
-		"spark": "*"
+		"spark": "*",
+		"optifabric": "*",
+		"feather": "*",
+		"origins": "*",
+		"wurst": "*",
+		"sodium": "<0.5.3",
+		"morechathistory": "*"
 	},
 	"suggests": {
 		"another-mod": "*"

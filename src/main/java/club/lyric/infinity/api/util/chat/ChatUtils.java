@@ -1,7 +1,7 @@
 package club.lyric.infinity.api.util.chat;
 
+import club.lyric.infinity.api.ducks.IChatHud;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.mixininterface.IChatHud;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -16,7 +16,7 @@ public class ChatUtils implements IMinecraft
     public static void sendMessagePrivate(String message)
     {
         MutableText prefix = Text.literal(Managers.COMMANDS.getClientMessage());
-        mc.inGameHud.getChatHud().addMessage(Text.literal(prefix + " " + message));
+        mc.inGameHud.getChatHud().addMessage(Text.of(prefix + " " + message));
     }
 
     public static void sendOverwriteMessage(String message, int id)
@@ -24,6 +24,6 @@ public class ChatUtils implements IMinecraft
         if(mc.world == null) return;
         MutableText text = Text.empty();
         text.append(message);
-        ((IChatHud) mc.inGameHud.getChatHud()).addCustom(text, id);
+        ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
     }
 }

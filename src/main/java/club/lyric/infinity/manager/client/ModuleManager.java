@@ -6,9 +6,11 @@ import club.lyric.infinity.api.module.Instantiated;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.modules.client.AntiCheat;
 import club.lyric.infinity.impl.modules.client.HUD;
 import club.lyric.infinity.impl.modules.exploit.HitboxDesync;
 import club.lyric.infinity.impl.modules.movement.NoJumpDelay;
+import club.lyric.infinity.impl.modules.render.Chat;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -27,6 +29,8 @@ public class ModuleManager extends Instantiated implements JsonElements, IMinecr
     public void init()
     {
         register(
+                new AntiCheat(),
+                new Chat(),
                 new HUD(),
                 new NoJumpDelay(),
                 new HitboxDesync()
