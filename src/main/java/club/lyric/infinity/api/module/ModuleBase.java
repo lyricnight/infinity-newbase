@@ -7,11 +7,13 @@ import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.util.Bind;
+import club.lyric.infinity.api.util.chat.ChatUtils;
 import club.lyric.infinity.api.util.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.client.ConfigManager;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.util.Formatting;
 
 import java.util.List;
 
@@ -113,12 +115,14 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
     }
 
     public void enable() {
-        this.enabled.setValue(true);
+        enabled.setValue(true);
+        ChatUtils.sendMessagePrivate(getName() + " has been " + Formatting.RED + "disabled.");
         this.onEnable();
     }
 
     public void disable() {
-        this.enabled.setValue(false);
+        enabled.setValue(false);
+        ChatUtils.sendMessagePrivate(getName() + " has been " + Formatting.GREEN + "enabled.");
         this.onDisable();
     }
     public boolean isDrawn() {
