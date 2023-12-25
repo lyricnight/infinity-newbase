@@ -15,8 +15,7 @@ public class ChatUtils implements IMinecraft
 {
     public static void sendMessagePrivate(String message)
     {
-        MutableText prefix = Text.literal(Managers.COMMANDS.getClientMessage());
-        mc.inGameHud.getChatHud().addMessage(Text.of(prefix + " " + message));
+        mc.inGameHud.getChatHud().addMessage(Text.literal(Managers.COMMANDS.getClientMessage() + " " + message));
     }
 
     public static void sendOverwriteMessage(String message, int id)

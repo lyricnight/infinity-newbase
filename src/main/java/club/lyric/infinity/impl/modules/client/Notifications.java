@@ -27,12 +27,12 @@ public class Notifications extends ModuleBase
     );
     public BooleanSetting enable = new BooleanSetting(
             "Enabled",
-            false,
+            true,
             "Notifies when you enable a module."
     );
     public BooleanSetting disable = new BooleanSetting(
             "Disabled",
-            false,
+            true,
             "Notifies when you disable a module."
     );
 

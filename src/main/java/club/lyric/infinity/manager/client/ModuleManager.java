@@ -11,6 +11,7 @@ import club.lyric.infinity.impl.modules.client.HUD;
 import club.lyric.infinity.impl.modules.client.Notifications;
 import club.lyric.infinity.impl.modules.exploit.HitboxDesync;
 import club.lyric.infinity.impl.modules.movement.NoJumpDelay;
+import club.lyric.infinity.impl.modules.player.YawLock;
 import club.lyric.infinity.impl.modules.render.Chat;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -35,7 +36,8 @@ public class ModuleManager extends Instantiated implements JsonElements, IMinecr
                 new HUD(),
                 new NoJumpDelay(),
                 new HitboxDesync(),
-                new Notifications()
+                new Notifications(),
+                new YawLock()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }
