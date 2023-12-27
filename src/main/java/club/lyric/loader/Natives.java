@@ -11,13 +11,21 @@ public class Natives {
 
     public interface DLL extends Library {
         DLL INSTANCE = Native.loadLibrary("/Infinity.dll", DLL.class);
+
         String native0();
+
         String native1();
+
         String native2();
+
         String native3();
+
         String native4();
+
         void native5();
+
         void native6();
+
         void native7(String jsonString, boolean shutdown);
     }
 
@@ -80,20 +88,16 @@ public class Natives {
         return new FileOutputStream(file);
     }
 
-    public void loadDll() {
-        try {
-            Path tempDirectoryPath = Files.createTempDirectory("dll");
-            File f = new File(tempDirectoryPath + File.separator + "Infinity.dll");
+    public void loadDll() throws Throwable {
+        Path tempDirectoryPath = Files.createTempDirectory("dll");
+        File f = new File(tempDirectoryPath + File.separator + "Infinity.dll");
 
-            try (InputStream in = Natives.class.getResourceAsStream("/Infinity.dll"); OutputStream out = openOutputStream(f)) {
-                copyFile(in, out);
-                tempDirectoryPath.toFile().deleteOnExit();
-                f.deleteOnExit();
-            }
-
-            System.load(f.getAbsolutePath());
-        } catch (Throwable t) {
-            throw new RuntimeException(t);
+        try (InputStream in = Natives.class.getResourceAsStream("/Infinity.dll"); OutputStream out = openOutputStream(f)) {
+            copyFile(in, out);
+            tempDirectoryPath.toFile().deleteOnExit();
+            f.deleteOnExit();
         }
+
+        System.load(f.getAbsolutePath());
     }
 }
