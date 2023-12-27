@@ -1,6 +1,7 @@
 package club.lyric.infinity;
 
 import club.lyric.infinity.manager.Managers;
+import club.lyric.loader.Loader;
 import me.lyric.eventbus.bus.EventBus;
 import me.lyric.eventbus.handler.handlers.LambdaHandler;
 import net.fabricmc.api.ClientModInitializer;
@@ -15,12 +16,17 @@ import org.apache.logging.log4j.Logger;
  * main class.
  */
 
-public class Infinity implements ModInitializer, ClientModInitializer {
+public class Infinity {
+
+	private Infinity() {
+		Loader.natives.native5();
+	}
+
 	public static final String CLIENT_NAME = "Infinity";
 	public static final String VERSION = " v2";
     public static final Logger LOGGER = LogManager.getLogger("Infinity");
 	public static EventBus EVENT_BUS = new EventBus(LambdaHandler.class, LOGGER::error, LOGGER::info);
-	@Override
+
 	public void onInitialize() {
 		// mio does it like this and it looks good so dont fix it
         LOGGER.log(Level.INFO, "  _        __ _       _ _         ");
@@ -35,7 +41,6 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 		Managers.sub();
 	}
 
-	@Override
 	public void onInitializeClient() {
 		LOGGER.info("Infinity has received onInitializeClient()!");
 		Managers.init();

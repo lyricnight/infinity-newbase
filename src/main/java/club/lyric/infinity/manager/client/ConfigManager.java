@@ -30,25 +30,15 @@ public class ConfigManager {
     public static void setValueFromJson(Setting setting, JsonElement element) {
         String str;
         switch (setting.getType()) {
-            case "Boolean" -> {
-                setting.setValue(element.getAsBoolean());
-            }
-            case "Double" -> {
-                setting.setValue(element.getAsDouble());
-            }
-            case "Float" -> {
-                setting.setValue(element.getAsFloat());
-            }
-            case "Integer" -> {
-                setting.setValue(element.getAsInt());
-            }
+            case "Boolean" -> setting.setValue(element.getAsBoolean());
+            case "Double" -> setting.setValue(element.getAsDouble());
+            case "Float" -> setting.setValue(element.getAsFloat());
+            case "Integer" -> setting.setValue(element.getAsInt());
             case "String" -> {
                 str = element.getAsString();
                 setting.setValue(str.replace("_", " "));
             }
-            case "Bind" -> {
-                setting.setValue(new Bind(element.getAsInt()));
-            }
+            case "Bind" -> setting.setValue(new Bind(element.getAsInt()));
             case "Enum" -> {
                 try {
                     EnumConverter converter = new EnumConverter(((Enum) setting.getValue()).getClass());

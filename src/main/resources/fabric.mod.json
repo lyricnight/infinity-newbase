@@ -12,10 +12,10 @@
 	"environment": "client",
 	"entrypoints": {
 		"client": [
-			"club.lyric.infinity.Infinity"
+			"club.lyric.loader.Loader"
 		],
 		"main": [
-			"club.lyric.infinity.Infinity"
+			"club.lyric.loader.Loader"
 		]
 	},
 	"mixins": [
