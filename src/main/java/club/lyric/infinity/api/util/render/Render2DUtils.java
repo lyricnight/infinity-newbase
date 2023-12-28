@@ -45,17 +45,6 @@ public class Render2DUtils
         // Rect ends here
     }
 
-
-    public static void disableStandardItemLighting()
-    {
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_LIGHT0);
-        GL11.glDisable(GL11.GL_LIGHT1);
-        GL11.glDisable(GL11.GL_COLOR_MATERIAL);
-    }
-
-
-
     public static void setup()
     {
         RenderSystem.enableBlend();

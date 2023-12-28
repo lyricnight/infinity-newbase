@@ -57,7 +57,6 @@ public class HUD extends ModuleBase {
                 x += 18;
             }
         }
-        Render2DUtils.disableStandardItemLighting();
     }
 
     public float getFixedArmorOffset(float percent) {
