@@ -30,6 +30,11 @@ public class HUD extends ModuleBase {
     public void onRender2D(Render2DEvent event) {
         event.getDrawContext().drawText(mc.textRenderer, Infinity.CLIENT_NAME, 2, 2, -1, true);
         renderArmor(event.getDrawContext());
+        /**
+        for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
+            int x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(getString(statusEffectInstance)));
+            event.getDrawContext().drawText(mc.textRenderer, getString(statusEffectInstance), x, event.getDrawContext().getScaledWindowHeight() - 9, statusEffectInstance.getEffectType().getColor(), true);
+        }*/
     }
 
     //TODO: VASLER THIS SPAMS YOUR LOGS WITH ERRORS. FIX IT
@@ -38,10 +43,20 @@ public class HUD extends ModuleBase {
         width = context.getScaledWindowWidth();
         height = context.getScaledWindowHeight();
         int x = 15;
-        for (int i = 3; i >= 0; i--) {
+        for (int i = 3; i >= 0; i--)
+        {
             ItemStack stack = mc.player.getInventory().armor.get(i);
-            if (!stack.isEmpty()) {
-                int y = 55;
+            if (!stack.isEmpty())
+            {
+                int y;
+                if (mc.player.isInsideWaterOrBubbleColumn() && mc.player.getAir() > 0 && !mc.player.isCreative())
+                {
+                    y = 65;
+                }
+                    else
+                {
+                    y = mc.player.isCreative() ? (mc.player.isRiding() ? 45 : 38) : 55;
+                }
                 final float percent = InventoryUtils.getPercent(stack);
                 context.getMatrices().push();
                 context.getMatrices().scale(0.75F, 0.75F, 1F);
@@ -59,7 +74,8 @@ public class HUD extends ModuleBase {
         }
     }
 
-    public float getFixedArmorOffset(float percent) {
+    public float getFixedArmorOffset(float percent)
+    {
         if (percent == 100F) {
             return -0.5F;
         } else if (percent < 10F) {
@@ -68,6 +84,18 @@ public class HUD extends ModuleBase {
             return 1.5F;
         }
     }
+
+    /**
+    private String getString(StatusEffectInstance statusEffectInstance)
+    {
+        int amplifier = statusEffectInstance.getAmplifier();
+        return String.format("%s %d:" +
+                Formatting.WHITE + " %s",
+                statusEffectInstance.getEffectType(),
+                (amplifier > 0 ? (" " + (amplifier + 1) + "") : ""),
+                statusEffectInstance.isInfinite() ? "∞∞:∞∞" : StringHelper.formatTicks(statusEffectInstance.getDuration())
+        );
+    }*/
 
 
 }
