@@ -20,6 +20,7 @@
     "MixinClientPlayerEntity",
     "MixinClientPlayNetworkHandler",
     "MixinMinecraftClient",
+    "MixinMinecraftOptions",
     "MixinSplashTextResourceSupplier",
     "MixinWorldRenderer",
     "accessors.IChatHudLine"
