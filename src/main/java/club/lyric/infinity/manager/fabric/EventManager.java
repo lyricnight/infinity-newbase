@@ -2,7 +2,6 @@ package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.bus.Priority;
 import club.lyric.infinity.api.event.mc.DeathEvent;
 import club.lyric.infinity.api.event.mc.TickEvent;
 import club.lyric.infinity.api.event.mc.update.UpdateEvent;
@@ -28,7 +27,7 @@ public class EventManager implements IMinecraft {
      * for commands.
      * @param event - the chat event
      */
-    @EventHandler(priority = Priority.LOWEST)
+    @EventHandler
     public void onChat(ChatEvent event) {
         if (event.getMessage().startsWith(Managers.COMMANDS.getPrefix())) {
             event.setCancelled(true);
@@ -57,24 +56,24 @@ public class EventManager implements IMinecraft {
      * @param ignored - event
      */
 
-    @EventHandler(priority = Priority.HIGHEST)
+    @EventHandler(priority = Integer.MAX_VALUE)
     public void onUpdate(UpdateEvent ignored)
     {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onUpdate);
     }
 
-    @EventHandler(priority = Priority.LOW)
+    @EventHandler
     public void onWorldRender(Render3DEvent event) {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(module -> module.onRender3D(event));
     }
 
-    @EventHandler(priority = Priority.LOW)
+    @EventHandler
     public void onWorldRender(Render2DEvent event)
     {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(module -> module.onRender2D(event));
     }
 
-    @EventHandler(priority = Priority.HIGH)
+    @EventHandler(priority = Integer.MAX_VALUE - 1)
     public void onTick(TickEvent event)
     {
         if (mc.player == null || mc.world == null) return;

@@ -223,7 +223,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
     public void fromJson(JsonElement element) {
         JsonObject object = element.getAsJsonObject();
         String enabled = object.get("Enabled").getAsString();
-        if (Boolean.parseBoolean(enabled)) enable();
+        if (Boolean.parseBoolean(enabled)) setEnabled(true);
         for (Setting<?> setting : getSettings()) {
             try {
                 ConfigManager.setValueFromJson(setting, object.get(setting.getName()));

@@ -1,7 +1,6 @@
 package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.bus.Priority;
 import club.lyric.infinity.api.event.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
@@ -52,8 +51,8 @@ public class Notifications extends ModuleBase
         totemPop.clear();
     }
 
-    @EventHandler(priority = Priority.LOW)
-    private void onReceivePacket(PacketEvent.Receive event)
+    @EventHandler
+    public void onReceivePacket(PacketEvent.Receive event)
     {
         if (totemPops.getValue())
         {

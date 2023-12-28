@@ -27,7 +27,7 @@ public interface Invoker {
         }
 
         public int getPriority() {
-            return this.method.getAnnotation(EventHandler.class).priority().getValue();
+            return this.method.getAnnotation(EventHandler.class).priority();
         }
     }
 }

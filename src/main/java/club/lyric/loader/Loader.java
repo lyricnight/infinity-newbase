@@ -13,6 +13,7 @@ public class Loader implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitialize() {
+        /**
         try {
             //new ClientLoader().onInit();
             Class<?> infinityClass = Class.forName("club.lyric.infinity.Infinity");
@@ -22,10 +23,12 @@ public class Loader implements ModInitializer, ClientModInitializer {
         } catch (Throwable t) {
             throw new RuntimeException();
         }
+         */
     }
 
     @Override
     public void onInitializeClient() {
+        /**
         try {
             Class<?> infinityClass = Class.forName("club.lyric.infinity.Infinity");
             Constructor<?> ctor = infinityClass.getDeclaredConstructor();
@@ -34,5 +37,6 @@ public class Loader implements ModInitializer, ClientModInitializer {
         } catch (Throwable t) {
             throw new RuntimeException();
         }
+         */
     }
 }

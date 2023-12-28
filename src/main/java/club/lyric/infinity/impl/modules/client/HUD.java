@@ -32,6 +32,7 @@ public class HUD extends ModuleBase {
         renderArmor(event.getDrawContext());
     }
 
+    //TODO: VASLER THIS SPAMS YOUR LOGS WITH ERRORS. FIX IT
     private void renderArmor(DrawContext context)
     {
         width = context.getScaledWindowWidth();

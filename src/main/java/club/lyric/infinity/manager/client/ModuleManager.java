@@ -74,7 +74,6 @@ public class ModuleManager implements JsonElements, IMinecraft
      */
     public void register(ModuleBase... module)
     {
-        Arrays.stream(module).forEach(EventBus.getInstance()::register);
         Collections.addAll(modules, module);
     }
 
