@@ -5,13 +5,17 @@ import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.player.InventoryUtils;
-import club.lyric.infinity.api.util.render.Render2DUtils;
+import club.lyric.infinity.api.util.player.PlayerUtils;
 import club.lyric.infinity.api.util.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.render.text.TextUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+
+import java.util.LinkedList;
 
 /**
  * @author vasler
@@ -25,19 +29,49 @@ public class HUD extends ModuleBase {
 
     protected int width;
     protected int height;
+    protected int fpsCount;
+    protected final LinkedList<Long> frames = new LinkedList<>();
 
     @Override
     public void onRender2D(Render2DEvent event) {
+        int offset = 0;
         event.getDrawContext().drawText(mc.textRenderer, Infinity.CLIENT_NAME, 2, 2, -1, true);
+
         renderArmor(event.getDrawContext());
-        /**
+
         for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
             int x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(getString(statusEffectInstance)));
-            event.getDrawContext().drawText(mc.textRenderer, getString(statusEffectInstance), x, event.getDrawContext().getScaledWindowHeight() - 9, statusEffectInstance.getEffectType().getColor(), true);
-        }*/
+            event.getDrawContext().drawText(mc.textRenderer, getString(statusEffectInstance), x, event.getDrawContext().getScaledWindowHeight() - 9 - offset, statusEffectInstance.getEffectType().getColor(), true);
+            offset += 9;
+        }
+
+        // FPS starts
+
+        long time = System.nanoTime();
+
+        frames.add(time);
+
+        while (true)
+        {
+
+            long f = frames.getFirst();
+
+            final long ONE_SECOND = 1000000L * 1000L;
+
+            if (time - f > ONE_SECOND) frames.remove();
+
+            else break;
+        }
+
+        fpsCount = frames.size();
+
+        String fps = "FPS " + fpsCount;
+
+        event.getDrawContext().drawText(mc.textRenderer, fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)), event.getDrawContext().getScaledWindowHeight() - 9 - offset, -1, true);
+
+        // FPS ends
     }
 
-    //TODO: VASLER THIS SPAMS YOUR LOGS WITH ERRORS. FIX IT
     private void renderArmor(DrawContext context)
     {
         width = context.getScaledWindowWidth();
@@ -85,17 +119,14 @@ public class HUD extends ModuleBase {
         }
     }
 
-    /**
+
     private String getString(StatusEffectInstance statusEffectInstance)
     {
         int amplifier = statusEffectInstance.getAmplifier();
-        return String.format("%s %d:" +
-                Formatting.WHITE + " %s",
-                statusEffectInstance.getEffectType(),
-                (amplifier > 0 ? (" " + (amplifier + 1) + "") : ""),
-                statusEffectInstance.isInfinite() ? "∞∞:∞∞" : StringHelper.formatTicks(statusEffectInstance.getDuration())
-        );
-    }*/
+        Text name = statusEffectInstance.getEffectType().getName();
+        String potions = name.getString() + (amplifier > 0 ? (" " + (amplifier + 1) + " ") : " ") + Formatting.WHITE + PlayerUtils.getPotionDurationString(statusEffectInstance);
+        return potions;
+    }
 
 
 }
