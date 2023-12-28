@@ -1,10 +1,10 @@
 package club.lyric.infinity.api.setting;
 
-import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.client.SettingEvent;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.util.Bind;
-import club.lyric.infinity.api.setting.settings.EnumConverter;
+import club.lyric.infinity.api.setting.settings.util.EnumConverter;
 
 import java.util.function.Predicate;
 
@@ -85,7 +85,7 @@ public class Setting<T> {
             }
         }
         SettingEvent event = new SettingEvent();
-        Infinity.EVENT_BUS.post(event);
+        EventBus.getInstance().post(event);
         if (!event.isCancelled()) {
             this.value = this.plannedValue;
         } else {
@@ -161,7 +161,7 @@ public class Setting<T> {
     public void increaseEnum() {
         this.plannedValue = (T) EnumConverter.increaseEnum((Enum) this.value);
         SettingEvent event = new SettingEvent();
-        Infinity.EVENT_BUS.post(event);
+        EventBus.getInstance().post(event);
         if (!event.isCancelled()) {
             this.value = this.plannedValue;
         } else {

@@ -1,4 +1,4 @@
-package club.lyric.infinity.impl.event.bus;
+package club.lyric.infinity.api.event.bus;
 
 import org.objectweb.asm.Opcodes;
 

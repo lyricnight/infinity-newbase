@@ -1,6 +1,6 @@
 package club.lyric.infinity.asm;
 
-import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.render.Render3DEvent;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
@@ -23,7 +23,7 @@ public class MixinWorldRenderer {
         MinecraftClient.getInstance().getProfiler().push("infinity-rendering-3d");
         RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
         Render3DEvent event = new Render3DEvent(matrices);
-        Infinity.EVENT_BUS.post(event);
+        EventBus.getInstance().post(event);
         MinecraftClient.getInstance().getProfiler().pop();
     }
 }

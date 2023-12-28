@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.setting.settings;
+package club.lyric.infinity.api.setting.settings.util;
 
 import com.google.common.base.Converter;
 import com.google.gson.JsonElement;

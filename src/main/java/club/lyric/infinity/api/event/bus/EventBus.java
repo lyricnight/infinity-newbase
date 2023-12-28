@@ -1,6 +1,7 @@
-package club.lyric.infinity.impl.event.bus;
+package club.lyric.infinity.api.event.bus;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.event.Event;
 
 import java.lang.invoke.*;
 import java.lang.reflect.Method;
@@ -23,6 +24,7 @@ public final class EventBus {
         try {
             RegistrableTarget registrableTarget = new RegistrableTarget(target);
             for (Method method : registrableTarget.getDeclaredMethods()) {
+                //Annotation 'EventHandler.class' is not retained for reflective access ?? no @retentionpolicy?
                 if (method.isAnnotationPresent(EventHandler.class) && method.getParameterCount() == 1) {
                     Parameter parameter = method.getParameters()[0];
                     if (Event.class.isAssignableFrom(parameter.getType())) {

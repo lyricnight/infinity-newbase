@@ -1,14 +1,13 @@
 package club.lyric.infinity.api.event.mc.update;
 
 
-import me.lyric.eventbus.event.Event;
+import club.lyric.infinity.api.event.Event;
 
+/**
+ * @author lyric
+ */
 public class UpdateWalkingPlayerEvent extends Event {
     private final int stage;
-    @Override
-    protected boolean isCancellable() {
-        return true;
-    }
 
     public UpdateWalkingPlayerEvent(int stage)
     {

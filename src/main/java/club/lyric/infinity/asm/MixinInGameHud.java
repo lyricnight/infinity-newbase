@@ -1,6 +1,6 @@
 package club.lyric.infinity.asm;
 
-import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.impl.modules.render.Chat;
 import club.lyric.infinity.manager.Managers;
@@ -30,7 +30,7 @@ public class MixinInGameHud {
 
 
         Render2DEvent event = new Render2DEvent(context);
-        Infinity.EVENT_BUS.post(event);
+        EventBus.getInstance().post(event);
 
         RenderSystem.enableDepthTest();
         GL11.glDisable(GL11.GL_LINE_SMOOTH);

@@ -1,16 +1,11 @@
 package club.lyric.infinity.api.event.client;
 
 
-import me.lyric.eventbus.event.Event;
+import club.lyric.infinity.api.event.Event;
 
 /**
  * @author lyric
  * event fired on setting change
  */
 
-public class SettingEvent extends Event {
-    @Override
-    protected boolean isCancellable() {
-        return true;
-    }
-}
+public class SettingEvent extends Event {}

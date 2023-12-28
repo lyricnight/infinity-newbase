@@ -1,6 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.network.PacketEvent;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -30,7 +31,7 @@ public class MixinClientConnection {
         if (channel.isOpen() && packet != null) {
             try {
                 PacketEvent.Receive event = new PacketEvent.Receive(packet);
-                Infinity.EVENT_BUS.post(event);
+                EventBus.getInstance().post(event);
                 if (event.isCancelled())
                 {
                     ci.cancel();
@@ -46,7 +47,7 @@ public class MixinClientConnection {
         if (this.side != NetworkSide.CLIENTBOUND) return;
         try {
             PacketEvent.Send event = new PacketEvent.Send(packet);
-            Infinity.EVENT_BUS.post(event);
+            EventBus.getInstance().post(event);
             if (event.isCancelled())
             {
                 ci.cancel();

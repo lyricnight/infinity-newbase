@@ -1,6 +1,6 @@
 package club.lyric.infinity.api.event.mc;
 
-import me.lyric.eventbus.event.Event;
+import club.lyric.infinity.api.event.Event;
 import net.minecraft.entity.LivingEntity;
 
 public class DeathEvent extends Event {
@@ -12,10 +12,5 @@ public class DeathEvent extends Event {
 
     public LivingEntity getEntity() {
         return entity;
-    }
-
-    @Override
-    protected boolean isCancellable() {
-        return true;
     }
 }

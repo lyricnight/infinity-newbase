@@ -1,4 +1,6 @@
-package club.lyric.infinity.impl.event.bus;
+package club.lyric.infinity.api.event.bus;
+
+import club.lyric.infinity.api.event.Event;
 
 import java.lang.reflect.Method;
 
@@ -25,7 +27,7 @@ public interface Invoker {
         }
 
         public int getPriority() {
-            return this.method.getAnnotation(EventHandler.class).priority();
+            return this.method.getAnnotation(EventHandler.class).priority().getValue();
         }
     }
 }

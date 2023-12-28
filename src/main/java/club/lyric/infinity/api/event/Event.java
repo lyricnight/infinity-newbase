@@ -1,7 +1,9 @@
-package club.lyric.infinity.impl.event.bus;
+package club.lyric.infinity.api.event;
 
+/**
+ * @author railhack
+ */
 public class Event {
-
     private boolean cancelled;
 
     public boolean isCancelled() {

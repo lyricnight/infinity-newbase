@@ -1,7 +1,7 @@
 package club.lyric.infinity.api.event.network;
 
 
-import me.lyric.eventbus.event.Event;
+import club.lyric.infinity.api.event.Event;
 import net.minecraft.network.packet.Packet;
 
 /**
@@ -29,10 +29,5 @@ public class PacketEvent extends Event {
         public Receive(Packet<?> packet) {
             super(packet);
         }
-    }
-
-    @Override
-    protected boolean isCancellable() {
-        return true;
     }
 }

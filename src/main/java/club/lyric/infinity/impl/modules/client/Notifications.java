@@ -1,13 +1,13 @@
 package club.lyric.infinity.impl.modules.client;
 
+import club.lyric.infinity.api.event.bus.EventHandler;
+import club.lyric.infinity.api.event.bus.Priority;
 import club.lyric.infinity.api.event.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.chat.ChatUtils;
 import club.lyric.infinity.api.util.chat.ID;
-import me.lyric.eventbus.annotation.EventListener;
-import me.lyric.eventbus.annotation.ListenerPriority;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 
@@ -20,28 +20,30 @@ import java.util.HashMap;
 public class Notifications extends ModuleBase
 {
 
-    public BooleanSetting totemPops = new BooleanSetting(
+    public BooleanSetting totemPops = createBool(
+            new BooleanSetting(
             "TotemPops",
             false,
             "Notifies when an enemy gets totem popped."
-    );
-    public BooleanSetting enable = new BooleanSetting(
+    ));
+    public BooleanSetting enable = createBool(
+            new BooleanSetting(
             "Enabled",
             true,
             "Notifies when you enable a module."
-    );
-    public BooleanSetting disable = new BooleanSetting(
+    ));
+    public BooleanSetting disable = createBool(
+            new BooleanSetting(
             "Disabled",
             true,
             "Notifies when you disable a module."
-    );
+    ));
 
     private final HashMap<String, Integer> totemPop = new HashMap<>();
 
     public Notifications()
     {
         super("Notifications", "Notifies in chat for stuff.", Category.CLIENT);
-        instantiate(this, totemPops, enable, disable);
     }
 
     @Override
@@ -50,7 +52,7 @@ public class Notifications extends ModuleBase
         totemPop.clear();
     }
 
-    @EventListener(priority = ListenerPriority.LOW)
+    @EventHandler(priority = Priority.LOW)
     private void onReceivePacket(PacketEvent.Receive event)
     {
         if (totemPops.getValue())

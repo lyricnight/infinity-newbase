@@ -1,8 +1,8 @@
 package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.module.Category;
-import club.lyric.infinity.api.module.Instantiated;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
  * register the modules
 */
 
-public class ModuleManager extends Instantiated implements JsonElements, IMinecraft
+public class ModuleManager implements JsonElements, IMinecraft
 {
-    private final Set<ModuleBase> modules = new HashSet<>();
+    private final List<ModuleBase> modules = new ArrayList<>();
 
     public void init()
     {
@@ -45,27 +45,9 @@ public class ModuleManager extends Instantiated implements JsonElements, IMinecr
     /**
      * gets modules
      */
-    public Set<ModuleBase> getModules()
+    public List<ModuleBase> getModules()
     {
         return modules;
-    }
-
-    /**
-     * gets a module
-     * @param string - string to compare to
-     * @return - the module it corresponds to
-     */
-
-    public ModuleBase getModuleByString(String string)
-    {
-        ModuleBase moduleBase = null;
-        for (ModuleBase modules : getModules()) {
-            if (modules.getName().equalsIgnoreCase(string)) {
-                moduleBase = modules;
-                break;
-            }
-        }
-        return moduleBase;
     }
 
     /**
@@ -92,7 +74,7 @@ public class ModuleManager extends Instantiated implements JsonElements, IMinecr
      */
     public void register(ModuleBase... module)
     {
-        Arrays.stream(module).forEach(Infinity.EVENT_BUS::subscribe);
+        Arrays.stream(module).forEach(EventBus.getInstance()::register);
         Collections.addAll(modules, module);
     }
 

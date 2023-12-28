@@ -1,6 +1,6 @@
 package club.lyric.infinity.api.event.mc;
 
-import me.lyric.eventbus.event.Event;
+import club.lyric.infinity.api.event.Event;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.text.Text;
 
@@ -40,9 +40,5 @@ public class ReceiveChatEvent extends Event {
 
     public boolean hasBeenAdded() {
         return added;
-    }
-    @Override
-    protected boolean isCancellable() {
-        return true;
     }
 }

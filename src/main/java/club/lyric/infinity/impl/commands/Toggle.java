@@ -37,29 +37,19 @@ public class Toggle extends Command {
             return;
         }
 
-        boolean isModule = false;
+        ChatUtils.sendMessagePrivate("Module input :" + module);
 
         for (ModuleBase modules : Managers.MODULES.getModules()) {
+            ChatUtils.sendMessagePrivate("Module iterated to: " + modules.getName());
             if (modules.getName().equalsIgnoreCase(module)) {
-                if (Managers.MODULES.getModuleByString(module).isOn())
-                {
-                    Managers.MODULES.getModuleByString(module).disable();
-                }
-                else
-                {
-                    Managers.MODULES.getModuleByString(module).enable();
-                }
-                isModule = true;
-                break;
+                ChatUtils.sendMessagePrivate("Module equivalent to: " + modules.getName() + " input is:" + module);
+                ChatUtils.sendMessagePrivate(Formatting.BOLD + modules.getName() + Formatting.RESET + " " + "has been toggled.");
+                modules.toggle();
+                state(CommandState.PERFORMED);
+                return;
             }
         }
-        if (!isModule) {
-            ChatUtils.sendMessagePrivate(Formatting.RED + "Unknown module.");
-        } else {
-            ChatUtils.sendMessagePrivate(Formatting.BOLD + Managers.MODULES.getModuleByString(module).getName() + Formatting.RESET + " " + "has been toggled.");
-        }
-
-        state(CommandState.PERFORMED);
+        state(CommandState.ERROR);
     }
 
 

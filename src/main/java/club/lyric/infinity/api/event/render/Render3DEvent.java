@@ -1,7 +1,7 @@
 package club.lyric.infinity.api.event.render;
 
 
-import me.lyric.eventbus.event.Event;
+import club.lyric.infinity.api.event.Event;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class Render3DEvent extends Event {
@@ -13,10 +13,5 @@ public class Render3DEvent extends Event {
 
     public MatrixStack getMatrix() {
         return matrixStack;
-    }
-
-    @Override
-    protected boolean isCancellable() {
-        return true;
     }
 }

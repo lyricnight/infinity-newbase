@@ -1,13 +1,13 @@
 package club.lyric.infinity.impl.modules.render;
 
+import club.lyric.infinity.api.event.bus.EventHandler;
+import club.lyric.infinity.api.event.bus.Priority;
 import club.lyric.infinity.api.event.mc.ReceiveChatEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import me.lyric.eventbus.annotation.EventListener;
-import me.lyric.eventbus.annotation.ListenerPriority;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
@@ -21,35 +21,35 @@ import java.util.Date;
 
 //TODO: Fix this
 public class Chat extends ModuleBase {
-    public BooleanSetting clear = new BooleanSetting(
+    public BooleanSetting clear = createBool(new BooleanSetting(
             "Clear",
             true,
             "Makes chat clear."
-    );
+    ));
 
-    public BooleanSetting remove = new BooleanSetting(
+    public BooleanSetting remove = createBool(new BooleanSetting(
             "RemoveLine",
             true,
             "Removes the line on the side of chat messages."
-    );
+    ));
 
-    public BooleanSetting infiniteMessages = new BooleanSetting(
+    public BooleanSetting infiniteMessages = createBool(new BooleanSetting(
             "InfiniteMessages",
             true,
             "Allows you to type infinitely long messages."
-    );
+    ));
 
-    public BooleanSetting timeStamps = new BooleanSetting(
+    public BooleanSetting timeStamps = createBool(new BooleanSetting(
             "TimeStamps",
             true,
             "Renders timestamps before all messages."
-    );
+    ));
 
-    public BooleanSetting keep = new BooleanSetting(
+    public BooleanSetting keep = createBool(new BooleanSetting(
             "Keep",
             true,
             "Keeps chat messages when you disconnect."
-    );
+    ));
 
 
     // for timestamps
@@ -60,11 +60,9 @@ public class Chat extends ModuleBase {
     public Chat()
     {
         super("Chat", "Handles our chat and how it looks...", Category.RENDER);
-        instantiate(this, clear, remove, infiniteMessages, timeStamps, keep);
     }
 
-
-    @EventListener(priority = ListenerPriority.LOW)
+    @EventHandler(priority = Priority.LOW)
     public void onChatReceive(ReceiveChatEvent event)
     {
         Text message = event.getMessage();

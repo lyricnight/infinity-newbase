@@ -1,11 +1,14 @@
 package club.lyric.infinity.api.module;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.EnumSetting;
+import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.util.chat.ChatUtils;
 import club.lyric.infinity.api.util.chat.ID;
@@ -18,6 +21,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.util.Formatting;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +29,7 @@ import java.util.List;
  * module
  */
 
-public class ModuleBase extends Instantiated implements IMinecraft, JsonElements {
+public class ModuleBase implements IMinecraft, JsonElements {
 
     /**
      * name
@@ -50,19 +54,24 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
     public Category category;
 
     /**
+     * setting list
+     */
+    public List<Setting<?>> settingList = new ArrayList<>();
+
+    /**
      * enabled/disabled
      */
-    public static BooleanSetting enabled = new BooleanSetting("Enabled", false, "Whether to enable module or not.");
+    public BooleanSetting enabled;
 
     /**
      * module's bind.
      */
-    public BindSetting bind = new BindSetting("Bind", new Bind(-1), "Bind for enabling/disabling this module.");
+    public BindSetting bind;
 
     /**
      * whether to draw the module on the ArrayList or not.
      */
-    public BooleanSetting drawn = new BooleanSetting("Drawn", true, "Whether to draw the module on the ArrayList or not.");
+    public BooleanSetting drawn;
 
     public ModuleBase(String name, String description, Category category)
     {
@@ -72,11 +81,9 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
         this.description = description;
         this.category = category;
 
-        /**
-         * you can only instantiate the same types of settings at a time, because Sets are retarded
-         */
-        instantiate(this, enabled, drawn);
-        instantiate(this, bind);
+        enabled = createBool(new BooleanSetting("Enabled", false, "Whether to enable module or not."));
+        bind = createBind(new BindSetting("Bind", new Bind(-1), "Bind for enabling/disabling this module."));
+        drawn = createBool(new BooleanSetting("Drawn", true, "Whether to draw the module on the ArrayList or not."));
     }
 
     public void onEnable() {
@@ -117,19 +124,24 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
         }
     }
 
-    public void enable() {
+    public void toggle()
+    {
+        this.setEnabled(!this.isOn());
+    }
+
+    private void enable() {
         enabled.setValue(true);
-        Infinity.EVENT_BUS.subscribe(this);
+        EventBus.getInstance().register(this);
         this.onEnable();
         if (Managers.MODULES.getModuleFromClass(Notifications.class).enable.getValue()) {
             ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", ID.MODULE);
         }
     }
 
-    public void disable() {
+    private void disable() {
         enabled.setValue(false);
         this.onDisable();
-        Infinity.EVENT_BUS.unsubscribe(this);
+        EventBus.getInstance().unregister(this);
         if (Managers.MODULES.getModuleFromClass(Notifications.class).disable.getValue()) {
             ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", ID.MODULE);
         }
@@ -153,6 +165,37 @@ public class ModuleBase extends Instantiated implements IMinecraft, JsonElements
 
     public void setBind(int key) {
         this.bind.setValue(new Bind(key));
+    }
+
+    /**
+     * setting constructors
+     */
+    public BooleanSetting createBool(BooleanSetting setting)
+    {
+        setting.setModule(this);
+        this.settingList.add(setting);
+        return setting;
+    }
+
+    public EnumSetting createEnum(EnumSetting setting)
+    {
+        setting.setModule(this);
+        this.settingList.add(setting);
+        return setting;
+    }
+
+    public NumberSetting createNumber(NumberSetting setting)
+    {
+        setting.setModule(this);
+        this.settingList.add(setting);
+        return setting;
+    }
+
+    public BindSetting createBind(BindSetting setting)
+    {
+        setting.setModule(this);
+        this.settingList.add(setting);
+        return setting;
     }
 
     /**

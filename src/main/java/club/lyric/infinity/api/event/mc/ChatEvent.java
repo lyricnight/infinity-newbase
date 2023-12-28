@@ -1,7 +1,7 @@
 package club.lyric.infinity.api.event.mc;
 
 
-import me.lyric.eventbus.event.Event;
+import club.lyric.infinity.api.event.Event;
 
 /**
  * @author lyric
@@ -14,13 +14,7 @@ public class ChatEvent extends Event {
     public ChatEvent(String message) {
         this.message = message;
     }
-
     public String getMessage() {
         return message;
-    }
-
-    @Override
-    protected boolean isCancellable() {
-        return true;
     }
 }

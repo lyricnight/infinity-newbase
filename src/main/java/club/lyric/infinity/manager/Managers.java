@@ -1,6 +1,7 @@
 package club.lyric.infinity.manager;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.manager.client.CommandManager;
 import club.lyric.infinity.manager.client.ConfigManager;
 import club.lyric.infinity.manager.client.FriendsManager;
@@ -17,6 +18,7 @@ public class Managers {
     public static EventManager EVENTS = new EventManager();
     public static CommandManager COMMANDS = new CommandManager();
     public static FriendsManager FRIENDS = new FriendsManager();
+
     public static ModuleManager MODULES = new ModuleManager();
 
     /**
@@ -61,7 +63,7 @@ public class Managers {
         for (Object sub : subscribers)
         {
             Infinity.LOGGER.info("attempting to subscribe " + sub);
-            Infinity.EVENT_BUS.subscribe(sub);
+            EventBus.getInstance().register(sub);
         }
         Infinity.LOGGER.info("all managers subscribed.");
     }
