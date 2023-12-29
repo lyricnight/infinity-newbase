@@ -43,6 +43,7 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 	public void onInitializeClient() {
 		LOGGER.info("Infinity has received onInitializeClient()!");
 		Managers.init();
+		//whyd you remove this railhack
 		//Runtime.getRuntime().addShutdownHook(new Thread(Managers.CONFIG::save));
 	}
 }
