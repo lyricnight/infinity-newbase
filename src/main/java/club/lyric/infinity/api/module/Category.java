@@ -25,7 +25,4 @@ public enum Category {
         this.drag = new Drag(this.posX, this.posY);
     }
 
-    public Drag getDrag() {
-        return this.drag;
-    }
 }

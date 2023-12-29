@@ -1,13 +1,17 @@
 package club.lyric.infinity.impl.clickgui;
 
+import club.lyric.infinity.api.module.Category;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GUI extends Screen
 {
+
+    private final ArrayList<Window> windows = new ArrayList<>();
 
     public GUI()
     {
@@ -17,7 +21,12 @@ public class GUI extends Screen
     @Override
     protected void init()
     {
-
+        int x = 5;
+        for (final Category category : Category.values())
+        {
+            windows.add(new Window(category, x, 5, true));
+            x += 110;
+        }
     }
 
     @Override

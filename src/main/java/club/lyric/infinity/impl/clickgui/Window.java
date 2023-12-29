@@ -37,9 +37,13 @@ public class Window implements IMinecraft {
         this.y = this.updatedY + mouseY;
     }
 
-    public void render(DrawContext context, int mouseX, int mouseY, float partialTicks)
+    public void render(DrawContext context, int mouseX, int mouseY, float delta)
     {
         drag(mouseX, mouseY);
+
+        int color = -1; // change this color evntaully
+
+        drawCategory(context, color);
     }
 
     public void drawCategory(DrawContext context, int color)
