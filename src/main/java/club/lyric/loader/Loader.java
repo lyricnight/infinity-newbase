@@ -1,7 +1,6 @@
 package club.lyric.loader;
 
 import club.lyric.infinity.Infinity;
-import club.lyric.loader.stage.ClientLoader;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 
@@ -13,30 +12,28 @@ public class Loader implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitialize() {
-        /**
         try {
-            //new ClientLoader().onInit();
             Class<?> infinityClass = Class.forName("club.lyric.infinity.Infinity");
             Constructor<?> ctor = infinityClass.getDeclaredConstructor();
             ctor.setAccessible(true);
             ((Infinity) ctor.newInstance()).onInitialize();
+            //new ClientLoader().onInit();
         } catch (Throwable t) {
-            throw new RuntimeException();
+            Infinity.LOGGER.error("Error: ", t);
+            t.printStackTrace();
         }
-         */
     }
 
     @Override
     public void onInitializeClient() {
-        /**
         try {
             Class<?> infinityClass = Class.forName("club.lyric.infinity.Infinity");
             Constructor<?> ctor = infinityClass.getDeclaredConstructor();
             ctor.setAccessible(true);
             ((Infinity) ctor.newInstance()).onInitializeClient();
         } catch (Throwable t) {
-            throw new RuntimeException();
+            Infinity.LOGGER.error("Error: ", t);
+            t.printStackTrace();
         }
-         */
     }
 }

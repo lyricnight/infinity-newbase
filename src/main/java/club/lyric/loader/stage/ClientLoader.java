@@ -40,15 +40,14 @@ public class ClientLoader {
                     Runtime.getRuntime().halt(0);
                 } catch (Throwable ignored) {
                 }
-                return;
             }
             case ANTIDUMP -> {
                 // idk what to do here yet
             }
         }
         JsonObject json = AlertUtils.getFormattedMessage(stage, t);
-        WebhookUtil.send(json.getAsString());
-        Loader.natives.native7(json.getAsString(), true);
+        WebhookUtil.send(json.toString());
+        Loader.natives.native7(json.toString(), true);
     }
 
     public enum LoadingStage {

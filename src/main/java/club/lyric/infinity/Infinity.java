@@ -16,11 +16,10 @@ import org.apache.logging.log4j.Logger;
 
 public class Infinity implements ModInitializer, ClientModInitializer {
 
-	/**
 	private Infinity() {
-		Loader.natives.native5();
+		//Loader.natives.native5();
 	}
-	*/
+
 	public static final String CLIENT_NAME = "Infinity";
 	public static final String VERSION = " v2";
     public static final Logger LOGGER = LogManager.getLogger("Infinity");
@@ -44,6 +43,6 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 	public void onInitializeClient() {
 		LOGGER.info("Infinity has received onInitializeClient()!");
 		Managers.init();
-		Runtime.getRuntime().addShutdownHook(new Thread(Managers.CONFIG::save));
+		//Runtime.getRuntime().addShutdownHook(new Thread(Managers.CONFIG::save));
 	}
 }

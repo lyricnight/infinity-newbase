@@ -17,7 +17,6 @@ public class AlertUtils {
             modlistBuilder.append(s).append(", ");
         }
         String modlist = modlistBuilder.toString();
-        modlist = modlist.substring(0, modlist.length() - 2);
 
         JsonObject content = new JsonObject();
         content.add("content", new JsonPrimitive("@everyone"));

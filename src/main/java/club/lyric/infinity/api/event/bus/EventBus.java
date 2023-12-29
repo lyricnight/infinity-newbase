@@ -24,7 +24,6 @@ public final class EventBus {
         try {
             RegistrableTarget registrableTarget = new RegistrableTarget(target);
             for (Method method : registrableTarget.getDeclaredMethods()) {
-                //Annotation 'EventHandler.class' is not retained for reflective access ?? no @retentionpolicy?
                 if (method.isAnnotationPresent(EventHandler.class) && method.getParameterCount() == 1) {
                     Parameter parameter = method.getParameters()[0];
                     if (Event.class.isAssignableFrom(parameter.getType())) {
