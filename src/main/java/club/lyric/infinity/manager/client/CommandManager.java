@@ -30,6 +30,7 @@ public class CommandManager implements IMinecraft, JsonElements {
     {
         register(
                 new Prefix(),
+                new SettingSet(),
                 new Friend(),
                 new List(),
                 new Toggle()

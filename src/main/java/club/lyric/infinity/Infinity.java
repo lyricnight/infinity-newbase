@@ -26,7 +26,6 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 
 	@Override
 	public void onInitialize() {
-		// mio does it like this and it looks good so dont fix it
         LOGGER.log(Level.INFO, "  _        __ _       _ _         ");
 		LOGGER.log(Level.INFO, " (_)      / _(_)     (_) |        ");
 		LOGGER.log(Level.INFO, "  _ _ __ | |_ _ _ __  _| |_ _   _ ");
@@ -43,7 +42,6 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 	public void onInitializeClient() {
 		LOGGER.info("Infinity has received onInitializeClient()!");
 		Managers.init();
-		//whyd you remove this railhack
-		//Runtime.getRuntime().addShutdownHook(new Thread(Managers.CONFIG::save));
+		Runtime.getRuntime().addShutdownHook(new Thread(Managers.CONFIG::save));
 	}
 }

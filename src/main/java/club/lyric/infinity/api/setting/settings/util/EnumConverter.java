@@ -66,4 +66,13 @@ public class EnumConverter extends Converter<Enum, JsonElement> {
             return null;
         }
     }
+
+    public Enum doBackward(String input) {
+        try {
+            return Enum.valueOf(this.clazz, input);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
 }

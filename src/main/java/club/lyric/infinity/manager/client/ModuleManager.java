@@ -4,6 +4,7 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.util.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.*;
@@ -88,10 +89,29 @@ public class ModuleManager implements JsonElements, IMinecraft
             if (!module.getName().equalsIgnoreCase(name)) continue;
             return module;
         }
-        Infinity.LOGGER.info("getModuleByName() returned null! Value passed:" + name);
-        Infinity.LOGGER.info("Available values:" + modules);
+
         return null;
     }
+
+    /**
+     * gets a setting from a module
+     * NOT NULL-SAFE
+     * @param module - module
+     * @param setting - setting
+     * @return - the setting
+     */
+    public Setting getSettingFromModule(String module, String setting)
+    {
+        for (Setting settings : getModuleByName(module).getSettings())
+        {
+            if (setting.equalsIgnoreCase(settings.getName()))
+            {
+                return settings;
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public JsonElement toJson()
