@@ -1,6 +1,7 @@
 package club.lyric.loader;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.loader.stage.ClientLoader;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 
@@ -17,7 +18,7 @@ public class Loader implements ModInitializer, ClientModInitializer {
             Constructor<?> ctor = infinityClass.getDeclaredConstructor();
             ctor.setAccessible(true);
             ((Infinity) ctor.newInstance()).onInitialize();
-            //new ClientLoader().onInit();
+            new ClientLoader().onInit();
         } catch (Throwable t) {
             Infinity.LOGGER.error("Error: ", t);
             t.printStackTrace();

@@ -6,7 +6,6 @@ import club.lyric.infinity.api.setting.Setting;
  * @author bel
  * Use this instead of floatsettings, intsettings and doublesettings? (Much easier to work with.)
  * @param <T>
- * unused
  */
 public class NumberSetting<T extends Number> extends Setting<T> {
     private final T minimum;
