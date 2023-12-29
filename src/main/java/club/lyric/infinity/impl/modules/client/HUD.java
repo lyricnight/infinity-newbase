@@ -22,8 +22,10 @@ import java.util.LinkedList;
  * hud
  * @since a while ago
  */
-public class HUD extends ModuleBase {
-    public HUD() {
+public class HUD extends ModuleBase
+{
+    public HUD()
+    {
         super("HUD", "Displays HUD elements on the screen.", Category.CLIENT);
     }
 
@@ -33,13 +35,15 @@ public class HUD extends ModuleBase {
     protected final LinkedList<Long> frames = new LinkedList<>();
 
     @Override
-    public void onRender2D(Render2DEvent event) {
+    public void onRender2D(Render2DEvent event)
+    {
         int offset = 0;
         event.getDrawContext().drawText(mc.textRenderer, Infinity.CLIENT_NAME, 2, 2, -1, true);
 
         renderArmor(event.getDrawContext());
 
-        for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
+        for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects())
+        {
             int x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(getString(statusEffectInstance)));
             event.getDrawContext().drawText(mc.textRenderer, getString(statusEffectInstance), x, event.getDrawContext().getScaledWindowHeight() - 9 - offset, statusEffectInstance.getEffectType().getColor(), true);
             offset += 9;
