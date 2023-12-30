@@ -1,17 +1,16 @@
 package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.Infinity;
-import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.util.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.*;
-import club.lyric.infinity.impl.modules.exploit.HitboxDesync;
-import club.lyric.infinity.impl.modules.movement.NoJumpDelay;
-import club.lyric.infinity.impl.modules.player.YawLock;
-import club.lyric.infinity.impl.modules.render.Chat;
+import club.lyric.infinity.impl.modules.exploit.*;
+import club.lyric.infinity.impl.modules.movement.*;
+import club.lyric.infinity.impl.modules.player.*;
+import club.lyric.infinity.impl.modules.render.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -34,6 +33,7 @@ public class ModuleManager implements JsonElements, IMinecraft
                 new DiscordRPC(),
                 new Chat(),
                 new HUD(),
+                new Sprint(),
                 new ClickGui(),
                 new NoJumpDelay(),
                 new HitboxDesync(),

@@ -4,6 +4,8 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.util.math.MathUtils;
 import club.lyric.infinity.api.util.player.InventoryUtils;
 import club.lyric.infinity.api.util.player.PlayerUtils;
 import club.lyric.infinity.api.util.render.colors.ColorUtils;
@@ -14,6 +16,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.LinkedList;
 
@@ -24,6 +27,42 @@ import java.util.LinkedList;
  */
 public class HUD extends ModuleBase
 {
+    public BooleanSetting fps = createBool(
+            new BooleanSetting(
+                    "FPS",
+                    true,
+                    "Displays FPS counter on hud."
+    ));
+
+    public BooleanSetting potions = createBool(
+            new BooleanSetting(
+                    "Potions",
+                    true,
+                    "Displays potion timers on hud."
+    ));
+
+    public BooleanSetting armorHud = createBool(
+            new BooleanSetting(
+                    "ArmorHUD",
+                    true,
+                    "Renders armor above hotbar with text durability."
+            ));
+
+    public BooleanSetting watermark = createBool(
+            new BooleanSetting(
+                    "Watermark",
+                    true,
+                    "Displays the clients watermark on hud."
+            ));
+
+    public BooleanSetting speed = createBool(
+            new BooleanSetting(
+                    "Speed",
+                    true,
+                    "Displays the current speed in km/h on hud."
+            ));
+
+
     public HUD()
     {
         super("HUD", "Displays HUD elements on the screen.", Category.CLIENT);
@@ -38,41 +77,61 @@ public class HUD extends ModuleBase
     public void onRender2D(Render2DEvent event)
     {
         int offset = 0;
-        event.getDrawContext().drawText(mc.textRenderer, Infinity.CLIENT_NAME, 2, 2, -1, true);
-
-        renderArmor(event.getDrawContext());
-
-        for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects())
+        if (watermark.getValue())
         {
-            int x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(getString(statusEffectInstance)));
-            event.getDrawContext().drawText(mc.textRenderer, getString(statusEffectInstance), x, event.getDrawContext().getScaledWindowHeight() - 9 - offset, statusEffectInstance.getEffectType().getColor(), true);
-            offset += 9;
+            event.getDrawContext().drawText(mc.textRenderer, Infinity.CLIENT_NAME, 2, 2, -1, true);
         }
+
+        if (armorHud.getValue())
+        {
+            renderArmor(event.getDrawContext());
+        }
+
+        if (potions.getValue())
+        {
+            for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
+                int x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(getString(statusEffectInstance))) - 2;
+                event.getDrawContext().drawText(mc.textRenderer, getString(statusEffectInstance), x, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, statusEffectInstance.getEffectType().getColor(), true);
+                offset += 9;
+            }
+        }
+
+        // Speed starts
+        if (speed.getValue())
+        {
+            double distanceX = mc.player.getX() - mc.player.prevX;
+            double distanceZ = mc.player.getZ() - mc.player.prevZ;
+
+            String fps = "Speed " + MathUtils.roundFloat((MathHelper.sqrt((float) (Math.pow(distanceX, 2) + Math.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) + " km/h";
+
+            event.getDrawContext().drawText(mc.textRenderer, fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, -1, true);
+        }
+        // Speed ends
 
         // FPS starts
-
-        long time = System.nanoTime();
-
-        frames.add(time);
-
-        while (true)
+        if (fps.getValue())
         {
+            long time = System.nanoTime();
 
-            long f = frames.getFirst();
+            frames.add(time);
 
-            final long ONE_SECOND = 1000000L * 1000L;
+            while (true) {
 
-            if (time - f > ONE_SECOND) frames.remove();
+                long f = frames.getFirst();
 
-            else break;
+                final long ONE_SECOND = 1000000L * 1000L;
+
+                if (time - f > ONE_SECOND) frames.remove();
+
+                else break;
+            }
+
+            fpsCount = frames.size();
+
+            String fps = "FPS " + fpsCount;
+
+            event.getDrawContext().drawText(mc.textRenderer, fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, -1, true);
         }
-
-        fpsCount = frames.size();
-
-        String fps = "FPS " + fpsCount;
-
-        event.getDrawContext().drawText(mc.textRenderer, fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)), event.getDrawContext().getScaledWindowHeight() - 9 - offset, -1, true);
-
         // FPS ends
     }
 
