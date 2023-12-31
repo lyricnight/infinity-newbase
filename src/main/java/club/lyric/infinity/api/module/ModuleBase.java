@@ -13,6 +13,7 @@ import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.util.chat.ChatUtils;
 import club.lyric.infinity.api.util.chat.ID;
 import club.lyric.infinity.api.util.config.JsonElements;
+import club.lyric.infinity.api.util.math.UniqueIdentifier;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Notifications;
 import club.lyric.infinity.manager.Managers;
@@ -47,6 +48,12 @@ public class ModuleBase implements IMinecraft, JsonElements {
      * module's animation factor for HUD
      */
     public float factor = 0.0f;
+
+    /**
+     * module id for overwrite messages
+     */
+
+    private int id;
 
     /**
      * category of module
@@ -84,6 +91,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
         enabled = createBool(new BooleanSetting("Enabled", false, "Whether to enable module or not."));
         bind = createBind(new BindSetting("Bind", new Bind(-1), "Bind for enabling/disabling this module."));
         drawn = createBool(new BooleanSetting("Drawn", true, "Whether to draw the module on the ArrayList or not."));
+        id = UniqueIdentifier.generateUniqueId();
     }
 
     public void onEnable() {
@@ -134,7 +142,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
         EventBus.getInstance().register(this);
         this.onEnable();
         if (Managers.MODULES.getModuleFromClass(Notifications.class).enable.getValue()) {
-            ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", ID.MODULE);
+            ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", id);
         }
     }
 
@@ -143,7 +151,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
         this.onDisable();
         EventBus.getInstance().unregister(this);
         if (Managers.MODULES.getModuleFromClass(Notifications.class).disable.getValue()) {
-            ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", ID.MODULE);
+            ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", id);
         }
     }
 

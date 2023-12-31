@@ -93,7 +93,6 @@ public class SettingSet extends Command {
                 case "Enum" -> {
                     try {
                         EnumConverter converter = new EnumConverter(((Enum) Managers.MODULES.getSettingFromModule(module, setting).getValue()).getClass());
-                        //noinspection instanceReference
                         Enum valueEnum = converter.doBackward(value);
                         Managers.MODULES.getSettingFromModule(module, setting).setValue((valueEnum == null) ? Managers.MODULES.getSettingFromModule(module, setting).getDefaultValue() : value);
                     } catch (Exception exception) {
