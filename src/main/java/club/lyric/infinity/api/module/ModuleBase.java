@@ -5,15 +5,10 @@ import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.setting.Setting;
-import club.lyric.infinity.api.setting.settings.BindSetting;
-import club.lyric.infinity.api.setting.settings.BooleanSetting;
-import club.lyric.infinity.api.setting.settings.EnumSetting;
-import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.setting.settings.*;
 import club.lyric.infinity.api.setting.settings.util.Bind;
-import club.lyric.infinity.api.util.chat.ChatUtils;
-import club.lyric.infinity.api.util.chat.ID;
-import club.lyric.infinity.api.util.config.JsonElements;
-import club.lyric.infinity.api.util.math.UniqueIdentifier;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Notifications;
 import club.lyric.infinity.manager.Managers;
@@ -53,7 +48,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
      * module id for overwrite messages
      */
 
-    private int id;
+    private final int id;
 
     /**
      * category of module
@@ -91,7 +86,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
         enabled = createBool(new BooleanSetting("Enabled", false, "Whether to enable module or not."));
         bind = createBind(new BindSetting("Bind", new Bind(-1), "Bind for enabling/disabling this module."));
         drawn = createBool(new BooleanSetting("Drawn", true, "Whether to draw the module on the ArrayList or not."));
-        id = UniqueIdentifier.generateUniqueId();
+        id = hashCode();
     }
 
     public void onEnable() {
@@ -113,7 +108,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
     }
 
     public String getDisplayInfo() {
-        return null;
+        return "";
     }
 
     public boolean isOn() {
@@ -142,7 +137,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
         EventBus.getInstance().register(this);
         this.onEnable();
         if (Managers.MODULES.getModuleFromClass(Notifications.class).enable.getValue()) {
-            ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", id);
+            ChatUtils.sendOverwriteMessageNoTag(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", id);
         }
     }
 
@@ -151,7 +146,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
         this.onDisable();
         EventBus.getInstance().unregister(this);
         if (Managers.MODULES.getModuleFromClass(Notifications.class).disable.getValue()) {
-            ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", id);
+            ChatUtils.sendOverwriteMessageNoTag(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", id);
         }
     }
 
@@ -185,13 +180,6 @@ public class ModuleBase implements IMinecraft, JsonElements {
         return setting;
     }
 
-    public EnumSetting createEnum(EnumSetting setting)
-    {
-        setting.setModule(this);
-        this.settingList.add(setting);
-        return setting;
-    }
-
     public NumberSetting createNumber(NumberSetting setting)
     {
         setting.setModule(this);
@@ -206,10 +194,29 @@ public class ModuleBase implements IMinecraft, JsonElements {
         return setting;
     }
 
+    public StringSetting createString(StringSetting setting)
+    {
+        setting.setModule(this);
+        this.settingList.add(setting);
+        return setting;
+    }
+
     /**
-     * Call to 'printStackTrace()' should probably be replaced by more robust logging
-     * so I replaced it with more robust logging, no clue if it works
+     * for enums because wrapping them doesn't actually make a ton of sense?
+     * @param setting - setting in
+     * @return setting.
      */
+    public Setting create(Setting setting)
+    {
+        setting.setModule(this);
+        this.settingList.add(setting);
+        return setting;
+    }
+
+    /**
+     * config methods
+     */
+
     @Override
     public JsonElement toJson() {
         JsonObject object = new JsonObject();

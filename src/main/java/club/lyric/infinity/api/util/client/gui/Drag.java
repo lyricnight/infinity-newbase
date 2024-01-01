@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.util.gui;
+package club.lyric.infinity.api.util.client.gui;
 
 /**
  * @author valser idfk

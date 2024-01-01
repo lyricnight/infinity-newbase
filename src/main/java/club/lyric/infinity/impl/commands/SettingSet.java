@@ -7,7 +7,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.setting.settings.util.EnumConverter;
-import club.lyric.infinity.api.util.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.util.Formatting;
 

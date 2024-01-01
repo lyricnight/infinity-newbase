@@ -10,7 +10,7 @@ import club.lyric.infinity.api.event.mc.ChatEvent;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.util.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.entity.player.PlayerEntity;

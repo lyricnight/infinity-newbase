@@ -1,10 +1,9 @@
-package club.lyric.infinity.api.util.render;
+package club.lyric.infinity.api.util.client.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL11;
 
 /**
  * @author vasler

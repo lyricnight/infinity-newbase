@@ -1,8 +1,8 @@
 package club.lyric.infinity.manager.client;
 
-import club.lyric.infinity.api.util.chat.ChatUtils;
-import club.lyric.infinity.api.util.chat.ID;
-import club.lyric.infinity.api.util.config.JsonElements;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.chat.ID;
+import club.lyric.infinity.api.util.client.config.JsonElements;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

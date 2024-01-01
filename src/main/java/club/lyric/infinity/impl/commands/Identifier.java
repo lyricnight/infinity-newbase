@@ -4,33 +4,36 @@ import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.command.CommandState;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.manager.Managers;
-import net.minecraft.util.Formatting;
 
-/**
- * @author lyric
- * for all commands
- */
+public class Identifier extends Command {
 
-public class List extends Command {
-    public List() {
-        super("commands");
+    public Identifier()
+    {
+        super("identify");
     }
 
     @Override
     public String theCommand()
     {
-        return "commands";
+        return "identify <module>";
     }
 
     @Override
     public void onCommand(String[] args)
     {
-        if(args.length > 1)
+        if (args.length < 1) {
+            state(CommandState.ERROR);
+            return;
+        }
+
+        String module = args[1];
+
+        if (Managers.MODULES.getModuleByName(module) == null)
         {
             state(CommandState.ERROR);
             return;
         }
-        ChatUtils.sendMessagePrivate(Formatting.GREEN + Managers.COMMANDS.getCommandsAsString().toString());
-        state(CommandState.PERFORMED);
+
+        ChatUtils.sendMessagePrivate("Module ID:" + Managers.MODULES.getModuleByName(module).hashCode());
     }
 }

@@ -8,5 +8,5 @@ import net.minecraft.client.MinecraftClient;
  */
 
 public interface IMinecraft {
-    public static MinecraftClient mc = MinecraftClient.getInstance();
+    MinecraftClient mc = MinecraftClient.getInstance();
 }

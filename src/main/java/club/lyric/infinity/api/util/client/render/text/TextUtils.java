@@ -1,7 +1,6 @@
-package club.lyric.infinity.api.util.render.text;
+package club.lyric.infinity.api.util.client.render.text;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import net.minecraft.client.font.Glyph;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;

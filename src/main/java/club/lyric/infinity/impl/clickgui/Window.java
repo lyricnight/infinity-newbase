@@ -2,8 +2,8 @@ package club.lyric.infinity.impl.clickgui;
 
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.api.util.render.Render2DUtils;
-import club.lyric.infinity.api.util.render.text.TextUtils;
+import club.lyric.infinity.api.util.client.render.Render2DUtils;
+import club.lyric.infinity.api.util.client.render.text.TextUtils;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 

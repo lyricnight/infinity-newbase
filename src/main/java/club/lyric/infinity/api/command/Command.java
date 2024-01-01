@@ -2,7 +2,7 @@ package club.lyric.infinity.api.command;
 
 
 import club.lyric.infinity.Infinity;
-import club.lyric.infinity.api.util.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
 
 /**
  * @author lyric

@@ -3,7 +3,7 @@ package club.lyric.infinity.manager.client;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.setting.settings.util.EnumConverter;
-import club.lyric.infinity.api.util.config.JsonElements;
+import club.lyric.infinity.api.util.client.config.JsonElements;
 import club.lyric.infinity.manager.Managers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

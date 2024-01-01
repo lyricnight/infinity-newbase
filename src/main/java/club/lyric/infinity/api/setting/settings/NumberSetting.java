@@ -28,14 +28,6 @@ public class NumberSetting<T extends Number> extends Setting<T> {
         this.steps = steps;
     }
 
-    public NumberSetting(String name, T defaultValue, String desc) {
-        super(name, defaultValue, desc);
-        clamp = false;
-        maximum = null;
-        minimum = null;
-        steps = null;
-    }
-
     public T getMaximum() {
         return maximum;
     }

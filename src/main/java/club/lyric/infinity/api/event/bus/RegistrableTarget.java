@@ -51,13 +51,10 @@ public final class RegistrableTarget {
     }
 
     public Invoker generateInvoker(MethodHandle targetHandle, Object instance) throws Throwable {
-        switch (this.accessType) {
-            case STATIC:
-                return (Invoker) targetHandle.invokeExact();
-            case VIRTUAL:
-                return (Invoker) targetHandle.invoke(instance);
-        }
-        throw new IllegalStateException("No access type set.");
+        return switch (this.accessType) {
+            case STATIC -> (Invoker) targetHandle.invokeExact();
+            case VIRTUAL -> (Invoker) targetHandle.invoke(instance);
+        };
     }
 
     public Class<?> getTargetClass() {

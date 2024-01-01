@@ -1,9 +1,10 @@
-package club.lyric.infinity.api.util.chat;
+package club.lyric.infinity.api.util.client.chat;
 
 /**
  * @author lyric
  * ids for chat
  */
+@Deprecated
 public class ID
 {
     public static final int NONE = -1;
