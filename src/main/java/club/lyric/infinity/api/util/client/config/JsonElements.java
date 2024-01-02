@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.util.config;
+package club.lyric.infinity.api.util.client.config;
 
 import com.google.gson.JsonElement;
 

@@ -19,7 +19,7 @@
  * @author Apache Commons
  * use this to create precise opengl rounded shit
  */
-package club.lyric.infinity.api.util.math.apache;
+package club.lyric.infinity.api.util.client.math.apache;
 
 /**
  * Faster, more accurate, portable alternative to {@link Math} and

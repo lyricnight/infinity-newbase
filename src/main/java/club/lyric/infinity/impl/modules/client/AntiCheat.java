@@ -2,8 +2,8 @@ package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
-import club.lyric.infinity.api.setting.settings.EnumSetting;
 
 /**
  * @author lyric
@@ -18,8 +18,8 @@ public class AntiCheat extends ModuleBase {
             "Rotations..."
     ));
 
-    public EnumSetting rotationType = createEnum(
-            new EnumSetting(
+    public Setting<RotationType> rotationType = create(
+            new Setting<>(
             "RotationType",
             RotationType.Packet,
             v -> rotate.getValue(),
@@ -38,7 +38,7 @@ public class AntiCheat extends ModuleBase {
         super("AntiCheat", "Global Module for some specific settings.", Category.CLIENT);
     }
 
-    private enum RotationType
+    public enum RotationType
     {
         Normal,
         Packet

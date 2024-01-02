@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.util.render.colors;
+package club.lyric.infinity.api.util.client.render.colors;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 

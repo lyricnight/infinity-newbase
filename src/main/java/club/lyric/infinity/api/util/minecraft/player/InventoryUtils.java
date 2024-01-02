@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.util.player;
+package club.lyric.infinity.api.util.minecraft.player;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.block.BlockState;

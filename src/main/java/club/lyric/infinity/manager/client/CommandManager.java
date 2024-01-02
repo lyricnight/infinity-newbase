@@ -1,9 +1,14 @@
 package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.api.command.Command;
-import club.lyric.infinity.api.util.config.JsonElements;
+import club.lyric.infinity.api.event.bus.EventHandler;
+import club.lyric.infinity.api.event.client.SettingEvent;
+import club.lyric.infinity.api.util.client.config.JsonElements;
+import club.lyric.infinity.api.util.client.render.text.StringUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.commands.*;
+import club.lyric.infinity.impl.modules.client.Manager;
+import club.lyric.infinity.manager.Managers;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -17,11 +22,6 @@ import java.util.Set;
  */
 
 public class CommandManager implements IMinecraft, JsonElements {
-
-    //TODO: this will have formatting added once we make modules.
-
-    //TODO: make overwrite chat messages and add id to the messages here
-    private String clientMessage = "[Infinity]";
     private static String prefix = "-";
     private static final Set<Command> commands = new HashSet<>();
 
@@ -33,6 +33,7 @@ public class CommandManager implements IMinecraft, JsonElements {
                 new SettingSet(),
                 new Friend(),
                 new List(),
+                new Identifier(),
                 new Toggle()
         );
     }
@@ -73,24 +74,6 @@ public class CommandManager implements IMinecraft, JsonElements {
         }
         return str;
     }
-
-    /**
-     * gets client message
-     * @return the above
-     */
-
-    public String getClientMessage() {
-        return this.clientMessage;
-    }
-
-    /**
-     * sets client message
-     * @param clientMessage - string to set it to
-     */
-    public void setClientMessage(String clientMessage) {
-        this.clientMessage = clientMessage;
-    }
-
 
     /**
      * makes prefix a json element for configs

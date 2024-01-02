@@ -1,6 +1,6 @@
 package club.lyric.infinity.api.module;
 
-import club.lyric.infinity.api.util.gui.Drag;
+import club.lyric.infinity.api.util.client.gui.Drag;
 
 /**
  * @author lyric

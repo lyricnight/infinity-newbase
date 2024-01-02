@@ -4,7 +4,7 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Setting;
-import club.lyric.infinity.api.util.config.JsonElements;
+import club.lyric.infinity.api.util.client.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.*;
 import club.lyric.infinity.impl.modules.exploit.*;
@@ -30,6 +30,7 @@ public class ModuleManager implements JsonElements, IMinecraft
     {
         register(
                 new AntiCheat(),
+                new Manager(),
                 new DiscordRPC(),
                 new Chat(),
                 new HUD(),

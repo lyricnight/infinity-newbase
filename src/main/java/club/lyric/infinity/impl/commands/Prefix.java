@@ -2,7 +2,7 @@ package club.lyric.infinity.impl.commands;
 
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.command.CommandState;
-import club.lyric.infinity.api.util.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.util.Formatting;
 

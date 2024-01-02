@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.util.math;
+package club.lyric.infinity.api.util.client.math;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

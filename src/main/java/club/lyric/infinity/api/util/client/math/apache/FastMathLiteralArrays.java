@@ -20,7 +20,7 @@
  * use this to create precise opengl rounded shit - WHAT???
  */
 
-package club.lyric.infinity.api.util.math.apache;
+package club.lyric.infinity.api.util.client.math.apache;
 
 class FastMathLiteralArrays {
     /** Exponential evaluated at integer values,

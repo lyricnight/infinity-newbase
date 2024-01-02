@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.util.client;
+package club.lyric.infinity.api.util.client.render.text;
 
 import net.minecraft.util.Formatting;
 
@@ -10,7 +10,7 @@ public class StringUtils {
     public static String coloredString(String string, Formatting color) {
         String coloredString;
 
-        coloredString = Formatting.RESET + "" + color + "" + string + "" + Formatting.RESET;
+        coloredString = color + string + Formatting.RESET;
 
         return coloredString;
     }
