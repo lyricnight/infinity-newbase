@@ -51,6 +51,18 @@ public class Notifications extends ModuleBase
         totemPop.clear();
     }
 
+    @Override
+    public void onTick() {
+        mc.world.getPlayers().forEach(player -> {
+            if(player.getHealth() <= 0) {
+                if (totemPop.containsKey(player.getEntityName())) {
+                    ChatUtils.sendOverwriteMessage(player.getEntityName() + " died after popping " + totemPop.get(player.getEntityName()) + " time(s).", ID.TOTEM_POPS);
+                    totemPop.remove(player.getEntityName(), totemPop.get(player.getEntityName()));
+                }
+            }
+        });
+    }
+
     @EventHandler
     public void onReceivePacket(PacketEvent.Receive event)
     {

@@ -102,9 +102,10 @@ public class HUD extends ModuleBase
             double distanceX = mc.player.getX() - mc.player.prevX;
             double distanceZ = mc.player.getZ() - mc.player.prevZ;
 
-            String fps = "Speed " + MathUtils.roundFloat((MathHelper.sqrt((float) (Math.pow(distanceX, 2) + Math.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) + " km/h";
+            String fps = "Speed: " + Formatting.WHITE + MathUtils.roundFloat((MathHelper.sqrt((float) (Math.pow(distanceX, 2) + Math.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) + " km/h";
 
             event.getDrawContext().drawText(mc.textRenderer, fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, -1, true);
+            offset += 9;
         }
         // Speed ends
 
@@ -128,9 +129,10 @@ public class HUD extends ModuleBase
 
             fpsCount = frames.size();
 
-            String fps = "FPS " + fpsCount;
+            String fps = "FPS: " + Formatting.WHITE + fpsCount;
 
             event.getDrawContext().drawText(mc.textRenderer, fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, -1, true);
+            offset += 9;
         }
         // FPS ends
     }
@@ -187,7 +189,7 @@ public class HUD extends ModuleBase
     {
         int amplifier = statusEffectInstance.getAmplifier();
         Text name = statusEffectInstance.getEffectType().getName();
-        String potions = name.getString() + (amplifier > 0 ? (" " + (amplifier + 1) + " ") : " ") + Formatting.WHITE + PlayerUtils.getPotionDurationString(statusEffectInstance);
+        String potions = name.getString() + (amplifier > 0 ? (" " + (amplifier + 1) + ": ") : ": ") + Formatting.WHITE + PlayerUtils.getPotionDurationString(statusEffectInstance);
         return potions;
     }
 

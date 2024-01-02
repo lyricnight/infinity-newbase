@@ -5,6 +5,8 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.api.util.render.Render2DUtils;
 import club.lyric.infinity.api.util.render.text.TextUtils;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 
 public class Window implements IMinecraft {
@@ -51,4 +53,5 @@ public class Window implements IMinecraft {
         Render2DUtils.drawRect(context.getMatrices(), x, y, x + width, y + height, color);
         TextUtils.drawStringWithShadow(context, mc.textRenderer, Text.of(category.toString()), x + 2, y + height / 2, -1);
     }
+
 }

@@ -132,6 +132,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
     private void enable() {
         enabled.setValue(true);
         EventBus.getInstance().register(this);
+        this.toggle();
         this.onEnable();
         if (Managers.MODULES.getModuleFromClass(Notifications.class).enable.getValue()) {
             ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", ID.MODULE);
@@ -140,6 +141,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
 
     private void disable() {
         enabled.setValue(false);
+        this.toggle();
         this.onDisable();
         EventBus.getInstance().unregister(this);
         if (Managers.MODULES.getModuleFromClass(Notifications.class).disable.getValue()) {

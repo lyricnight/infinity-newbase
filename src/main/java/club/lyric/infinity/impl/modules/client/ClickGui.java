@@ -12,8 +12,11 @@ public class ClickGui extends ModuleBase {
     }
 
     @Override
-    public void onEnable()
-    {
-        mc.setScreen(new GUI());
+    public void onTick() {
+        super.onTick();
+        mc.setScreenAndRender(GUI.getInstance());
+        if (!(mc.currentScreen instanceof GUI)) {
+            mc.setScreen(null);
+        }
     }
 }
