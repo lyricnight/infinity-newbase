@@ -6,6 +6,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 import java.util.List;
+
+/**
+ * @author lyric
+ * @see club.lyric.infinity.asm.MixinChatHud
+ */
 @Mixin(ChatHud.class)
 public interface IChatHudLine {
     @Accessor("visibleMessages")

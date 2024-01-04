@@ -34,6 +34,10 @@ public class YawLock extends ModuleBase {
     @Override
     public void onUpdate()
     {
+        if (nullCheck())
+        {
+            return;
+        }
         mc.player.setYaw(yaw.getValue());
         mc.player.setPitch(pitch.getValue());
     }

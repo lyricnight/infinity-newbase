@@ -25,6 +25,7 @@ import java.util.List;
  * module
  */
 
+@SuppressWarnings({"rawtypes", "unused"})
 public class ModuleBase implements IMinecraft, JsonElements {
 
     /**
@@ -135,7 +136,6 @@ public class ModuleBase implements IMinecraft, JsonElements {
     private void enable() {
         enabled.setValue(true);
         EventBus.getInstance().register(this);
-        this.toggle();
         this.onEnable();
         if (Managers.MODULES.getModuleFromClass(Notifications.class).enable.getValue()) {
             ChatUtils.sendOverwriteMessageNoTag(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", id);
@@ -144,7 +144,6 @@ public class ModuleBase implements IMinecraft, JsonElements {
 
     private void disable() {
         enabled.setValue(false);
-        this.toggle();
         this.onDisable();
         EventBus.getInstance().unregister(this);
         if (Managers.MODULES.getModuleFromClass(Notifications.class).disable.getValue()) {
@@ -203,12 +202,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
         return setting;
     }
 
-    /**
-     * for enums because wrapping them doesn't actually make a ton of sense?
-     * @param setting - setting in
-     * @return setting.
-     */
-    public Setting create(Setting setting)
+    public EnumSetting createEnum(EnumSetting setting)
     {
         setting.setModule(this);
         this.settingList.add(setting);

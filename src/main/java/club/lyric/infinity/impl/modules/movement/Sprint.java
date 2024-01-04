@@ -13,6 +13,10 @@ public class Sprint extends ModuleBase
     @Override
     public void onUpdate()
     {
+        if(nullCheck())
+        {
+            return;
+        }
         if (mc.player.getHungerManager().getFoodLevel() <= 6.0F || mc.player == null || mc.player.isSneaking())
         {
             return;

@@ -20,9 +20,9 @@ public class MixinSplashTextResourceSupplier implements IMinecraft {
     private boolean applied = true;
     @Inject(method = "get", at = @At("HEAD"), cancellable = true)
     private void onApply(CallbackInfoReturnable<SplashTextRenderer> cir) {
-        if (Managers.CONFIG == null || Managers.MODULES == null || mc.player == null) return;
+        if (Managers.CONFIG == null || Managers.MODULES == null) return;
 
-        if (applied) cir.setReturnValue(new SplashTextRenderer("Welcome to Infinity, " + mc.player.getDisplayName()));
+        if (applied) cir.setReturnValue(new SplashTextRenderer("Welcome to Infinity."));
         applied = !applied;
     }
 }
