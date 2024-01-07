@@ -8,9 +8,11 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.chat.ID;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * @author vasler
@@ -39,6 +41,7 @@ public class Notifications extends ModuleBase
     ));
 
     private final HashMap<String, Integer> totemPop = new HashMap<>();
+    private final HashMap<String, Integer> id = new HashMap<String, Integer>();
 
     public Notifications()
     {
@@ -53,10 +56,14 @@ public class Notifications extends ModuleBase
 
     @Override
     public void onTick() {
+        String uuidString = mc.player.getUuid().toString();
+        String truncated = uuidString.substring(0, 4);
+        id.put(truncated, Integer.valueOf(uuidString));
+
         mc.world.getPlayers().forEach(player -> {
             if(player.getHealth() <= 0) {
                 if (totemPop.containsKey(player.getEntityName())) {
-                    ChatUtils.sendOverwriteMessage(player.getEntityName() + " died after popping " + totemPop.get(player.getEntityName()) + " time(s).", ID.TOTEM_POPS);
+                    ChatUtils.sendOverwriteMessage(player.getEntityName() + " died after popping " + totemPop.get(player.getEntityName()) + " time(s).", id);
                     totemPop.remove(player.getEntityName(), totemPop.get(player.getEntityName()));
                 }
             }
@@ -66,6 +73,10 @@ public class Notifications extends ModuleBase
     @EventHandler
     public void onReceivePacket(PacketEvent.Receive event)
     {
+        String uuidString = mc.player.getUuid().toString();
+        String truncated = uuidString.substring(0, 4);
+        id.put(truncated, Integer.valueOf(uuidString));
+
         if (totemPops.getValue())
         {
             if (event.getPacket() instanceof EntityStatusS2CPacket packet)
@@ -75,7 +86,7 @@ public class Notifications extends ModuleBase
                 {
                     int pops = totemPop.get(entity.getEntityName()) == null ? 1 : totemPop.get(entity.getEntityName()) + 1;
                     totemPop.put(entity.getEntityName(), pops);
-                    ChatUtils.sendOverwriteMessage(entity.getEntityName() + " popped " + totemPop.get(entity.getEntityName()) + " time(s).", ID.TOTEM_POPS);
+                    ChatUtils.sendOverwriteMessage(entity.getEntityName() + " popped " + totemPop.get(entity.getEntityName()) + " time(s).", id);
                 }
             }
         }
