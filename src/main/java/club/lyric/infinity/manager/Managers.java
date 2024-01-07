@@ -7,6 +7,7 @@ import club.lyric.infinity.manager.client.ConfigManager;
 import club.lyric.infinity.manager.client.FriendsManager;
 import club.lyric.infinity.manager.client.ModuleManager;
 import club.lyric.infinity.manager.fabric.EventManager;
+import club.lyric.infinity.manager.fabric.ServerManager;
 
 /**
  * @author lyric
@@ -17,6 +18,7 @@ public class Managers {
     public static ConfigManager CONFIG = new ConfigManager();
     public static EventManager EVENTS = new EventManager();
     public static CommandManager COMMANDS = new CommandManager();
+    public static ServerManager SERVER = new ServerManager();
     public static FriendsManager FRIENDS = new FriendsManager();
 
     public static ModuleManager MODULES = new ModuleManager();
@@ -27,7 +29,7 @@ public class Managers {
     public static void sub()
     {
         Infinity.LOGGER.info("starting manager subscription.");
-        subscribe(CONFIG, EVENTS, COMMANDS, FRIENDS, MODULES);
+        subscribe(CONFIG, EVENTS, COMMANDS, SERVER, FRIENDS, MODULES);
     }
 
 

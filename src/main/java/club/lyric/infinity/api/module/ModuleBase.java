@@ -15,6 +15,7 @@ import club.lyric.infinity.manager.Managers;
 import club.lyric.infinity.manager.client.ConfigManager;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
@@ -169,6 +170,12 @@ public class ModuleBase implements IMinecraft, JsonElements {
 
     public void setBind(int key) {
         this.bind.setValue(new Bind(key));
+    }
+
+    protected void send(Packet<?> packet) {
+        if (mc.getNetworkHandler() == null) return;
+
+        mc.getNetworkHandler().sendPacket(packet);
     }
 
     /**

@@ -7,6 +7,5 @@ package club.lyric.infinity.api.util.client.rotation;
 
 public enum RotationType {
     Normal,
-
     Packet
 }
