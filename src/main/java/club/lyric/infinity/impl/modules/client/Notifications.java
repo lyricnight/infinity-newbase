@@ -41,7 +41,7 @@ public class Notifications extends ModuleBase
     ));
 
     private final HashMap<String, Integer> totemPop = new HashMap<>();
-    private final HashMap<String, Integer> id = new HashMap<String, Integer>();
+    private final HashMap<String, Integer> id = new HashMap<>();
 
     public Notifications()
     {
@@ -53,9 +53,11 @@ public class Notifications extends ModuleBase
     {
         totemPop.clear();
     }
-
+    //vasler this doesn't even work...
+    //your ids won't work...
+    //vasler whenever you use anything with entities, use onUpdate not onTick!!
     @Override
-    public void onTick() {
+    public void onUpdate() {
         String uuidString = mc.player.getUuid().toString();
         String truncated = uuidString.substring(0, 4);
         id.put(truncated, Integer.valueOf(uuidString));
@@ -63,7 +65,7 @@ public class Notifications extends ModuleBase
         mc.world.getPlayers().forEach(player -> {
             if(player.getHealth() <= 0) {
                 if (totemPop.containsKey(player.getEntityName())) {
-                    ChatUtils.sendOverwriteMessage(player.getEntityName() + " died after popping " + totemPop.get(player.getEntityName()) + " time(s).", id);
+                    ChatUtils.sendOverwriteMessage(player.getEntityName() + " died after popping " + totemPop.get(player.getEntityName()) + " time(s).", id.get(player.getUuid().toString()));
                     totemPop.remove(player.getEntityName(), totemPop.get(player.getEntityName()));
                 }
             }
@@ -73,6 +75,7 @@ public class Notifications extends ModuleBase
     @EventHandler
     public void onReceivePacket(PacketEvent.Receive event)
     {
+        if (nullCheck()) return;
         String uuidString = mc.player.getUuid().toString();
         String truncated = uuidString.substring(0, 4);
         id.put(truncated, Integer.valueOf(uuidString));
@@ -86,7 +89,7 @@ public class Notifications extends ModuleBase
                 {
                     int pops = totemPop.get(entity.getEntityName()) == null ? 1 : totemPop.get(entity.getEntityName()) + 1;
                     totemPop.put(entity.getEntityName(), pops);
-                    ChatUtils.sendOverwriteMessage(entity.getEntityName() + " popped " + totemPop.get(entity.getEntityName()) + " time(s).", id);
+                    ChatUtils.sendOverwriteMessage(entity.getEntityName() + " popped " + totemPop.get(entity.getEntityName()) + " time(s).", id.get(entity.getEntityName()));
                 }
             }
         }
