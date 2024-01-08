@@ -26,7 +26,7 @@ public class MixinClientConnection {
     @Final
     private NetworkSide side;
 
-    @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "channelRead0(Lio/netty/channel/ChannelHandlerContext;Lnet/minecraft/network/packet/Packet;)V", at = @At("HEAD"), cancellable = true)
     public void channelRead0(ChannelHandlerContext channelHandlerContext, Packet<?> packet, CallbackInfo ci) {
         if (channel.isOpen() && packet != null) {
             try {
@@ -37,7 +37,7 @@ public class MixinClientConnection {
                     ci.cancel();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Infinity.LOGGER.atError();
             }
         }
     }
@@ -53,10 +53,7 @@ public class MixinClientConnection {
                 ci.cancel();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Infinity.LOGGER.atError();
         }
     }
-
-
-
 }

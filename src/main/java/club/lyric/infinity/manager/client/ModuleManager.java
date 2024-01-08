@@ -39,7 +39,8 @@ public class ModuleManager implements JsonElements, IMinecraft
                 new NoJumpDelay(),
                 new HitboxDesync(),
                 new Notifications(),
-                new YawLock()
+                new YawLock(),
+                new Latency()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }
@@ -59,6 +60,7 @@ public class ModuleManager implements JsonElements, IMinecraft
      * @param <T> - type parameter
      */
 
+    @SuppressWarnings("unchecked")
     public <T extends ModuleBase> T getModuleFromClass(Class<T> clazz)
     {
         for (ModuleBase moduleBase : getModules())
@@ -101,6 +103,7 @@ public class ModuleManager implements JsonElements, IMinecraft
      * @param setting - setting
      * @return - the setting
      */
+    @SuppressWarnings("rawtypes")
     public Setting getSettingFromModule(String module, String setting)
     {
         for (Setting settings : getModuleByName(module).getSettings())
@@ -126,6 +129,7 @@ public class ModuleManager implements JsonElements, IMinecraft
         return object;
     }
 
+    @SuppressWarnings("unused")
     public List<ModuleBase> getModulesInCategory(Category c) {
         return modules.stream().filter(m -> m.getCategory() == c).collect(Collectors.toList());
     }

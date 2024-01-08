@@ -96,7 +96,7 @@ public class SettingSet extends Command {
                         Enum valueEnum = converter.doBackward(value);
                         Managers.MODULES.getSettingFromModule(module, setting).setValue((valueEnum == null) ? Managers.MODULES.getSettingFromModule(module, setting).getDefaultValue() : value);
                     } catch (Exception exception) {
-                        exception.printStackTrace();
+                        Infinity.LOGGER.atError();
                     }
                 }
             }

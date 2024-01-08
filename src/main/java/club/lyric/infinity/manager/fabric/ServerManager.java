@@ -63,6 +63,7 @@ public class ServerManager implements IMinecraft {
     }
 
 
+    //3rd highest priority listener in the client, after onUpdate and onTick, because small ms deviations is inaccuracy. Might make this the highest priority!
     @EventHandler(priority = Integer.MAX_VALUE - 2)
     public void onPacketReceive(PacketEvent.Receive event)
     {
@@ -99,6 +100,11 @@ public class ServerManager implements IMinecraft {
         return MathUtils.round(tps);
     }
 
+    /**
+     * this gets fastLatency ping
+     * you MUST CHECK if this returns 0 (means fastlatency is off)
+     * @return ping
+     */
     public int getFastLatencyPing()
     {
         return ping;

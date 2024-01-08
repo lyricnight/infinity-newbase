@@ -69,7 +69,7 @@ public class Natives {
         }
     }
 
-    private static FileOutputStream openOutputStream(final File file) throws IOException {
+    private static FileOutputStream openOutputStream(File file) throws IOException {
         if (file.exists()) {
             if (file.isDirectory()) {
                 throw new IOException("File '" + file + "' exists but is a directory");
@@ -78,7 +78,7 @@ public class Natives {
                 throw new IOException("File '" + file + "' cannot be written to");
             }
         } else {
-            final File parent = file.getParentFile();
+            File parent = file.getParentFile();
             if (parent != null) {
                 if (!parent.mkdirs() && !parent.isDirectory()) {
                     throw new IOException("Directory '" + parent + "' could not be created");
