@@ -1,14 +1,18 @@
 package club.lyric.infinity.api.util.minecraft.player;
 
+import club.lyric.infinity.api.util.client.math.Bandhu;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.StringHelper;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
+import net.minecraft.util.math.BlockPos;
 
 import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import static net.minecraft.util.math.MathHelper.floor;
 
 public class PlayerUtils implements IMinecraft {
 
@@ -36,4 +40,23 @@ public class PlayerUtils implements IMinecraft {
             return time;
         }
     }
+
+    public static boolean isPhasing() {
+        Bandhu bandhu = (Bandhu) mc.player.getBoundingBox();
+        for (int x = floor(bandhu.minX); x < floor(bandhu.maxX) + 1; x++) {
+            for (int y = floor(bandhu.minY); y < floor(bandhu.maxY) + 1; y++) {
+                for (int z = floor(bandhu.minZ); z < floor(bandhu.maxZ) + 1; z++) {
+                    if (mc.world.getBlockState(new BlockPos(x, y, z)).blocksMovement()) {
+                        if (bandhu.intersects(new Bandhu(x, y, z, x + 1, y + 1, z + 1))) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+
 }

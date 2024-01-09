@@ -20,7 +20,7 @@ public class DiscordUtil {
 
             DiscordRichPresence presence = new DiscordRichPresence();
             presence.startTimestamp = System.currentTimeMillis() / 1000;
-            presence.details = "Testing RPC"; // you guys do this however you want to and make it say whatever you want
+            presence.details = "Testing RPC";
             presence.largeImageKey = "image";
             presence.largeImageText = "Valser made me set the image to this";
             lib.Discord_UpdatePresence(presence);

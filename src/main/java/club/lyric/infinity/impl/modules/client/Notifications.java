@@ -6,13 +6,10 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
-import club.lyric.infinity.api.util.client.chat.ID;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 /**
  * @author vasler
