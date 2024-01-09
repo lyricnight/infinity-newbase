@@ -2,6 +2,8 @@ package club.lyric.infinity.api.setting.settings;
 
 import club.lyric.infinity.api.setting.Setting;
 
+import java.util.function.Predicate;
+
 /**
  * @author bel
  * Use this instead of floatsettings, intsettings and doublesettings? (Much easier to work with.)
@@ -20,8 +22,23 @@ public class NumberSetting<T extends Number> extends Setting<T> {
         this.maximum = maximum;;
     }
 
+    public NumberSetting(String name, T defaultValue, T minimum, T maximum, Predicate<T> visibility, String description) {
+        super(name, defaultValue, visibility, description);
+        clamp = true;
+        this.minimum = minimum;
+        this.maximum = maximum;;
+    }
+
     public NumberSetting(String name, T defaultValue, T minimum, T maximum, T steps, String description) {
         super(name, defaultValue, description);
+        clamp = true;
+        this.minimum = minimum;
+        this.maximum = maximum;
+        this.steps = steps;
+    }
+
+    public NumberSetting(String name, T defaultValue, T minimum, T maximum, T steps, Predicate<T> visibility , String description) {
+        super(name, defaultValue, visibility, description);
         clamp = true;
         this.minimum = minimum;
         this.maximum = maximum;

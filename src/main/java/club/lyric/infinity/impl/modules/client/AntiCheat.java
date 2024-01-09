@@ -4,7 +4,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.EnumSetting;
-import club.lyric.infinity.api.util.client.rotation.RotationType;
+import club.lyric.infinity.api.util.client.enums.RotationType;
 
 /**
  * @author lyric
