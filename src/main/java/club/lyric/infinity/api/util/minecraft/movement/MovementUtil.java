@@ -2,12 +2,17 @@ package club.lyric.infinity.api.util.minecraft.movement;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 
+/**
+ * @author lyric
+ * for movement.
+ */
 public class MovementUtil implements IMinecraft {
 
+    @SuppressWarnings("ALL")
     public static double[] directionSpeed(double speed) {
-        float forward = mc.player.movementInput.moveForward;
-        float side = mc.player.movementInput.moveStrafe;
-        float yaw = mc.player.prevYaw + (mc.player.getYaw() - mc.player.prevYaw) * mc.getRenderPartialTicks();
+        float forward = mc.player.input.movementForward;
+        float side = mc.player.input.movementSideways;
+        float yaw = mc.player.prevYaw + (mc.player.getYaw() - mc.player.prevYaw) * mc.getTickDelta();
 
         if (forward != 0) {
             if (side > 0) {

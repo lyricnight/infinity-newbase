@@ -10,8 +10,8 @@ import club.lyric.infinity.api.setting.settings.EnumSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.enums.PhaseWalkEnum;
 import club.lyric.infinity.api.util.client.math.StopWatch;
+import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 
@@ -78,10 +78,28 @@ public class PhaseWalk extends ModuleBase {
     @EventHandler
     public void onMove(EntityMovementEvent event)
     {
+        if(nullCheck()) return;
         if (mc.player.horizontalCollision && watch.hasBeen(delay.getValue() * 100L) && PlayerUtils.isPhasing() && !mc.player.isHoldingOntoLadder())
         {
-            final double[] movementArray =
+            final double[] movementArray = MovementUtil.directionSpeed(speed.getValue() / 100.0);
+            double x = mc.player.getX() + movementArray[0];
+            double z = mc.player.getZ() + movementArray[1];
+
+            mc.player.setPosition(x, mc.player.getY(), z);
+
+            send(new PlayerMoveC2SPacket.PositionAndOnGround(x, mc.player.getY(), z, true));
+            send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), position.getValue().getPosition(), mc.player.getZ(), true));
+
+
+            mc.player.sidewaysSpeed = 0.0F;
+            mc.player.upwardSpeed = 0.0F;
+            mc.player.forwardSpeed = 0.0F;
+
+            event.setX(0.0);
+            event.setY(0.0);
+            event.setZ(0.0);
+
+            watch.reset();
         }
     }
-
 }
