@@ -11,6 +11,7 @@ import java.util.Arrays;
  * @author cattyn
  */
 
+@SuppressWarnings("ALL")
 public class EnumConverter extends Converter<Enum, JsonElement> {
     private final Class<? extends Enum> clazz;
 
@@ -55,11 +56,11 @@ public class EnumConverter extends Converter<Enum, JsonElement> {
         return clazz.name();
     }
 
-    public JsonElement doForward(Enum anEnum) {
+    public @NotNull JsonElement doForward(Enum anEnum) {
         return new JsonPrimitive(anEnum.toString());
     }
 
-    public Enum doBackward(JsonElement jsonElement) {
+    public @NotNull Enum doBackward(JsonElement jsonElement) {
         try {
             return Enum.valueOf(this.clazz, jsonElement.getAsString());
         } catch (IllegalArgumentException e) {

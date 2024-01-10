@@ -1,7 +1,6 @@
 package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
-import club.lyric.infinity.api.util.client.chat.ID;
 import club.lyric.infinity.api.util.client.config.JsonElements;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -28,22 +27,22 @@ public class FriendsManager implements JsonElements {
     public void addFriend(String name) {
         if (isFriend(name))
         {
-            ChatUtils.sendOverwriteMessage(name + " is already on your friends list!", ID.FRIEND);
+            ChatUtils.sendOverwriteMessage(name + " is already on your friends list!", 9349);
             return;
         }
         this.friends.add(name);
-        ChatUtils.sendOverwriteMessage("Added " + name + " to your friends list.", ID.FRIEND);
+        ChatUtils.sendOverwriteMessage("Added " + name + " to your friends list.", 9349);
     }
 
     public void removeFriend(String name) {
         if (friends.contains(name))
         {
-            ChatUtils.sendOverwriteMessage("Removed " + name + " from your friends list.", ID.FRIEND);
+            ChatUtils.sendOverwriteMessage("Removed " + name + " from your friends list.", 9349);
             friends.removeIf(s -> s.equalsIgnoreCase(name));
         }
         else
         {
-            ChatUtils.sendOverwriteMessage( name + " is not on your friends list!", ID.FRIEND);
+            ChatUtils.sendOverwriteMessage( name + " is not on your friends list!", 9349);
         }
     }
 

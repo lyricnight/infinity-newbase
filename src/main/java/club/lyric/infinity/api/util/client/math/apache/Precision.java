@@ -184,7 +184,7 @@ public class Precision {
         final boolean yIsNan = Float.isNaN(y);
         // Combine the booleans with bitwise OR
         return (xIsNan | yIsNan) ?
-                !(xIsNan ^ yIsNan) :
+                xIsNan == yIsNan :
                 equals(x, y, 1);
     }
 

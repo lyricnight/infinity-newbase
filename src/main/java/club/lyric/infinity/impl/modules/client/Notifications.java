@@ -45,6 +45,7 @@ public class Notifications extends ModuleBase
         super("Notifications", "Notifies in chat for stuff.", Category.CLIENT);
     }
 
+    /*
     @Override
     public void onEnable()
     {
@@ -91,4 +92,6 @@ public class Notifications extends ModuleBase
             }
         }
     }
+    */
+
 }

@@ -37,7 +37,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
         EventBus.getInstance().post(new UpdateWalkingPlayerEvent(1));
     }
 
-    @Inject(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;move(Lnet/minecraft/entity/MovementType;Lnet/minecraft/util/math/Vec3d;)V"))
+    @Inject(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;move(Lnet/minecraft/entity/MovementType;Lnet/minecraft/util/math/Vec3d;)V"), cancellable = true)
     public void tickMovement(MovementType movementType, Vec3d movement, CallbackInfo callbackInfo)
     {
         MotionEvent event = new MotionEvent(movement.x, movement.y, movement.z, 0);

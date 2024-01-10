@@ -2,6 +2,7 @@ package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.event.network.PacketEvent;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;

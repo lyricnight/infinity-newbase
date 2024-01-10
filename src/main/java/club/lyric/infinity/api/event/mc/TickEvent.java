@@ -8,7 +8,7 @@ import club.lyric.infinity.api.event.Event;
  */
 public class TickEvent extends Event {
 
-    private int stage;
+    private final int stage;
 
 
     public TickEvent(int stage)

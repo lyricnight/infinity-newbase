@@ -40,6 +40,7 @@ public class ModuleManager implements JsonElements, IMinecraft
                 new HitboxDesync(),
                 new Notifications(),
                 new YawLock(),
+                new PhaseWalk(),
                 new Latency()
         );
         Infinity.LOGGER.info("Initialising modules.");

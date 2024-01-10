@@ -9,9 +9,9 @@ import net.minecraft.entity.player.PlayerEntity;
  */
 public class TotemPopEvent extends Event {
 
-    private PlayerEntity playerEntity;
+    private final PlayerEntity playerEntity;
 
-    private int id;
+    private final int id;
 
     public TotemPopEvent(PlayerEntity playerEntity, int id)
     {

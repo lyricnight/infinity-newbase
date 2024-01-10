@@ -6,6 +6,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.setting.settings.util.EnumConverter;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
@@ -22,7 +23,7 @@ public class Setting<T> {
     public T max;
     private boolean hasRestriction;
     private Predicate<T> visibility;
-    private String description;
+    private final String description;
 
     public ModuleBase module;
 
@@ -195,10 +196,7 @@ public class Setting<T> {
     }
 
     public String getDescription() {
-        if (this.description == null) {
-            return "";
-        }
-        return this.description;
+        return Objects.requireNonNullElse(this.description, "");
     }
 
     public boolean isNumberSetting() {

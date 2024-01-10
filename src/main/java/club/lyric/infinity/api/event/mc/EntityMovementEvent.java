@@ -9,7 +9,7 @@ import net.minecraft.entity.MovementType;
  */
 public class EntityMovementEvent extends Event {
 
-    private MovementType type;
+    private final MovementType type;
 
     private double x;
 

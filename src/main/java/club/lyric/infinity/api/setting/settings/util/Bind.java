@@ -6,6 +6,7 @@ import com.google.common.base.Converter;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.client.util.InputUtil;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -51,11 +52,11 @@ public class Bind implements IMinecraft {
     }
 
     public static class BindConverter extends Converter<Bind, JsonElement> {
-        public JsonElement doForward(Bind bind) {
+        public @NotNull JsonElement doForward(Bind bind) {
             return new JsonPrimitive(bind.toString());
         }
 
-        public Bind doBackward(JsonElement jsonElement) {
+        public @NotNull Bind doBackward(JsonElement jsonElement) {
             String s = jsonElement.getAsString();
             if (s.equalsIgnoreCase("None")) {
                 return Bind.none();

@@ -8,19 +8,20 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.EnumSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.enums.PhaseWalkEnum;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
+import club.lyric.infinity.impl.modules.render.Chat;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-
 
 /**
  * @author lyric
  * better phase than old infinity
  */
 
-@SuppressWarnings({"unchecked", "rawtypes"})
+@SuppressWarnings({"unchecked"})
 public class PhaseWalk extends ModuleBase {
 
     public EnumSetting<PhaseWalkEnum> position = createEnum(new EnumSetting<>("Position", PhaseWalkEnum.Standard, "Where to position ourselves on the y-axis"));
@@ -33,7 +34,7 @@ public class PhaseWalk extends ModuleBase {
     //credit lithium for the idea
     public BooleanSetting down = createBool(new BooleanSetting("Down", false, "Whether to go down when pressing shift or not."));
 
-    public NumberSetting<Integer> downDelay = createNumber(new NumberSetting<>("DownDelay", 2, 1, 10, v -> down.getValue(),"Delay in between going down blocks."));
+    public NumberSetting<Integer> downDelay = createNumber(new NumberSetting<>("DownDelay", 2, 1, 10,"Delay in between going down blocks."));
 
     private final StopWatch.Single watch = new StopWatch.Single();
 
@@ -74,16 +75,21 @@ public class PhaseWalk extends ModuleBase {
     }
 
 
-    @SuppressWarnings("unused")
     @EventHandler
     public void onMove(EntityMovementEvent event)
     {
         if(nullCheck()) return;
         if (mc.player.horizontalCollision && watch.hasBeen(delay.getValue() * 100L) && PlayerUtils.isPhasing() && !mc.player.isHoldingOntoLadder())
         {
+            ChatUtils.sendMessagePrivate("Loop reached!");
             final double[] movementArray = MovementUtil.directionSpeed(speed.getValue() / 100.0);
             double x = mc.player.getX() + movementArray[0];
             double z = mc.player.getZ() + movementArray[1];
+
+            ChatUtils.sendMessagePrivate("X: " + x);
+
+            ChatUtils.sendMessagePrivate("Z: " + z);
+
 
             mc.player.setPosition(x, mc.player.getY(), z);
 

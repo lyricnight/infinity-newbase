@@ -7,16 +7,13 @@ import club.lyric.infinity.api.event.mc.TickEvent;
 import club.lyric.infinity.api.event.mc.update.UpdateEvent;
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.event.mc.ChatEvent;
-import club.lyric.infinity.api.event.network.PacketEvent;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.Notifications;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 import net.minecraft.util.Formatting;
 
 /**

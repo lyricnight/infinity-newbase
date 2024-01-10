@@ -29,6 +29,7 @@ public class DiscordUtil {
                 while (!Thread.currentThread().isInterrupted()) {
                     lib.Discord_RunCallbacks();
                     try {
+                        //noinspection BusyWait
                         Thread.sleep(2000);
                     } catch (InterruptedException ignored) {
                         break;

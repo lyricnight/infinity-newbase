@@ -189,8 +189,7 @@ public class HUD extends ModuleBase
     {
         int amplifier = statusEffectInstance.getAmplifier();
         Text name = statusEffectInstance.getEffectType().getName();
-        String potions = name.getString() + (amplifier > 0 ? (" " + (amplifier + 1) + ": ") : ": ") + Formatting.WHITE + PlayerUtils.getPotionDurationString(statusEffectInstance);
-        return potions;
+        return name.getString() + (amplifier > 0 ? (" " + (amplifier + 1) + ": ") : ": ") + Formatting.WHITE + PlayerUtils.getPotionDurationString(statusEffectInstance);
     }
 
 

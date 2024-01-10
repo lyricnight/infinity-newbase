@@ -19,7 +19,7 @@ public class ChatUtils implements IMinecraft
 
     public static void format()
     {
-        clientMessage = Managers.MODULES.getModuleFromClass(Manager.class).bracket.getValueAsString() + "[" + Formatting.RESET + "" + Managers.MODULES.getModuleFromClass(Manager.class).nameColour.getValueAsString() + "Infinity" + Formatting.RESET + "" + Managers.MODULES.getModuleFromClass(Manager.class).bracket.getValueAsString() + "]";
+        clientMessage = Managers.MODULES.getModuleFromClass(Manager.class).bracket.getValueAsString() + "[" + Formatting.RESET + Managers.MODULES.getModuleFromClass(Manager.class).nameColour.getValueAsString() + "Infinity" + Formatting.RESET + Managers.MODULES.getModuleFromClass(Manager.class).bracket.getValueAsString() + "]";
     }
 
     public static void sendMessagePrivate(String message)

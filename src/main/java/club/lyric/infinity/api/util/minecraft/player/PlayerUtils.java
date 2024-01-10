@@ -1,12 +1,12 @@
 package club.lyric.infinity.api.util.minecraft.player;
 
-import club.lyric.infinity.api.util.client.math.Bandhu;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.StringHelper;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -36,18 +36,18 @@ public class PlayerUtils implements IMinecraft {
             float durationInSeconds = (float)durationInTicks / 20.0F;
             long minutes = TimeUnit.SECONDS.toMinutes((long)durationInSeconds);
             long seconds = TimeUnit.SECONDS.toSeconds((long)durationInSeconds) % 60L;
-            String time = minuteFormat.format(minutes) + ":" + secondsFormat.format(seconds);
-            return time;
+            return minuteFormat.format(minutes) + ":" + secondsFormat.format(seconds);
         }
     }
-
+    //TODO: fix this returning false when we drop a block in phase
     public static boolean isPhasing() {
-        Bandhu bandhu = (Bandhu) mc.player.getBoundingBox();
-        for (int x = floor(bandhu.minX); x < floor(bandhu.maxX) + 1; x++) {
-            for (int y = floor(bandhu.minY); y < floor(bandhu.maxY) + 1; y++) {
-                for (int z = floor(bandhu.minZ); z < floor(bandhu.maxZ) + 1; z++) {
+        if(mc.player == null || mc.world == null) return false;
+        Box box = mc.player.getBoundingBox();
+        for (int x = floor(box.minX); x < floor(box.maxX) + 1; x++) {
+            for (int y = floor(box.minY); y < floor(box.maxY) + 1; y++) {
+                for (int z = floor(box.minZ); z < floor(box.maxZ) + 1; z++) {
                     if (mc.world.getBlockState(new BlockPos(x, y, z)).blocksMovement()) {
-                        if (bandhu.intersects(new Bandhu(x, y, z, x + 1, y + 1, z + 1))) {
+                        if (box.intersects(new Box(x, y, z, x + 1, y + 1, z + 1))) {
                             return true;
                         }
                     }

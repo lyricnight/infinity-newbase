@@ -16,7 +16,6 @@ public class Window implements IMinecraft {
     private int y;
     private int updatedX;
     private int updatedY;
-    private boolean open;
     protected int width;
     protected int height;
     public boolean drag;
@@ -26,7 +25,6 @@ public class Window implements IMinecraft {
         this.category = category;
         this.x = x;
         this.y = y;
-        this.open = open;
         this.width = 100;
         this.height = 15;
     }

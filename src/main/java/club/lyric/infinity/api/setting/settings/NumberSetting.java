@@ -19,14 +19,7 @@ public class NumberSetting<T extends Number> extends Setting<T> {
         super(name, defaultValue, description);
         clamp = true;
         this.minimum = minimum;
-        this.maximum = maximum;;
-    }
-
-    public NumberSetting(String name, T defaultValue, T minimum, T maximum, Predicate<T> visibility, String description) {
-        super(name, defaultValue, visibility, description);
-        clamp = true;
-        this.minimum = minimum;
-        this.maximum = maximum;;
+        this.maximum = maximum;
     }
 
     public NumberSetting(String name, T defaultValue, T minimum, T maximum, T steps, String description) {

@@ -15,7 +15,7 @@ public class MotionEvent extends Event {
 
     public boolean modified;
 
-    private int stage;
+    private final int stage;
 
     public MotionEvent(double x, double y, double z, int stage)
     {

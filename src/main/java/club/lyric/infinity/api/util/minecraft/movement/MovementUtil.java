@@ -8,7 +8,7 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
  */
 public class MovementUtil implements IMinecraft {
 
-    @SuppressWarnings("ALL")
+    @SuppressWarnings("all")
     public static double[] directionSpeed(double speed) {
         float forward = mc.player.input.movementForward;
         float side = mc.player.input.movementSideways;
@@ -34,6 +34,4 @@ public class MovementUtil implements IMinecraft {
         final double posZ = (forward * speed * sin - side * speed * cos);
         return new double[]{posX, posZ};
     }
-
-
 }
