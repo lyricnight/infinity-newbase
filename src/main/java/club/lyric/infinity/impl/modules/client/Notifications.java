@@ -45,7 +45,7 @@ public class Notifications extends ModuleBase
         super("Notifications", "Notifies in chat for stuff.", Category.CLIENT);
     }
 
-    /*
+
     @Override
     public void onEnable()
     {
@@ -56,14 +56,11 @@ public class Notifications extends ModuleBase
     //vasler whenever you use anything with entities, use onUpdate not onTick!!
     @Override
     public void onUpdate() {
-        String uuidString = mc.player.getUuid().toString();
-        String truncated = uuidString.substring(0, 4);
-        id.put(truncated, Integer.valueOf(uuidString));
-
         mc.world.getPlayers().forEach(player -> {
+            Entity entity = packet.getEntity(mc.world);
             if(player.getHealth() <= 0) {
                 if (totemPop.containsKey(player.getEntityName())) {
-                    ChatUtils.sendOverwriteMessage(player.getEntityName() + " died after popping " + totemPop.get(player.getEntityName()) + " time(s).", id.get(player.getUuid().toString()));
+                    ChatUtils.sendOverwriteMessage(player.getEntityName() + " died after popping " + totemPop.get(player.getEntityName()) + " time(s).", entity.getId());
                     totemPop.remove(player.getEntityName(), totemPop.get(player.getEntityName()));
                 }
             }
@@ -87,11 +84,10 @@ public class Notifications extends ModuleBase
                 {
                     int pops = totemPop.get(entity.getEntityName()) == null ? 1 : totemPop.get(entity.getEntityName()) + 1;
                     totemPop.put(entity.getEntityName(), pops);
-                    ChatUtils.sendOverwriteMessage(entity.getEntityName() + " popped " + totemPop.get(entity.getEntityName()) + " time(s).", id.get(entity.getEntityName()));
+                    ChatUtils.sendOverwriteMessage(entity.getEntityName() + " popped " + totemPop.get(entity.getEntityName()) + " time(s).", entity.getId());
                 }
             }
         }
     }
-    */
 
 }
