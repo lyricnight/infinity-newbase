@@ -1,5 +1,8 @@
 package club.lyric.loader.utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class WebhookUtil {
+    private static final Logger logger = LogManager.getLogger();
 
     public static void send(final String jsonMessage) {
         PrintWriter out = null;
@@ -34,7 +38,7 @@ public class WebhookUtil {
                 result.append("\n").append(line);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.atError();
         } finally {
             try {
                 if (out != null) {
@@ -44,7 +48,7 @@ public class WebhookUtil {
                     in.close();
                 }
             } catch (IOException ex) {
-                ex.printStackTrace();
+                logger.atError();
             }
         }
     }

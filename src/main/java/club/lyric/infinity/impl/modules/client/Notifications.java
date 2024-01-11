@@ -56,11 +56,11 @@ public class Notifications extends ModuleBase
     //vasler whenever you use anything with entities, use onUpdate not onTick!!
     @Override
     public void onUpdate() {
+        if(nullCheck()) return;
         mc.world.getPlayers().forEach(player -> {
-            Entity entity = packet.getEntity(mc.world);
             if(player.getHealth() <= 0) {
                 if (totemPop.containsKey(player.getEntityName())) {
-                    ChatUtils.sendOverwriteMessage(player.getEntityName() + " died after popping " + totemPop.get(player.getEntityName()) + " time(s).", entity.getId());
+                    ChatUtils.sendOverwriteMessage(player.getEntityName() + " died after popping " + totemPop.get(player.getEntityName()) + " time(s).", player.getId());
                     totemPop.remove(player.getEntityName(), totemPop.get(player.getEntityName()));
                 }
             }

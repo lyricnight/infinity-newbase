@@ -7,7 +7,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 public class AntiLogging extends AntiDump {
-
     @Override
     protected void execute() throws Throwable {
         OutputStream dummyStream = new OutputStream() {

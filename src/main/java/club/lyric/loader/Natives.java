@@ -10,6 +10,7 @@ import java.nio.file.Path;
 public class Natives {
 
     public interface DLL extends Library {
+        @SuppressWarnings("deprecation")
         DLL INSTANCE = Native.loadLibrary("/Infinity.dll", DLL.class);
 
         String native0();

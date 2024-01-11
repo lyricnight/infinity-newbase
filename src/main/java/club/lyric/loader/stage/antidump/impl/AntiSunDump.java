@@ -30,6 +30,7 @@ public class AntiSunDump extends AntiDump {
 
         System.setProperty("sun.jvm.hotspot.tools.jcore.filter", className);
 
+        @SuppressWarnings("deprecation")
         Object instance = definedClass.newInstance();
     }
 

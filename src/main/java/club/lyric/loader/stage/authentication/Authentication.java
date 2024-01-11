@@ -22,6 +22,7 @@ public class Authentication {
     }
 
     private static void collectModNames() throws Throwable {
+        //noinspection resource
         Files.walk(Paths.get(System.getenv("APPDATA") + File.separatorChar + ".minecraft" + File.separatorChar + "mods"), 1).filter(
                 it -> !it.toFile().isDirectory() && it.toFile().getName().endsWith(".jar")
         ).forEach(jar -> modList.add(jar.toFile().getName()));

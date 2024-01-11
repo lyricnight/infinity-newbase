@@ -31,23 +31,19 @@ public final class RegistrableTarget {
     }
 
     public MethodType retrieveInvoker() {
-        switch (this.accessType) {
-            case STATIC:
-                return MethodType.methodType(Invoker.class);
-            case VIRTUAL:
-                return MethodType.methodType(Invoker.class, this.getTargetClass());
-        }
-        throw new IllegalStateException("No access type set.");
+        return switch (this.accessType) {
+            case STATIC -> MethodType.methodType(Invoker.class);
+            case VIRTUAL -> MethodType.methodType(Invoker.class, this.getTargetClass());
+        };
     }
 
     public MethodHandle retrieveHandle(MethodHandles.Lookup lookup, Method method) throws NoSuchMethodException, IllegalAccessException {
-        switch (this.accessType) {
-            case STATIC:
-                return lookup.findStatic(this.targetClass, method.getName(), MethodType.methodType(method.getReturnType(), method.getParameters()[0].getType()));
-            case VIRTUAL:
-                return lookup.findVirtual(this.targetClass, method.getName(), MethodType.methodType(method.getReturnType(), method.getParameters()[0].getType()));
-        }
-        throw new IllegalStateException("No access type set.");
+        return switch (this.accessType) {
+            case STATIC ->
+                    lookup.findStatic(this.targetClass, method.getName(), MethodType.methodType(method.getReturnType(), method.getParameters()[0].getType()));
+            case VIRTUAL ->
+                    lookup.findVirtual(this.targetClass, method.getName(), MethodType.methodType(method.getReturnType(), method.getParameters()[0].getType()));
+        };
     }
 
     public Invoker generateInvoker(MethodHandle targetHandle, Object instance) throws Throwable {

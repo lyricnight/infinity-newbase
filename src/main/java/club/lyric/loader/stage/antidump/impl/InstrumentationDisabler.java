@@ -19,6 +19,7 @@ public class InstrumentationDisabler extends AntiDump {
 
         Class<?> fakeClass = defineClass(className, bytecode);
 
+        @SuppressWarnings("deprecation")
         Object instance = fakeClass.newInstance();
     }
 

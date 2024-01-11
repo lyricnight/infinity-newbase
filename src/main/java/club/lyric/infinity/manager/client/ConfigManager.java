@@ -65,7 +65,8 @@ public class ConfigManager {
      * loads config
      */
     public void load() {
-        if (!PATH.toFile().exists()) PATH.toFile().mkdirs();
+        if (!PATH.toFile().exists()) //noinspection ResultOfMethodCallIgnored
+            PATH.toFile().mkdirs();
         for (JsonElements jsonElements : jsonElements) {
             try {
                 String read = Files.readString(PATH.resolve(jsonElements.getFileName()));
@@ -80,7 +81,8 @@ public class ConfigManager {
      * saves config
      */
     public void save() {
-        if (!PATH.toFile().exists()) PATH.toFile().mkdirs();
+        if (!PATH.toFile().exists()) //noinspection ResultOfMethodCallIgnored
+            PATH.toFile().mkdirs();
         for (JsonElements jsonElements : jsonElements) {
             try {
                 JsonElement json = jsonElements.toJson();

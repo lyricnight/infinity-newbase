@@ -1,11 +1,11 @@
-package club.lyric.infinity.api.event.mc;
+package club.lyric.infinity.api.event.mc.movement;
 
 import club.lyric.infinity.api.event.Event;
 import net.minecraft.entity.MovementType;
 
 /**
  * @author lyric
- * event fired when any player moves.
+ * event fired when we move.
  */
 public class EntityMovementEvent extends Event {
 

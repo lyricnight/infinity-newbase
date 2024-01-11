@@ -1,7 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.event.mc.MotionEvent;
+import club.lyric.infinity.api.event.mc.movement.MotionEvent;
 import club.lyric.infinity.api.event.mc.update.UpdateEvent;
 import club.lyric.infinity.api.event.mc.update.UpdateWalkingPlayerEvent;
 import com.mojang.authlib.GameProfile;

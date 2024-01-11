@@ -1,8 +1,8 @@
 package club.lyric.infinity.impl.modules.player;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.mc.EntityMovementEvent;
-import club.lyric.infinity.api.event.mc.MotionEvent;
+import club.lyric.infinity.api.event.mc.movement.EntityMovementEvent;
+import club.lyric.infinity.api.event.mc.movement.MotionEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -13,7 +13,6 @@ import club.lyric.infinity.api.util.client.enums.PhaseWalkEnum;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
-import club.lyric.infinity.impl.modules.render.Chat;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 /**
@@ -21,11 +20,9 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
  * better phase than old infinity
  */
 
-@SuppressWarnings({"unchecked"})
+@SuppressWarnings("unchecked")
 public class PhaseWalk extends ModuleBase {
-
     public EnumSetting<PhaseWalkEnum> position = createEnum(new EnumSetting<>("Position", PhaseWalkEnum.Standard, "Where to position ourselves on the y-axis"));
-
 
     public NumberSetting<Integer> speed = createNumber(new NumberSetting<>("Speed", 2, 1, 15, "How fast we move in phase."));
 
@@ -61,7 +58,6 @@ public class PhaseWalk extends ModuleBase {
             send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mod, mc.player.getZ(), true));
             send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), position.getValue().getPosition(), mc.player.getZ(), true));
 
-            //through a line in mc's code, i figured out that sidewaysSpeed is x and forwardSpeed is z, but there is also horizontalSpeed??
             mc.player.sidewaysSpeed = 0.0F;
             mc.player.upwardSpeed = 0.0F;
             mc.player.forwardSpeed = 0.0F;
@@ -75,6 +71,7 @@ public class PhaseWalk extends ModuleBase {
     }
 
 
+    @SuppressWarnings("unused")
     @EventHandler
     public void onMove(EntityMovementEvent event)
     {
@@ -90,12 +87,10 @@ public class PhaseWalk extends ModuleBase {
 
             ChatUtils.sendMessagePrivate("Z: " + z);
 
-
             mc.player.setPosition(x, mc.player.getY(), z);
 
             send(new PlayerMoveC2SPacket.PositionAndOnGround(x, mc.player.getY(), z, true));
             send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), position.getValue().getPosition(), mc.player.getZ(), true));
-
 
             mc.player.sidewaysSpeed = 0.0F;
             mc.player.upwardSpeed = 0.0F;
