@@ -10,6 +10,7 @@ import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.text.TextUtils;
+import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -33,6 +34,20 @@ public class HUD extends ModuleBase
                     true,
                     "Displays FPS counter on hud."
     ));
+
+    public BooleanSetting tps = createBool(
+            new BooleanSetting(
+                    "TPS",
+                    true,
+                    "Displays TPS counter on hud."
+            ));
+
+    public BooleanSetting ping = createBool(
+            new BooleanSetting(
+                    "Ping",
+                    true,
+                    "Displays Ping counter on hud."
+            ));
 
     public BooleanSetting potions = createBool(
             new BooleanSetting(
@@ -77,6 +92,7 @@ public class HUD extends ModuleBase
     public void onRender2D(Render2DEvent event)
     {
         int offset = 0;
+
         if (watermark.getValue())
         {
             event.getDrawContext().drawText(mc.textRenderer, Infinity.CLIENT_NAME, 2, 2, -1, true);
@@ -102,12 +118,32 @@ public class HUD extends ModuleBase
             double distanceX = mc.player.getX() - mc.player.prevX;
             double distanceZ = mc.player.getZ() - mc.player.prevZ;
 
-            String fps = "Speed: " + Formatting.WHITE + MathUtils.roundFloat((MathHelper.sqrt((float) (Math.pow(distanceX, 2) + Math.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) + " km/h";
+            String speed = "Speed: " + Formatting.WHITE + MathUtils.roundFloat((MathHelper.sqrt((float) (Math.pow(distanceX, 2) + Math.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) + " km/h";
 
-            event.getDrawContext().drawText(mc.textRenderer, fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, -1, true);
+            event.getDrawContext().drawText(mc.textRenderer, speed, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(speed)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, -1, true);
             offset += 9;
         }
         // Speed ends
+
+        // TPS starts
+        if (tps.getValue())
+        {
+            String tps = "TPS: " + Formatting.WHITE + Managers.SERVER.getOurTPS();
+
+            event.getDrawContext().drawText(mc.textRenderer, tps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, -1, true);
+            offset += 9;
+        }
+        // TPS ends
+
+        // TPS starts
+        if (ping.getValue())
+        {
+            String ping = "Ping: " + Formatting.WHITE + Managers.SERVER.getFastLatencyPing();
+
+            event.getDrawContext().drawText(mc.textRenderer, ping, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, -1, true);
+            offset += 9;
+        }
+        // TPS ends
 
         // FPS starts
         if (fps.getValue())

@@ -13,7 +13,7 @@ public class Sprint extends ModuleBase
     @Override
     public void onUpdate()
     {
-        if(nullCheck())
+        if (nullCheck())
         {
             return;
         }

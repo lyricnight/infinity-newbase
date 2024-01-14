@@ -54,6 +54,7 @@ public class Notifications extends ModuleBase
     //vasler this doesn't even work...
     //your ids won't work...
     //vasler whenever you use anything with entities, use onUpdate not onTick!!
+    /*
     @Override
     public void onUpdate() {
         if(nullCheck()) return;
@@ -88,6 +89,6 @@ public class Notifications extends ModuleBase
                 }
             }
         }
-    }
+    }*/
 
 }
