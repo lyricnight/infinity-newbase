@@ -1,0 +1,79 @@
+package club.lyric.infinity.impl.modules.player;
+
+import club.lyric.infinity.api.module.Category;
+import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.EnumSetting;
+import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.util.client.enums.ClipEnum;
+import club.lyric.infinity.api.util.client.math.MathUtils;
+import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+
+/**
+ * @author lyric
+ */
+@SuppressWarnings("unchecked")
+public class Clip extends ModuleBase {
+
+    public EnumSetting<ClipEnum> mode = createEnum(new EnumSetting<>("Mode", ClipEnum.Normal, "Mode for clipping."));
+
+    public NumberSetting<Integer> delay = createNumber(new NumberSetting<>("Delay", 3, 0, 10, "Delay before clipping."));
+
+    public BooleanSetting disable = createBool(new BooleanSetting("Disable", true, "Disables automatically, based on updates."));
+
+    public NumberSetting<Integer> updates = createNumber(new NumberSetting<>("Updates", 10, 1, 30, v -> disable.getValue() ,"Number of updates before the module disables himself."));
+
+    int time;
+
+    private BlockPos pos;
+
+    public Clip()
+    {
+        super("Clip", "Clips into blocks.", Category.PLAYER);
+    }
+
+
+    @SuppressWarnings("all")
+    @Override
+    public void onUpdate()
+    {
+        if (nullCheck()) return;
+        if (MovementUtil.movement()) return;
+
+        if(time >= updates.getValue())
+        {
+            setEnabled(false);
+        }
+
+        switch (mode.getValue())
+        {
+            case Normal -> {
+                if (mc.world.getEntityCollisions(mc.player, mc.player.getBoundingBox().expand(0.01, 0, 0.01)).size() < 2) {
+                    mc.player.setPosition(MathUtils.roundToClosest(mc.player.getX(), Math.floor(mc.player.getX()) + 0.301, Math.floor(mc.player.getX()) + 0.699), mc.player.getY(), MathUtils.roundToClosest(mc.player.getZ(), Math.floor(mc.player.getZ()) + 0.301, Math.floor(mc.player.getZ())));
+                }
+                //might be wrong
+                else if (mc.player.ticksSinceLastPositionPacketSent % delay.getValue() == 0) {
+                    mc.player.setPosition(mc.player.getX() + MathHelper.clamp(MathUtils.roundToClosest(mc.player.getX(), Math.floor(mc.player.getX()) + 0.241, Math.floor(mc.player.getX()) + 0.759) - mc.player.getX(), -0.03, 0.03), mc.player.getY(), mc.player.getZ() + MathHelper.clamp(MathUtils.roundToClosest(mc.player.getZ(), Math.floor(mc.player.getZ()) + 0.241, Math.floor(mc.player.getZ()) + 0.759) - mc.player.getZ(), -0.03, 0.03));
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY(), mc.player.getZ(), true));
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(MathUtils.roundToClosest(mc.player.getX(), Math.floor(mc.player.getX()) + 0.23, Math.floor(mc.player.getX()) + 0.77), mc.player.getY(), MathUtils.roundToClosest(mc.player.getZ(), Math.floor(mc.player.getZ()) + 0.23, Math.floor(mc.player.getZ()) + 0.77), true));
+                }
+            }
+            case NoCheck -> {
+                send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(),mc.player.getY() - 0.0042123, mc.player.getZ(), mc.player.isOnGround()));
+                send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(),mc.player.getY() - 0.02141, mc.player.getZ(), mc.player.isOnGround()));
+                //illegal / overflow angles because some servers don't bother checking for them.
+                send(new PlayerMoveC2SPacket.Full(mc.player.getX(),mc.player.getY() - 0.097421, mc.player.getZ(),500,500, mc.player.isOnGround()));
+            }
+        }
+        time++;
+    }
+
+    @Override
+    public void onDisable()
+    {
+        time = 0;
+    }
+}

@@ -20,12 +20,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Entity.class)
 public abstract class MixinEntity implements IMinecraft {
-    @Shadow private int id;
+    @Shadow
+    private int id;
     @Unique
     private EntityMovementEvent event;
 
-    @Inject(method = "move", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "move", at = @At(value = "HEAD"), cancellable = true)
     public void moveEntityHookPre(MovementType type, Vec3d vec3d, CallbackInfo callbackInfo) {
+        if(mc.player == null) return;
         if (this.id == mc.player.getId())
         {
             event = new EntityMovementEvent(type, vec3d.x, vec3d.y, vec3d.z);

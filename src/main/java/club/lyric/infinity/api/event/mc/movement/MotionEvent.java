@@ -5,6 +5,8 @@ import club.lyric.infinity.api.event.Event;
 /**
  * @author lyric
  * event when client player movement is called
+ * fired after EntityMovementEvent
+ * fired whenever player moves
  */
 public class MotionEvent extends Event {
     private double x;

@@ -21,6 +21,12 @@ public class MathUtils {
         return bd.floatValue();
     }
 
+    public static double roundToClosest(double num, double low, double high) {
+        double d2 = high - num;
+        double d1 = num - low;
+        return (d2 > d1 ? low : high);
+    }
+
     /**
      * clamps
      */

@@ -6,8 +6,14 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
  * @author lyric
  * for movement.
  */
+
 public class MovementUtil implements IMinecraft {
 
+    /**
+     * speed
+     * @param speed - speed of player
+     * @return directional speed
+     */
     @SuppressWarnings("all")
     public static double[] directionSpeed(double speed) {
         float forward = mc.player.input.movementForward;
@@ -33,5 +39,15 @@ public class MovementUtil implements IMinecraft {
         final double posX = (forward * speed * cos + side * speed * sin);
         final double posZ = (forward * speed * sin - side * speed * cos);
         return new double[]{posX, posZ};
+    }
+
+    /**
+     * check if movement keys are down
+     * @return above
+     */
+    public static boolean movement()
+    {
+        //noinspection DataFlowIssue
+        return mc.player.input.pressingLeft || mc.player.input.pressingRight || mc.player.input.pressingBack || mc.player.input.pressingForward || mc.player.input.sneaking;
     }
 }
