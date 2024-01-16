@@ -1,6 +1,7 @@
 package club.lyric.infinity.api.util.client.render.colors;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
@@ -10,7 +11,6 @@ import java.awt.*;
  * but i made the class so fuck you
  */
 public class ColorUtils implements IMinecraft {
-
     public static Color toColor(float red, float green, float blue, float alpha)
     {
         if (!(green < 0.0f) && !(green > 100.0f))
@@ -87,7 +87,23 @@ public class ColorUtils implements IMinecraft {
                     : red;
         }
     }
-    public static Color interpolate(final float value, final Color start, final Color end) {
+
+    /**
+     * setting alpha
+     * @param color - color in
+     * @param alpha - alpha to set to
+     * @return new color with that alpha
+     */
+    public static Color newAlpha(Color color, float alpha) {
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+    }
+
+    public static void glColor(Color color) {
+        GL11.glColor4f((float)color.getRed() / 255.0f, (float)color.getGreen() / 255.0f, (float)color.getBlue() / 255.0f, (float)color.getAlpha() / 255.0f);
+    }
+
+    //why are these here?
+    public static Color interpolate(float value, Color start, Color end) {
         final float sr = start.getRed() / 255.0f;
         final float sg = start.getGreen() / 255.0f;
         final float sb = start.getBlue() / 255.0f;
@@ -106,5 +122,6 @@ public class ColorUtils implements IMinecraft {
     public static Color darker(Color color, float factor) {
         return new Color(Math.max((int) (color.getRed() * factor), 0), Math.max((int) (color.getGreen() * factor), 0), Math.max((int) (color.getBlue() * factor), 0), color.getAlpha());
     }
+
 
 }

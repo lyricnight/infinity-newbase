@@ -36,4 +36,15 @@ public class MathUtils {
     public static double clamp(double num, double min, double max) {
         return num < min ? min : Math.min(num, max);
     }
+
+    public static float calculateHue(float x, float y, float hueSpeedX, float hueSpeedY) {
+        return (float) (Math.sin((x * hueSpeedX) + (y * hueSpeedY) + System.currentTimeMillis() * 0.001) + 1.0) / 2.0f;
+    }
+
+    /**
+     * middle of some variables
+     */
+    public static float getMiddle(float a, float b, float c) {
+        return (a + b / 2) - c / 2;
+    }
 }

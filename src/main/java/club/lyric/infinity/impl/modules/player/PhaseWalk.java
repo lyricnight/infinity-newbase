@@ -78,14 +78,9 @@ public class PhaseWalk extends ModuleBase {
         if(nullCheck()) return;
         if (mc.player.horizontalCollision && watch.hasBeen(delay.getValue() * 100L) && PlayerUtils.isPhasing() && !mc.player.isHoldingOntoLadder())
         {
-            ChatUtils.sendMessagePrivate("Loop reached!");
             final double[] movementArray = MovementUtil.directionSpeed(speed.getValue() / 100.0);
             double x = mc.player.getX() + movementArray[0];
             double z = mc.player.getZ() + movementArray[1];
-
-            ChatUtils.sendMessagePrivate("X: " + x);
-
-            ChatUtils.sendMessagePrivate("Z: " + z);
 
             mc.player.setPosition(x, mc.player.getY(), z);
 

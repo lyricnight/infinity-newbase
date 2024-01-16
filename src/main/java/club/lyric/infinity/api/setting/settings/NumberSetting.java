@@ -10,84 +10,60 @@ import java.util.function.Predicate;
  * @param <T>
  */
 public class NumberSetting<T extends Number> extends Setting<T> {
-    private final T minimum;
-    private final T maximum;
-    private T steps;
     private final boolean clamp;
 
-    public NumberSetting(String name, T defaultValue, T minimum, T maximum, String description) {
+    public NumberSetting(String name, T defaultValue, T min, T max, String description) {
         super(name, defaultValue, description);
         clamp = true;
-        this.minimum = minimum;
-        this.maximum = maximum;
+        this.min = min;
+        this.max = max;
     }
 
-    public NumberSetting(String name, T defaultValue, T minimum, T maximum, T steps, String description) {
-        super(name, defaultValue, description);
-        clamp = true;
-        this.minimum = minimum;
-        this.maximum = maximum;
-        this.steps = steps;
-    }
-
-    public NumberSetting(String name, T defaultValue, T minimum, T maximum, T steps, Predicate<T> visibility , String description) {
+    public NumberSetting(String name, T defaultValue, T min, T max, Predicate<T> visibility , String description) {
         super(name, defaultValue, visibility, description);
         clamp = true;
-        this.minimum = minimum;
-        this.maximum = maximum;
-        this.steps = steps;
+        this.min = min;
+        this.max = max;
     }
-
-    public T getMaximum() {
-        return maximum;
-    }
-
-    public T getMinimum() {
-        return minimum;
-    }
-
-    public T getSteps() {
-        return steps;
-    }
-
+    
     @Override
     public void setValue(T value) {
-        if (clamp & (maximum != null && minimum != null)) {
+        if (clamp & (max != null && min != null)) {
             if (value instanceof Integer) {
-                if (value.intValue() > maximum.intValue()) {
-                    value = maximum;
-                } else if (value.intValue() < minimum.intValue()) {
-                    value = minimum;
+                if (value.intValue() > max.intValue()) {
+                    value = max;
+                } else if (value.intValue() < min.intValue()) {
+                    value = min;
                 }
             } else if (value instanceof Float) {
-                if (value.floatValue() > maximum.floatValue()) {
-                    value = maximum;
-                } else if (value.floatValue() < minimum.floatValue()) {
-                    value = minimum;
+                if (value.floatValue() > max.floatValue()) {
+                    value = max;
+                } else if (value.floatValue() < min.floatValue()) {
+                    value = min;
                 }
             } else if (value instanceof Double) {
-                if (value.doubleValue() > maximum.doubleValue()) {
-                    value = maximum;
-                } else if (value.doubleValue() < minimum.doubleValue()) {
-                    value = minimum;
+                if (value.doubleValue() > max.doubleValue()) {
+                    value = max;
+                } else if (value.doubleValue() < min.doubleValue()) {
+                    value = min;
                 }
             } else if (value instanceof Long) {
-                if (value.longValue() > maximum.longValue()) {
-                    value = maximum;
-                } else if (value.longValue() < minimum.longValue()) {
-                    value = minimum;
+                if (value.longValue() > max.longValue()) {
+                    value = max;
+                } else if (value.longValue() < min.longValue()) {
+                    value = min;
                 }
             } else if (value instanceof Short) {
-                if (value.shortValue() > maximum.shortValue()) {
-                    value = maximum;
-                } else if (value.shortValue() < minimum.shortValue()) {
-                    value = minimum;
+                if (value.shortValue() > max.shortValue()) {
+                    value = max;
+                } else if (value.shortValue() < min.shortValue()) {
+                    value = min;
                 }
             } else if (value instanceof Byte) {
-                if (value.byteValue() > maximum.byteValue()) {
-                    value = maximum;
-                } else if (value.byteValue() < minimum.byteValue()) {
-                    value = minimum;
+                if (value.byteValue() > max.byteValue()) {
+                    value = max;
+                } else if (value.byteValue() < min.byteValue()) {
+                    value = min;
                 }
             }
         }
