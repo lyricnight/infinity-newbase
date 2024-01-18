@@ -12,6 +12,8 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
+import static org.lwjgl.opengl.GL11.*;
+
 /**
  * @author vasler, railhack
  * render util
@@ -115,16 +117,16 @@ public class Render2DUtils implements IMinecraft
     }
 
     public static void renderRectOutline(Rect rect, Color color, double linWid) {
-        GlStateManager.func_179147_l();
+        RenderSystem.enableBlend();
         GL11.glLineWidth((float)linWid);
         GL11.glDisable(2848);
-        ColorUtil.glColor(color);
+        ColorUtils.glColor(color);
         GL11.glDisable(3553);
         GL11.glBegin(2);
-        GL11.glVertex2i(rect.getX(), rect.getY());
-        GL11.glVertex2i(rect.getX(), rect.getY() + rect.getHeight());
-        GL11.glVertex2i(rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight());
-        GL11.glVertex2i(rect.getX() + rect.getWidth(), rect.getY());
+        GL11.glVertex2f(rect.getX(), rect.getY());
+        GL11.glVertex2f(rect.getX(), (rect.getY() + rect.getHeight()));
+        GL11.glVertex2f((rect.getX() + rect.getWidth()), (rect.getY() + rect.getHeight()));
+        GL11.glVertex2f((rect.getX() + rect.getWidth()), rect.getY());
         GL11.glEnd();
         GL11.glEnable(3553);
     }

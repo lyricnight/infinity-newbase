@@ -22,7 +22,6 @@ public class Step extends ModuleBase {
                     1.0f,
                     0.0f,
                     2.0f,
-                    0.1f,
                     "The height you want to step at."
             ));
 

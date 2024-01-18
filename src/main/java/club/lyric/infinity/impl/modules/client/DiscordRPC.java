@@ -12,13 +12,11 @@ public class DiscordRPC extends ModuleBase {
 
     @Override
     public void onEnable() {
-        super.onEnable();
         DiscordUtil.start();
     }
 
     @Override
     public void onDisable() {
-        super.onDisable();
         DiscordUtil.stop();
     }
 }

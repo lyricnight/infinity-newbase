@@ -9,7 +9,6 @@ import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
-import club.lyric.infinity.api.util.client.render.text.TextUtils;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
@@ -196,7 +195,7 @@ public class HUD extends ModuleBase
                 context.getMatrices().push();
                 context.getMatrices().scale(0.75F, 0.75F, 1F);
                 RenderSystem.disableDepthTest();
-                TextUtils.drawStringWithShadow(context, mc.textRenderer, Text.of(((int) (percent)) + "%"), (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333F), (int) ((height - y - 5) * 1.333F), ColorUtils.toColor(percent / 100.0F * 120.0F, 100.0F, 50.0F, 1.0F).getRGB());
+                Managers.TEXT.drawString(((int) (percent) + "%"), (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333F), (int) ((height - y - 5) * 1.333F), ColorUtils.toColor(percent / 100.0F * 120.0F, 100.0F, 50.0F, 1.0F).getRGB(), true);
                 RenderSystem.enableDepthTest();
                 context.getMatrices().scale(1.0F, 1.0F, 1.0F);
                 context.getMatrices().pop();

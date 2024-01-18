@@ -1,7 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.Infinity;
-import club.lyric.infinity.api.util.client.render.text.TextUtils;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.text.Text;
@@ -21,8 +21,8 @@ public abstract class MixinTitleScreen {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)I", ordinal = 0))
     private void onRender(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 
-        TextUtils.drawStringWithShadow(context, mc.textRenderer, Text.of(Infinity.CLIENT_NAME + Infinity.VERSION), 2, 2, 0x68478D);
+        Managers.TEXT.drawString(Infinity.CLIENT_NAME + Infinity.VERSION, 2, 2, 0x68478D, true);
 
-        TextUtils.drawStringWithShadow(context, mc.textRenderer, Text.of(Formatting.GRAY + " build (" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + ")"), mc.textRenderer.getWidth(Infinity.CLIENT_NAME + Infinity.VERSION) + 2, 2, -1);
+        Managers.TEXT.drawString(Formatting.GRAY + " build (" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + ")", Managers.TEXT.width(mc.textRenderer,Infinity.CLIENT_NAME + Infinity.VERSION, true) + 2, 2, -1, true);
     }
 }

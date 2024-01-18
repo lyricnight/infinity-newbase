@@ -8,6 +8,7 @@ import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.clickgui.GUI;
+import club.lyric.infinity.manager.Managers;
 
 import java.awt.*;
 
@@ -31,8 +32,7 @@ public class Button extends Item implements ILabel, IMinecraft {
         if (rect.doesCollide(new Mouse(mouseX, mouseY))) {
             Render2DUtils.renderRect(rect, ColorUtils.newAlpha(Color.GRAY, 70));
         }
-        //TODO: make fontManager
-        Renderer.renderText(getLabel(), rect.getX() + 2f, rect.getY() + 3f, Color.WHITE, true);
+        Managers.TEXT.drawString(getLabel(), rect.getX() + 2f, rect.getY() + 3f, Color.WHITE.getRGB(), true);
         //RenderMethods.drawGradientRect(this.x, this.y, this.x + (float)this.width, this.y + (float)this.height, this.getState() ? (!this.isHovering(mouseX, mouseY) ? ClickGui.INSTANCE.getColor(77) : ClickGui.INSTANCE.getColor(55)) : (!this.isHovering(mouseX, mouseY) ? 0x33555555 : 0x77AAAAAB), this.getState() ? (!this.isHovering(mouseX, mouseY) ? ClickGui.INSTANCE.getColor(77) : ClickGui.INSTANCE.getColor(55)) : (!this.isHovering(mouseX, mouseY) ? 0x55555555 : 0x66AAAAAB));
 
         //mc.fontRenderer.drawString(this.getLabel(), this.x + 2.0f, this.y + 4.0f, this.getState() ? -1 : -5592406, true);

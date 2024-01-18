@@ -7,6 +7,8 @@ import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.clickgui.GUI;
+import club.lyric.infinity.impl.modules.client.ClickGui;
+import club.lyric.infinity.manager.Managers;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -95,7 +97,8 @@ public abstract class Panel implements ILabel, IMinecraft {
         }*/
 
         if (this.open) {
-            renderBody(ClickGUI.INSTANCE.getColorScheme().getFrameColor());
+            //replace with setting
+            renderBody(Color.MAGENTA);
             float y = rect.getY();
             for (Item item : getItems()) {
                 item.setLocation(rect.getX(), y);
@@ -106,7 +109,7 @@ public abstract class Panel implements ILabel, IMinecraft {
         }
         rect.setHeight(getTotalItemHeight());
 
-        renderCategory(ClickGUI.INSTANCE.getColorScheme().getFrameColor(), ClickGUI.INSTANCE.colorScheme.getShadow());
+        renderCategory(Color.WHITE, Managers.MODULES.getModuleFromClass(ClickGui.class).shadow.getValue());
         this.drag(mouseX, mouseY);
     }
 
@@ -121,9 +124,9 @@ public abstract class Panel implements ILabel, IMinecraft {
     public void renderCategory(Color color, boolean shadow) {
         Render2DUtils.renderRectRollingRainbow(categoryRect, 255);
         Render2DUtils.renderRectOutline(categoryRect, color, 0.1f);
-        float x = MathUtils.getMiddle(categoryRect.getX(), categoryRect.getWidth(), Minecraft.getMinecraft().fontRenderer.getStringWidth(category.name()));
-        float y = MathUtils.getMiddle(categoryRect.getY(), categoryRect.getHeight(), Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT);
-        Renderer.renderText(category.name(), x, y, Color.WHITE, shadow);
+        float x = MathUtils.getMiddle(categoryRect.getX(), categoryRect.getWidth(), Managers.TEXT.width(mc.textRenderer, category.name(), Managers.MODULES.getModuleFromClass(ClickGui.class).shadow.getValue()));
+        float y = MathUtils.getMiddle(categoryRect.getY(), categoryRect.getHeight(), Managers.TEXT.height(mc.textRenderer, Managers.MODULES.getModuleFromClass(ClickGui.class).shadow.getValue()));
+        Managers.TEXT.drawString(category.name(), x, y, Color.WHITE.getRGB(), shadow);
     }
 
     private void drag(int mouseX, int mouseY) {
@@ -204,7 +207,7 @@ public abstract class Panel implements ILabel, IMinecraft {
     private float getTotalItemHeight() {
         float height = 0.0f;
         for (Item item : getItems()) {
-            height += (float) item.getHeight() + 1.5f;
+            height += item.getHeight() + 1.5f;
         }
         return height;
     }

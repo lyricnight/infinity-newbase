@@ -43,7 +43,7 @@ public class Clip extends ModuleBase {
         if (nullCheck()) return;
         if (MovementUtil.movement()) return;
 
-        if(time >= updates.getValue())
+        if(time >= updates.getValue() && disable.getValue())
         {
             setEnabled(false);
         }

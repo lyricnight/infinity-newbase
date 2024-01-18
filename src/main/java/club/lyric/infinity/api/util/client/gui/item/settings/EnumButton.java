@@ -6,6 +6,7 @@ import club.lyric.infinity.api.util.client.gui.Rect;
 import club.lyric.infinity.api.util.client.gui.item.Button;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
+import club.lyric.infinity.manager.Managers;
 
 import java.awt.*;
 
@@ -31,8 +32,7 @@ public class EnumButton extends Button {
         if (rect.doesCollide(new Mouse(mouseX, mouseY))) {
             Render2DUtils.renderRect(rect, ColorUtils.newAlpha(Color.GRAY, 70));
         }
-        //TODO: fontManager this
-        mc.fontRenderer.drawString(String.format("%s\u00a77 %s", this.getLabel(), setting.getValue()), this.x + 2.0f, this.y + 4.0f, this.getState() ? -1 : -5592406, true);
+        Managers.TEXT.drawString(String.format("%s\u00a77 %s", this.getLabel(), setting.getValue()), this.x + 2.0f, this.y + 4.0f, this.getState() ? -1 : -5592406, true);
     }
 
     @Override

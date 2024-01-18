@@ -7,10 +7,10 @@ import net.fabricmc.api.ModInitializer;
 
 import java.lang.reflect.Constructor;
 
-public class Loader implements ModInitializer, ClientModInitializer {
+public class Loader {
 
     public static Natives natives = new Natives();
-
+    /*
     @Override
     public void onInitialize() {
         try {
@@ -37,4 +37,5 @@ public class Loader implements ModInitializer, ClientModInitializer {
             t.printStackTrace();
         }
     }
+    */
 }

@@ -96,6 +96,7 @@ public class GUI extends Screen implements IMinecraft {
         //}
     }
 
+    /*
     private void renderGradient() {
         int screenWidth = resolution.getScaledWidth();
         int screenHeight = resolution.getScaledHeight();
@@ -103,7 +104,7 @@ public class GUI extends Screen implements IMinecraft {
         Rect bottom = new Rect(0, -85, screenWidth, screenHeight + 85);
         Renderer.renderRectRollingRainbow(bottom, 180, 0);
     }
-
+    */
 //    @Override
 //    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 //        this.drawDefaultBackground();

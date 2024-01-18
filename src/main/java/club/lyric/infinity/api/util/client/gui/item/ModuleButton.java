@@ -12,6 +12,7 @@ import club.lyric.infinity.api.util.client.gui.item.settings.BooleanButton;
 import club.lyric.infinity.api.util.client.gui.item.settings.EnumButton;
 import club.lyric.infinity.api.util.client.gui.item.settings.NumberSlider;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.manager.Managers;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class ModuleButton extends Button implements IMinecraft {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         Rect rect = new Rect(x, y, width, height);
-        Renderer.renderText(subOpen ? "-" : "+", rect.getX() + rect.getWidth() - 8f, rect.getY() + 3f, Color.WHITE, true);
+        Managers.TEXT.drawString(subOpen ? "-" : "+", rect.getX() + rect.getWidth() - 8f, rect.getY() + 3f, Color.WHITE.getRGB(), true);
         AtomicBoolean can = new AtomicBoolean(true);
         items.forEach(item -> {
             if (item instanceof BooleanButton booleanButton) {

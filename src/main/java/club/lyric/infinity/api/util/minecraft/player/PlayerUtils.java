@@ -40,6 +40,7 @@ public class PlayerUtils implements IMinecraft {
         }
     }
     //TODO: fix this returning false when we drop a block in phase
+    @SuppressWarnings("all")
     public static boolean isPhasing() {
         if(mc.player == null || mc.world == null) return false;
         Box box = mc.player.getBoundingBox();

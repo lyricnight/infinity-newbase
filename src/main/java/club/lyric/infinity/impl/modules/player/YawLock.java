@@ -12,7 +12,6 @@ public class YawLock extends ModuleBase {
             0f,
             -180f,
             180f,
-            0.1f,
             "Locks your yaw to the value set."
     ));
 
@@ -22,7 +21,6 @@ public class YawLock extends ModuleBase {
             0f,
             -90f,
             90f,
-            0.1f,
             "Locks your pitch to the value set."
     ));
 

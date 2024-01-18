@@ -9,7 +9,7 @@ import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.clickgui.GUI;
-
+import club.lyric.infinity.manager.Managers;
 
 import java.awt.*;
 
@@ -38,18 +38,18 @@ public class NumberSlider extends Item implements IMinecraft {
             Render2DUtils.renderRect(rect, ColorUtils.newAlpha(Color.GRAY, 70));
         }
         rect.setWidth(setting.getValue().floatValue() <= min.floatValue() ? x : x + (width + 7.4F) * partialMultiplier());
-        mc.fontRenderer.drawString(String.format("%s\u00a77 %s", this.getLabel(), this.setting.getValue()), this.x + 2.0f, this.y + 4.0f, -1, true);
+        Managers.TEXT.drawString(String.format("%s\u00a77 %s", this.getLabel(), this.setting.getValue()), this.x + 2.0f, this.y + 4.0f, -1, true);
     }
 
     @Override
     public void mouseClicked(double mouseX, double mouseY, int mouseButton) {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        if (isHovering(mouseX, mouseY) && mouseButton == 0) {
-            setSettingFromX(mouseX);
+        if (isHovering((float) mouseX, (float) mouseY) && mouseButton == 0) {
+            setSettingFromX((float) mouseX);
         }
     }
 
-    private void setSettingFromX(int mouseX) {
+    private void setSettingFromX(float mouseX) {
         float percent = (mouseX - x) / (width + 7.4F);
         if (setting.getValue() instanceof Double) {
             double result = (double) setting.getMin() + (difference * percent);
@@ -68,17 +68,17 @@ public class NumberSlider extends Item implements IMinecraft {
     }
 
     private void dragSetting(int mouseX, int mouseY) {
-        if (isHovering(mouseX, mouseY) && Mouse) {
+        if (isHovering(mouseX, mouseY) && mc.mouse.wasLeftButtonClicked()) {
             setSettingFromX(mouseX);
         }
     }
 
-    private boolean isHovering(int mouseX, int mouseY) {
+    private boolean isHovering(float mouseX, float mouseY) {
         for (Panel panel : GUI.getClickGui().getPanels()) {
             if (!panel.drag) continue;
             return false;
         }
-        return (float) mouseX >= this.getX() && (float) mouseX <= this.getX() + (float) this.getWidth() + 7.4F && (float) mouseY >= this.getY() && (float) mouseY <= this.getY() + (float) this.height;
+        return mouseX >= this.getX() &&  mouseX <= this.getX() +  this.getWidth() + 7.4F &&  mouseY >= this.getY() &&  mouseY <= this.getY() +  this.height;
     }
 
     private float getValueWidth() {

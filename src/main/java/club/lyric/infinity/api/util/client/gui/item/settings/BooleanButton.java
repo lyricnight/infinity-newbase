@@ -5,6 +5,9 @@ import club.lyric.infinity.api.util.client.gui.Mouse;
 import club.lyric.infinity.api.util.client.gui.Rect;
 import club.lyric.infinity.api.util.client.gui.item.Button;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
+import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
+import club.lyric.infinity.manager.Managers;
+import club.lyric.infinity.manager.client.TextManager;
 
 import java.awt.*;
 
@@ -22,15 +25,15 @@ public class BooleanButton extends Button {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         Rect rect = new Rect(x, y, width, height);
         if (getState()) {
-            Renderer.renderRectRollingRainbow(rect, 150);
-            Renderer.renderRectOutline(rect, Color.BLACK, 0.1f);
+            Render2DUtils.renderRectRollingRainbow(rect, 150);
+            Render2DUtils.renderRectOutline(rect, Color.BLACK, 0.1f);
         } else {
-            Renderer.renderRect(rect, ColorUtils.newAlpha(Color.BLACK, 60));
+            Render2DUtils.renderRect(rect, ColorUtils.newAlpha(Color.BLACK, 60));
         }
         if (rect.doesCollide(new Mouse(mouseX, mouseY))) {
-            Renderer.renderRect(rect, ColorUtils.newAlpha(Color.GRAY, 70));
+            Render2DUtils.renderRect(rect, ColorUtils.newAlpha(Color.GRAY, 70));
         }
-        mc.fontRenderer.drawString(this.getLabel(), this.x + 2.0f, this.y + 4.0f, this.getState() ? -1 : -5592406, true);
+        Managers.TEXT.drawString(this.getLabel(), this.x + 2.0f, this.y + 4.0f, this.getState() ? -1 : -5592406, true);
     }
 
     @Override

@@ -16,9 +16,12 @@ import org.apache.logging.log4j.Logger;
 
 public class Infinity implements ModInitializer, ClientModInitializer {
 
+	/*
 	private Infinity() {
 		//Loader.natives.native5();
 	}
+
+	 */
 
 	public static final String CLIENT_NAME = "Infinity";
 	public static final String VERSION = " v2";
