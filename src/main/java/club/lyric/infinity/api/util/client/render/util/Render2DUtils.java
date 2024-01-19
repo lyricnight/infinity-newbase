@@ -1,6 +1,5 @@
 package club.lyric.infinity.api.util.client.render.util;
 
-import club.lyric.infinity.api.util.client.gui.Rect;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;

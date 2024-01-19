@@ -2,7 +2,6 @@ package club.lyric.infinity.impl.clickgui;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
-import club.lyric.infinity.api.util.client.gui.Panel;
 import club.lyric.infinity.api.util.client.gui.item.Item;
 import club.lyric.infinity.api.util.client.gui.item.ModuleButton;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;

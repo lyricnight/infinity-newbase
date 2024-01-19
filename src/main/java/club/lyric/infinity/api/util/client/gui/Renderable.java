@@ -1,0 +1,27 @@
+package club.lyric.infinity.api.util.client.gui;
+
+/**
+ * @author lyric
+ * for anything that can be rendered in gui.
+ */
+public interface Renderable {
+
+    /**
+     * for names
+     * @return - the name of this object
+     */
+    String get();
+
+    /**
+     * renders element.
+     */
+    void render();
+
+    default Theme getTheme()
+    {
+        return new Theme() {
+        };
+    }
+
+
+}

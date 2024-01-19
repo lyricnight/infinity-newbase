@@ -63,9 +63,7 @@ public class ServerManager implements IMinecraft {
         return playerListEntry.getLatency();
     }
 
-
-    //3rd highest priority listener in the client, after onUpdate and onTick, because small ms deviations is inaccuracy. Might make this the highest priority!
-    @EventHandler(priority = Integer.MAX_VALUE - 2)
+    @EventHandler(priority = Integer.MAX_VALUE)
     public void onPacketReceive(PacketEvent.Receive event)
     {
         //We don't actually need to check if Latency is enabled, because time is the most important thing here, and receiving the packet we check for is impossible normally.

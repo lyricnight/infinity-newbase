@@ -4,6 +4,7 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.event.render.Render3DEvent;
+import club.lyric.infinity.api.setting.RenderableSetting;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.*;
 import club.lyric.infinity.api.setting.settings.util.Bind;
@@ -63,6 +64,11 @@ public class ModuleBase implements IMinecraft, JsonElements {
     public List<Setting<?>> settingList = new ArrayList<>();
 
     /**
+     * whether to show settings or not.
+     */
+    private boolean showSettings;
+
+    /**
      * enabled/disabled
      */
     public BooleanSetting enabled;
@@ -84,6 +90,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
         this.name = name;
         this.description = description;
         this.category = category;
+        this.showSettings = false;
 
         enabled = createBool(new BooleanSetting("Enabled", false, "Whether to enable module or not."));
         bind = createBind(new BindSetting("Bind", new Bind(-1), "Bind for enabling/disabling this module."));
@@ -280,6 +287,14 @@ public class ModuleBase implements IMinecraft, JsonElements {
         return settingList;
     }
 
+    public boolean showSettings() {
+        return showSettings;
+    }
+
+    public void toggleShowSettings() {
+        this.showSettings = !this.showSettings;
+    }
+
     /**
      * null convenience
      * @return if null is present
@@ -287,5 +302,13 @@ public class ModuleBase implements IMinecraft, JsonElements {
     public static boolean nullCheck()
     {
         return mc.player == null || mc.world == null;
+    }
+
+    public void renderSettings() {
+        for (Setting setting : settingList) {
+            if (setting instanceof RenderableSetting renderableSetting) {
+                renderableSetting.render();
+            }
+        }
     }
 }

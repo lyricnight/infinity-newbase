@@ -56,7 +56,7 @@ public class EventManager implements IMinecraft {
      * @param ignored - event
      */
 
-    @EventHandler(priority = Integer.MAX_VALUE)
+    @EventHandler(priority = Integer.MAX_VALUE - 1)
     public void onUpdate(UpdateEvent ignored)
     {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onUpdate);
@@ -73,7 +73,7 @@ public class EventManager implements IMinecraft {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(module -> module.onRender2D(event));
     }
 
-    @EventHandler(priority = Integer.MAX_VALUE - 1)
+    @EventHandler(priority = Integer.MAX_VALUE - 2)
     public void onTick(TickEvent event)
     {
         if (mc.player == null || mc.world == null) return;
