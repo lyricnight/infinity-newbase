@@ -1,12 +1,12 @@
 package club.lyric.infinity.api.util.client.gui;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.util.client.gui.item.Button;
 import club.lyric.infinity.api.util.client.gui.item.Item;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.clickgui.GUI;
 import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.manager.Managers;
 
@@ -143,7 +143,7 @@ public abstract class Panel implements ILabel, IMinecraft {
         if (mouseButton == 0 && categoryRect.doesCollide(new Mouse(mouseX, mouseY))) {
             x2 = (float) (categoryRect.getX() - mouseX);
             y2 = (float) (categoryRect.getY() - mouseY);
-            GUI.getClickGui().getPanels().forEach(panel -> {
+            Infinity.CLICK_GUI.getPanels().forEach(panel -> {
                 if (panel.drag) {
                     panel.drag = false;
                 }

@@ -1,9 +1,11 @@
 package club.lyric.infinity;
 
+import club.lyric.infinity.impl.clickgui.GUI;
 import club.lyric.infinity.manager.Managers;
 import club.lyric.loader.Loader;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.client.util.NarratorManager;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,12 +22,13 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 	private Infinity() {
 		//Loader.natives.native5();
 	}
-
 	 */
 
 	public static final String CLIENT_NAME = "Infinity";
 	public static final String VERSION = " v2";
     public static final Logger LOGGER = LogManager.getLogger("Infinity");
+	public static GUI CLICK_GUI;
+
 
 	@Override
 	public void onInitialize() {
@@ -45,6 +48,7 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 	public void onInitializeClient() {
 		LOGGER.info("Infinity has received onInitializeClient()!");
 		Managers.init();
+		CLICK_GUI = new GUI(null, NarratorManager.EMPTY);
 		Runtime.getRuntime().addShutdownHook(new Thread(Managers.CONFIG::save));
 	}
 }

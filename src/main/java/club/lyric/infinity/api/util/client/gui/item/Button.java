@@ -1,5 +1,6 @@
 package club.lyric.infinity.api.util.client.gui.item;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.util.client.gui.ILabel;
 import club.lyric.infinity.api.util.client.gui.Mouse;
 import club.lyric.infinity.api.util.client.gui.Panel;
@@ -59,7 +60,7 @@ public class Button extends Item implements ILabel, IMinecraft {
     }
 
     protected boolean isHovering(double mouseX, double mouseY) {
-        for (Panel panel : GUI.getClickGui().getPanels()) {
+        for (Panel panel : Infinity.CLICK_GUI.getPanels()) {
             if (!panel.drag) continue;
             return false;
         }
@@ -71,6 +72,7 @@ public class Button extends Item implements ILabel, IMinecraft {
         super.keyPressed(keyCode, scanCode, modifiers);
     }
 
+    @SuppressWarnings("all")
     @Override
     public boolean isVisible() {
         return true;

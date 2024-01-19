@@ -8,16 +8,16 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
 
 import java.awt.*;
-
-import static org.lwjgl.opengl.GL11.*;
 
 /**
  * @author vasler, railhack
  * render util
  */
+@SuppressWarnings("unused")
+
 public class Render2DUtils implements IMinecraft
 {
 
@@ -64,20 +64,22 @@ public class Render2DUtils implements IMinecraft
         RenderSystem.disableBlend();
     }
 
+    //GUI methods by railhack
+
     public static void renderRect(Rect rect, Color color) {
         RenderSystem.enableBlend();
         ColorUtils.glColor(color);
-        GL11.glDisable(GL_TEXTURE_2D);
-        GL11.glBegin(GL_QUADS);
-        GL11.glVertex2f(rect.getX(), rect.getY());
-        GL11.glVertex2f(rect.getX(), rect.getY() + rect.getHeight());
-        GL11.glVertex2f(rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight());
-        GL11.glVertex2f(rect.getX() + rect.getWidth(), rect.getY());
-        GL11.glEnd();
-        GL11.glEnable(GL_TEXTURE_2D);
+        GL20.glDisable(GL20.GL_TEXTURE_2D);
+        GL20.glBegin(GL20.GL_QUADS);
+        GL20.glVertex2f(rect.getX(), rect.getY());
+        GL20.glVertex2f(rect.getX(), rect.getY() + rect.getHeight());
+        GL20.glVertex2f(rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight());
+        GL20.glVertex2f(rect.getX() + rect.getWidth(), rect.getY());
+        GL20.glEnd();
+        GL20.glEnable(GL20.GL_TEXTURE_2D);
     }
 
-    public static void renderRectRollingRainbow(final Rect rect, final int alpha) {
+    public static void renderRectRollingRainbow(Rect rect, int alpha) {
         float hueSpeedX = 0.005f;
         float hueSpeedY = 0.005f;
 
@@ -88,7 +90,7 @@ public class Render2DUtils implements IMinecraft
         renderRectGradient(rect, hueTopRight, hueTopLeft, hueBottomLeft, hueBottomRight);
     }
 
-    public static void renderRectRollingRainbow(final Rect rect, final int bottomAlpha, final int topAlpha) {
+    public static void renderRectRollingRainbow(Rect rect, int bottomAlpha, int topAlpha) {
         float hueSpeedX = 0.005f;
         float hueSpeedY = 0.005f;
 
@@ -101,33 +103,33 @@ public class Render2DUtils implements IMinecraft
 
     public static void renderRectGradient(Rect rect, Color topRight, Color topLeft, Color bottomLeft, Color bottomRight) {
         RenderSystem.enableBlend();
-        GL11.glShadeModel(GL_SMOOTH);
-        GL11.glDisable(GL_TEXTURE_2D);
-        GL11.glBegin(GL_QUADS);
+        GL20.glShadeModel(GL20.GL_SMOOTH);
+        GL20.glDisable(GL20.GL_SMOOTH);
+        GL20.glBegin(GL20.GL_QUADS);
         ColorUtils.glColor(topLeft);
-        GL11.glVertex2f(rect.getX(), rect.getY());
+        GL20.glVertex2f(rect.getX(), rect.getY());
         ColorUtils.glColor(bottomLeft);
-        GL11.glVertex2f(rect.getX(), rect.getY() + rect.getHeight());
+        GL20.glVertex2f(rect.getX(), rect.getY() + rect.getHeight());
         ColorUtils.glColor(bottomRight);
-        GL11.glVertex2f(rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight());
+        GL20.glVertex2f(rect.getX() + rect.getWidth(), rect.getY() + rect.getHeight());
         ColorUtils.glColor(topRight);
-        GL11.glVertex2f(rect.getX() + rect.getWidth(), rect.getY());
-        GL11.glEnd();
-        GL11.glEnable(GL_TEXTURE_2D);
+        GL20.glVertex2f(rect.getX() + rect.getWidth(), rect.getY());
+        GL20.glEnd();
+        GL20.glEnable(GL20.GL_TEXTURE_2D);
     }
 
     public static void renderRectOutline(Rect rect, Color color, double linWid) {
         RenderSystem.enableBlend();
-        GL11.glLineWidth((float)linWid);
-        GL11.glDisable(2848);
+        GL20.glLineWidth((float)linWid);
+        GL20.glDisable(2848);
         ColorUtils.glColor(color);
-        GL11.glDisable(3553);
-        GL11.glBegin(2);
-        GL11.glVertex2f(rect.getX(), rect.getY());
-        GL11.glVertex2f(rect.getX(), (rect.getY() + rect.getHeight()));
-        GL11.glVertex2f((rect.getX() + rect.getWidth()), (rect.getY() + rect.getHeight()));
-        GL11.glVertex2f((rect.getX() + rect.getWidth()), rect.getY());
-        GL11.glEnd();
-        GL11.glEnable(3553);
+        GL20.glDisable(3553);
+        GL20.glBegin(2);
+        GL20.glVertex2f(rect.getX(), rect.getY());
+        GL20.glVertex2f(rect.getX(), (rect.getY() + rect.getHeight()));
+        GL20.glVertex2f((rect.getX() + rect.getWidth()), (rect.getY() + rect.getHeight()));
+        GL20.glVertex2f((rect.getX() + rect.getWidth()), rect.getY());
+        GL20.glEnd();
+        GL20.glEnable(3553);
     }
 }

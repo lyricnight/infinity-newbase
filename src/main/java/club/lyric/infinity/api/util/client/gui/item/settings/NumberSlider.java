@@ -1,5 +1,6 @@
 package club.lyric.infinity.api.util.client.gui.item.settings;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.util.client.gui.Mouse;
 import club.lyric.infinity.api.util.client.gui.Panel;
@@ -74,13 +75,14 @@ public class NumberSlider extends Item implements IMinecraft {
     }
 
     private boolean isHovering(float mouseX, float mouseY) {
-        for (Panel panel : GUI.getClickGui().getPanels()) {
+        for (Panel panel : Infinity.CLICK_GUI.getPanels()) {
             if (!panel.drag) continue;
             return false;
         }
         return mouseX >= this.getX() &&  mouseX <= this.getX() +  this.getWidth() + 7.4F &&  mouseY >= this.getY() &&  mouseY <= this.getY() +  this.height;
     }
 
+    //what does this do ???? - lyric
     private float getValueWidth() {
         return ((Number) this.setting.getMax()).floatValue() - ((Number) this.setting.getMax()).floatValue() + ((Number) this.setting.getValue()).floatValue();
     }

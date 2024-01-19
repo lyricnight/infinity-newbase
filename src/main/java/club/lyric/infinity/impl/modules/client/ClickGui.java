@@ -1,5 +1,7 @@
 package club.lyric.infinity.impl.modules.client;
 
+import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -23,6 +25,21 @@ public class ClickGui extends ModuleBase {
         {
             return;
         }
-        mc.setScreen(GUI.getClickGui());
+        mc.setScreen(Infinity.CLICK_GUI);
+    }
+
+    @Override
+    public void onRender2D(Render2DEvent event)
+    {
+        mc.execute(() ->
+        {
+            mc.setScreen(Infinity.CLICK_GUI);
+        });
+    }
+
+    @Override
+    public void onDisable()
+    {
+        Infinity.CLICK_GUI.close();
     }
 }
