@@ -10,6 +10,7 @@
     "MixinEntity",
     "MixinInGameHud",
     "MixinLivingEntity",
+    "MixinSharedConstants",
     "MixinStringHelper",
     "MixinTitleScreen"
   ],
