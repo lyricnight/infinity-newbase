@@ -19,6 +19,20 @@ public class InfinityGUI implements Renderable {
      */
     public float locY;
 
+
+    public void toggle()
+    {
+        if (IMLoader.isRendered(Infinity.CLICK_GUI))
+        {
+            IMLoader.queueRemove(Infinity.CLICK_GUI);
+        }
+        else
+        {
+            IMLoader.addRenderable(Infinity.CLICK_GUI);
+        }
+    }
+
+
     @Override
     public String get() {
         return Infinity.CLIENT_NAME + Infinity.VERSION;

@@ -25,7 +25,9 @@
     "MixinKeyboard",
     "MixinMinecraftClient",
     "MixinMinecraftOptions",
+    "MixinRenderSystem",
     "MixinSplashTextResourceSupplier",
+    "MixinWindow",
     "MixinWorldRenderer",
     "accessors.IChatHudLine"
   ],

@@ -20,7 +20,6 @@ public class IMLoader implements IMinecraft {
 
     private static final Set<Renderable> renderstack = new HashSet<>();
     private static final Set<Renderable> toRemove = new HashSet<>();
-
     private static final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
     private static final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
     private static ImFont customFont;
@@ -44,11 +43,6 @@ public class IMLoader implements IMinecraft {
     public static void onFrameRender() {
         imGuiGlfw.newFrame();
         ImGui.newFrame();
-
-        if (Phosphor.INSTANCE != null && AsteriaMenu.isClientEnabled()) {
-            AsteriaSettingsModule asteria = Phosphor.moduleManager().getModule(AsteriaSettingsModule.class);
-            if (asteria != null) asteria.updateMode();
-        }
 
         for (Renderable renderable : renderstack) {
             mc.getProfiler().push("ImGui Render " + renderable.get());

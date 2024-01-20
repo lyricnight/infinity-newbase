@@ -223,6 +223,27 @@ public class ModuleBase implements IMinecraft, JsonElements {
         return setting;
     }
 
+    public ColorSetting createColor(ColorSetting setting)
+    {
+        setting.setModule(this);
+        this.settingList.add(setting);
+        return setting;
+    }
+
+    public BooleanRainbowSetting createBoolRainbow(BooleanRainbowSetting setting)
+    {
+        setting.setModule(this);
+        this.settingList.add(setting);
+        return setting;
+    }
+
+    public ColorSliderSetting createColorSlider(ColorSliderSetting setting)
+    {
+        setting.setModule(this);
+        this.settingList.add(setting);
+        return setting;
+    }
+
     /**
      * config methods
      */

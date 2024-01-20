@@ -1,5 +1,7 @@
 package club.lyric.infinity.api.util.client.render.colors;
 
+import club.lyric.infinity.impl.modules.client.ClickGui;
+import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import java.awt.*;
@@ -13,8 +15,7 @@ public class JColor extends Color {
     private static final long serialVersionUID = 1L;
 
     public static JColor getGuiColor() {
-        AsteriaSettingsModule radiumSettings = Phosphor.moduleManager().getModule(AsteriaSettingsModule.class);
-        return (radiumSettings != null) ? radiumSettings.color.getColor() : new JColor(0.90f, 0.27f, 0.33f);
+        return Managers.MODULES.getModuleFromClass(ClickGui.class).color.getColor();
     }
 
     public JColor(int rgb) {
