@@ -39,6 +39,8 @@ public class Tab implements Renderable, IMinecraft {
 
     @Override
     public void render() {
+        if (mc.world == null || mc.player == null) return;
+
         int imGuiWindowFlags = 0;
         imGuiWindowFlags |= ImGuiWindowFlags.AlwaysAutoResize;
         imGuiWindowFlags |= ImGuiWindowFlags.NoDocking;
@@ -115,6 +117,8 @@ public class Tab implements Renderable, IMinecraft {
         return new Theme() {
             @Override
             public void pre() {
+                if (mc.world == null || mc.player == null) return;
+
                 float[][] colors = ImGui.getStyle().getColors();
 
                 float[] color = JColor.getGuiColor().getFloatColor();
@@ -198,6 +202,8 @@ public class Tab implements Renderable, IMinecraft {
 
             @Override
             public void post() {
+                if (mc.world == null || mc.player == null) return;
+
                 if (IMLoader.getCustomFont() != null) {
                     ImGui.popFont();
                 }

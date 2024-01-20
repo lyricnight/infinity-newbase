@@ -3,6 +3,7 @@ package club.lyric.infinity.api.util.client.gui;
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
+import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
@@ -12,7 +13,7 @@ import imgui.flag.ImGuiWindowFlags;
  * @author lyric
  * main class for gui.
  */
-public class InfinityGUI implements Renderable {
+public class InfinityGUI implements Renderable, IMinecraft {
 
     /**
      * represents how far we have scrolled up / down.
@@ -40,6 +41,7 @@ public class InfinityGUI implements Renderable {
 
     @Override
     public void render() {
+        if (mc.world == null || mc.player == null) return;
         int imGuiWindowFlags = 0;
         imGuiWindowFlags |= ImGuiWindowFlags.AlwaysAutoResize;
         imGuiWindowFlags |= ImGuiWindowFlags.NoDocking;
@@ -129,6 +131,8 @@ public class InfinityGUI implements Renderable {
         return new Theme() {
             @Override
             public void pre() {
+                if (mc.world == null || mc.player == null) return;
+
                 float[][] colors = ImGui.getStyle().getColors();
 
                 float[] color = JColor.getGuiColor().getFloatColor();
@@ -211,6 +215,7 @@ public class InfinityGUI implements Renderable {
 
             @Override
             public void post() {
+                if (mc.world == null || mc.player == null) return;
                 if (IMLoader.getCustomFont() != null) {
                     ImGui.popFont();
                 }

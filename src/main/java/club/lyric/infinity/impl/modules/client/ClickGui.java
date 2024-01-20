@@ -28,6 +28,8 @@ public class ClickGui extends ModuleBase {
     @Override
     public void onEnable()
     {
+        if (mc.world == null || mc.player == null) return;
+
         Infinity.CLICK_GUI.toggle();
         mc.mouse.unlockCursor();
     }
@@ -35,6 +37,8 @@ public class ClickGui extends ModuleBase {
     @Override
     public void onDisable()
     {
+        if (mc.world == null || mc.player == null) return;
+
         Infinity.CLICK_GUI.toggle();
         if (mc.currentScreen == null) mc.mouse.lockCursor();
     }
@@ -43,6 +47,8 @@ public class ClickGui extends ModuleBase {
     @EventHandler
     public void onKeyPress(KeyPressEvent event)
     {
+        if (mc.world == null || mc.player == null) return;
+
         if (event.getAction() == KeyPressAction.PRESS && event.getKey() == GLFW.GLFW_KEY_ESCAPE)
         {
             setEnabled(false);

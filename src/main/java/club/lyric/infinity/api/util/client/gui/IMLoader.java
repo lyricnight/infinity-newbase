@@ -41,6 +41,8 @@ public class IMLoader implements IMinecraft {
     }
 
     public static void onFrameRender() {
+        if (mc.world == null || mc.player == null) return;
+
         imGuiGlfw.newFrame();
         ImGui.newFrame();
 
