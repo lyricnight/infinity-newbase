@@ -15,6 +15,10 @@ public class JColor extends Color {
     private static final long serialVersionUID = 1L;
 
     public static JColor getGuiColor() {
+        if (Managers.MODULES.getModuleFromClass(ClickGui.class) == null)
+        {
+            return new JColor(Color.GRAY);
+        }
         return Managers.MODULES.getModuleFromClass(ClickGui.class).color.getColor();
     }
 
