@@ -40,7 +40,6 @@ public class Tab implements Renderable, IMinecraft {
     @Override
     public void render() {
         if (mc.world == null || mc.player == null) return;
-
         int imGuiWindowFlags = 0;
         imGuiWindowFlags |= ImGuiWindowFlags.AlwaysAutoResize;
         imGuiWindowFlags |= ImGuiWindowFlags.NoDocking;
@@ -70,7 +69,7 @@ public class Tab implements Renderable, IMinecraft {
 
         ImGui.pushFont(IMLoader.getBiggerDosisFont());
         ImGui.pushStyleColor(ImGuiCol.Text, color[0], color[1], color[2], 1.00f);
-        ImGui.text("Asteria");
+        ImGui.text("Infinity");
         ImGui.popFont();
         ImGui.popStyleColor();
         ImGui.pushStyleColor(ImGuiCol.Text, 0.42f, 0.44f, 0.53f, 1.00f);

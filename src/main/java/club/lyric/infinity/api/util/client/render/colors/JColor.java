@@ -1,5 +1,7 @@
 package club.lyric.infinity.api.util.client.render.colors;
 
+import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.util.client.gui.InfinityGUI;
 import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -19,7 +21,7 @@ public class JColor extends Color {
         {
             return new JColor(Color.GRAY);
         }
-        return Managers.MODULES.getModuleFromClass(ClickGui.class).color.getColor();
+        return Managers.MODULES.getModuleFromClass(ClickGui.class).color.getValue();
     }
 
     public JColor(int rgb) {

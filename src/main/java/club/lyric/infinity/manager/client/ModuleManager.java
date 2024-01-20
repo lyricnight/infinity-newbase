@@ -29,13 +29,13 @@ public class ModuleManager implements JsonElements, IMinecraft
     public void init()
     {
         register(
+                new ClickGui(),
                 new AntiCheat(),
                 new Manager(),
                 new DiscordRPC(),
                 new Chat(),
                 new HUD(),
                 new Sprint(),
-                new ClickGui(),
                 new NoJumpDelay(),
                 new HitboxDesync(),
                 new Notifications(),
@@ -45,6 +45,7 @@ public class ModuleManager implements JsonElements, IMinecraft
                 new Clip()
         );
         Infinity.LOGGER.info("Initialising modules.");
+
     }
 
     /**

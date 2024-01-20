@@ -20,6 +20,10 @@ public class InfinityGUI implements Renderable, IMinecraft {
      */
     public float locY;
 
+    private InfinityGUI INSTANCE;
+
+
+
 
     public void toggle()
     {
@@ -42,6 +46,7 @@ public class InfinityGUI implements Renderable, IMinecraft {
     @Override
     public void render() {
         if (mc.world == null || mc.player == null) return;
+        Tab.getInstance().render();
         int imGuiWindowFlags = 0;
         imGuiWindowFlags |= ImGuiWindowFlags.AlwaysAutoResize;
         imGuiWindowFlags |= ImGuiWindowFlags.NoDocking;

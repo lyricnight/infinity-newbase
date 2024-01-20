@@ -11,8 +11,6 @@ public class ColorSetting extends Setting<JColor> implements RenderableSetting {
 
     public boolean init;
 
-    private JColor color;
-
     private final ArrayList<RenderableSetting> renderableSettings = new ArrayList<>();
 
     private final boolean alpha;
@@ -45,14 +43,10 @@ public class ColorSetting extends Setting<JColor> implements RenderableSetting {
 
         if (alpha)
         {
-            ColorSliderSetting alphaSetting = module.createColorSlider(new ColorSliderSetting("Alpha", module.getName() + "/" + getName() + "/Alpha", color.getAlpha(), "Alpha."));
+            ColorSliderSetting alphaSetting = module.createColorSlider(new ColorSliderSetting("Alpha", module.getName() + "/" + getName() + "/Alpha", getValue().getAlpha(), "Alpha."));
             renderableSettings.add(alphaSetting);
         }
         init = true;
-    }
-
-    public JColor getColor() {
-        return color;
     }
 
     public boolean isRainbow() {
@@ -66,7 +60,11 @@ public class ColorSetting extends Setting<JColor> implements RenderableSetting {
     }
 
     public void setColor(JColor color, boolean rainbow) {
-        this.color = color;
+        if(!init)
+        {
+            init();
+        }
+        this.value = color;
         this.rainbow = rainbow;
 
         ((BooleanSetting) renderableSettings.get(0)).setValue(rainbow);
@@ -84,7 +82,7 @@ public class ColorSetting extends Setting<JColor> implements RenderableSetting {
         }
         ImGui.pushID(module.getName() + "/" + getName());
 
-        float[] color = getColor().getFloatColorWAlpha();
+        float[] color = getValue().getFloatColorWAlpha();
 
         ImGui.text(getName());
 

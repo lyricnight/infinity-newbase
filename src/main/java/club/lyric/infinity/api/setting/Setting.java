@@ -5,6 +5,7 @@ import club.lyric.infinity.api.event.client.SettingEvent;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.setting.settings.util.EnumConverter;
+import club.lyric.infinity.api.util.client.render.colors.JColor;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -204,7 +205,7 @@ public class Setting<T> {
     }
 
     public boolean isEnumSetting() {
-        return !this.isNumberSetting() && !(this.value instanceof String) && !(this.value instanceof Bind) && !(this.value instanceof Character) && !(this.value instanceof Boolean);
+        return !this.isNumberSetting() && !(this.value instanceof String) && !(this.value instanceof Bind) && !(this.value instanceof Character) && !(this.value instanceof Boolean) && !(this.value instanceof JColor);
     }
 
     public boolean isStringSetting() {
