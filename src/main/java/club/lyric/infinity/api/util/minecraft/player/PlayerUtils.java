@@ -39,6 +39,7 @@ public class PlayerUtils implements IMinecraft {
             return minuteFormat.format(minutes) + ":" + secondsFormat.format(seconds);
         }
     }
+
     //TODO: fix this returning false when we drop a block in phase
     @SuppressWarnings("all")
     public static boolean isPhasing() {
