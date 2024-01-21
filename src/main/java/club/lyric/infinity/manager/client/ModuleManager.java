@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * register the modules
 */
 
-public class ModuleManager implements JsonElements, IMinecraft
+public class ModuleManager implements IMinecraft
 {
     private final List<ModuleBase> modules = new ArrayList<>();
 
@@ -44,7 +44,6 @@ public class ModuleManager implements JsonElements, IMinecraft
                 new Clip()
         );
         Infinity.LOGGER.info("Initialising modules.");
-
     }
 
     /**
@@ -98,56 +97,9 @@ public class ModuleManager implements JsonElements, IMinecraft
         return null;
     }
 
-    /**
-     * gets a setting from a module
-     * NOT NULL-SAFE
-     * @param module - module
-     * @param setting - setting
-     * @return - the setting
-     */
-    @SuppressWarnings("rawtypes")
-    public Setting getSettingFromModule(String module, String setting)
-    {
-        for (Setting settings : getModuleByName(module).getSettings())
-        {
-            if (setting.equalsIgnoreCase(settings.getName()))
-            {
-                return settings;
-            }
-        }
-        return null;
-    }
-
-
-    @Override
-    public JsonElement toJson()
-    {
-        JsonObject object = new JsonObject();
-        for (ModuleBase module : modules)
-        {
-            object.add(module.getName(), module.toJson());
-        }
-
-        return object;
-    }
 
     @SuppressWarnings("unused")
     public List<ModuleBase> getModulesInCategory(Category c) {
         return modules.stream().filter(m -> m.getCategory() == c).collect(Collectors.toList());
-    }
-
-    @Override
-    public void fromJson(JsonElement jsonElement)
-    {
-        for (ModuleBase module : modules)
-        {
-            module.fromJson(jsonElement.getAsJsonObject().get(module.getName()));
-        }
-    }
-
-    @Override
-    public String getFileName()
-    {
-        return "modules.json";
     }
 }
