@@ -20,20 +20,27 @@ public class InfinityGUI implements Renderable, IMinecraft {
      */
     public float locY;
 
-    private InfinityGUI INSTANCE;
+    private static InfinityGUI INSTANCE;
 
-
+    public static InfinityGUI getInstance()
+    {
+        if (INSTANCE == null)
+        {
+            INSTANCE = new InfinityGUI();
+        }
+        return INSTANCE;
+    }
 
 
     public void toggle()
     {
-        if (IMLoader.isRendered(Infinity.CLICK_GUI))
+        if (IMLoader.isRendered(getInstance()))
         {
-            IMLoader.queueRemove(Infinity.CLICK_GUI);
+            IMLoader.queueRemove(getInstance());
         }
         else
         {
-            IMLoader.addRenderable(Infinity.CLICK_GUI);
+            IMLoader.addRenderable(getInstance());
         }
     }
 

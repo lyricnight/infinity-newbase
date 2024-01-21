@@ -39,7 +39,6 @@ public class ModuleManager implements JsonElements, IMinecraft
                 new NoJumpDelay(),
                 new HitboxDesync(),
                 new Notifications(),
-                new YawLock(),
                 new PhaseWalk(),
                 new Latency(),
                 new Clip()

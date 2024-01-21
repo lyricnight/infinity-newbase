@@ -1,25 +1,21 @@
 package club.lyric.infinity.api.module;
 
-import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.event.render.Render3DEvent;
-import club.lyric.infinity.api.setting.RenderableSetting;
+import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.*;
-import club.lyric.infinity.api.setting.settings.util.Bind;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
-import club.lyric.infinity.api.util.client.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Notifications;
 import club.lyric.infinity.manager.Managers;
-import club.lyric.infinity.manager.client.ConfigManager;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -27,41 +23,29 @@ import java.util.List;
  * module
  */
 
-@SuppressWarnings({"rawtypes", "unused"})
-public class ModuleBase implements IMinecraft, JsonElements {
+@SuppressWarnings({"unused"})
+public class ModuleBase implements IMinecraft {
 
     /**
      * name
      */
     private final String name;
     /**
-     * categoryCounting
-     */
-    public static int categoryCount;
-    /**
      * description
      */
     private final String description;
     /**
-     * module's animation factor for HUD
-     */
-    public float factor = 0.0f;
-
-    /**
      * module id for overwrite messages
      */
-
     private final int id;
-
     /**
      * category of module
      */
-    public Category category;
-
+    private final Category category;
     /**
      * setting list
      */
-    public List<Setting<?>> settingList = new ArrayList<>();
+    public List<Setting> settingList = new ArrayList<>();
 
     /**
      * whether to show settings or not.
@@ -71,7 +55,7 @@ public class ModuleBase implements IMinecraft, JsonElements {
     /**
      * enabled/disabled
      */
-    public BooleanSetting enabled;
+    private boolean enabled;
 
     /**
      * module's bind.
@@ -92,9 +76,8 @@ public class ModuleBase implements IMinecraft, JsonElements {
         this.category = category;
         this.showSettings = false;
 
-        enabled = createBool(new BooleanSetting("Enabled", false, "Whether to enable module or not."));
-        bind = createBind(new BindSetting("Bind", new Bind(-1), "Bind for enabling/disabling this module."));
-        drawn = createBool(new BooleanSetting("Drawn", true, "Whether to draw the module on the ArrayList or not."));
+        bind = new BindSetting("Bind", -1, this);
+        drawn = new BooleanSetting("Drawn", true,this);
         id = hashCode();
     }
 
@@ -121,11 +104,11 @@ public class ModuleBase implements IMinecraft, JsonElements {
     }
 
     public boolean isOn() {
-        return enabled.getValue();
+        return enabled;
     }
 
     public boolean isOff() {
-        return !enabled.getValue();
+        return !enabled;
     }
 
     public void setEnabled(boolean enabled) {
@@ -142,25 +125,25 @@ public class ModuleBase implements IMinecraft, JsonElements {
     }
 
     private void enable() {
-        enabled.setValue(true);
+        enabled = true;
         EventBus.getInstance().register(this);
         this.onEnable();
-        if (Managers.MODULES.getModuleFromClass(Notifications.class).enable.getValue()) {
+        if (Managers.MODULES.getModuleFromClass(Notifications.class).enable.value()) {
             ChatUtils.sendOverwriteMessageNoTag(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", id);
         }
     }
 
     private void disable() {
-        enabled.setValue(false);
+        enabled = false;
         this.onDisable();
         EventBus.getInstance().unregister(this);
-        if (Managers.MODULES.getModuleFromClass(Notifications.class).disable.getValue()) {
+        if (Managers.MODULES.getModuleFromClass(Notifications.class).disable.value()) {
             ChatUtils.sendOverwriteMessageNoTag(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", id);
         }
     }
 
     public boolean isDrawn() {
-        return drawn.getValue();
+        return drawn.value();
     }
 
     public void setDrawn(boolean drawn) {
@@ -171,12 +154,12 @@ public class ModuleBase implements IMinecraft, JsonElements {
         return this.category;
     }
 
-    public Bind getBind() {
-        return this.bind.getValue();
+    public int getBind() {
+        return this.bind.getCode();
     }
 
     public void setBind(int key) {
-        this.bind.setValue(new Bind(key));
+        this.bind.setCode(key);
     }
 
     protected void send(Packet<?> packet) {
@@ -185,99 +168,11 @@ public class ModuleBase implements IMinecraft, JsonElements {
         mc.getNetworkHandler().sendPacket(packet);
     }
 
-    /**
-     * setting constructors
-     */
-    public BooleanSetting createBool(BooleanSetting setting)
-    {
-        setting.setModule(this);
-        this.settingList.add(setting);
-        return setting;
+    public void addSettings(Setting... settings) {
+        this.settingList.addAll(Arrays.asList(settings));
+        this.settingList.sort(Comparator.comparingInt(s -> s == bind ? 1 : 0));
     }
 
-    public NumberSetting createNumber(NumberSetting setting)
-    {
-        setting.setModule(this);
-        this.settingList.add(setting);
-        return setting;
-    }
-
-    public BindSetting createBind(BindSetting setting)
-    {
-        setting.setModule(this);
-        this.settingList.add(setting);
-        return setting;
-    }
-
-    public StringSetting createString(StringSetting setting)
-    {
-        setting.setModule(this);
-        this.settingList.add(setting);
-        return setting;
-    }
-
-    public EnumSetting createEnum(EnumSetting setting)
-    {
-        setting.setModule(this);
-        this.settingList.add(setting);
-        return setting;
-    }
-
-    public ColorSetting createColor(ColorSetting setting)
-    {
-        setting.setModule(this);
-        this.settingList.add(setting);
-        return setting;
-    }
-
-    public BooleanRainbowSetting createBoolRainbow(BooleanRainbowSetting setting)
-    {
-        setting.setModule(this);
-        this.settingList.add(setting);
-        return setting;
-    }
-
-    public ColorSliderSetting createColorSlider(ColorSliderSetting setting)
-    {
-        setting.setModule(this);
-        this.settingList.add(setting);
-        return setting;
-    }
-
-    /**
-     * config methods
-     */
-
-    @Override
-    public JsonElement toJson() {
-        JsonObject object = new JsonObject();
-        for (Setting<?> setting : getSettings()) {
-            try {
-                if (setting.getValue() instanceof Bind) {
-                    object.addProperty(setting.getName(), bind.getKey());
-                } else {
-                    object.addProperty(setting.getName(), setting.getValueAsString());
-                }
-            } catch (Throwable e) {
-                Infinity.LOGGER.atError();
-            }
-        }
-        return object;
-    }
-
-    @Override
-    public void fromJson(JsonElement element) {
-        JsonObject object = element.getAsJsonObject();
-        String enabled = object.get("Enabled").getAsString();
-        if (Boolean.parseBoolean(enabled)) setEnabled(true);
-        for (Setting<?> setting : getSettings()) {
-            try {
-                ConfigManager.setValueFromJson(setting, object.get(setting.getName()));
-            } catch (Throwable throwable) {
-                Infinity.LOGGER.atError();
-            }
-        }
-    }
 
 
     /**
@@ -303,10 +198,14 @@ public class ModuleBase implements IMinecraft, JsonElements {
      * returns the class's settings list.
      * @return above
      */
-    public List<Setting<?>> getSettings()
+    public List<Setting> getSettings()
     {
         return settingList;
     }
+
+    /**
+     * gui render functions
+     */
 
     public boolean showSettings() {
         return showSettings;
@@ -316,20 +215,19 @@ public class ModuleBase implements IMinecraft, JsonElements {
         this.showSettings = !this.showSettings;
     }
 
+    public void renderSettings() {
+        for (Setting setting : settingList) {
+            if (setting instanceof Renderable renderable) {
+                renderable.render();
+            }
+        }
+    }
+
     /**
      * null convenience
      * @return if null is present
      */
-    public static boolean nullCheck()
-    {
+    public static boolean nullCheck() {
         return mc.player == null || mc.world == null;
-    }
-
-    public void renderSettings() {
-        for (Setting setting : settingList) {
-            if (setting instanceof RenderableSetting renderableSetting) {
-                renderableSetting.render();
-            }
-        }
     }
 }

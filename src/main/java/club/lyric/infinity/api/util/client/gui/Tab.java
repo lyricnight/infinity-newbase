@@ -102,7 +102,7 @@ public class Tab implements Renderable, IMinecraft {
             if (ImGui.isItemHovered()) {
                 if (ImGui.isMouseClicked(1) || ImGui.isMouseClicked(0)) {
                     selected = category;
-                    Infinity.CLICK_GUI.locY = 0;
+                    InfinityGUI.getInstance().locY = 0;
                 }
             }
             ImGui.popID();

@@ -1,40 +1,59 @@
 package club.lyric.infinity.api.setting.settings;
 
-import club.lyric.infinity.api.setting.RenderableSetting;
+import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
 import imgui.ImGui;
 
-import java.util.function.Predicate;
-
 /**
  * @author lyric
- * wrapper setting representing Setting<Boolean>
  */
+public class BooleanSetting extends Setting implements Renderable {
 
-public class BooleanSetting extends Setting<Boolean> implements RenderableSetting {
-    public BooleanSetting(String name, Boolean defaultValue, Predicate<Boolean> visibility, String description) {
-        super(name, defaultValue, visibility, description);
+    private boolean value;
+
+    public BooleanSetting(String name, boolean value, ModuleBase moduleBase)
+    {
+        this.name = name;
+        this.value = value;
+        this.moduleBase = moduleBase;
+
+        if (moduleBase != null) moduleBase.addSettings(this);
     }
 
-    public BooleanSetting(String name, Boolean defaultValue, String description)
+    /**
+     * gets value
+     * @return - value of setting
+     */
+    public boolean value()
     {
-        super(name, defaultValue, description);
+        return value;
     }
 
-    @Override
-    public Boolean getValue()
+    /**
+     * sets value
+     * @param value - value to set to
+     */
+    public void setValue(boolean value) {
+        this.value = value;
+    }
+
+    /**
+     * switches the value of the setting.
+     */
+    public void toggle()
     {
-        return (Boolean)this.value;
+        value = !value;
     }
 
     @Override
     public void render()
     {
-        ImGui.pushID(getModule().getName() + "/" + getName());
+        ImGui.pushID(moduleBase.getName() + "/" + name);
 
-        ImGui.text(getName());
-        if (ImGui.checkbox("", this.getValue())) {
-            setValue(!getValue());
+        ImGui.text(name);
+        if (ImGui.checkbox("", value)) {
+            setValue(!value);
         }
 
         ImGui.popID();

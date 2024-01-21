@@ -15,16 +15,15 @@ import net.minecraft.util.math.MathHelper;
 /**
  * @author lyric
  */
-@SuppressWarnings("unchecked")
 public class Clip extends ModuleBase {
 
-    public EnumSetting<ClipEnum> mode = createEnum(new EnumSetting<>("Mode", ClipEnum.Normal, "Mode for clipping."));
+    public EnumSetting mode = new EnumSetting("Mode", this, ClipEnum.Normal);
 
-    public NumberSetting<Integer> delay = createNumber(new NumberSetting<>("Delay", 3, 0, 10, "Delay before clipping."));
+    public NumberSetting delay = new NumberSetting("Delay", this, 3, 0, 20, 1);
 
-    public BooleanSetting disable = createBool(new BooleanSetting("Disable", true, "Disables automatically, based on updates."));
+    public BooleanSetting disable = new BooleanSetting("Disable", true, this);
 
-    public NumberSetting<Integer> updates = createNumber(new NumberSetting<>("Updates", 10, 1, 30, v -> disable.getValue() ,"Number of updates before the module disables himself."));
+    public NumberSetting updates = new NumberSetting("Updates", this, 10, 1, 30,1);
 
     int time;
 
@@ -32,21 +31,24 @@ public class Clip extends ModuleBase {
 
     public Clip()
     {
-        super("Clip", "Clips into blocks.", Category.PLAYER);
+        super("Clip", "Clips into blocks.", Category.Player);
     }
 
 
-    @SuppressWarnings("all")
     @Override
     public void onUpdate()
     {
         if (nullCheck()) return;
         if (MovementUtil.movement()) return;
 
-        if(time >= updates.getValue() && disable.getValue())
+        if(time >= updates.getValue() && disable.value())
         {
             setEnabled(false);
         }
+
+        //TODO: fix
+        /**
+         *
 
         switch (mode.getValue())
         {
@@ -69,6 +71,7 @@ public class Clip extends ModuleBase {
             }
         }
         time++;
+         */
     }
 
     @Override

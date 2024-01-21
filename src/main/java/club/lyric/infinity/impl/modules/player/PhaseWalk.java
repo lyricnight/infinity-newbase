@@ -19,18 +19,17 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
  * better phase than old infinity
  */
 
-@SuppressWarnings("unchecked")
 public class PhaseWalk extends ModuleBase {
-    public EnumSetting<PhaseWalkEnum> position = createEnum(new EnumSetting<>("Position", PhaseWalkEnum.Standard, "Where to position ourselves on the y-axis"));
+    public EnumSetting<PhaseWalkEnum> position = new EnumSetting<>("Position",this, PhaseWalkEnum.Standard);
 
-    public NumberSetting<Integer> speed = createNumber(new NumberSetting<>("Speed", 2, 1, 15, "How fast we move in phase."));
+    public NumberSetting speed = new NumberSetting("Speed", this, 2, 1, 15,1);
 
-    public NumberSetting<Integer> delay = createNumber(new NumberSetting<>("Delay", 2, 0, 10, "Delay between going into a block"));
+    public NumberSetting delay = new NumberSetting("Delay", this, 2, 0,20, 1);
 
     //credit lithium for the idea
-    public BooleanSetting down = createBool(new BooleanSetting("Down", false, "Whether to go down when pressing shift or not."));
+    public BooleanSetting down = new BooleanSetting("Down", false, this);
 
-    public NumberSetting<Integer> downDelay = createNumber(new NumberSetting<>("DownDelay", 2, 1, 10,"Delay in between going down blocks."));
+    public NumberSetting downDelay = new NumberSetting("DownDelay", this, 2, 1,10, 1);
 
     private final StopWatch.Single watch = new StopWatch.Single();
 
@@ -38,14 +37,14 @@ public class PhaseWalk extends ModuleBase {
 
     public PhaseWalk()
     {
-        super("PhaseWalk", "For phasing.", Category.PLAYER);
+        super("PhaseWalk", "For phasing.", Category.Player);
     }
 
     @SuppressWarnings("unused")
     @EventHandler
     public void onMotion(MotionEvent event)
     {
-        if (down.getValue() && mc.options.sneakKey.isPressed() && PlayerUtils.isPhasing() && mc.player.verticalCollision && downWatch.hasBeen(downDelay.getValue() * 100L))
+        if (down.value() && mc.options.sneakKey.isPressed() && PlayerUtils.isPhasing() && mc.player.verticalCollision && downWatch.hasBeen(downDelay.getIValue() * 100L))
         {
             //prevents falling out of the world
             if(mc.player.getY() <= 1) return;
@@ -55,7 +54,7 @@ public class PhaseWalk extends ModuleBase {
             mc.player.setPosition(mc.player.getX(), mod, mc.player.getZ());
 
             send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mod, mc.player.getZ(), true));
-            send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), position.getValue().getPosition(), mc.player.getZ(), true));
+            send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), position.getMode().getPosition(), mc.player.getZ(), true));
 
             mc.player.sidewaysSpeed = 0.0F;
             mc.player.upwardSpeed = 0.0F;
@@ -75,7 +74,7 @@ public class PhaseWalk extends ModuleBase {
     public void onMove(EntityMovementEvent event)
     {
         if(nullCheck()) return;
-        if (mc.player.horizontalCollision && watch.hasBeen(delay.getValue() * 100L) && PlayerUtils.isPhasing() && !mc.player.isHoldingOntoLadder())
+        if (mc.player.horizontalCollision && watch.hasBeen(delay.getIValue() * 100L) && PlayerUtils.isPhasing() && !mc.player.isHoldingOntoLadder())
         {
             final double[] movementArray = MovementUtil.directionSpeed(speed.getValue() / 100.0);
             double x = mc.player.getX() + movementArray[0];
@@ -84,7 +83,7 @@ public class PhaseWalk extends ModuleBase {
             mc.player.setPosition(x, mc.player.getY(), z);
 
             send(new PlayerMoveC2SPacket.PositionAndOnGround(x, mc.player.getY(), z, true));
-            send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), position.getValue().getPosition(), mc.player.getZ(), true));
+            send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), position.getMode().getPosition(), mc.player.getZ(), true));
 
             mc.player.sidewaysSpeed = 0.0F;
             mc.player.upwardSpeed = 0.0F;

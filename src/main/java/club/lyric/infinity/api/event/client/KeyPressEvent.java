@@ -5,9 +5,9 @@ import club.lyric.infinity.api.util.client.keyboard.KeyPressAction;
 
 public class KeyPressEvent extends Event {
     private final int key;
-    private final KeyPressAction action;
+    private final int action;
 
-    public KeyPressEvent(int key, KeyPressAction action) {
+    public KeyPressEvent(int key, int action) {
         this.key = key;
         this.action = action;
     }
@@ -16,7 +16,7 @@ public class KeyPressEvent extends Event {
         return key;
     }
 
-    public KeyPressAction getAction() {
+    public int getAction() {
         return action;
     }
 }

@@ -4,7 +4,7 @@ package club.lyric.infinity.api.util.client.gui;
  * @author lyric
  * for anything that can be rendered in gui.
  */
-public interface Renderable {
+public interface RenderableElement {
 
     /**
      * for names

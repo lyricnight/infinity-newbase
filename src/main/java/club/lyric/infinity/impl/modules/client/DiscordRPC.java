@@ -7,7 +7,7 @@ import club.lyric.infinity.api.util.client.DiscordUtil;
 public class DiscordRPC extends ModuleBase {
 
     public DiscordRPC() {
-        super("DiscordRPC", "Toggles the Discord Presence", Category.CLIENT);
+        super("DiscordRPC", "Toggles the Discord Presence", Category.Client);
     }
 
     @Override

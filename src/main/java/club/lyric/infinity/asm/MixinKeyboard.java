@@ -17,7 +17,7 @@ public class MixinKeyboard {
     @Inject(method = "onKey", at = @At("HEAD"), cancellable = true)
     public void onKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo info) {
         if (key != GLFW.GLFW_KEY_UNKNOWN) {
-            KeyPressEvent keyPressEvent = new KeyPressEvent(key, KeyPressAction.get(action));
+            KeyPressEvent keyPressEvent = new KeyPressEvent(key, action);
             EventBus.getInstance().post(keyPressEvent);
             if (keyPressEvent.isCancelled()) {
                 info.cancel();

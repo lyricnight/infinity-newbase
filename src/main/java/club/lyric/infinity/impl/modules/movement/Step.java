@@ -7,26 +7,30 @@ import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.enums.StepMode;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
+import static club.lyric.infinity.api.util.client.enums.StepMode.Normal;
+import static club.lyric.infinity.api.util.client.enums.StepMode.Vanilla;
+
 public class Step extends ModuleBase {
 
-    public EnumSetting<StepMode> mode = createEnum(
-            new EnumSetting<>(
+    public EnumSetting mode =
+            new EnumSetting(
                     "Mode",
-                    StepMode.Vanilla,
-                    "The type of packet you want to send."
-            ));
+                    this,
+                    Vanilla
+            );
 
-    public NumberSetting<Float> height = createNumber(
-            new NumberSetting<>(
+    public NumberSetting height =
+            new NumberSetting(
                     "Height",
+                    this,
                     1.0f,
                     0.0f,
                     2.0f,
-                    "The height you want to step at."
-            ));
+                    0.1f
+            );
 
     public Step() {
-        super("Step", "steps", Category.MOVEMENT);
+        super("Step", "steps", Category.Movement);
     }
 
     @Override
@@ -40,9 +44,11 @@ public class Step extends ModuleBase {
         if (nullCheck()) {
             return;
         }
-        switch (mode.getValue()) {
+        //todo: fix
+        /**
+        switch (mode.getMode()) {
             case Vanilla -> {
-                mc.player.setStepHeight(height.getValue());
+                mc.player.setStepHeight(height.getFValue());
                 break;
             }
             case Normal -> {
@@ -58,6 +64,7 @@ public class Step extends ModuleBase {
             }
         }
         mc.player.setBoundingBox(mc.player.getBoundingBox().offset(0, -1, 0));
+         **/
     }
 
     public double[] getOffset(double height) {

@@ -7,7 +7,7 @@ public class Sprint extends ModuleBase
 {
     public Sprint()
     {
-        super("Sprint", "Sprints for you", Category.MOVEMENT);
+        super("Sprint", "Sprints for you", Category.Movement);
     }
 
     @Override

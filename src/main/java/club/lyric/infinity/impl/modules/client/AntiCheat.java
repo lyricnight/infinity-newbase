@@ -12,46 +12,28 @@ import club.lyric.infinity.manager.Managers;
  * module that handles oll the global settings we may need
  */
 public class AntiCheat extends ModuleBase {
-    public BooleanSetting rotate = createBool(
-            new BooleanSetting(
-            "Rotate",
-            false,
-            "Rotations..."
-    ));
+    public BooleanSetting rotate = new BooleanSetting("Rotate", false, this);
+    public EnumSetting rotationType = new EnumSetting("RotationType", this, RotationType.Packet);
 
-    @SuppressWarnings("unchecked")
-    public EnumSetting<RotationType> rotationType = createEnum(
-            new EnumSetting<>(
-            "RotationType",
-            RotationType.Packet,
-            v -> rotate.getValue(),
-            "What type of rotation to use."
-    ));
-
-    public BooleanSetting strictDirection = createBool(
-            new BooleanSetting(
-            "StrictDirection",
-            false,
-            "Whether to have strictDirection checks."
-    ));
+    public BooleanSetting strictDirection = new BooleanSetting("StrictDirection", false,this);
 
     public AntiCheat()
     {
-        super("AntiCheat", "Global Module for some specific settings.", Category.CLIENT);
+        super("AntiCheat", "Global Module for some specific settings.", Category.Client);
     }
 
     public static boolean getRotation()
     {
-        return Managers.MODULES.getModuleFromClass(AntiCheat.class).rotate.getValue();
+        return Managers.MODULES.getModuleFromClass(AntiCheat.class).rotate.value();
     }
 
     public static RotationType getRotationType()
     {
-        return Managers.MODULES.getModuleFromClass(AntiCheat.class).rotationType.getValue();
+        return (RotationType) Managers.MODULES.getModuleFromClass(AntiCheat.class).rotationType.getMode();
     }
 
     public static boolean getStrictDirection()
     {
-        return Managers.MODULES.getModuleFromClass(AntiCheat.class).strictDirection.getValue();
+        return Managers.MODULES.getModuleFromClass(AntiCheat.class).strictDirection.value();
     }
 }

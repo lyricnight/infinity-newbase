@@ -22,48 +22,42 @@ import java.util.Date;
  * @author lyric
  */
 
-@SuppressWarnings({"unused", "unchecked"})
+@SuppressWarnings({"unused"})
 public class Chat extends ModuleBase {
-    public BooleanSetting clear = createBool(
+    public BooleanSetting clear =
             new BooleanSetting(
             "Clear",
             true,
-            "Makes chat clear."
-    ));
+            this
+    );
 
-    public BooleanSetting remove = createBool(
+    public BooleanSetting remove =
             new BooleanSetting(
             "RemoveLine",
             true,
-            "Removes the line on the side of chat messages."
-    ));
+            this
+    );
 
-    public BooleanSetting infiniteMessages = createBool(
+    public BooleanSetting infiniteMessages =
             new BooleanSetting(
             "InfiniteMessages",
             true,
-            "Allows you to type infinitely long messages."
-    ));
+            this
+    );
 
-    public BooleanSetting timeStamps = createBool(
+    public BooleanSetting timeStamps =
             new BooleanSetting(
             "TimeStamps",
             false,
-            "Renders timestamps before all messages."
-    ));
+            this
+    );
 
-    public EnumSetting<Formatting> time = createEnum(new EnumSetting<>("TimeColour", Formatting.DARK_GRAY, v -> timeStamps.getValue(), "Colour of the time in timeStamps."));
+    public EnumSetting<Formatting> time = new EnumSetting<>("TimeColour", this, Formatting.DARK_GRAY);
 
-    public EnumSetting<Formatting> brackets = createEnum(new EnumSetting<>("BracketColour", Formatting.BLACK, v -> timeStamps.getValue(), "Colour of the brackets in timeStamps."));
+    public EnumSetting<Formatting> brackets = new EnumSetting<>("BracketColour", this, Formatting.BLACK);
 
 
-    public BooleanSetting keep = createBool(
-            new BooleanSetting(
-            "Keep",
-            false,
-            "Keeps chat messages when you disconnect."
-    ));
-
+    public BooleanSetting keep = new BooleanSetting("Keep", false, this);
 
     // for timestamps
     private final SimpleDateFormat date = new SimpleDateFormat("HH:mm");
@@ -72,7 +66,7 @@ public class Chat extends ModuleBase {
 
     public Chat()
     {
-        super("Chat", "Handles our chat and how it looks...", Category.RENDER);
+        super("Chat", "Handles our chat and how it looks...", Category.Render);
     }
 
     @EventHandler(priority = 500)
@@ -88,11 +82,11 @@ public class Chat extends ModuleBase {
     @EventHandler(priority = 800)
     public void onChatReceive(ReceiveChatEvent event)
     {
-        if (timeStamps.getValue()) {
+        if (timeStamps.value()) {
             Text message = event.getMessage();
-            MutableText bracketPre = Text.literal("<").formatted(brackets.getValue());
-            MutableText dateText = Text.literal(date.format(new Date())).formatted(time.getValue());
-            MutableText bracketPost = Text.literal("> ").formatted(brackets.getValue());
+            MutableText bracketPre = Text.literal("<").formatted(brackets.getMode());
+            MutableText dateText = Text.literal(date.format(new Date())).formatted(time.getMode());
+            MutableText bracketPost = Text.literal("> ").formatted(brackets.getMode());
             Text timestamp = Text.literal(bracketPre + String.valueOf(dateText) + bracketPost);
             message = Text.empty().append(timestamp).append(message);
             event.setMessage(message);
@@ -106,7 +100,7 @@ public class Chat extends ModuleBase {
     {
         if (mc.options != null)
         {
-            if (clear.getValue())
+            if (clear.value())
             {
                 mc.options.getTextBackgroundOpacity().setValue(0.0);
             }

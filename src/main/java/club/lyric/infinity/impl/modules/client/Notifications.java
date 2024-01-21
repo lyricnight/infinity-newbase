@@ -18,31 +18,31 @@ import java.util.HashMap;
 public class Notifications extends ModuleBase
 {
 
-    public BooleanSetting totemPops = createBool(
+    public BooleanSetting totemPops =
             new BooleanSetting(
             "TotemPops",
             false,
-            "Notifies when an enemy gets totem popped."
-    ));
-    public BooleanSetting enable = createBool(
+            this
+    );
+    public BooleanSetting enable =
             new BooleanSetting(
             "Enabled",
             true,
-            "Notifies when you enable a module."
-    ));
-    public BooleanSetting disable = createBool(
+            this
+    );
+    public BooleanSetting disable =
             new BooleanSetting(
             "Disabled",
             true,
-            "Notifies when you disable a module."
-    ));
+            this
+    );
 
     private final HashMap<String, Integer> totemPop = new HashMap<>();
     private final HashMap<String, Integer> id = new HashMap<>();
 
     public Notifications()
     {
-        super("Notifications", "Notifies in chat for stuff.", Category.CLIENT);
+        super("Notifications", "Notifies in chat for stuff.", Category.Client);
     }
 
 

@@ -1,110 +1,104 @@
 package club.lyric.infinity.api.setting.settings;
 
-import club.lyric.infinity.api.setting.RenderableSetting;
+import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
 import imgui.ImGui;
 import imgui.flag.ImGuiDataType;
 import imgui.type.ImDouble;
 import imgui.type.ImInt;
-import io.netty.channel.nio.AbstractNioChannel;
-
-import java.util.function.Predicate;
 
 /**
- * @author bel
- * Use this instead of floatsettings, intsettings and doublesettings? (Much easier to work with.)
- * @param <T>
+ * @author ??
  */
-public class NumberSetting<T extends Number> extends Setting<T> implements RenderableSetting {
-    private final boolean clamp;
+public class NumberSetting extends Setting implements Renderable {
+    private double value;
+    private double minimum;
+    private double maximum;
+    private double increment;
+    private final boolean decimal;
 
-    public NumberSetting(String name, T defaultValue, T min, T max, String description) {
-        super(name, defaultValue, description);
-        clamp = true;
-        this.min = min;
-        this.max = max;
+    public NumberSetting(String name, ModuleBase moduleBase, double value, double minimum, double maximum, double increment) {
+        this.name = name;
+        this.moduleBase = moduleBase;
+        this.value = value;
+        this.minimum = minimum;
+        this.maximum = maximum;
+        this.increment = increment;
+        this.decimal = !(Math.floor(increment) == increment);
+
+        if (moduleBase != null) moduleBase.addSettings(this);
     }
 
-    public NumberSetting(String name, T defaultValue, T min, T max, Predicate<T> visibility , String description) {
-        super(name, defaultValue, visibility, description);
-        clamp = true;
-        this.min = min;
-        this.max = max;
+    public double getValue() {
+        return this.value;
     }
-    
+
+    public float getFValue() {
+        return (float) this.value;
+    }
+
+    public int getIValue() {
+        return (int) this.value;
+    }
+
+    public void setValue(double value) {
+        double precision = 1.0D / this.increment;
+        this.value = Math.round(Math.max(this.minimum, Math.min(this.maximum, value)) * precision) / precision;
+    }
+
+    public void increment(boolean positive) {
+        setValue(getValue() + (positive ? 1 : -1) * this.increment);
+    }
+
+    public double getMinimum() {
+        return this.minimum;
+    }
+
+    public void setMinimum(double minimum) {
+        this.minimum = minimum;
+    }
+
+    public double getMaximum() {
+        return this.maximum;
+    }
+
+    public void setMaximum(double maximum) {
+        this.maximum = maximum;
+    }
+
+    public double getIncrement() {
+        return this.increment;
+    }
+
+    public void setIncrement(double increment) {
+        this.increment = increment;
+    }
+
     @Override
-    public void setValue(Number value) {
-        if (clamp & (max != null && min != null)) {
-            if (value instanceof Integer) {
-                if (value.intValue() > max.intValue()) {
-                    value = max;
-                } else if (value.intValue() < min.intValue()) {
-                    value = min;
-                }
-            } else if (value instanceof Float) {
-                if (value.floatValue() > max.floatValue()) {
-                    value = max;
-                } else if (value.floatValue() < min.floatValue()) {
-                    value = min;
-                }
-            } else if (value instanceof Double) {
-                if (value.doubleValue() > max.doubleValue()) {
-                    value = max;
-                } else if (value.doubleValue() < min.doubleValue()) {
-                    value = min;
-                }
-            } else if (value instanceof Long) {
-                if (value.longValue() > max.longValue()) {
-                    value = max;
-                } else if (value.longValue() < min.longValue()) {
-                    value = min;
-                }
-            } else if (value instanceof Short) {
-                if (value.shortValue() > max.shortValue()) {
-                    value = max;
-                } else if (value.shortValue() < min.shortValue()) {
-                    value = min;
-                }
-            } else if (value instanceof Byte) {
-                if (value.byteValue() > max.byteValue()) {
-                    value = max;
-                } else if (value.byteValue() < min.byteValue()) {
-                    value = min;
-                }
-            }
-        }
-        super.setValue((T) value);
-    }
+    public void render() {
+        ImGui.pushID(moduleBase.getName() + "/" + name);
 
-
-    @Override
-    public void render()
-    {
-        ImGui.pushID(module.getName()+"/"+this.getName());
-
-        ImGui.text(getName());
+        ImGui.text(name);
         boolean changed;
 
-        if (!(value instanceof Integer)) {
-            ImDouble val = new ImDouble((double) value);
+        if (decimal) {
+            ImDouble val = new ImDouble(value);
 
             ImGui.pushItemWidth(170f);
-            changed = ImGui.sliderScalar("", ImGuiDataType.Double, val, (double) min, (double) max, "%.3f");
+            changed = ImGui.sliderScalar("", ImGuiDataType.Double, val, minimum, maximum, "%.3f");
             ImGui.popItemWidth();
 
-            if (changed) setValue(val.doubleValue());
+            if (changed) value = val.doubleValue();
         } else {
             ImInt val = new ImInt((int) value);
 
             ImGui.pushItemWidth(170f);
-            changed = ImGui.sliderScalar("", ImGuiDataType.S32, val, (int) min, (int) max);
+            changed = ImGui.sliderScalar("", ImGuiDataType.S32, val, (int) minimum, (int) maximum);
             ImGui.popItemWidth();
 
-            if (changed)
-                //might be val.doubleValue()
-                setValue(val.intValue());
+            if (changed) this.value = val.doubleValue();
         }
-
         ImGui.popID();
     }
 }

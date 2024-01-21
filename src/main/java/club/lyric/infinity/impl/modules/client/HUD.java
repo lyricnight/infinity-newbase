@@ -27,59 +27,39 @@ import java.util.LinkedList;
  */
 public class HUD extends ModuleBase
 {
-    public BooleanSetting fps = createBool(
-            new BooleanSetting(
-                    "FPS",
-                    true,
-                    "Displays FPS counter on hud."
-    ));
+    public BooleanSetting fps = new BooleanSetting("FPS", true, this);
 
-    public BooleanSetting tps = createBool(
-            new BooleanSetting(
-                    "TPS",
-                    true,
-                    "Displays TPS counter on hud."
-            ));
+    public BooleanSetting tps = new BooleanSetting("TPS", true, this);
 
-    public BooleanSetting ping = createBool(
-            new BooleanSetting(
-                    "Ping",
-                    true,
-                    "Displays Ping counter on hud."
-            ));
+    public BooleanSetting ping = new BooleanSetting("Ping", true, this);
 
-    public BooleanSetting potions = createBool(
-            new BooleanSetting(
-                    "Potions",
-                    true,
-                    "Displays potion timers on hud."
-    ));
+    public BooleanSetting potions = new BooleanSetting("Potions", true, this);
 
-    public BooleanSetting armorHud = createBool(
+    public BooleanSetting armorHud =
             new BooleanSetting(
                     "ArmorHUD",
                     true,
-                    "Renders armor above hotbar with text durability."
-            ));
+                    this
+            );
 
-    public BooleanSetting watermark = createBool(
+    public BooleanSetting watermark =
             new BooleanSetting(
                     "Watermark",
                     true,
-                    "Displays the clients watermark on hud."
-            ));
+                    this
+            );
 
-    public BooleanSetting speed = createBool(
+    public BooleanSetting speed =
             new BooleanSetting(
                     "Speed",
                     true,
-                    "Displays the current speed in km/h on hud."
-            ));
+                    this
+            );
 
 
     public HUD()
     {
-        super("HUD", "Displays HUD elements on the screen.", Category.CLIENT);
+        super("HUD", "Displays HUD elements on the screen.", Category.Client);
     }
 
     protected int width;
@@ -92,17 +72,17 @@ public class HUD extends ModuleBase
     {
         int offset = 0;
 
-        if (watermark.getValue())
+        if (watermark.value())
         {
             event.getDrawContext().drawText(mc.textRenderer, Infinity.CLIENT_NAME, 2, 2, -1, true);
         }
 
-        if (armorHud.getValue())
+        if (armorHud.value())
         {
             renderArmor(event.getDrawContext());
         }
 
-        if (potions.getValue())
+        if (potions.value())
         {
             for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
                 int x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(getString(statusEffectInstance))) - 2;
@@ -112,7 +92,7 @@ public class HUD extends ModuleBase
         }
 
         // Speed starts
-        if (speed.getValue())
+        if (speed.value())
         {
             double distanceX = mc.player.getX() - mc.player.prevX;
             double distanceZ = mc.player.getZ() - mc.player.prevZ;
@@ -125,7 +105,7 @@ public class HUD extends ModuleBase
         // Speed ends
 
         // TPS starts
-        if (tps.getValue())
+        if (tps.value())
         {
             String tps = "TPS: " + Formatting.WHITE + Managers.SERVER.getOurTPS();
 
@@ -135,7 +115,7 @@ public class HUD extends ModuleBase
         // TPS ends
 
         // TPS starts
-        if (ping.getValue())
+        if (ping.value())
         {
             String ping = "Ping: " + Formatting.WHITE + Managers.SERVER.getFastLatencyPing();
 
@@ -145,7 +125,7 @@ public class HUD extends ModuleBase
         // TPS ends
 
         // FPS starts
-        if (fps.getValue())
+        if (fps.value())
         {
             long time = System.nanoTime();
 
@@ -226,6 +206,4 @@ public class HUD extends ModuleBase
         Text name = statusEffectInstance.getEffectType().getName();
         return name.getString() + (amplifier > 0 ? (" " + (amplifier + 1) + ": ") : ": ") + Formatting.WHITE + PlayerUtils.getPotionDurationString(statusEffectInstance);
     }
-
-
 }

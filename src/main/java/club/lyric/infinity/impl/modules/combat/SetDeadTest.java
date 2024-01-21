@@ -6,7 +6,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 public class SetDeadTest extends ModuleBase {
 
     public SetDeadTest() {
-        super("torll", "", Category.COMBAT);
+        super("torll", "", Category.Client);
     }
 
     @Override

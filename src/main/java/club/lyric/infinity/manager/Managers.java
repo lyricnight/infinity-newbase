@@ -11,7 +11,6 @@ import club.lyric.infinity.manager.fabric.ServerManager;
  * for all managers.
  */
 public class Managers {
-
     public static ConfigManager CONFIG = new ConfigManager();
     public static EventManager EVENTS = new EventManager();
     public static CommandManager COMMANDS = new CommandManager();
@@ -32,7 +31,7 @@ public class Managers {
 
 
     /**
-     * inits managers.
+     * initialises managers.
      */
     public static void init()
     {
@@ -54,7 +53,7 @@ public class Managers {
     }
 
     /**
-     * subscribes all managers
+     * subscribes managers
      * @param subscribers the managers to subscribe
      */
 
