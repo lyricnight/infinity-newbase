@@ -38,7 +38,7 @@ public class MixinInGameHud {
 
     @Inject(method = "clear", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;clear(Z)V"), cancellable = true)
     private void onClear(CallbackInfo info) {
-        if (Managers.MODULES.getModuleFromClass(Chat.class).keep.getValue()) {
+        if (Managers.MODULES.getModuleFromClass(Chat.class).keep.value()) {
             info.cancel();
         }
     }

@@ -13,7 +13,7 @@ import imgui.flag.ImGuiWindowFlags;
  * @author lyric
  * main class for gui.
  */
-public class InfinityGUI implements Renderable, IMinecraft {
+public class InfinityGUI implements RenderableElement, IMinecraft {
 
     /**
      * represents how far we have scrolled up / down.

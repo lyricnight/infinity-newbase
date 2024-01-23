@@ -12,8 +12,8 @@ import static club.lyric.infinity.api.util.client.enums.StepMode.Vanilla;
 
 public class Step extends ModuleBase {
 
-    public EnumSetting mode =
-            new EnumSetting(
+    public EnumSetting<StepMode> mode =
+            new EnumSetting<>(
                     "Mode",
                     this,
                     Vanilla
@@ -44,12 +44,10 @@ public class Step extends ModuleBase {
         if (nullCheck()) {
             return;
         }
-        //todo: fix
-        /**
+
         switch (mode.getMode()) {
             case Vanilla -> {
                 mc.player.setStepHeight(height.getFValue());
-                break;
             }
             case Normal -> {
                 double stepHeight = mc.player.getY() - mc.player.prevY;
@@ -60,11 +58,9 @@ public class Step extends ModuleBase {
                        send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + offset, mc.player.getZ(), false));
                     }
                 }
-                break;
             }
         }
         mc.player.setBoundingBox(mc.player.getBoundingBox().offset(0, -1, 0));
-         **/
     }
 
     public double[] getOffset(double height) {

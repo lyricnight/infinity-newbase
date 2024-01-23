@@ -13,7 +13,7 @@ import club.lyric.infinity.manager.Managers;
  */
 public class AntiCheat extends ModuleBase {
     public BooleanSetting rotate = new BooleanSetting("Rotate", false, this);
-    public EnumSetting rotationType = new EnumSetting("RotationType", this, RotationType.Packet);
+    public EnumSetting<RotationType> rotationType = new EnumSetting<>("RotationType", this, RotationType.Packet);
 
     public BooleanSetting strictDirection = new BooleanSetting("StrictDirection", false,this);
 
@@ -29,7 +29,7 @@ public class AntiCheat extends ModuleBase {
 
     public static RotationType getRotationType()
     {
-        return (RotationType) Managers.MODULES.getModuleFromClass(AntiCheat.class).rotationType.getMode();
+        return Managers.MODULES.getModuleFromClass(AntiCheat.class).rotationType.getMode();
     }
 
     public static boolean getStrictDirection()

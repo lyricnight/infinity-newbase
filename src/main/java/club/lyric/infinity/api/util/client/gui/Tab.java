@@ -12,12 +12,12 @@ import imgui.flag.ImGuiWindowFlags;
 /**
  * category tabs.
  */
-public class Tab implements Renderable, IMinecraft {
+public class Tab implements RenderableElement, IMinecraft {
     private boolean first = true;
 
     private static Tab INSTANCE;
 
-    public Category selected = Category.CLIENT;
+    public Category selected = Category.Client;
 
     public ImVec2 pos;
 

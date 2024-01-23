@@ -37,6 +37,5 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 	public void onInitializeClient() {
 		LOGGER.info("Infinity has received onInitializeClient()!");
 		Managers.init();
-		Runtime.getRuntime().addShutdownHook(new Thread(Managers.CONFIG::save));
 	}
 }

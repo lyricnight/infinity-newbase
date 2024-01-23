@@ -20,7 +20,7 @@ public class Friend extends Command {
     @Override
     public String theCommand()
     {
-        return "friend <add/del> <username> / list";
+        return "friend <add/del> <username>";
     }
 
     @Override
@@ -50,15 +50,6 @@ public class Friend extends Command {
         if (StringUtils.contains(task, "del"))
         {
             Managers.FRIENDS.removeFriend(friend);
-            state(CommandState.PERFORMED);
-        }
-        if (StringUtils.contains(task, "list"))
-        {
-            ChatUtils.sendMessagePrivate("All your friends :");
-            for (int i = 0; i <= Managers.FRIENDS.getFriends().size(); i++)
-            {
-                ChatUtils.sendMessagePrivate(Managers.FRIENDS.getFriends().get(i));
-            }
             state(CommandState.PERFORMED);
         }
     }

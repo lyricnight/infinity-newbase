@@ -32,6 +32,11 @@ public abstract class MixinMinecraftClient {
     {
         Managers.TEXT.init();
     }
+    @Inject(method = "close", at = @At(value = "HEAD"))
+    private void close(CallbackInfo callbackInfo)
+    {
+        Managers.CONFIG.saveConfig();
+    }
 }
 
 

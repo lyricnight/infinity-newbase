@@ -11,13 +11,12 @@ import club.lyric.infinity.manager.fabric.ServerManager;
  * for all managers.
  */
 public class Managers {
+    public static ModuleManager MODULES = new ModuleManager();
+    public static FriendsManager FRIENDS = new FriendsManager();
     public static ConfigManager CONFIG = new ConfigManager();
     public static EventManager EVENTS = new EventManager();
     public static CommandManager COMMANDS = new CommandManager();
     public static ServerManager SERVER = new ServerManager();
-    public static FriendsManager FRIENDS = new FriendsManager();
-
-    public static ModuleManager MODULES = new ModuleManager();
     public static TextManager TEXT = new TextManager();
 
     /**
@@ -26,7 +25,7 @@ public class Managers {
     public static void sub()
     {
         Infinity.LOGGER.info("starting manager subscription.");
-        subscribe(CONFIG, EVENTS, COMMANDS, SERVER, FRIENDS, MODULES, TEXT);
+        subscribe(FRIENDS, CONFIG, EVENTS, COMMANDS, SERVER, MODULES, TEXT);
     }
 
 
@@ -37,19 +36,9 @@ public class Managers {
     {
         Infinity.LOGGER.info("Initialising Managers....");
         MODULES.init();
-        CONFIG.init();
-        CONFIG.load();
+        CONFIG.loadConfig();
         COMMANDS.init();
         Infinity.LOGGER.info("Manager initialisation complete.");
-    }
-
-
-    /**
-     * method used to unload the managers that need it.
-     */
-    public static void unload()
-    {
-
     }
 
     /**

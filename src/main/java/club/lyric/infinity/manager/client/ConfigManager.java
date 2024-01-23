@@ -1,94 +1,310 @@
 package club.lyric.infinity.manager.client;
 
+import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Setting;
+import club.lyric.infinity.api.setting.settings.*;
 import club.lyric.infinity.api.setting.settings.util.EnumConverter;
-import club.lyric.infinity.api.util.client.config.JsonElements;
+import club.lyric.infinity.api.util.client.render.colors.JColor;
 import club.lyric.infinity.manager.Managers;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
+import imgui.ImGui;
+import imgui.flag.ImGuiKey;
+import imgui.type.ImInt;
+import imgui.type.ImString;
 import net.fabricmc.loader.api.FabricLoader;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * @author cattyn???
- * this needs to be replaced
+ * @author ???
  */
 
 public class ConfigManager {
-    private static final Path PATH = FabricLoader.getInstance().getGameDir().resolve("Infinity");
-    private static final Gson gson = new GsonBuilder().setLenient().setPrettyPrinting().create();
-    private List<JsonElements> jsonElements;
+    private final Gson GSON = new Gson();
+    private final Path pathConfigFolder;
+    private final Path pathProfilesFolder;
+    private final Path pathConfig;
+    private JsonObject jsonConfig;
+    public ConfigProfile currentProfile;
+    public final Map<Path, ConfigProfile> profiles = new HashMap<>();
+    private final Map<String, ConfigProfile> profilesByName = new HashMap<>();
+    private String[] namesArray;
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public static void setValueFromJson(Setting setting, JsonElement element) {
-        String str;
-        switch (setting.getType()) {
-            case "Boolean" -> setting.setValue(element.getAsBoolean());
-            case "Double" -> setting.setValue(element.getAsDouble());
-            case "Float" -> setting.setValue(element.getAsFloat());
-            case "Integer" -> setting.setValue(element.getAsInt());
-            case "String" -> {
-                str = element.getAsString();
-                setting.setValue(str.replace("_", " "));
-            }
-            case "Bind" -> setting.setValue(new Bind(element.getAsInt()));
-            case "Enum" -> {
-                try {
-                    EnumConverter converter = new EnumConverter(((Enum) setting.getValue()).getClass());
-                    Enum value = converter.doBackward(element);
-                    setting.setValue((value == null) ? setting.getDefaultValue() : value);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
+    public ConfigManager() {
+        String tempFolderDirectory = System.getProperty("java.io.tmpdir");
+        pathConfigFolder = Paths.get(tempFolderDirectory).resolve("infinity");
+        pathProfilesFolder = pathConfigFolder.resolve("profiles");
+
+        pathConfig = pathConfigFolder.resolve("infinity.json");
+
+        File[] files = pathProfilesFolder.toFile().listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    Path pathProfile = file.toPath();
+
+                    if (pathProfile.toString().contains(".json")) {
+                        addProfile(new ConfigProfile(null, pathProfile));
+                    }
                 }
             }
         }
     }
 
-
-    /**
-     * avoids crash
-     */
-
-    public void init()
-    {
-        jsonElements = List.of(Managers.COMMANDS, Managers.MODULES, Managers.FRIENDS);
-    }
-
-
-    /**
-     * loads config
-     */
-    public void load() {
-        if (!PATH.toFile().exists()) //noinspection ResultOfMethodCallIgnored
-            PATH.toFile().mkdirs();
-        for (JsonElements jsonElements : jsonElements) {
-            try {
-                String read = Files.readString(PATH.resolve(jsonElements.getFileName()));
-                jsonElements.fromJson(JsonParser.parseString(read));
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
+    public void addProfile(ConfigProfile configProfile) {
+        if (!profiles.containsKey(configProfile.getPathProfile())) {
+            profiles.put(configProfile.getPathProfile(), configProfile);
+            profilesByName.put(configProfile.getName(), configProfile);
+            namesArray = profilesByName.keySet().toArray(String[]::new);
+        } else {
+            addProfile(configProfile.setPathProfile(pathProfilesFolder.resolve(configProfile.getPathProfile().getFileName().toString().replace(".json", "1.json"))));
         }
     }
 
-    /**
-     * saves config
-     */
-    public void save() {
-        if (!PATH.toFile().exists()) //noinspection ResultOfMethodCallIgnored
-            PATH.toFile().mkdirs();
-        for (JsonElements jsonElements : jsonElements) {
+    public void removeProfile(ConfigProfile configProfile) {
+        profiles.remove(configProfile.getPathProfile());
+    }
+
+    public void loadConfig() {
+        try {
+            if (Files.isRegularFile(pathConfig)) {
+                jsonConfig = GSON.fromJson(Files.readString(pathConfig), JsonObject.class);
+
+                JsonElement profile = jsonConfig.get("profile");
+
+                if (profile == null) {
+                    currentProfile = new ConfigProfile("Default", pathProfilesFolder.resolve("default.json"));
+                } else {
+                    currentProfile = profiles.get(Paths.get(profile.getAsString()));
+                }
+            } else {
+                currentProfile = new ConfigProfile("Default", pathProfilesFolder.resolve("default.json"));
+            }
+
+            if (namesArray == null) {
+                addProfile(currentProfile);
+            }
+
+            currentProfile.loadProfile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void saveConfig() {
+        try {
+            Files.createDirectories(pathConfigFolder);
+
+            jsonConfig = new JsonObject();
+
+            jsonConfig.addProperty("profile", currentProfile.getPathProfile().toString());
+
+            Files.writeString(pathConfig, GSON.toJson(jsonConfig));
+
+            currentProfile.saveProfile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private final ImString currentString = new ImString();
+
+    public void renderGui() {
+        ImGui.pushID("ConfigGUI/ConfigSelector");
+
+        ImGui.text("Config");
+
+        List<String> configNames = profilesByName.keySet().stream().toList();
+        ImInt currentItem = new ImInt(configNames.indexOf(currentProfile.getName()));
+
+        ImGui.pushItemWidth(170f);
+        if (ImGui.combo("", currentItem, namesArray)) {
+            this.currentProfile = this.profilesByName.get(configNames.get(currentItem.get()));
+        }
+        ImGui.popItemWidth();
+
+        ImGui.popID();
+
+
+        ImGui.pushID("ConfigGUI/ConfigSaveNLoad");
+
+        if (ImGui.button("Save")) {
+            this.currentProfile.saveProfile();
+        }
+        ImGui.sameLine();
+        if (ImGui.button("Load")) {
+            this.currentProfile.loadProfile();
+        }
+
+        ImGui.popID();
+
+
+        ImGui.spacing();
+
+
+        ImGui.pushID("ConfigGUI/CreateConfig");
+
+        ImGui.pushItemWidth(170f);
+        ImGui.inputText("", currentString);
+        ImGui.popItemWidth();
+
+        if (ImGui.isItemFocused()) {
+            if (ImGui.isKeyDown(ImGui.getIO().getKeyMap(ImGuiKey.Backspace)) && currentString.isNotEmpty()) {
+                currentString.set(currentString.get().substring(0, currentString.get().length() - 1));
+            }
+        }
+
+        if (ImGui.button("Create")) {
+            addProfile(new ConfigProfile(currentString.get(), pathProfilesFolder.resolve(currentString.get().toLowerCase().trim().replaceAll("[^A-Za-z0-9()\\[\\]]", "")+".json")));
+            currentString.clear();
+        }
+
+        ImGui.popID();
+    }
+
+    public class ConfigProfile {
+        private String name;
+        private Path pathProfile;
+        private JsonObject jsonProfile;
+
+        public ConfigProfile(String name, Path pathProfile) {
+            this.name = name;
+            this.pathProfile = pathProfile;
+
             try {
-                JsonElement json = jsonElements.toJson();
-                Files.writeString(PATH.resolve(jsonElements.getFileName()), gson.toJson(json));
-            } catch (Throwable e) {
-                e.printStackTrace();
+                if (name == null || name.isBlank()) {
+                    if (Files.isRegularFile(pathProfile)) {
+                        String stringProfile = Files.readString(pathProfile);
+
+                        if (stringProfile.isBlank()) return;
+
+                        this.jsonProfile = GSON.fromJson(stringProfile, JsonObject.class);
+
+                        if (jsonProfile == null || !jsonProfile.isJsonObject()) return;
+
+                        JsonElement profileNameJson = this.jsonProfile.get("profileName");
+
+                        if (profileNameJson == null) return;
+
+                        this.name = profileNameJson.getAsString();
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Path getPathProfile() {
+            return pathProfile;
+        }
+
+        public ConfigProfile setPathProfile(Path pathProfile) {
+            this.pathProfile = pathProfile;
+            return this;
+        }
+
+        public void loadProfile() {
+            try {
+                if (!Files.isRegularFile(pathProfile))
+                    return;
+
+                for (ModuleBase moduleBase : Managers.MODULES.getModules()) {
+                    JsonElement moduleJson = jsonProfile.get(moduleBase.getName());
+                    if (moduleJson == null || !moduleJson.isJsonObject())
+                        continue;
+                    JsonObject moduleConfig = moduleJson.getAsJsonObject();
+
+                    JsonElement enabledJson = moduleConfig.get("enabled");
+                    if (enabledJson == null || !enabledJson.isJsonPrimitive())
+                        continue;
+
+                    if (enabledJson.getAsBoolean())
+                        moduleBase.setEnabled(true);
+
+                    for (Setting setting : moduleBase.getSettings()) {
+                        JsonElement settingJson = moduleConfig.get(setting.getName());
+                        if (settingJson == null)
+                            continue;
+
+                        if (setting instanceof BooleanSetting booleanSetting) {
+                            booleanSetting.setValue(settingJson.getAsBoolean());
+                        } else if (setting instanceof BindSetting bindSetting) {
+                            bindSetting.setCode(settingJson.getAsInt());
+                        } else if (setting instanceof EnumSetting enumSetting) {
+                            EnumConverter converter = new EnumConverter(((EnumSetting) setting).getMode().getClass());
+                            Enum value = converter.doBackward(settingJson);
+                            enumSetting.setMode(value);
+                        } else if (setting instanceof NumberSetting numberSetting) {
+                            numberSetting.setValue(settingJson.getAsDouble());
+                        } else if (setting instanceof ColorSetting colorSetting) {
+                            if (!settingJson.isJsonObject())
+                                continue;
+
+                            JsonObject colorJson = settingJson.getAsJsonObject();
+                            colorSetting.setColor(new JColor(colorJson.get("color").getAsInt()), colorJson.get("rainbow").getAsBoolean());
+                        }
+                    }
+                }
+
+                JsonElement friendsJson = this.jsonProfile.get("friends");
+                if (friendsJson != null && friendsJson.isJsonObject())
+                    Managers.FRIENDS.setFriends(friendsJson.getAsJsonObject());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public void saveProfile() {
+            try {
+                Files.createDirectories(pathProfilesFolder);
+
+                jsonProfile = new JsonObject();
+
+                jsonProfile.addProperty("profileName", this.name);
+
+                for (ModuleBase moduleBase : Managers.MODULES.getModules()) {
+                    JsonObject moduleConfig = new JsonObject();
+
+                    moduleConfig.addProperty("enabled", moduleBase.isOn());
+                    for (Setting setting : moduleBase.getSettings()) {
+                        if (setting instanceof BooleanSetting booleanSetting) {
+                            moduleConfig.addProperty(setting.getName(), booleanSetting.value());
+                        } else if (setting instanceof BindSetting bindSetting) {
+                            moduleConfig.addProperty(setting.getName(), bindSetting.getCode());
+                        } else if (setting instanceof EnumSetting enumSetting) {
+                            moduleConfig.addProperty(setting.getName(), enumSetting.getMode().toString());
+                        } else if (setting instanceof NumberSetting numberSetting) {
+                            moduleConfig.addProperty(setting.getName(), numberSetting.getValue());
+                        } else if (setting instanceof ColorSetting colorSetting) {
+                            JsonObject colorJson = new JsonObject();
+                            colorJson.addProperty("color", colorSetting.getValue().getRGB());
+                            colorJson.addProperty("rainbow", colorSetting.isRainbow());
+                            moduleConfig.add(setting.getName(), colorJson);
+                        }
+                    }
+
+                    jsonProfile.add(moduleBase.getName(), moduleConfig);
+                }
+
+                jsonProfile.add("friends", Managers.FRIENDS.getFriends());
+
+                Files.writeString(pathProfile, GSON.toJson(jsonProfile));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
     }
 }
+

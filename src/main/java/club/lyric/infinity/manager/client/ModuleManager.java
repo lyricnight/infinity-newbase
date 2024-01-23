@@ -3,16 +3,12 @@ package club.lyric.infinity.manager.client;
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.setting.Setting;
-import club.lyric.infinity.api.util.client.config.JsonElements;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.*;
 import club.lyric.infinity.impl.modules.exploit.*;
 import club.lyric.infinity.impl.modules.movement.*;
 import club.lyric.infinity.impl.modules.player.*;
 import club.lyric.infinity.impl.modules.render.*;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,6 +26,7 @@ public class ModuleManager implements IMinecraft
     {
         register(
                 new ClickGui(),
+                new Configuration(),
                 new AntiCheat(),
                 new Manager(),
                 new DiscordRPC(),

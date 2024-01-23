@@ -1,75 +1,104 @@
 package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
-import club.lyric.infinity.api.util.client.config.JsonElements;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.entity.player.PlayerEntity;
+import org.apache.commons.io.IOUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 
 /**
  * @author lyric
  */
-public class FriendsManager implements JsonElements {
-    private final List<String> friends = new ArrayList<>();
-
-    public boolean isFriend(String name) {
-        return this.friends.stream().anyMatch(friend -> friend.equalsIgnoreCase(name));
-    }
+public class FriendsManager  {
+    private JsonObject friends = new JsonObject();
 
     public boolean isFriend(PlayerEntity player) {
-        return this.isFriend(player.getGameProfile().getName());
+        return friends.get(player.getUuidAsString()) != null;
     }
 
-    public void addFriend(String name) {
+    public boolean isFriend(String name)
+    {
+        return friends.get(getUUID(name)) != null;
+    }
+
+    public void addFriend(String name)
+    {
         if (isFriend(name))
         {
             ChatUtils.sendOverwriteMessage(name + " is already on your friends list!", 9349);
             return;
         }
-        this.friends.add(name);
+        this.friends.add(getUUID(name), new JsonPrimitive(name));
         ChatUtils.sendOverwriteMessage("Added " + name + " to your friends list.", 9349);
     }
 
-    public void removeFriend(String name) {
-        if (friends.contains(name))
+    public void addFriend(PlayerEntity player) {
+        if (isFriend(player))
         {
-            ChatUtils.sendOverwriteMessage("Removed " + name + " from your friends list.", 9349);
-            friends.removeIf(s -> s.equalsIgnoreCase(name));
+            ChatUtils.sendOverwriteMessage(player.getDisplayName().toString() + " is already on your friends list!", 9349);
+            return;
+        }
+        this.friends.add(player.getUuidAsString(), new JsonPrimitive(player.getDisplayName().toString()));
+        ChatUtils.sendOverwriteMessage("Added " + player.getDisplayName().toString() + " to your friends list.", 9349);
+    }
+
+    public void removeFriend(PlayerEntity player) {
+        if (isFriend(player))
+        {
+            ChatUtils.sendOverwriteMessage("Removed " + player.getDisplayName().toString() + " from your friends list.", 9349);
+            friends.remove(player.getUuidAsString());
         }
         else
         {
-            ChatUtils.sendOverwriteMessage( name + " is not on your friends list!", 9349);
+            ChatUtils.sendOverwriteMessage(player.getDisplayName().toString() + " is not on your friends list!", 9349);
         }
     }
 
-    public List<String> getFriends() {
-        return this.friends;
-    }
-
-    @Override
-    public JsonElement toJson() {
-        JsonObject object = new JsonObject();
-        JsonArray array = new JsonArray();
-        for (String friend : friends) {
-            array.add(friend);
+    public void removeFriend(String name)
+    {
+        if (isFriend(name))
+        {
+            this.friends.remove(getUUID(name));
+            ChatUtils.sendOverwriteMessage("Removed " + name + " from your friends list.", 9349);
         }
-        object.add("friends", array);
-        return object;
-    }
-
-    @Override
-    public void fromJson(JsonElement element) {
-        for (JsonElement e : element.getAsJsonObject().get("friends").getAsJsonArray()) {
-            friends.add(e.getAsString());
+        else
+        {
+            ChatUtils.sendOverwriteMessage(name + " is not on your friends list!", 9349);
         }
     }
 
-    @Override
-    public String getFileName() {
-        return "friends.json";
+    public JsonObject getFriends() {
+        return friends;
     }
+
+    public void setFriends(JsonObject friends)
+    {
+        this.friends = friends;
+    }
+
+    @SuppressWarnings("deprecated")
+    public static String getUUID(String name) {
+        String uuid;
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openStream()));
+            uuid = (((JsonObject)new JsonParser().parse(bufferedReader)).get("id")).toString().replaceAll("\"", "");
+            uuid = uuid.replaceAll("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5");
+            bufferedReader.close();
+        } catch (Exception e) {
+            System.out.println("Unable to get UUID of: " + name + "!");
+            uuid = "";
+        }
+        return uuid;
+    }
+
+
 }

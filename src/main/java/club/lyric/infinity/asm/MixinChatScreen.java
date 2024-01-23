@@ -22,6 +22,6 @@ public abstract class MixinChatScreen {
 
     @Inject(method = "init", at = @At(value = "RETURN"))
     private void onInit(CallbackInfo info) {
-        if (Managers.MODULES.getModuleFromClass(Chat.class).infiniteMessages.getValue()) chatField.setMaxLength(Integer.MAX_VALUE);
+        if (Managers.MODULES.getModuleFromClass(Chat.class).infiniteMessages.value()) chatField.setMaxLength(Integer.MAX_VALUE);
     }
 }

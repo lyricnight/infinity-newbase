@@ -113,7 +113,7 @@ public abstract class MixinChatHud implements IChatHud {
 
     @ModifyExpressionValue(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHudLine$Visible;indicator()Lnet/minecraft/client/gui/hud/MessageIndicator;"))
     private MessageIndicator onRender_modifyIndicator(MessageIndicator indicator) {
-        return Managers.MODULES.getModuleFromClass(Chat.class).remove.getValue() ? null : indicator;
+        return Managers.MODULES.getModuleFromClass(Chat.class).remove.value() ? null : indicator;
     }
 
     @Inject(method = "clear", at = @At("HEAD"))

@@ -16,13 +16,9 @@ import net.minecraft.util.math.MathHelper;
  * @author lyric
  */
 public class Clip extends ModuleBase {
-
-    public EnumSetting mode = new EnumSetting("Mode", this, ClipEnum.Normal);
-
+    public EnumSetting<ClipEnum> mode = new EnumSetting<>("Mode", this, ClipEnum.Normal);
     public NumberSetting delay = new NumberSetting("Delay", this, 3, 0, 20, 1);
-
     public BooleanSetting disable = new BooleanSetting("Disable", true, this);
-
     public NumberSetting updates = new NumberSetting("Updates", this, 10, 1, 30,1);
 
     int time;
@@ -33,7 +29,6 @@ public class Clip extends ModuleBase {
     {
         super("Clip", "Clips into blocks.", Category.Player);
     }
-
 
     @Override
     public void onUpdate()
@@ -46,11 +41,7 @@ public class Clip extends ModuleBase {
             setEnabled(false);
         }
 
-        //TODO: fix
-        /**
-         *
-
-        switch (mode.getValue())
+        switch (mode.getMode())
         {
             case Normal -> {
                 if (mc.world.getEntityCollisions(mc.player, mc.player.getBoundingBox().expand(0.01, 0, 0.01)).size() < 2) {
@@ -71,7 +62,6 @@ public class Clip extends ModuleBase {
             }
         }
         time++;
-         */
     }
 
     @Override

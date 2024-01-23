@@ -18,8 +18,8 @@ import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 
 public class IMLoader implements IMinecraft {
 
-    private static final Set<Renderable> renderstack = new HashSet<>();
-    private static final Set<Renderable> toRemove = new HashSet<>();
+    private static final Set<RenderableElement> renderstack = new HashSet<>();
+    private static final Set<RenderableElement> toRemove = new HashSet<>();
     private static final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
     private static final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
     private static ImFont customFont;
@@ -46,7 +46,7 @@ public class IMLoader implements IMinecraft {
         imGuiGlfw.newFrame();
         ImGui.newFrame();
 
-        for (Renderable renderable : renderstack) {
+        for (RenderableElement renderable : renderstack) {
             mc.getProfiler().push("ImGui Render " + renderable.get());
             renderable.getTheme().pre();
             renderable.render();
@@ -166,15 +166,15 @@ public class IMLoader implements IMinecraft {
         }
     }
 
-    public static void addRenderable(Renderable renderable) {
+    public static void addRenderable(RenderableElement renderable) {
         renderstack.add(renderable);
     }
 
-    public static void queueRemove(Renderable renderable) {
+    public static void queueRemove(RenderableElement renderable) {
         toRemove.add(renderable);
     }
 
-    public static boolean isRendered(Renderable renderable) {
+    public static boolean isRendered(RenderableElement renderable) {
         return renderstack.contains(renderable);
     }
 
