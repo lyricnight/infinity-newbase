@@ -25,11 +25,12 @@
     "MixinKeyboard",
     "MixinMinecraftClient",
     "MixinMinecraftOptions",
+    "MixinMouse",
     "MixinRenderSystem",
     "MixinSplashTextResourceSupplier",
     "MixinWindow",
     "MixinWorldRenderer",
-    "accessors.IChatHudLine"
+    "accessors.IChatHudLine",
   ],
   "injectors": {
     "defaultRequire": 1

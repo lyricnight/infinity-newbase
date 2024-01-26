@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-
 /**
  * @author lyric
  */
@@ -32,9 +31,14 @@ public abstract class MixinMinecraftClient {
     {
         Managers.TEXT.init();
     }
+
     @Inject(method = "close", at = @At(value = "HEAD"))
     private void close(CallbackInfo callbackInfo)
     {
+        Managers.CONFIG.saveConfig();
+    }
+    @Inject(method = "cleanUpAfterCrash", at = @At(value = "HEAD"))
+    public void cleanUpAfterCrash(CallbackInfo ci) {
         Managers.CONFIG.saveConfig();
     }
 }

@@ -2,22 +2,13 @@ package club.lyric.infinity.impl.modules.movement;
 
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.setting.settings.EnumSetting;
+import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
-import club.lyric.infinity.api.util.client.enums.StepMode;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-
-import static club.lyric.infinity.api.util.client.enums.StepMode.Normal;
-import static club.lyric.infinity.api.util.client.enums.StepMode.Vanilla;
 
 public class Step extends ModuleBase {
 
-    public EnumSetting<StepMode> mode =
-            new EnumSetting<>(
-                    "Mode",
-                    this,
-                    Vanilla
-            );
+    public ModeSetting mode = new ModeSetting("Mode", this, "Vanilla", "Vanilla", "Normal");
 
     public NumberSetting height =
             new NumberSetting(
@@ -40,16 +31,15 @@ public class Step extends ModuleBase {
 
     @Override
     public void onUpdate() {
-        super.onUpdate();
         if (nullCheck()) {
             return;
         }
 
         switch (mode.getMode()) {
-            case Vanilla -> {
+            case "Value" -> {
                 mc.player.setStepHeight(height.getFValue());
             }
-            case Normal -> {
+            case "Normal" -> {
                 double stepHeight = mc.player.getY() - mc.player.prevY;
                 double[] offsets = getOffset(stepHeight);
 

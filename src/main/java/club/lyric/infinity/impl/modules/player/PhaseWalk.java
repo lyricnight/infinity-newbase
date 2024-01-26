@@ -1,14 +1,14 @@
 package club.lyric.infinity.impl.modules.player;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.event.mc.movement.EntityMovementEvent;
 import club.lyric.infinity.api.event.mc.movement.MotionEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
-import club.lyric.infinity.api.setting.settings.EnumSetting;
+import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
-import club.lyric.infinity.api.util.client.enums.PhaseWalkEnum;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
@@ -20,7 +20,7 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
  */
 
 public class PhaseWalk extends ModuleBase {
-    public EnumSetting<PhaseWalkEnum> position = new EnumSetting<>("Position",this, PhaseWalkEnum.Standard);
+    public ModeSetting position = new ModeSetting("Position",this, "Standard", "Standard", "Low", "Zero", "Negative");
 
     public NumberSetting speed = new NumberSetting("Speed", this, 2, 1, 15,1);
 
@@ -54,7 +54,7 @@ public class PhaseWalk extends ModuleBase {
             mc.player.setPosition(mc.player.getX(), mod, mc.player.getZ());
 
             send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mod, mc.player.getZ(), true));
-            send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), position.getMode().getPosition(), mc.player.getZ(), true));
+            send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), getPosition(position.getMode()), mc.player.getZ(), true));
 
             mc.player.sidewaysSpeed = 0.0F;
             mc.player.upwardSpeed = 0.0F;
@@ -83,7 +83,7 @@ public class PhaseWalk extends ModuleBase {
             mc.player.setPosition(x, mc.player.getY(), z);
 
             send(new PlayerMoveC2SPacket.PositionAndOnGround(x, mc.player.getY(), z, true));
-            send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), position.getMode().getPosition(), mc.player.getZ(), true));
+            send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), getPosition(position.getMode()), mc.player.getZ(), true));
 
             mc.player.sidewaysSpeed = 0.0F;
             mc.player.upwardSpeed = 0.0F;
@@ -95,5 +95,15 @@ public class PhaseWalk extends ModuleBase {
 
             watch.reset();
         }
+    }
+
+    private double getPosition(String mode)
+    {
+        if (mode.equals("Standard")) return 1337.0D;
+        if (mode.equals("Low")) return 777.0D;
+        if (mode.equals("Zero")) return 0.0D;
+        if (mode.equals("Negative")) return -666.0D;
+        Infinity.LOGGER.error("No position value set.");
+        return 1337.0D;
     }
 }

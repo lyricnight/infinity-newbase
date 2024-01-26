@@ -1,13 +1,12 @@
 package club.lyric.infinity.impl.modules.render;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.client.SettingEvent;
 import club.lyric.infinity.api.event.mc.ReceiveChatEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
-import club.lyric.infinity.api.setting.settings.EnumSetting;
-import club.lyric.infinity.api.util.client.render.animations.Easings;
+import club.lyric.infinity.api.setting.settings.ModeSetting;
+import club.lyric.infinity.api.util.client.render.text.StringUtils;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.text.MutableText;
@@ -52,9 +51,9 @@ public class Chat extends ModuleBase {
             this
     );
 
-    public EnumSetting<Formatting> time = new EnumSetting<>("TimeColour", this, Formatting.DARK_GRAY);
+    public ModeSetting time = new ModeSetting("TimeColour", this, "DarkGray", "None", "Black", "DarkGray", "Gray", "DarkBlue", "Blue", "DarkGreen", "Green", "DarkAqua", "Aqua", "DarkRed", "Red", "DarkPurple", "Purple", "Gold", "Yellow");
 
-    public EnumSetting<Formatting> brackets = new EnumSetting<>("BracketColour", this, Formatting.BLACK);
+    public ModeSetting brackets = new ModeSetting("BracketColour", this, "Black", "None", "Black", "DarkGray", "Gray", "DarkBlue", "Blue", "DarkGreen", "Green", "DarkAqua", "Aqua", "DarkRed", "Red", "DarkPurple", "Purple", "Gold", "Yellow");
 
 
     public BooleanSetting keep = new BooleanSetting("Keep", false, this);
@@ -69,14 +68,6 @@ public class Chat extends ModuleBase {
         super("Chat", "Handles our chat and how it looks...", Category.Render);
     }
 
-    @EventHandler(priority = 500)
-    public void onSetting(SettingEvent event)
-    {
-        clear();
-    }
-
-
-
 
     //no point getting/setting message if timestamps aren't on
     @EventHandler(priority = 800)
@@ -84,9 +75,9 @@ public class Chat extends ModuleBase {
     {
         if (timeStamps.value()) {
             Text message = event.getMessage();
-            MutableText bracketPre = Text.literal("<").formatted(brackets.getMode());
-            MutableText dateText = Text.literal(date.format(new Date())).formatted(time.getMode());
-            MutableText bracketPost = Text.literal("> ").formatted(brackets.getMode());
+            MutableText bracketPre = Text.literal("<").formatted(StringUtils.getCodeFromSetting(brackets.getMode()));
+            MutableText dateText = Text.literal(date.format(new Date())).formatted(StringUtils.getCodeFromSetting(time.getMode()));
+            MutableText bracketPost = Text.literal("> ").formatted(StringUtils.getCodeFromSetting(brackets.getMode()));
             Text timestamp = Text.literal(bracketPre + String.valueOf(dateText) + bracketPost);
             message = Text.empty().append(timestamp).append(message);
             event.setMessage(message);

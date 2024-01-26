@@ -1,9 +1,9 @@
 package club.lyric.infinity.manager.client;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.*;
-import club.lyric.infinity.api.setting.settings.util.EnumConverter;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
 import club.lyric.infinity.manager.Managers;
 import com.google.gson.*;
@@ -11,7 +11,6 @@ import imgui.ImGui;
 import imgui.flag.ImGuiKey;
 import imgui.type.ImInt;
 import imgui.type.ImString;
-import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +38,7 @@ public class ConfigManager {
 
     public ConfigManager() {
         String tempFolderDirectory = System.getProperty("java.io.tmpdir");
+        Infinity.LOGGER.info(tempFolderDirectory);
         pathConfigFolder = Paths.get(tempFolderDirectory).resolve("infinity");
         pathProfilesFolder = pathConfigFolder.resolve("profiles");
 
@@ -242,10 +242,8 @@ public class ConfigManager {
                             booleanSetting.setValue(settingJson.getAsBoolean());
                         } else if (setting instanceof BindSetting bindSetting) {
                             bindSetting.setCode(settingJson.getAsInt());
-                        } else if (setting instanceof EnumSetting enumSetting) {
-                            EnumConverter converter = new EnumConverter(((EnumSetting) setting).getMode().getClass());
-                            Enum value = converter.doBackward(settingJson);
-                            enumSetting.setMode(value);
+                        } else if (setting instanceof ModeSetting modeSetting) {
+                            modeSetting.setMode(settingJson.getAsString());
                         } else if (setting instanceof NumberSetting numberSetting) {
                             numberSetting.setValue(settingJson.getAsDouble());
                         } else if (setting instanceof ColorSetting colorSetting) {
@@ -283,8 +281,8 @@ public class ConfigManager {
                             moduleConfig.addProperty(setting.getName(), booleanSetting.value());
                         } else if (setting instanceof BindSetting bindSetting) {
                             moduleConfig.addProperty(setting.getName(), bindSetting.getCode());
-                        } else if (setting instanceof EnumSetting enumSetting) {
-                            moduleConfig.addProperty(setting.getName(), enumSetting.getMode().toString());
+                        } else if (setting instanceof ModeSetting modeSetting) {
+                            moduleConfig.addProperty(setting.getName(), modeSetting.getMode());
                         } else if (setting instanceof NumberSetting numberSetting) {
                             moduleConfig.addProperty(setting.getName(), numberSetting.getValue());
                         } else if (setting instanceof ColorSetting colorSetting) {

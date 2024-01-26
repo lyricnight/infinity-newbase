@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Infinity implements ModInitializer, ClientModInitializer {
 	public static final String CLIENT_NAME = "Infinity";
-	public static final String VERSION = " v2";
+	public static final String VERSION = " v1.0.1";
     public static final Logger LOGGER = LogManager.getLogger("Infinity");
 
 	@Override

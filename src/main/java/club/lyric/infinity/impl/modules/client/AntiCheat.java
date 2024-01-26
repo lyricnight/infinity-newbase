@@ -3,8 +3,6 @@ package club.lyric.infinity.impl.modules.client;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
-import club.lyric.infinity.api.setting.settings.EnumSetting;
-import club.lyric.infinity.api.util.client.enums.RotationType;
 import club.lyric.infinity.manager.Managers;
 
 /**
@@ -13,7 +11,6 @@ import club.lyric.infinity.manager.Managers;
  */
 public class AntiCheat extends ModuleBase {
     public BooleanSetting rotate = new BooleanSetting("Rotate", false, this);
-    public EnumSetting<RotationType> rotationType = new EnumSetting<>("RotationType", this, RotationType.Packet);
 
     public BooleanSetting strictDirection = new BooleanSetting("StrictDirection", false,this);
 
@@ -25,11 +22,6 @@ public class AntiCheat extends ModuleBase {
     public static boolean getRotation()
     {
         return Managers.MODULES.getModuleFromClass(AntiCheat.class).rotate.value();
-    }
-
-    public static RotationType getRotationType()
-    {
-        return Managers.MODULES.getModuleFromClass(AntiCheat.class).rotationType.getMode();
     }
 
     public static boolean getStrictDirection()

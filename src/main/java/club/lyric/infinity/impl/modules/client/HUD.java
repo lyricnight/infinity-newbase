@@ -35,26 +35,11 @@ public class HUD extends ModuleBase
 
     public BooleanSetting potions = new BooleanSetting("Potions", true, this);
 
-    public BooleanSetting armorHud =
-            new BooleanSetting(
-                    "ArmorHUD",
-                    true,
-                    this
-            );
+    public BooleanSetting armorHud = new BooleanSetting("ArmorHUD", true, this);
 
-    public BooleanSetting watermark =
-            new BooleanSetting(
-                    "Watermark",
-                    true,
-                    this
-            );
+    public BooleanSetting watermark = new BooleanSetting("Watermark", true, this);
 
-    public BooleanSetting speed =
-            new BooleanSetting(
-                    "Speed",
-                    true,
-                    this
-            );
+    public BooleanSetting speed = new BooleanSetting("Speed", true, this);
 
 
     public HUD()

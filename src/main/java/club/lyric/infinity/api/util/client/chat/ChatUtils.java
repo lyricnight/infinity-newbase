@@ -1,6 +1,7 @@
 package club.lyric.infinity.api.util.client.chat;
 
 import club.lyric.infinity.api.ducks.IChatHud;
+import club.lyric.infinity.api.util.client.render.text.StringUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Manager;
 import club.lyric.infinity.manager.Managers;
@@ -19,7 +20,7 @@ public class ChatUtils implements IMinecraft
 
     public static void format()
     {
-        clientMessage = Managers.MODULES.getModuleFromClass(Manager.class).bracket.getMode().toString() + "[" + Formatting.RESET + Managers.MODULES.getModuleFromClass(Manager.class).nameColour.getMode().toString() + "Infinity" + Formatting.RESET + Managers.MODULES.getModuleFromClass(Manager.class).bracket.getMode().toString() + "]";
+        clientMessage = StringUtils.coloredString("[", Managers.MODULES.getModuleFromClass(Manager.class).bracket.getMode()) + StringUtils.coloredString("Infinity", Managers.MODULES.getModuleFromClass(Manager.class).nameColour.getMode()) + StringUtils.coloredString("] ", Managers.MODULES.getModuleFromClass(Manager.class).bracket.getMode());
     }
 
     public static void sendMessagePrivate(String message)

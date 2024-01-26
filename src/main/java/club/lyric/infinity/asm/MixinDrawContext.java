@@ -10,6 +10,12 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+/**
+ * @author lyric
+ * for rendering our own text whenever we want using A util, like we can do in 1.12.2.
+ * 1.20 requires a context per-tick, so we make our own, but doesn't let us use float x and y values, even though it literally casts them to float anyway???
+ * so we make our own.
+ */
 @Mixin(DrawContext.class)
 public abstract class MixinDrawContext implements IDrawContext {
     @Final

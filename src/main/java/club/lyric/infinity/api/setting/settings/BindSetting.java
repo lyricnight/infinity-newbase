@@ -53,9 +53,8 @@ public class BindSetting extends Setting implements Renderable {
         ImGui.popID();
     }
 
-    @SuppressWarnings("unused")
-    @EventHandler(priority = 995)
-    private void onKeyPress(KeyPressEvent event) {
+    @EventHandler
+    public void onKeyPress(KeyPressEvent event) {
         if (event.getAction() != GLFW.GLFW_RELEASE) {
             wasPressed = false;
             EventBus.getInstance().unregister(this);

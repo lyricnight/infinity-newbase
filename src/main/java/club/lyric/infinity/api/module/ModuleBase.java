@@ -129,7 +129,7 @@ public class ModuleBase implements IMinecraft {
         EventBus.getInstance().register(this);
         this.onEnable();
         if (Managers.MODULES.getModuleFromClass(Notifications.class).enable.value()) {
-            ChatUtils.sendOverwriteMessageNoTag(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", id);
+            ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", id);
         }
     }
 
@@ -138,7 +138,7 @@ public class ModuleBase implements IMinecraft {
         this.onDisable();
         EventBus.getInstance().unregister(this);
         if (Managers.MODULES.getModuleFromClass(Notifications.class).disable.value()) {
-            ChatUtils.sendOverwriteMessageNoTag(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", id);
+            ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", id);
         }
     }
 

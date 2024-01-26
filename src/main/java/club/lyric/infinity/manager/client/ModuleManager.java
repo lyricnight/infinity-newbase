@@ -33,6 +33,7 @@ public class ModuleManager implements IMinecraft
                 new Chat(),
                 new HUD(),
                 new Sprint(),
+                new Step(),
                 new NoJumpDelay(),
                 new HitboxDesync(),
                 new Notifications(),

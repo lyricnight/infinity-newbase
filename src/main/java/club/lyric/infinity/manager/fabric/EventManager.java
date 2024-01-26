@@ -2,19 +2,21 @@ package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.mc.DeathEvent;
-import club.lyric.infinity.api.event.mc.TickEvent;
+import club.lyric.infinity.api.event.client.KeyPressEvent;
+import club.lyric.infinity.api.event.mc.*;
 import club.lyric.infinity.api.event.mc.update.UpdateEvent;
 import club.lyric.infinity.api.command.Command;
-import club.lyric.infinity.api.event.mc.ChatEvent;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
+import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Formatting;
+import org.lwjgl.glfw.GLFW;
 
 /**
  * @author lyric
@@ -23,6 +25,7 @@ import net.minecraft.util.Formatting;
 
 @SuppressWarnings("unused")
 public class EventManager implements IMinecraft {
+
     /**
      * for commands.
      * @param event - the chat event
@@ -85,14 +88,17 @@ public class EventManager implements IMinecraft {
         }
     }
 
-    /*
-    @EventHandler(priority = 999)
-    public void onPacketReceive(PacketEvent.Receive event)
-    {
-        if(event.getPacket() instanceof EntityStatusS2CPacket && Managers.MODULES.getModuleFromClass(Notifications.class).totemPops.getValue())
-        {
+    @EventHandler
+    public void onKeyPress(KeyPressEvent event) {
+        if (event.getAction() == GLFW.GLFW_RELEASE)
+            return;
 
-        }
+        if (mc.currentScreen instanceof ChatScreen)
+            return;
+
+        if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3))
+            return;
+
+        Managers.MODULES.getModules().stream().filter(m -> m.getBind() == event.getKey()).forEach(ModuleBase::toggle);
     }
-    */
 }
