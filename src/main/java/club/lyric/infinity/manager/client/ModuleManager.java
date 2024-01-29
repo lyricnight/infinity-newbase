@@ -5,6 +5,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.*;
+import club.lyric.infinity.impl.modules.combat.Aura;
 import club.lyric.infinity.impl.modules.exploit.*;
 import club.lyric.infinity.impl.modules.movement.*;
 import club.lyric.infinity.impl.modules.player.*;
@@ -32,6 +33,7 @@ public class ModuleManager implements IMinecraft
                 new DiscordRPC(),
                 new Chat(),
                 new HUD(),
+                new Aura(),
                 new Sprint(),
                 new Step(),
                 new NoJumpDelay(),

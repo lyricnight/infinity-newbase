@@ -30,7 +30,7 @@
     "MixinSplashTextResourceSupplier",
     "MixinWindow",
     "MixinWorldRenderer",
-    "accessors.IChatHudLine",
+    "accessors.IChatHudLine"
   ],
   "injectors": {
     "defaultRequire": 1

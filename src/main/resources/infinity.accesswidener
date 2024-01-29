@@ -6,3 +6,4 @@ accessible method net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SP
 accessible class net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket$InteractType
 accessible field net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket type Lnet/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket$InteractTypeHandler;
 accessible field net/minecraft/client/network/ClientPlayerEntity ticksSinceLastPositionPacketSent I
+accessible field net/minecraft/entity/Entity onGround Z

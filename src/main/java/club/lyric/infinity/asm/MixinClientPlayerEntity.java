@@ -32,7 +32,7 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
         EventBus.getInstance().post(new UpdateWalkingPlayerEvent(0));
     }
 
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;sendMovementPackets()V", shift = At.Shift.AFTER))
+    @Inject(method = "tick", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/ClientPlayerEntity;tickables:Ljava/util/List;", shift = At.Shift.AFTER))
     private void tickHookering(CallbackInfo ci) {
         EventBus.getInstance().post(new UpdateWalkingPlayerEvent(1));
     }

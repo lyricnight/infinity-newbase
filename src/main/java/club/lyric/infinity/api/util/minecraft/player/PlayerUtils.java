@@ -1,12 +1,17 @@
 package club.lyric.infinity.api.util.minecraft.player;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.StringHelper;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -17,6 +22,11 @@ import static net.minecraft.util.math.MathHelper.floor;
 public class PlayerUtils implements IMinecraft {
 
     private static final Map<StatusEffect, String> statusEffectNames = new Reference2ObjectOpenHashMap<>(16);
+
+    public static float getHealth(LivingEntity entity) {
+        return entity.getHealth() + entity.getAbsorptionAmount();
+    }
+
 
     public static String get(StatusEffect effect) {
         return statusEffectNames.computeIfAbsent(effect, effect1 -> StringHelper.stripTextFormat(effect1.getName().getString()));
@@ -60,5 +70,29 @@ public class PlayerUtils implements IMinecraft {
         return false;
     }
 
+    public static Box getAABBOfRadius(Entity entity, double radius) {
+        return new Box(Math.floor(entity.getX() - radius), Math.floor(entity.getY() - radius), Math.floor(entity.getZ() - radius), Math.floor(entity.getX() + radius), Math.floor(entity.getY() + radius), Math.floor(entity.getZ() + radius));
+    }
 
+    public static Vec3d getBBCoords(Box bb, Vec3d from) {
+        double x = bb.minX - from.x > from.x - bb.maxX ? bb.minX : bb.maxX;
+        double y = bb.minY - from.y > from.y - bb.maxY ? bb.minY : bb.maxY;
+        double z = bb.minZ - from.z > from.z - bb.maxZ ? bb.minZ : bb.maxZ;
+        return new Vec3d(x, y, z);
+    }
+
+    public static double getSpeed(PlayerEntity player) {
+        double speed = 0.287;
+        var speedEffect = player.getStatusEffect(StatusEffects.SPEED);
+        if (speedEffect != null) {
+            speed *= 1.0 + 0.2 * (speedEffect.getAmplifier() + 1);
+        }
+
+        var slowEffect = player.getStatusEffect(StatusEffects.SLOWNESS);
+        if (slowEffect != null) {
+            speed /= 1.0 + 0.2 * (slowEffect.getAmplifier() + 1);
+        }
+
+        return speed;
+    }
 }
