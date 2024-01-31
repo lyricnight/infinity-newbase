@@ -16,6 +16,7 @@ public class PacketEvent extends Event {
         this.packet = packet;
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends Packet<?>> T getPacket() {
         return (T) this.packet;
     }

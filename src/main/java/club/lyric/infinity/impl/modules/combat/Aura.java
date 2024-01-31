@@ -44,7 +44,7 @@ public class Aura extends ModuleBase {
 
     public Aura()
     {
-        super("Aura", "Hits people", Category.Client);
+        super("Aura", "Hits people", Category.Combat);
     }
 
 

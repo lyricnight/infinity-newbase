@@ -43,14 +43,15 @@ public class MathUtils {
         return num < min ? min : Math.min(num, max);
     }
 
-    public static float calculateHue(float x, float y, float hueSpeedX, float hueSpeedY) {
-        return (float) (Math.sin((x * hueSpeedX) + (y * hueSpeedY) + System.currentTimeMillis() * 0.001) + 1.0) / 2.0f;
+    public static float square(float in)
+    {
+        return in * in;
     }
 
-    /**
-     * middle of some variables
-     */
-    public static float getMiddle(float a, float b, float c) {
-        return (a + b / 2) - c / 2;
+    public static double square(double in)
+    {
+        return in * in;
     }
+
+
 }

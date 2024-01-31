@@ -6,6 +6,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.*;
 import club.lyric.infinity.impl.modules.combat.Aura;
+import club.lyric.infinity.impl.modules.combat.AutoMine;
 import club.lyric.infinity.impl.modules.exploit.*;
 import club.lyric.infinity.impl.modules.movement.*;
 import club.lyric.infinity.impl.modules.player.*;
@@ -31,6 +32,7 @@ public class ModuleManager implements IMinecraft
                 new AntiCheat(),
                 new Manager(),
                 new DiscordRPC(),
+                new AutoMine(),
                 new Chat(),
                 new HUD(),
                 new Aura(),

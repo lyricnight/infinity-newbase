@@ -18,17 +18,11 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 	public static final String CLIENT_NAME = "Infinity";
 	public static final String VERSION = " v1.0.1";
     public static final Logger LOGGER = LogManager.getLogger("Infinity");
+	private static long start;
 
 	@Override
 	public void onInitialize() {
-        LOGGER.log(Level.INFO, "  _        __ _       _ _         ");
-		LOGGER.log(Level.INFO, " (_)      / _(_)     (_) |        ");
-		LOGGER.log(Level.INFO, "  _ _ __ | |_ _ _ __  _| |_ _   _ ");
-		LOGGER.log(Level.INFO, " | | '_ \\|  _| | '_ \\| | __| | | |");
-		LOGGER.log(Level.INFO, " | | | | | | | | | | | | |_| |_| |");
-		LOGGER.log(Level.INFO, " |_|_| |_|_| |_|_| |_|_|\\__|\\__, |");
-		LOGGER.log(Level.INFO, "                             __/ |");
-		LOGGER.log(Level.INFO, "                            |___/ ");
+		start = System.nanoTime() / 1000000L;
 		LOGGER.info("Infinity has received onInitialize()!");
 		Managers.sub();
 	}
@@ -37,5 +31,14 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 	public void onInitializeClient() {
 		LOGGER.info("Infinity has received onInitializeClient()!");
 		Managers.init();
+		Infinity.LOGGER.info("Infinity has fully initialised in " + (System.nanoTime() / 1000000L - start) + " ms.");
+		LOGGER.log(Level.INFO, "  _        __ _       _ _         ");
+		LOGGER.log(Level.INFO, " (_)      / _(_)     (_) |        ");
+		LOGGER.log(Level.INFO, "  _ _ __ | |_ _ _ __  _| |_ _   _ ");
+		LOGGER.log(Level.INFO, " | | '_ \\|  _| | '_ \\| | __| | | |");
+		LOGGER.log(Level.INFO, " | | | | | | | | | | | | |_| |_| |");
+		LOGGER.log(Level.INFO, " |_|_| |_|_| |_|_| |_|_|\\__|\\__, |");
+		LOGGER.log(Level.INFO, "                             __/ |");
+		LOGGER.log(Level.INFO, "                            |___/ ");
 	}
 }

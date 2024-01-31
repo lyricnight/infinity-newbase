@@ -11,7 +11,6 @@ import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +20,7 @@ import java.util.Date;
  * @author lyric
  */
 
-@SuppressWarnings({"unused"})
+@SuppressWarnings("unused")
 public class Chat extends ModuleBase {
     public BooleanSetting clear =
             new BooleanSetting(

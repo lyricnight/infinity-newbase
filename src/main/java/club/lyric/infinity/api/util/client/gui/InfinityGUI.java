@@ -70,8 +70,6 @@ public class InfinityGUI implements RenderableElement, IMinecraft {
         ImGui.getStyle().setWindowRounding(4f);
         ImGui.getStyle().setWindowPadding(6,6);
 
-        //float posX = (float) (MinecraftClient.getInstance().getWindow().getWidth() / 2 - 330);
-        //float posY = (float) (MinecraftClient.getInstance().getWindow().getHeight() / 2 - 250);
         float posX = Tab.getInstance().getPos().x + 160;
         float posY = Tab.getInstance().getPos().y;
         ImGui.setWindowPos(posX, posY);

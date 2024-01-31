@@ -1,6 +1,9 @@
 package club.lyric.infinity.api.util.minecraft.player;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -14,12 +17,26 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static net.minecraft.util.math.MathHelper.floor;
 
 public class PlayerUtils implements IMinecraft {
+    private static final List<Block> burrowList = Arrays.asList(
+            Blocks.BEDROCK,
+            Blocks.OBSIDIAN,
+            Blocks.ENDER_CHEST,
+            Blocks.CHEST,
+            Blocks.TRAPPED_CHEST,
+            Blocks.BEACON,
+            Blocks.PISTON,
+            Blocks.REDSTONE_BLOCK,
+            Blocks.ENCHANTING_TABLE,
+            Blocks.ANVIL
+    );
 
     private static final Map<StatusEffect, String> statusEffectNames = new Reference2ObjectOpenHashMap<>(16);
 
@@ -94,5 +111,23 @@ public class PlayerUtils implements IMinecraft {
         }
 
         return speed;
+    }
+
+    public static boolean isInBurrow(PlayerEntity player) {
+        BlockPos pos = player.getBlockPos();
+        return isBurrow(pos, player) || isBurrow(pos.up(), player);
+    }
+
+    public static boolean isBurrow(BlockPos pos, PlayerEntity player) {
+        BlockState state = mc.world.getBlockState(pos);
+        return burrowList.contains(state.getBlock()) && state.getCollisionShape(mc.world, pos).getBoundingBox().offset(pos).maxY > player.getY();
+    }
+
+    public static boolean isTrapped(PlayerEntity player) {
+        BlockPos pos = player.getBlockPos();
+        return !mc.world.getBlockState(pos.up(2)).isReplaceable();
+    }
+    public static boolean isInPhase(PlayerEntity target) {
+        return mc.world.getBlockState(target.getBlockPos()).getBlock() != Blocks.AIR;
     }
 }
