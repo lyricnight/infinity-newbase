@@ -12,9 +12,10 @@ import org.spongepowered.asm.mixin.Shadow;
 
 /**
  * @author lyric
- * for rendering our own text whenever we want using A util, like we can do in 1.12.2.
+ * for rendering our own text whenever we want using a util, like we can do in 1.12.2.
+ * This is probably much more complicated than just rendering in render methods, but we need it for things like main menu text rendering.
  * 1.20 requires a context per-tick, so we make our own, but doesn't let us use float x and y values, even though it literally casts them to float anyway???
- * so we make our own.
+ * so we make our own method, that we inject into the target class.
  */
 @Mixin(DrawContext.class)
 public abstract class MixinDrawContext implements IDrawContext {

@@ -7,7 +7,6 @@ import club.lyric.infinity.impl.modules.client.Manager;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
 /**
  * @author vasler, lyric
