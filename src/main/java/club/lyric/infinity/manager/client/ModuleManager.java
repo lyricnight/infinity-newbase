@@ -5,6 +5,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.*;
+import club.lyric.infinity.impl.modules.client.clickgui.ClickGui;
 import club.lyric.infinity.impl.modules.combat.Aura;
 import club.lyric.infinity.impl.modules.combat.AutoMine;
 import club.lyric.infinity.impl.modules.exploit.*;
@@ -43,7 +44,9 @@ public class ModuleManager implements IMinecraft
                 new Notifications(),
                 new PhaseWalk(),
                 new Latency(),
-                new Clip()
+                new Clip(),
+                new RaytraceBypass(),
+                new HoleSnap()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }

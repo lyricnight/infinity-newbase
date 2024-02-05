@@ -12,7 +12,8 @@
     "MixinLivingEntity",
     "MixinSharedConstants",
     "MixinStringHelper",
-    "MixinTitleScreen"
+    "MixinTitleScreen",
+    "accessors.IPlayerMoveC2SPacket"
   ],
   "client": [
     "MixinChatHud",

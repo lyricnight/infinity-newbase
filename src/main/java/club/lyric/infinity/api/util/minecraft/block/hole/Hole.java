@@ -65,6 +65,6 @@ public class Hole {
     }
 
     public int hashCode() {
-        return new HashCodeBuilder(17, 31).append(this.first).append(this.first).append((Object)this.safety).toHashCode();
+        return new HashCodeBuilder(17, 31).append(this.first).append(this.first).toHashCode();
     }
 }

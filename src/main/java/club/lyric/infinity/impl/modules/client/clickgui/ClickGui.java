@@ -1,4 +1,4 @@
-package club.lyric.infinity.impl.modules.client;
+package club.lyric.infinity.impl.modules.client.clickgui;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.event.client.KeyPressEvent;
@@ -6,7 +6,6 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ColorSetting;
-import club.lyric.infinity.api.util.client.gui.InfinityGUI;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
 import org.lwjgl.glfw.GLFW;
 
@@ -21,20 +20,18 @@ public class ClickGui extends ModuleBase {
     public ClickGui()
     {
         super("ClickGui", "Displays a graphical user interface.", Category.Client);
+        setBind(GLFW.GLFW_KEY_RIGHT_SHIFT);
     }
 
     @Override
     public void onEnable()
     {
-        InfinityGUI.getInstance().toggle();
-        mc.mouse.unlockCursor();
+        mc.setScreenAndRender(GuiImGui.getClickGui());
     }
 
     @Override
-    public void onDisable()
-    {
-        InfinityGUI.getInstance().toggle();
-        if (mc.currentScreen == null) mc.mouse.lockCursor();
+    public void onDisable() {
+        mc.setScreenAndRender(null);
     }
 
     @EventHandler

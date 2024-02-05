@@ -8,6 +8,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.math.RotationUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
 import club.lyric.infinity.api.util.minecraft.block.HoleUtils;
@@ -29,7 +30,7 @@ public final class HoleSnap extends ModuleBase {
     public BooleanSetting step = new BooleanSetting("Step", false, this);
     public BooleanSetting remove = new BooleanSetting("Remove", false, this);
     public NumberSetting timerLength = new NumberSetting("Length", this, 20, 1, 100, 5);
-    public NumberSetting timerIntensity = new NumberSetting("Intensity", this, 25.0f, 1.0f, 100.0f, 1.0f)
+    public NumberSetting timerIntensity = new NumberSetting("Intensity", this, 25.0f, 1.0f, 100.0f, 1.0f);
     public NumberSetting postTimerLength = new NumberSetting("PostLength", this, 0, 0, 40, 1);
     public NumberSetting postTimerIntensity = new NumberSetting("PostIntensity", this, 1f, 0.1f, 1f, 0.1f);
     public BooleanSetting extraSafe = new BooleanSetting("ExtraSafe", false, this);
@@ -77,7 +78,7 @@ public final class HoleSnap extends ModuleBase {
         {
             Managers.MODULES.getModuleFromClass(Step.class).setEnabled(false);
         }
-        //reset TimerManager.
+        Managers.TIMER.reset();
     }
 
     @Override
@@ -96,15 +97,15 @@ public final class HoleSnap extends ModuleBase {
             return;
         }
         if (boosted <= timerLength.getValue()) {
-            if (remove.value()) {
-                ManagersPortal.getTimerManager().set(((Float)timerAmount.getValue()).floatValue() - (float)enabled < 1.0f ? 1.0f : ((Float)timerAmount.getValue()).floatValue() - (float)enabled);
+            /*if (remove.value()) {
+                Managers.TIMER.set((timerIntensity.getValue()) - (float)enabled < 1.0f ? 1.0f : (timerIntensity.getValue()) - (float)enabled);
             } else {
-                ManagersPortal.getTimerManager().set(((Float)timerAmount.getValue()).floatValue());
-            }
+                Managers.TIMER.set(timerIntensity.getValue());
+            }*/
             ++this.boosted;
         } else {
             this.boosted = 0;
-            ManagersPortal.getTimerManager().reset();
+            Managers.TIMER.reset();
         }
     }
     
@@ -114,6 +115,7 @@ public final class HoleSnap extends ModuleBase {
         if (nullCheck()) {
             return;
         }
+        assert mc.player != null;
         if (mc.player.isSpectator()) {
             return;
         }
@@ -122,12 +124,8 @@ public final class HoleSnap extends ModuleBase {
             return;
         }
         if (isSafe()) {
-            ManagersPortal.getTimerManager().setFor(((Float)postTimerAmount.getValue()).floatValue(), (Integer)postTimerLength.getValue());
+            Managers.TIMER.setFor((float) postTimerIntensity.getValue(), (int) postTimerLength.getValue());
             setEnabled(false);
-        }
-        if (ListenerMove.mc.field_71439_g.func_174791_d().func_72438_d(HoleUtil.getCenter(hole)) > (double)((Float)range.getValue()).floatValue()) {
-            setEnabled(false);
-            return;
         }
         doPull(event);
         if (mc.player.horizontalCollision && mc.player.isOnGround()) {
@@ -146,7 +144,7 @@ public final class HoleSnap extends ModuleBase {
         Vec3d playerPos = mc.player.getPos();
         Vec3d holePos = HoleUtils.getCenter(this.hole);
         Vec3d targetPos = new Vec3d(holePos.x, mc.player.getY(), holePos.z);
-        double yawRad = Math.toRadians(RotationUtils.getRotationTo((Vec3d)playerPos, (Vec3d)targetPos).field_189982_i);
+        double yawRad = Math.toRadians(RotationUtils.getRotationTo(playerPos, targetPos).x);
         double dist = playerPos.distanceTo(targetPos);
         double d = speed = mc.player.isOnGround() ? -Math.min(0.2805, dist / 2.0) : -PlayerUtils.getSpeed(mc.player) + 0.02;
         if (dist < 0.1) {
@@ -160,6 +158,7 @@ public final class HoleSnap extends ModuleBase {
 
 
     private boolean isSafe() {
+        assert mc.player != null;
         double dist = mc.player.getPos().distanceTo(HoleUtils.getCenter(hole));
         return HoleUtils.isInHole(mc.player) || dist < 0.1;
     }

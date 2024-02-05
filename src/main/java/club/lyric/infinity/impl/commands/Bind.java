@@ -36,10 +36,6 @@ public class Bind extends Command {
             return;
         }
 
-        if ()
-        {
-
-        }
 
         
     }

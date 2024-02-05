@@ -36,9 +36,7 @@ public class Step extends ModuleBase {
         }
 
         switch (mode.getMode()) {
-            case "Value" -> {
-                mc.player.setStepHeight(height.getFValue());
-            }
+            case "Value" -> mc.player.setStepHeight(height.getFValue());
             case "Normal" -> {
                 double stepHeight = mc.player.getY() - mc.player.prevY;
                 double[] offsets = getOffset(stepHeight);
@@ -50,7 +48,6 @@ public class Step extends ModuleBase {
                 }
             }
         }
-        mc.player.setBoundingBox(mc.player.getBoundingBox().offset(0, -1, 0));
     }
 
     public double[] getOffset(double height) {
