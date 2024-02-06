@@ -67,9 +67,10 @@ public final class ServerManager implements IMinecraft {
     public void onPacketReceive(PacketEvent.Receive event)
     {
         //We don't actually need to check if Latency is enabled, because time is the most important thing here, and receiving the packet we check for is impossible normally.
+        //TODO: somehow account for ms variations caused by game lag / client lag due to low fps / lots of events being fired at one time
         if(event.getPacket() instanceof CommandSuggestionsS2CPacket commandSuggestionsS2CPacket && commandSuggestionsS2CPacket.getCompletionId() == 1337)
         {
-            ping = (int) MathUtils.clamp(System.currentTimeMillis() - responseTime, 0, 2000);
+            ping = (int) (System.currentTimeMillis() - responseTime);
         }
 
         if(!(event.getPacket() instanceof ChatMessageS2CPacket))

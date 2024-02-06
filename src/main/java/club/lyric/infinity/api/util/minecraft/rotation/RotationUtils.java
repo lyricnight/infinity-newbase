@@ -1,11 +1,11 @@
-package club.lyric.infinity.api.util.client.math;
+package club.lyric.infinity.api.util.minecraft.rotation;
 
+import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 
 public class RotationUtils implements IMinecraft {
-
     public static Vec2f getRotationTo(Vec3d posTo, Vec3d posFrom) {
         return getRotationFromVec(posTo.subtract(posFrom));
     }
@@ -21,11 +21,10 @@ public class RotationUtils implements IMinecraft {
         return angle;
     }
 
-
     public static Vec2f getRotationFromVec(Vec3d vec) {
-        double xz = Math.hypot(vec.x, vec.z);
-        float yaw = (float) normalizeAngle(Math.toDegrees(Math.atan2(vec.z, vec.x)) - 90.0);
-        float pitch = (float) normalizeAngle(Math.toDegrees(-Math.atan2(vec.y, xz)));
+        double xz = ApacheMath.hypot(vec.x, vec.z);
+        float yaw = (float) normalizeAngle(ApacheMath.toDegrees(ApacheMath.atan2(vec.z, vec.x)) - 90.0);
+        float pitch = (float) normalizeAngle(ApacheMath.toDegrees(-ApacheMath.atan2(vec.y, xz)));
         return new Vec2f(yaw, pitch);
     }
 }

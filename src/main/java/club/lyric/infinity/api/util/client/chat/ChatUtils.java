@@ -24,6 +24,7 @@ public class ChatUtils implements IMinecraft
 
     public static void sendMessagePrivate(String message)
     {
+        if (mc.world == null) return;
         format();
         MutableText text = Text.empty();
         text.append(clientMessage);

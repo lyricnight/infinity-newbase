@@ -2,13 +2,13 @@ package club.lyric.infinity.impl.modules.player;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.event.mc.movement.EntityMovementEvent;
-import club.lyric.infinity.api.event.mc.movement.MotionEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
-import club.lyric.infinity.api.util.client.math.RotationUtils;
+import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
+import club.lyric.infinity.api.util.minecraft.rotation.RotationUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
 import club.lyric.infinity.api.util.minecraft.block.HoleUtils;
@@ -16,15 +16,15 @@ import club.lyric.infinity.api.util.minecraft.block.hole.Hole;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.impl.modules.movement.Step;
 import club.lyric.infinity.manager.Managers;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
-import org.apache.http.util.EntityUtils;
 
 import java.util.Comparator;
 
 /**
  * @author lyric
  */
+//TODO: use threads to find hole, add baritone pathfinding??
+@SuppressWarnings({"DataFlowIssue", "unused"})
 public final class HoleSnap extends ModuleBase {
     public NumberSetting range = new NumberSetting("Range", this, 4f, 1f, 10f, 0.5f);
     public BooleanSetting step = new BooleanSetting("Step", false, this);
@@ -97,11 +97,12 @@ public final class HoleSnap extends ModuleBase {
             return;
         }
         if (boosted <= timerLength.getValue()) {
-            /*if (remove.value()) {
-                Managers.TIMER.set((timerIntensity.getValue()) - (float)enabled < 1.0f ? 1.0f : (timerIntensity.getValue()) - (float)enabled);
+            if (remove.value()) {
+                //might not work properly
+                Managers.TIMER.set(ApacheMath.max(timerIntensity.getFValue() - local, 1.0f));
             } else {
-                Managers.TIMER.set(timerIntensity.getValue());
-            }*/
+                Managers.TIMER.set(timerIntensity.getFValue());
+            }
             ++this.boosted;
         } else {
             this.boosted = 0;
@@ -115,7 +116,6 @@ public final class HoleSnap extends ModuleBase {
         if (nullCheck()) {
             return;
         }
-        assert mc.player != null;
         if (mc.player.isSpectator()) {
             return;
         }
@@ -124,7 +124,7 @@ public final class HoleSnap extends ModuleBase {
             return;
         }
         if (isSafe()) {
-            Managers.TIMER.setFor((float) postTimerIntensity.getValue(), (int) postTimerLength.getValue());
+            Managers.TIMER.setFor(postTimerIntensity.getFValue(), postTimerLength.getIValue());
             setEnabled(false);
         }
         doPull(event);
@@ -158,7 +158,6 @@ public final class HoleSnap extends ModuleBase {
 
 
     private boolean isSafe() {
-        assert mc.player != null;
         double dist = mc.player.getPos().distanceTo(HoleUtils.getCenter(hole));
         return HoleUtils.isInHole(mc.player) || dist < 0.1;
     }
@@ -178,6 +177,6 @@ public final class HoleSnap extends ModuleBase {
 
 
     private Hole getTarget(float range) {
-        return HoleUtils.getHoles(range, true, false, false, terrain.value()).stream().filter(this::isReachable).filter(hole -> mc.player.getPos().distanceTo(new Vec3d((double)hole.getFirst().getX() + 0.5, mc.player.getY(), (double)hole.getFirst().getZ() + 0.5)) <= (double)range).min(Comparator.comparingDouble(hole -> mc.player.getPos().distanceTo(new Vec3d((double)hole.getFirst().getX() + 0.5, mc.player.getY(), (double)hole.getFirst().getZ() + 0.5)))).orElse(null);
+        return HoleUtils.getHoles(range, true, false, false, terrain.value()).stream().filter(this::isReachable).filter(hole -> mc.player.getPos().distanceTo(new Vec3d(hole.getFirst().getX() + 0.5, mc.player.getY(), hole.getFirst().getZ() + 0.5)) <= range).min(Comparator.comparingDouble(hole -> mc.player.getPos().distanceTo(new Vec3d(hole.getFirst().getX() + 0.5, mc.player.getY(), hole.getFirst().getZ() + 0.5)))).orElse(null);
     }
 }

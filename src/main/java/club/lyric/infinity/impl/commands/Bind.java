@@ -35,8 +35,5 @@ public class Bind extends Command {
             state(CommandState.ERROR);
             return;
         }
-
-
-        
     }
 }

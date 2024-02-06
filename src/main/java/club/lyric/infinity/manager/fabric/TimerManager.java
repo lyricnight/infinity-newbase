@@ -2,6 +2,9 @@ package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 
+/**
+ * @author vasler
+ */
 public class TimerManager implements IMinecraft {
     private float temp;
     protected float timer = 1.0f;
@@ -42,5 +45,4 @@ public class TimerManager implements IMinecraft {
         this.max = ticks;
         this.ticks = 1;
     }
-
 }

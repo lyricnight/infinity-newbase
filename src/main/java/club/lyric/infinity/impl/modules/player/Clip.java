@@ -18,10 +18,7 @@ public final class Clip extends ModuleBase {
     public NumberSetting delay = new NumberSetting("Delay", this, 3, 0, 20, 1);
     public BooleanSetting disable = new BooleanSetting("Disable", true, this);
     public NumberSetting updates = new NumberSetting("Updates", this, 10, 1, 30,1);
-
     int time;
-
-
     public Clip()
     {
         super("Clip", "Clips into blocks.", Category.Player);

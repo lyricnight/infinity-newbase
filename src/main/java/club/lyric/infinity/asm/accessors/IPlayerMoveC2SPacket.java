@@ -6,9 +6,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(PlayerMoveC2SPacket.class)
 public interface IPlayerMoveC2SPacket {
-
-    // pulls setpitch Frum player move cs2s palcekt
+    // pulls setpitch from player move c2s packet
     @Accessor("pitch")
     void setPitch(float pitch);
-
 }

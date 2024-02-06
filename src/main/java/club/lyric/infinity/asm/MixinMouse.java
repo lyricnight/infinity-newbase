@@ -2,7 +2,7 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.util.client.gui.IMLoader;
 import club.lyric.infinity.api.util.client.gui.InfinityGUI;
-import club.lyric.infinity.impl.modules.client.clickgui.ClickGui;
+import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.Mouse;
 import org.spongepowered.asm.mixin.Mixin;

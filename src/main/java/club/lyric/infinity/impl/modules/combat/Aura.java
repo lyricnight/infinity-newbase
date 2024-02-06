@@ -29,8 +29,8 @@ import org.jetbrains.annotations.Nullable;
  * @author lyric
  */
 
+@SuppressWarnings("DataFlowIssue")
 public final class Aura extends ModuleBase {
-
     public BooleanSetting tele = new BooleanSetting("Teleport", false, this);
 
     public BooleanSetting require = new BooleanSetting("Require", true, this);

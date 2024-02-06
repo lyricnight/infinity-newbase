@@ -40,7 +40,7 @@ public final class AutoMine extends ModuleBase {
     public BooleanSetting dev = new BooleanSetting("Dev", false, this);
     private PlayerEntity player = null;
     private BlockPos attacking = null;
-    private StopWatch.Single watch = new StopWatch.Single();
+    private final StopWatch.Single watch = new StopWatch.Single();
 
     private AtomicInteger count = new AtomicInteger();
 

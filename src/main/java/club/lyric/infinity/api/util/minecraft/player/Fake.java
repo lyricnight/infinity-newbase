@@ -5,8 +5,14 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.world.ClientWorld;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.TestOnly;
 
+import java.lang.annotation.Retention;
 import java.util.UUID;
+
+/**
+ * @author 3arth
+ */
 public class Fake extends AbstractClientPlayerEntity {
     public static final GameProfile RANDOM_GAMEPROFILE = new GameProfile(UUID.randomUUID(), "FakePlayer");
     public static final PlayerListEntry DUMMY_PLAYERINFO = new PlayerListEntry(RANDOM_GAMEPROFILE, true);
@@ -39,8 +45,9 @@ public class Fake extends AbstractClientPlayerEntity {
         return true;
     }
 
+    /**
+     * prevents pushing
+     */
     @Override
-    protected void pushOutOfBlocks(double x, double y, double z) {
-        // don't push out of blocks super.moveTowardsClosestSpace(d, e, f);
-    }
+    protected void pushOutOfBlocks(double x, double y, double z) {}
 }
