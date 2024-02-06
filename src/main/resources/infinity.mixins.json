@@ -13,6 +13,7 @@
     "MixinSharedConstants",
     "MixinStringHelper",
     "MixinTitleScreen",
+    "accessors.ICustomPayloadC2SPacket",
     "accessors.IPlayerMoveC2SPacket"
   ],
   "client": [
