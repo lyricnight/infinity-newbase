@@ -61,13 +61,11 @@ public class InfinityGUI implements RenderableElement, IMinecraft {
         imGuiWindowFlags |= ImGuiWindowFlags.NoTitleBar;
         imGuiWindowFlags |= ImGuiWindowFlags.NoResize;
         imGuiWindowFlags |= ImGuiWindowFlags.NoCollapse;
-        ImGui.getStyle().setFramePadding(4, 6);
+        ImGui.getStyle().setFramePadding(4, 4);
         ImGui.getStyle().setButtonTextAlign(0.05f, 0.5f);
         ImGui.getStyle().setWindowPadding(16,16);
-        ImGui.getStyle().setWindowRounding(16f);
         ImGui.setNextWindowSize(600f, 500f, 0);
         ImGui.begin(get(), imGuiWindowFlags);
-        ImGui.getStyle().setWindowRounding(4f);
         ImGui.getStyle().setWindowPadding(6,6);
 
         float posX = Tab.getInstance().getPos().x + 160;
@@ -94,13 +92,10 @@ public class InfinityGUI implements RenderableElement, IMinecraft {
                 ImGui.pushStyleColor(ImGuiCol.ButtonActive, color[0], color[1], color[2], 0.75f);
             } else {
                 ImGui.pushStyleColor(ImGuiCol.Text, 0.42f, 0.44f, 0.53f, 1.00f);
-                ImGui.pushStyleColor(ImGuiCol.Button, 0.09f, 0.09f, 0.15f, 0.5f);
-                ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.09f, 0.09f, 0.15f, 0.65f);
-                ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.1f, 0.1f, 0.16f, 0.8f);
             }
 
             ImGui.pushFont(IMLoader.getBigDosisFont());
-            boolean isToggled = ImGui.button(module.getName(), 568f, 50f);
+            boolean isToggled = ImGui.button(module.getName(), 150f, 50f);
             ImGui.popFont();
             ImGui.popStyleColor(4);
 
@@ -117,17 +112,13 @@ public class InfinityGUI implements RenderableElement, IMinecraft {
             }
 
             if (module.showSettings()) {
-                ImGui.indent(10f);
                 ImGui.pushFont(IMLoader.getDosisFont());
-                ImGui.getStyle().setFrameRounding(4f);
                 ImGui.getStyle().setFramePadding(4, 4);
                 ImGui.getStyle().setButtonTextAlign(0.5f, 0.5f);
                 module.renderSettings();
                 ImGui.getStyle().setButtonTextAlign(0.05f, 0.5f);
                 ImGui.getStyle().setFramePadding(4, 6);
-                ImGui.getStyle().setFrameRounding(30f);
                 ImGui.popFont();
-                ImGui.unindent(10f);
             }
 
             ImGui.popID();
@@ -206,13 +197,7 @@ public class InfinityGUI implements RenderableElement, IMinecraft {
                 colors[ImGuiCol.ModalWindowDimBg]       = new float[]{0.80f, 0.80f, 0.80f, 0.35f};
                 ImGui.getStyle().setColors(colors);
 
-                ImGui.getStyle().setWindowRounding(8);
-                ImGui.getStyle().setFrameRounding(4);
-                ImGui.getStyle().setGrabRounding(4);
-                ImGui.getStyle().setPopupRounding(4);
                 ImGui.getStyle().setScrollbarSize(10);
-                ImGui.getStyle().setScrollbarRounding(4);
-                ImGui.getStyle().setTabRounding(4);
                 ImGui.getStyle().setWindowTitleAlign(0.5f, 0.5f);
 
                 //if (ImguiLoader.getCustomFont() != null) {

@@ -1,0 +1,77 @@
+package club.lyric.infinity.impl.modules.render;
+
+import club.lyric.infinity.api.event.render.Render3DEvent;
+import club.lyric.infinity.api.module.Category;
+import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
+import club.lyric.infinity.api.util.minecraft.block.HoleUtils;
+import club.lyric.infinity.api.util.minecraft.block.hole.Hole;
+import net.minecraft.client.render.Camera;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class HoleESP extends ModuleBase {
+
+    public NumberSetting range = new NumberSetting("Range", this, 4f, 1f, 10f, 0.5f);
+    public NumberSetting size = new NumberSetting("Size", this, 1f, 0.1f, 1f, 0.5f);
+    public BooleanSetting doubles = new BooleanSetting("Doubles", false, this);
+
+    protected List<Hole> holes = new ArrayList<>();
+    ExecutorService service = Executors.newCachedThreadPool();
+
+    public HoleESP() {
+        super("HoleESP", "Esps holes", Category.Render);
+    }
+
+    @Override
+    public void onTick() {
+        service.submit(() -> {
+            holes = HoleUtils.getHoles(mc.player, range.getFValue(), doubles.value(), false, false, false);
+        });
+    }
+
+    @Override
+    public void onRender3D(Render3DEvent event) {
+        if (holes.isEmpty()) {
+            return;
+        }
+
+        for (Hole hole : holes) {
+            Box bb = interpolatePos(hole.getFirst(), size.getFValue());
+
+            if (hole.getSecond() != null) {
+                bb = new Box(hole.getFirst().getX() - getCameraPos().x, hole.getFirst().getY() - getCameraPos().y, hole.getFirst().getZ() - getCameraPos().z, hole.getSecond().getX() + 1 - getCameraPos().x, hole.getSecond().getY() + size.getFValue() - getCameraPos().y, hole.getSecond().getZ() + 1 - getCameraPos().z);
+            }
+            Render3DUtils.drawBox(event.getMatrix(), bb, -1);
+        }
+    }
+
+    public static Vec3d getCameraPos() {
+        Camera camera = mc.getBlockEntityRenderDispatcher().camera;
+        if (camera == null) {
+            return Vec3d.ZERO;
+        }
+
+        return camera.getPos();
+    }
+
+    public static Box interpolatePos(BlockPos pos, float size) {
+        return new Box(
+                pos.getX() - getCameraPos().x,
+                pos.getY() - getCameraPos().y,
+                pos.getZ() - getCameraPos().z,
+                pos.getX() - getCameraPos().x + 1,
+                pos.getY() - getCameraPos().y + size,
+                pos.getZ() - getCameraPos().z + 1
+        );
+    }
+
+}

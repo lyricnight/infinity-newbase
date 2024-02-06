@@ -49,8 +49,6 @@ public class Tab implements RenderableElement, IMinecraft {
         ImGui.getStyle().setFramePadding(4, 6);
         ImGui.getStyle().setButtonTextAlign(0.1f, 0.5f);
         ImGui.getStyle().setWindowPadding(16,16);
-        ImGui.getStyle().setFrameRounding(30f);
-        ImGui.getStyle().setWindowRounding(16f);
         ImGui.setNextWindowSize(220f, 500f, 0);
         ImGui.pushStyleColor(ImGuiCol.WindowBg, 0.08f, 0.08f, 0.12f, 1.00f);
         ImGui.begin(get(), imGuiWindowFlags);
@@ -181,14 +179,8 @@ public class Tab implements RenderableElement, IMinecraft {
                 colors[ImGuiCol.ModalWindowDimBg]       = new float[]{0.80f, 0.80f, 0.80f, 0.35f};
                 ImGui.getStyle().setColors(colors);
 
-                ImGui.getStyle().setWindowRounding(16);
                 ImGui.getStyle().setWindowPadding(16,16);
-                ImGui.getStyle().setFrameRounding(30);
-                ImGui.getStyle().setGrabRounding(4);
-                ImGui.getStyle().setPopupRounding(4);
                 ImGui.getStyle().setScrollbarSize(10);
-                ImGui.getStyle().setScrollbarRounding(4);
-                ImGui.getStyle().setTabRounding(4);
                 ImGui.getStyle().setWindowTitleAlign(0.5f, 0.5f);
 
                 //if (ImguiLoader.getCustomFont() != null) {

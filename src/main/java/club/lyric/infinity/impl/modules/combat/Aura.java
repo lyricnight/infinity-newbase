@@ -2,6 +2,7 @@ package club.lyric.infinity.impl.modules.combat;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.event.mc.update.UpdateWalkingPlayerEvent;
+import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -18,12 +19,16 @@ import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.thrown.ExperienceBottleEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShieldItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lyric
@@ -79,11 +84,11 @@ public final class Aura extends ModuleBase {
             player.setPos(target.teleportPos().x, target.teleportPos().y, target.teleportPos().z);
         }
 
-        mc.player.attack(target.entity());
-        player.swingHand(Hand.MAIN_HAND);
+        if (mc.player.getAttackCooldownProgress(0) >= 1.0f) {
+            mc.interactionManager.attackEntity(mc.player, target.entity());
+            mc.player.swingHand(Hand.MAIN_HAND);
+        }
     }
-
-
 
     private @Nullable Target computeTarget(ClientPlayerEntity player, ClientWorld level) {
         Target result = null;
@@ -183,6 +188,12 @@ public final class Aura extends ModuleBase {
             }
 
             return lowest;
+        }
+    }
+
+    protected void useShield() {
+        if ((mc.player.getMainHandStack().getItem() instanceof SwordItem || mc.player.getMainHandStack().getItem() instanceof AxeItem) && mc.player.getOffHandStack().getItem() instanceof ShieldItem) {
+            mc.world.getDamageSources().playerAttack(mc.player);
         }
     }
 }

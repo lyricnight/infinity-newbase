@@ -113,7 +113,7 @@ public class IMLoader implements IMinecraft {
         }
 
         byte[] dosisFontData = null;
-        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/Dosis-Medium.ttf")) {
+        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/JetBrainsMono-Regular.ttf")) {
             if (is != null) {
                 dosisFontData = is.readAllBytes();
 
@@ -143,7 +143,6 @@ public class IMLoader implements IMinecraft {
 
         if (io.hasConfigFlags(ImGuiConfigFlags.ViewportsEnable)) {
             final ImGuiStyle style = ImGui.getStyle();
-            style.setWindowRounding(0.0f);
             style.setColor(ImGuiCol.WindowBg, ImGui.getColorU32(ImGuiCol.WindowBg, 1));
         }
     }

@@ -1,6 +1,5 @@
 package club.lyric.infinity.api.event.render;
 
-
 import club.lyric.infinity.api.event.Event;
 import net.minecraft.client.util.math.MatrixStack;
 
