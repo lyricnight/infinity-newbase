@@ -1,6 +1,5 @@
 package club.lyric.infinity.impl.modules.client;
 
-import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.event.client.KeyPressEvent;
 import club.lyric.infinity.api.module.Category;
