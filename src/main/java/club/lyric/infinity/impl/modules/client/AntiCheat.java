@@ -9,7 +9,7 @@ import club.lyric.infinity.manager.Managers;
  * @author lyric
  * module that handles oll the global settings we may need
  */
-public class AntiCheat extends ModuleBase {
+public final class AntiCheat extends ModuleBase {
     public BooleanSetting rotate = new BooleanSetting("Rotate", false, this);
 
     public BooleanSetting strictDirection = new BooleanSetting("StrictDirection", false,this);

@@ -25,7 +25,7 @@ import java.util.Map;
  * @author ???
  */
 
-public class ConfigManager {
+public final class ConfigManager {
     private final Gson GSON = new Gson();
     private final Path pathConfigFolder;
     private final Path pathProfilesFolder;
@@ -107,6 +107,7 @@ public class ConfigManager {
 
             jsonConfig.addProperty("profile", currentProfile.getPathProfile().toString());
 
+            //noinspection BlockingMethodInNonBlockingContext
             Files.writeString(pathConfig, GSON.toJson(jsonConfig));
 
             currentProfile.saveProfile();
@@ -182,6 +183,7 @@ public class ConfigManager {
             try {
                 if (name == null || name.isBlank()) {
                     if (Files.isRegularFile(pathProfile)) {
+                        //noinspection BlockingMethodInNonBlockingContext
                         String stringProfile = Files.readString(pathProfile);
 
                         if (stringProfile.isBlank()) return;
@@ -266,6 +268,7 @@ public class ConfigManager {
 
         public void saveProfile() {
             try {
+                //noinspection BlockingMethodInNonBlockingContext
                 Files.createDirectories(pathProfilesFolder);
 
                 jsonProfile = new JsonObject();

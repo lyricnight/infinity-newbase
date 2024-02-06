@@ -11,7 +11,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
-public class ClickGui extends ModuleBase {
+public final class ClickGui extends ModuleBase {
 
     public ColorSetting color = new ColorSetting("Color", this, new JColor(Color.DARK_GRAY), false);
 

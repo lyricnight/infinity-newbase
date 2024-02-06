@@ -1,21 +1,15 @@
 package club.lyric.infinity.impl.modules.client;
 
-import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
-import net.minecraft.entity.Entity;
-import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
-
 import java.util.HashMap;
 
 /**
  * @author vasler
  * NOTIFIY
  */
-public class Notifications extends ModuleBase
+public final class Notifications extends ModuleBase
 {
 
     public BooleanSetting totemPops =

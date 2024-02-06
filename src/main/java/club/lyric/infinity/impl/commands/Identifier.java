@@ -5,7 +5,7 @@ import club.lyric.infinity.api.command.CommandState;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.manager.Managers;
 
-public class Identifier extends Command {
+public final class Identifier extends Command {
 
     public Identifier()
     {

@@ -18,7 +18,7 @@ import java.util.ArrayDeque;
  * for handling TPS and ping to server.
  */
 @SuppressWarnings("unused")
-public class ServerManager implements IMinecraft {
+public final class ServerManager implements IMinecraft {
 
     /**
      * for our tps

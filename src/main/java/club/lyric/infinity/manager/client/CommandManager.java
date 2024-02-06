@@ -16,7 +16,7 @@ import java.util.Set;
  */
 
 //TODO: save prefix
-public class CommandManager implements IMinecraft {
+public final class CommandManager implements IMinecraft {
     private static String prefix = "-";
     private static final Set<Command> commands = new HashSet<>();
 

@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.function.Function;
 
-public class MovementPlayer extends FakePlayer {
+public class MovementPlayer extends Fake {
 
     private final Function<Vec3d, Vec3d> moveCallback = Function.identity();
 

@@ -1,7 +1,6 @@
 package club.lyric.infinity.api.event.client;
 
 import club.lyric.infinity.api.event.Event;
-import club.lyric.infinity.api.util.client.keyboard.KeyPressAction;
 
 public class KeyPressEvent extends Event {
     private final int key;

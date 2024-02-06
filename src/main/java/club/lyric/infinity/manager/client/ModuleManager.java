@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * register the modules
 */
 
-public class ModuleManager implements IMinecraft
+public final class ModuleManager implements IMinecraft
 {
     private final List<ModuleBase> modules = new ArrayList<>();
 
@@ -37,6 +37,7 @@ public class ModuleManager implements IMinecraft
                 new Chat(),
                 new HUD(),
                 new Aura(),
+                new FakePlayer(),
                 new Sprint(),
                 new Step(),
                 new NoJumpDelay(),

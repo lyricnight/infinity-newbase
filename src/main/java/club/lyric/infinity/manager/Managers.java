@@ -11,7 +11,8 @@ import club.lyric.infinity.manager.fabric.TimerManager;
  * @author lyric
  * for all managers.
  */
-public class Managers {
+public final class Managers {
+
     public static ModuleManager MODULES = new ModuleManager();
     public static FriendsManager FRIENDS = new FriendsManager();
     public static ConfigManager CONFIG = new ConfigManager();

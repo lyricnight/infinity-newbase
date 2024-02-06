@@ -24,7 +24,7 @@ import org.lwjgl.glfw.GLFW;
  */
 
 @SuppressWarnings("unused")
-public class EventManager implements IMinecraft {
+public final class EventManager implements IMinecraft {
 
     /**
      * for commands.

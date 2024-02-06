@@ -11,7 +11,7 @@ import net.minecraft.util.Formatting;
  * for all commands
  */
 
-public class List extends Command {
+public final class List extends Command {
     public List() {
         super("commands");
     }

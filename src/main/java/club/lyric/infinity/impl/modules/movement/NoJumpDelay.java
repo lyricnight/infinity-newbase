@@ -8,7 +8,7 @@ import club.lyric.infinity.api.module.ModuleBase;
  * nojumping delay
  * @since 12/23/2023
  */
-public class NoJumpDelay extends ModuleBase {
+public final class NoJumpDelay extends ModuleBase {
     public NoJumpDelay() {
         super("NoJumpDelay", "Removes the delay in between jumping.",  Category.Movement);
     }

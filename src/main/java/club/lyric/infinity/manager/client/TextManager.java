@@ -11,7 +11,7 @@ import net.minecraft.client.gui.DrawContext;
  */
 
 //TODO: once we add custom fonts, make them render through this.
-public class TextManager implements IMinecraft {
+public final class TextManager implements IMinecraft {
 
     /**
      * thing that does everything.

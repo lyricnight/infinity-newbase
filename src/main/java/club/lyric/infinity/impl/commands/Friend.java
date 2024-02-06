@@ -11,7 +11,7 @@ import club.lyric.infinity.manager.Managers;
  * friend command
  */
 
-public class Friend extends Command {
+public final class Friend extends Command {
 
     public Friend() {
         super("friend");

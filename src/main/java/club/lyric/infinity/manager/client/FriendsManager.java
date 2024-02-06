@@ -18,7 +18,7 @@ import java.net.URL;
 /**
  * @author lyric
  */
-public class FriendsManager  {
+public final class FriendsManager  {
     private JsonObject friends = new JsonObject();
 
     public boolean isFriend(PlayerEntity player) {

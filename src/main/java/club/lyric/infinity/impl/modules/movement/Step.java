@@ -6,7 +6,7 @@ import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
-public class Step extends ModuleBase {
+public final class Step extends ModuleBase {
 
     public ModeSetting mode = new ModeSetting("Mode", this, "Vanilla", "Vanilla", "Normal");
 

@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
  * @author lyric
  */
 
-public class Aura extends ModuleBase {
+public final class Aura extends ModuleBase {
 
     public BooleanSetting tele = new BooleanSetting("Teleport", false, this);
 

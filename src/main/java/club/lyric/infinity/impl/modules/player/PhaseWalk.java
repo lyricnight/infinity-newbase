@@ -19,7 +19,7 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
  * better phase than old infinity
  */
 
-public class PhaseWalk extends ModuleBase {
+public final class PhaseWalk extends ModuleBase {
     public ModeSetting position = new ModeSetting("Position",this, "Standard", "Standard", "Low", "Zero", "Negative");
 
     public NumberSetting speed = new NumberSetting("Speed", this, 2, 1, 15,1);

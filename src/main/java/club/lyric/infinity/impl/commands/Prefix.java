@@ -11,7 +11,7 @@ import net.minecraft.util.Formatting;
  * prefix command
  */
 
-public class Prefix extends Command {
+public final class Prefix extends Command {
 
     public Prefix() {
         super("prefix");

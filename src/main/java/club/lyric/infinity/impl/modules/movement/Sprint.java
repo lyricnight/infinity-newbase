@@ -3,7 +3,7 @@ package club.lyric.infinity.impl.modules.movement;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 
-public class Sprint extends ModuleBase
+public final class Sprint extends ModuleBase
 {
     public Sprint()
     {

@@ -7,7 +7,7 @@ import club.lyric.infinity.manager.Managers;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Configuration extends ModuleBase {
+public final class Configuration extends ModuleBase {
     public Configuration()
     {
         super("Configuration", "Manages configs.", Category.Client);

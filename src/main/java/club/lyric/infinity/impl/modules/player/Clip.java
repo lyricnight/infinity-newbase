@@ -13,7 +13,7 @@ import net.minecraft.util.math.MathHelper;
 /**
  * @author lyric
  */
-public class Clip extends ModuleBase {
+public final class Clip extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "Normal", "Normal", "NoCheck");
     public NumberSetting delay = new NumberSetting("Delay", this, 3, 0, 20, 1);
     public BooleanSetting disable = new BooleanSetting("Disable", true, this);

@@ -25,7 +25,7 @@ import java.util.LinkedList;
  * hud
  * @since a while ago
  */
-public class HUD extends ModuleBase
+public final class HUD extends ModuleBase
 {
     public BooleanSetting fps = new BooleanSetting("FPS", true, this);
 

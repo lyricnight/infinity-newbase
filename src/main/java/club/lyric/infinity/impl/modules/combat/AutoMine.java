@@ -1,7 +1,5 @@
 package club.lyric.infinity.impl.modules.combat;
 
-import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -21,12 +19,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author lyric
  */
 
-public class AutoMine extends ModuleBase {
+public final class AutoMine extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "Vanilla", "Vanilla", "Packet", "Both");
     public NumberSetting range = new NumberSetting("Range", this, 5.0, 0.0, 6.0, 0.1);
     public NumberSetting enemyRange = new NumberSetting("EnemyRange", this, 5.0, 1.0, 10.0, 0.5);
@@ -38,9 +37,12 @@ public class AutoMine extends ModuleBase {
     public BooleanSetting cev = new BooleanSetting("Cev", false, this);
     public BooleanSetting above = new BooleanSetting("CevAbove", false, this);
     public BooleanSetting facePlace = new BooleanSetting("FaceBlocker", false, this);
+    public BooleanSetting dev = new BooleanSetting("Dev", false, this);
     private PlayerEntity player = null;
     private BlockPos attacking = null;
     private StopWatch.Single watch = new StopWatch.Single();
+
+    private AtomicInteger count = new AtomicInteger();
 
     private boolean first;
 
@@ -56,16 +58,12 @@ public class AutoMine extends ModuleBase {
     }
 
 
-    @EventHandler
-    public void onUpdateWalking(UpdateWalkingPlayerEvent event)
+    @Override
+    public void onUpdate()
     {
         player = null;
 
         if (mc.player.isCreative() || mc.player.isSpectator()) {
-            return;
-        }
-
-        if (event.getStage() != 0) {
             return;
         }
 
@@ -79,9 +77,15 @@ public class AutoMine extends ModuleBase {
             return;
         }
 
+        if(dev.value())
+        {
+            ChatUtils.sendMessagePrivate("Target:" + player.getDisplayName() + " " + count.addAndGet(1));
+        }
+
         BlockPos targetPos = player.getBlockPos();
 
         if (burrow.value() && PlayerUtils.isInBurrow(player)) {
+            if (dev.value()) ChatUtils.sendMessagePrivate("Burrow. " + targetPos + " " + count.addAndGet(1));
             attack(targetPos);
             return;
         }
@@ -89,6 +93,7 @@ public class AutoMine extends ModuleBase {
         if (isHole(player) && facePlace.value()) {
             for (BlockPos pos : BlockUtils.Offsets.FACE_PLACE) {
                 if (mc.world.getBlockState(targetPos.add(pos)).getBlock() == Blocks.OBSIDIAN && mc.world.getBlockState(targetPos.add(pos.up())).getBlock() == Blocks.AIR) {
+                    if (dev.value()) ChatUtils.sendMessagePrivate("Face. " + targetPos.add(pos) + " " + count.addAndGet(1));
                     attack(targetPos.add(pos));
                     return;
                 }
@@ -102,14 +107,18 @@ public class AutoMine extends ModuleBase {
             } else if (mc.world.getBlockState(targetPos.up(3)).getBlock() == Blocks.AIR) {
                 aaa = targetPos.up(2);
             }
+            if (dev.value()) ChatUtils.sendMessagePrivate("Cev. " + count.addAndGet(1));
             attack(aaa);
             return;
         }
+
+        if (dev.value()) ChatUtils.sendMessagePrivate("Checking side. " + count.addAndGet(1));
 
         checkSide();
 
         if (!protocol.value()) {
             if (getCity(player) == null) {
+                if (dev.value()) ChatUtils.sendMessagePrivate("No city -> side. " + count.addAndGet(1));
                 checkSide();
                 breakEnderChests();
                 return;
@@ -118,11 +127,13 @@ public class AutoMine extends ModuleBase {
 
         if (feet.value() && !PlayerUtils.isInPhase(player) && !protocol.value()) {
             attack(getCity(player));
+            if (dev.value()) ChatUtils.sendMessagePrivate("Feet. " + count.addAndGet(1));
         } else if (feet.value() && !PlayerUtils.isInPhase(player)) {
             for (Direction direction : Arrays.stream(Direction.values()).filter(direction -> direction.getAxis().isHorizontal()).toList()) {
                 BlockPos pos = player.getBlockPos().offset(direction);
                 boolean canPlace = mc.world.getBlockState(pos.down()).getBlock() == Blocks.BEDROCK || mc.world.getBlockState(pos.down()).getBlock() == Blocks.OBSIDIAN;
                 if (mc.world.getBlockState(pos).getBlock() == Blocks.OBSIDIAN && canPlace) {
+                    if (dev.value()) ChatUtils.sendMessagePrivate("Feet2. " + pos + " " + count.addAndGet(1));
                     attack(pos);
                 }
             }
@@ -133,6 +144,10 @@ public class AutoMine extends ModuleBase {
         if (pos == null) {
             ChatUtils.sendMessagePrivate("Attack failed: null");
             return;
+        }
+        if (dev.value())
+        {
+            ChatUtils.sendMessagePrivate("Attacking: " + pos);
         }
         if (BlockUtils.getDistanceSq(pos) > MathUtils.square(this.range.getFValue())) {
             ChatUtils.sendMessagePrivate("Attack failed: range");
@@ -179,7 +194,7 @@ public class AutoMine extends ModuleBase {
         watch.reset();
     }
 
-    protected boolean isHole(PlayerEntity target) {
+    private boolean isHole(PlayerEntity target) {
         return isBedrockHole(target.getBlockPos()) || isMixedHole(target.getBlockPos()) || isObbyHole(target.getBlockPos());
     }
 
@@ -220,11 +235,13 @@ public class AutoMine extends ModuleBase {
                 BlockPos fullOffset = offsetPos.offset(direction);
                 if (mc.world.getBlockState(fullOffset).getBlock() == Blocks.AIR) {
                     if (isPlaceable(fullOffset.down()) && mc.world.getBlockState(fullOffset.up()).getBlock() == Blocks.AIR) {
+                        if (dev.value()) ChatUtils.sendMessagePrivate("City. " + offsetPos + " " + count.addAndGet(1));
                         return offsetPos;
                     }
                 }
             }
         }
+        if (dev.value()) ChatUtils.sendMessagePrivate("City failed. " + count.addAndGet(1));
         return null;
     }
 
@@ -234,14 +251,19 @@ public class AutoMine extends ModuleBase {
                 BlockPos targetPos = player.getBlockPos();
                 BlockPos offsetPos = targetPos.add(pos);
                 if (mc.world.getBlockState(offsetPos).getBlock() == Blocks.OBSIDIAN && mc.world.getBlockState(offsetPos.up()).getBlock() == Blocks.AIR) {
+                    if (dev.value()) ChatUtils.sendMessagePrivate("Side. " + targetPos.add(pos) + " " + count.addAndGet(1));
                     attack(offsetPos);
                 }
             }
+        }
+        else {
+            if (dev.value()) ChatUtils.sendMessagePrivate("Checkside failed. " + count.addAndGet(1));
         }
     }
 
     private void breakEnderChests() {
         if (ender.value()) {
+            ChatUtils.sendMessagePrivate("EChests." + count.addAndGet(1));
             for (BlockPos pos : BlockUtils.getSphere(mc.player, range.getFValue(), true)) {
                 if (mc.world.getBlockState(pos).getBlock() == Blocks.ENDER_CHEST) {
                     attack(pos);

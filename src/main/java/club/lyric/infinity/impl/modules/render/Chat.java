@@ -21,7 +21,7 @@ import java.util.Date;
  */
 
 @SuppressWarnings("unused")
-public class Chat extends ModuleBase {
+public final class Chat extends ModuleBase {
     public BooleanSetting clear =
             new BooleanSetting(
             "Clear",

@@ -7,15 +7,15 @@ import net.minecraft.client.world.ClientWorld;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
-public class FakePlayer extends AbstractClientPlayerEntity {
+public class Fake extends AbstractClientPlayerEntity {
     public static final GameProfile RANDOM_GAMEPROFILE = new GameProfile(UUID.randomUUID(), "FakePlayer");
     public static final PlayerListEntry DUMMY_PLAYERINFO = new PlayerListEntry(RANDOM_GAMEPROFILE, true);
 
-    public FakePlayer(ClientWorld clientWorld) {
+    public Fake(ClientWorld clientWorld) {
         super(clientWorld, RANDOM_GAMEPROFILE);
     }
 
-    public FakePlayer(ClientWorld clientWorld, GameProfile gameProfile) {
+    public Fake(ClientWorld clientWorld, GameProfile gameProfile) {
         super(clientWorld, gameProfile);
     }
 

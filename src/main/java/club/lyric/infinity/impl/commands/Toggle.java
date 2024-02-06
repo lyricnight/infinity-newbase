@@ -10,7 +10,7 @@ import club.lyric.infinity.manager.Managers;
  * toggling....
  */
 
-public class Toggle extends Command {
+public final class Toggle extends Command {
 
     public Toggle() {
         super("toggle");
