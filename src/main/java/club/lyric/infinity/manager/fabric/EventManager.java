@@ -63,6 +63,11 @@ public final class EventManager implements IMinecraft {
     public void onUpdate(UpdateEvent ignored)
     {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onUpdate);
+        for (PlayerEntity player : mc.world.getPlayers()) {
+            if (player == null || player.getHealth() > 0.0F)
+                continue;
+            EventBus.getInstance().post(new DeathEvent(player));
+        }
     }
 
     @EventHandler
@@ -77,16 +82,18 @@ public final class EventManager implements IMinecraft {
     }
 
     @EventHandler(priority = Integer.MAX_VALUE - 2)
-    public void onTick(TickEvent event)
+    public void onTick(TickEvent.Pre event)
     {
-        if (mc.player == null || mc.world == null) return;
-        Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTick);
-        for (PlayerEntity player : mc.world.getPlayers()) {
-            if (player == null || player.getHealth() > 0.0F)
-                continue;
-            EventBus.getInstance().post(new DeathEvent(player));
-        }
+        Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTickPre);
     }
+
+    @EventHandler(priority = Integer.MAX_VALUE - 4)
+    public void onTickPost(TickEvent.Post event)
+    {
+        Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTickPost);
+    }
+
+
 
     @EventHandler
     public void onKeyPress(KeyPressEvent event) {

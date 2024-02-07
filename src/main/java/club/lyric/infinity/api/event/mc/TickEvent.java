@@ -7,16 +7,9 @@ import club.lyric.infinity.api.event.Event;
  * @author lyric
  */
 public class TickEvent extends Event {
+    public TickEvent() {}
 
-    private final int stage;
+    public static class Pre extends TickEvent {}
 
-
-    public TickEvent(int stage)
-    {
-        this.stage = stage;
-    }
-
-    public int getStage() {
-        return stage;
-    }
+    public static class Post extends TickEvent {}
 }

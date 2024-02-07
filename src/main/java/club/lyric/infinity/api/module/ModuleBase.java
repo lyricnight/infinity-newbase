@@ -87,7 +87,10 @@ public class ModuleBase implements IMinecraft {
     public void onDisable() {
     }
 
-    public void onTick() {
+    public void onTickPre() {
+    }
+
+    public void onTickPost() {
     }
 
     public void onUpdate() {
