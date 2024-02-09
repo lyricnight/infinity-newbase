@@ -54,7 +54,6 @@ public class InfinityGUI implements RenderableElement, IMinecraft {
     public void render() {
         if (mc.world == null || mc.player == null) return;
         Tab.getInstance().render();
-        Profile.getInstance().render();
         int imGuiWindowFlags = 0;
         imGuiWindowFlags |= ImGuiWindowFlags.AlwaysAutoResize;
         imGuiWindowFlags |= ImGuiWindowFlags.NoDocking;

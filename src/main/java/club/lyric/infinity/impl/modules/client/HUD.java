@@ -6,17 +6,20 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.math.MathUtils;
+import club.lyric.infinity.api.util.client.render.util.Easing;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
+import org.lwjgl.opengl.GL11;
 
 import java.util.LinkedList;
 
@@ -47,71 +50,65 @@ public final class HUD extends ModuleBase
         super("HUD", "Displays HUD elements on the screen.", Category.Client);
     }
 
-    private int width;
-    private int height;
-    protected int fpsCount;
-    protected final LinkedList<Long> frames = new LinkedList<>();
+    private final LinkedList<Long> frames = new LinkedList<>();
+    private int chatY = 0;
+    private final long openTime = System.currentTimeMillis();
 
     @Override
-    public void onRender2D(Render2DEvent event)
-    {
+    public void onRender2D(Render2DEvent event) {
         int offset = 0;
 
-        if (watermark.value())
-        {
+
+        boolean chatOpened = mc.currentScreen instanceof ChatScreen;
+
+        if (watermark.value()) {
             event.getDrawContext().drawText(mc.textRenderer, Infinity.CLIENT_NAME, 2, 2, -1, true);
         }
 
-        if (armorHud.value())
-        {
+        if (armorHud.value()) {
             renderArmor(event.getDrawContext());
         }
 
-        if (potions.value())
-        {
+        if (potions.value()) {
             for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
                 int x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(getString(statusEffectInstance))) - 2;
-                event.getDrawContext().drawText(mc.textRenderer, getString(statusEffectInstance), x, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, statusEffectInstance.getEffectType().getColor(), true);
+                event.getDrawContext().drawText(mc.textRenderer, getString(statusEffectInstance), x, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, statusEffectInstance.getEffectType().getColor(), true);
                 offset += 9;
             }
         }
 
         // Speed starts
-        if (speed.value())
-        {
+        if (speed.value()) {
             double distanceX = mc.player.getX() - mc.player.prevX;
             double distanceZ = mc.player.getZ() - mc.player.prevZ;
 
             String speed = "Speed: " + Formatting.WHITE + MathUtils.roundFloat((MathHelper.sqrt((float) (Math.pow(distanceX, 2) + Math.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) + " km/h";
 
-            event.getDrawContext().drawText(mc.textRenderer, speed, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(speed)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, -1, true);
+            event.getDrawContext().drawText(mc.textRenderer, speed, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(speed)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
             offset += 9;
         }
         // Speed ends
 
         // TPS starts
-        if (tps.value())
-        {
+        if (tps.value()) {
             String tps = "TPS: " + Formatting.WHITE + Managers.SERVER.getOurTPS();
 
-            event.getDrawContext().drawText(mc.textRenderer, tps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, -1, true);
+            event.getDrawContext().drawText(mc.textRenderer, tps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
             offset += 9;
         }
         // TPS ends
 
         // TPS starts
-        if (ping.value())
-        {
+        if (ping.value()) {
             String ping = "Ping: " + Formatting.WHITE + Managers.SERVER.getFastLatencyPing();
 
-            event.getDrawContext().drawText(mc.textRenderer, ping, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, -1, true);
+            event.getDrawContext().drawText(mc.textRenderer, ping, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
             offset += 9;
         }
         // TPS ends
 
         // FPS starts
-        if (fps.value())
-        {
+        if (fps.value()) {
             long time = System.nanoTime();
 
             frames.add(time);
@@ -127,20 +124,34 @@ public final class HUD extends ModuleBase
                 else break;
             }
 
-            fpsCount = frames.size();
+            int fpsCount = frames.size();
 
             String fps = "FPS: " + Formatting.WHITE + fpsCount;
 
-            event.getDrawContext().drawText(mc.textRenderer, fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2, -1, true);
-            offset += 9;
+            event.getDrawContext().drawText(mc.textRenderer, fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
         }
         // FPS ends
+
+        float diff = System.currentTimeMillis() - this.openTime;
+        if (chatOpened) {
+            if (chatY != 16) {
+                if (chatY > 16) {
+                    chatY = (int) Easing.exponential(diff, 0.0f, 16.0f, 100.0f);
+                }
+            }
+        } else {
+            if (chatY != 2) {
+                if (chatY > 2) {
+                    chatY = (int) Easing.exponential(diff, 0.0f, 2.0f, 100.0f);
+                }
+            }
+        }
     }
 
     private void renderArmor(DrawContext context)
     {
-        width = context.getScaledWindowWidth();
-        height = context.getScaledWindowHeight();
+        int width = context.getScaledWindowWidth();
+        int height = context.getScaledWindowHeight();
         int x = 15;
         for (int i = 3; i >= 0; i--)
         {

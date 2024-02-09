@@ -5,6 +5,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.api.util.minecraft.block.HoleUtils;
 import club.lyric.infinity.api.util.minecraft.block.hole.Hole;
@@ -13,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -23,6 +25,8 @@ public class HoleESP extends ModuleBase {
     public NumberSetting range = new NumberSetting("Range", this, 4f, 1f, 10f, 0.5f);
     public NumberSetting size = new NumberSetting("Size", this, 1f, 0.1f, 1f, 0.5f);
     public BooleanSetting doubles = new BooleanSetting("Doubles", false, this);
+    public NumberSetting alphas = new NumberSetting("Alpha", this, 76.0f, 1.0f, 255f, 1.0f);
+    public BooleanSetting fade = new BooleanSetting("Fade", false, this);
 
     protected List<Hole> holes = new ArrayList<>();
     ExecutorService service = Executors.newCachedThreadPool();
@@ -32,7 +36,7 @@ public class HoleESP extends ModuleBase {
     }
 
     @Override
-    public void onTickPre() {
+    public void onTickPost() {
         service.submit(() -> {
             holes = HoleUtils.getHoles(mc.player, range.getFValue(), doubles.value(), false, false, false);
         });
@@ -45,12 +49,27 @@ public class HoleESP extends ModuleBase {
         }
 
         for (Hole hole : holes) {
+            int alpha = alphas.getIValue();
+            if (fade.value()) {
+                double distance = mc.player.squaredDistanceTo(hole.getFirst().getX() + 1, hole.getFirst().getY(), hole.getFirst().getZ() + 1);
+                double tempAlpha = (MathUtils.square(range.getValue()) - distance) / MathUtils.square(range.getValue());
+
+                if (tempAlpha > 0 && tempAlpha < 1) {
+                    alpha = MathUtils.clamp((int) (tempAlpha * 255), 0, 255);
+                }
+            }
+
+            if (alpha < 0) {
+                continue;
+            }
+
+            int finalAlpha = fade.value() ? (int) (alpha * 0.1) : alpha;
             Box bb = interpolatePos(hole.getFirst(), size.getFValue());
 
             if (hole.getSecond() != null) {
                 bb = new Box(hole.getFirst().getX() - getCameraPos().x, hole.getFirst().getY() - getCameraPos().y, hole.getFirst().getZ() - getCameraPos().z, hole.getSecond().getX() + 1 - getCameraPos().x, hole.getSecond().getY() + size.getFValue() - getCameraPos().y, hole.getSecond().getZ() + 1 - getCameraPos().z);
             }
-            Render3DUtils.drawBox(event.getMatrix(), bb, -1);
+            Render3DUtils.drawBox(event.getMatrix(), bb, new Color(255, 255, 255, finalAlpha).getRGB());
         }
     }
 

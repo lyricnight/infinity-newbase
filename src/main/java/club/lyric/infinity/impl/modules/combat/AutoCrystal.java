@@ -40,8 +40,11 @@ public class AutoCrystal extends ModuleBase {
     public BooleanSetting explosion = new BooleanSetting("Explosion", true, this);
     public BooleanSetting sound = new BooleanSetting("Sound", true, this);
     public NumberSetting tickExisted = new NumberSetting("TickExisted", this, 0.0f, 0.0f, 20.0f, 1.0f);
+    public BooleanSetting inhibit = new BooleanSetting("Inhibit", true, this);
+    public NumberSetting timeout = new NumberSetting("Timeout", this, 500.0f, 0.0f, 2000.0f, 1.0f);
     private final StopWatch.Single breakTimer = new StopWatch.Single();
     private final Map<BlockPos, Long> ownCrystals = new HashMap<>();
+    private final Map<Integer, StopWatch.Single> hitCrystals = new HashMap<>();
 
     public AutoCrystal() {
         super("AutoCrystal", "automatically crystal", Category.Combat);
@@ -77,6 +80,18 @@ public class AutoCrystal extends ModuleBase {
                     }
 
                     if (mc.player.distanceTo(crystal) >= hitRange.getValue() || mc.world.getOtherEntities(null, new Box(crystal.getPos(), crystal.getPos()).expand(7), targets::contains).isEmpty()) {
+
+                        if (inhibit.value()) {
+                            StopWatch.Single timer = hitCrystals.get(crystal.getId());
+                            if (timer != null) {
+                                if (!timer.hasBeen((timeout.getLValue()))) {
+                                    continue;
+                                }
+                                hitCrystals.remove(crystal.getId());
+                            }
+                        }
+
+                        hitCrystals.put(crystal.getId(), new StopWatch.Single());
 
                         switch (breaks.getMode()) {
                             case "Vanilla" -> mc.interactionManager.attackEntity(mc.player, crystal);
