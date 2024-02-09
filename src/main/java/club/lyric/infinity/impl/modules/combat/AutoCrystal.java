@@ -14,18 +14,24 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
+/* TODO: make calculated breaking smarter by: calculating enemy and own damage and finding the best possible crystal to break;
+* make placing modes like breaking: do the same shit i just said; ADD PLACING, add id predict*/
 public class AutoCrystal extends ModuleBase {
+    public ModeSetting breaking = new ModeSetting("Breaking", this, "All", "Calculated", "All");
+    public ModeSetting breaks = new ModeSetting("Break", this, "Vanilla", "Vanilla", "Packet");
     public NumberSetting hitRange = new NumberSetting("HitRange", this, 6.0f, 1.0f, 7.0f, 0.1f);
     public NumberSetting hitDelay = new NumberSetting("HitDelay", this, 15.0f, 0.0f, 600.0f, 0.1f);
     public ModeSetting swing = new ModeSetting("Swing", this, "Vanilla", "Vanilla", "Packet", "None");
@@ -35,6 +41,7 @@ public class AutoCrystal extends ModuleBase {
     public BooleanSetting sound = new BooleanSetting("Sound", true, this);
     public NumberSetting tickExisted = new NumberSetting("TickExisted", this, 0.0f, 0.0f, 20.0f, 1.0f);
     private final StopWatch.Single breakTimer = new StopWatch.Single();
+    private final Map<BlockPos, Long> ownCrystals = new HashMap<>();
 
     public AutoCrystal() {
         super("AutoCrystal", "automatically crystal", Category.Combat);
@@ -43,33 +50,61 @@ public class AutoCrystal extends ModuleBase {
     @Override
     public void onEnable() {
         breakTimer.reset();
+        ownCrystals.clear();
     }
 
     @Override
     public void onUpdate() {
+
         assert mc.world != null;
         List<LivingEntity> targets = Streams.stream(mc.world.getEntities()).filter(e -> e instanceof PlayerEntity).filter(e -> e != mc.player).map(e -> (LivingEntity) e).toList();
         assert mc.player != null;
+
         List<EndCrystalEntity> near = Streams.stream(mc.world.getEntities()).filter(e -> e instanceof EndCrystalEntity).map(e -> (EndCrystalEntity) e).sorted(Comparator.comparing(mc.player::distanceTo)).toList();
+
+        // breaking
         if (mc.player != null && mc.interactionManager != null) {
             for (EndCrystalEntity crystal : near) {
+
                 if (crystal == null || crystal.age < tickExisted.getValue()) {
                     return;
                 }
+
                 if (breakTimer.hasBeen(hitDelay.getLValue())) {
+
+                    if (Objects.equals(breaking.getMode(), "Calculated") && !isOwn(crystal.getPos())) {
+                        return;
+                    }
+
                     if (mc.player.distanceTo(crystal) >= hitRange.getValue() || mc.world.getOtherEntities(null, new Box(crystal.getPos(), crystal.getPos()).expand(7), targets::contains).isEmpty()) {
-                        mc.interactionManager.attackEntity(mc.player, crystal);
+
+                        switch (breaks.getMode()) {
+                            case "Vanilla" -> mc.interactionManager.attackEntity(mc.player, crystal);
+                            case "Packet" -> send(PlayerInteractEntityC2SPacket.attack(mc.player, mc.player.isSneaking()));
+                        }
+
                         if (Objects.equals(swingOn.getMode(), "Both") && Objects.equals(swingOn.getMode(), "Break")) {
                             switch (hands.getMode()) {
                                 case "Main" -> swingType(Hand.MAIN_HAND);
                                 case "Off" -> swingType(Hand.OFF_HAND);
                             }
                         }
+
                         breakTimer.reset();
                     }
                 }
             }
         }
+    }
+
+    @Override
+    public void onTickPost() {
+        List<BlockPos> toRemove = new ArrayList<>();
+        ownCrystals.forEach((key, val) -> {
+            if (System.currentTimeMillis() - val >= 5000)
+                toRemove.add(key);
+        });
+        toRemove.forEach(ownCrystals::remove);
     }
 
     public void swingType(Hand hand) {
@@ -91,6 +126,7 @@ public class AutoCrystal extends ModuleBase {
                     if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(explosion.getX(), explosion.getY(), explosion.getZ()) <= 6.0d) {
                         int entity = crystal.getId();
                         mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
+                        mc.world.removeBlockEntity(crystal.getBlockPos());
                     }
                 }
             }
@@ -107,10 +143,30 @@ public class AutoCrystal extends ModuleBase {
                         if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(sound.getX(), sound.getY(), sound.getZ()) < 36.0d) {
                             int entity = crystal.getId();
                             mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
+                            mc.world.removeBlockEntity(crystal.getBlockPos());
                         }
                     }
                 }
             }
         }
+
+        if (event.packet instanceof PlayerInteractBlockC2SPacket packet) {
+            if (isOwn(packet.getBlockHitResult().getBlockPos().up()))
+                ownCrystals.remove(packet.getBlockHitResult().getBlockPos().up());
+
+            ownCrystals.put(packet.getBlockHitResult().getBlockPos().up(), System.currentTimeMillis());
+        }
+    }
+
+    private boolean isOwn(Vec3d vec) {
+        return isOwn(BlockPos.ofFloored(vec));
+    }
+
+    // pasted form blackout
+    private boolean isOwn(BlockPos pos) {
+        for (Map.Entry<BlockPos, Long> entry : ownCrystals.entrySet()) {
+            if (entry.getKey().equals(pos)) return true;
+        }
+        return false;
     }
 }

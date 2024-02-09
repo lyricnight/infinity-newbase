@@ -50,7 +50,7 @@ public class Profile implements RenderableElement, IMinecraft {
         ImGui.getStyle().setWindowPadding(16,16);
         ImGui.getStyle().setFrameRounding(8);
         ImGui.getStyle().setWindowRounding(8);
-        ImGui.setNextWindowSize(600f, 200f, 0);
+        ImGui.setNextWindowSize(600f, 0f, 0);
         ImGui.pushStyleColor(ImGuiCol.WindowBg, 0.08f, 0.08f, 0.12f, 0.8f);
         ImGui.begin(get(), imGuiWindowFlags);
         ImGui.popStyleColor();
@@ -69,11 +69,8 @@ public class Profile implements RenderableElement, IMinecraft {
         ImGui.indent(27f);
         ImGui.pushFont(IMLoader.getBigCustomFont());
         ImGui.pushStyleColor(ImGuiCol.Text, 1f, 1f, 1f, 1.00f);
-        ImGui.text(String.valueOf(mc.player.getName()));
+        ImGui.text("Vasler");
         ImGui.popFont();
-        ImGui.popStyleColor();
-        ImGui.pushStyleColor(ImGuiCol.Text, color[0], color[1], color[2], 1.00f);
-        ImGui.text("");
         ImGui.popStyleColor();
         ImGui.unindent(27f);
         pos = ImGui.getWindowPos();
