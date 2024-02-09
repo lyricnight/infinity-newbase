@@ -34,7 +34,7 @@ public class Delays extends ModuleBase {
     @Override
     public void onTickPost()
     {
-        if (mc.options.useKey.isPressed())
+        if (mc.options.useKey.isPressed());
     }
 
 

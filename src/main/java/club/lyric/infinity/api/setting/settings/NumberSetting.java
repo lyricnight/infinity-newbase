@@ -30,12 +30,15 @@ public class NumberSetting extends Setting implements Renderable {
         if (moduleBase != null) moduleBase.addSettings(this);
     }
 
-    public long getValue() {
+    public double getValue() {
         return this.value;
     }
-
     public float getFValue() {
         return (float) this.value;
+    }
+
+    public long getLValue() {
+        return (long) this.value;
     }
 
     public int getIValue() {

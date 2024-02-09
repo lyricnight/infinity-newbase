@@ -17,13 +17,13 @@ public abstract class MixinMinecraftClient {
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void tick(CallbackInfo callbackInfo)
     {
-        EventBus.getInstance().post(new TickEvent(0));
+        EventBus.getInstance().post(new TickEvent());
     }
 
     @Inject(method = "tick", at = @At(value = "TAIL"))
     private void tickPost(CallbackInfo callbackInfo)
     {
-        EventBus.getInstance().post(new TickEvent(1));
+        EventBus.getInstance().post(new TickEvent());
     }
 
     @Inject(method = "<init>", at = @At(value = "TAIL"))

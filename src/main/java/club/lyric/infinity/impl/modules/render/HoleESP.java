@@ -32,7 +32,7 @@ public class HoleESP extends ModuleBase {
     }
 
     @Override
-    public void onTick() {
+    public void onTickPre() {
         service.submit(() -> {
             holes = HoleUtils.getHoles(mc.player, range.getFValue(), doubles.value(), false, false, false);
         });

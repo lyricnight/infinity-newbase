@@ -82,7 +82,7 @@ public final class HoleSnap extends ModuleBase {
     }
 
     @Override
-    public void onTick()
+    public void onTickPre()
     {
         if (nullCheck()) {
             setEnabled(false);

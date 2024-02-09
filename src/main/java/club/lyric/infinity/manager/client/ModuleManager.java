@@ -7,6 +7,7 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.*;
 import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.impl.modules.combat.Aura;
+import club.lyric.infinity.impl.modules.combat.AutoCrystal;
 import club.lyric.infinity.impl.modules.combat.AutoMine;
 import club.lyric.infinity.impl.modules.exploit.*;
 import club.lyric.infinity.impl.modules.movement.*;
@@ -48,7 +49,8 @@ public final class ModuleManager implements IMinecraft
                 new RaytraceBypass(),
                 new FakePlayer(),
                 new HoleESP(),
-                new HoleSnap()
+                new HoleSnap(),
+                new AutoCrystal()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }
