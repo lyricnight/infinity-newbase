@@ -7,22 +7,23 @@ import imgui.ImGui;
 import imgui.ImVec2;
 import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiWindowFlags;
+import net.minecraft.util.Formatting;
 
 /**
  * category tabs.
  */
-public class Tab implements RenderableElement, IMinecraft {
+public class Profile implements RenderableElement, IMinecraft {
     private boolean first = true;
 
-    private static Tab INSTANCE;
+    private static Profile INSTANCE;
 
     public Category selected = Category.Client;
 
     public ImVec2 pos;
 
-    public static Tab getInstance() {
+    public static Profile getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new Tab();
+            INSTANCE = new Profile();
         }
         return INSTANCE;
     }
@@ -49,7 +50,7 @@ public class Tab implements RenderableElement, IMinecraft {
         ImGui.getStyle().setWindowPadding(16,16);
         ImGui.getStyle().setFrameRounding(8);
         ImGui.getStyle().setWindowRounding(8);
-        ImGui.setNextWindowSize(600f, 600f, 0);
+        ImGui.setNextWindowSize(600f, 200f, 0);
         ImGui.pushStyleColor(ImGuiCol.WindowBg, 0.08f, 0.08f, 0.12f, 0.8f);
         ImGui.begin(get(), imGuiWindowFlags);
         ImGui.popStyleColor();
@@ -66,44 +67,15 @@ public class Tab implements RenderableElement, IMinecraft {
         float[] color = JColor.getGuiColor().getFloatColor();
 
         ImGui.indent(27f);
-        ImGui.pushFont(IMLoader.getBiggerDosisFont());
+        ImGui.pushFont(IMLoader.getBigCustomFont());
         ImGui.pushStyleColor(ImGuiCol.Text, 1f, 1f, 1f, 1.00f);
-        ImGui.text("INFINITY");
+        ImGui.text(String.valueOf(mc.player.getName()));
         ImGui.popFont();
         ImGui.popStyleColor();
+        ImGui.pushStyleColor(ImGuiCol.Text, color[0], color[1], color[2], 1.00f);
+        ImGui.text("");
+        ImGui.popStyleColor();
         ImGui.unindent(27f);
-        ImGui.getStyle().setDisplayWindowPadding(0, 5);
-
-        for (Category category : Category.values()) {
-            ImGui.pushID(category.toString());
-
-            if (selected == category) {
-                float[] dColor = JColor.getGuiColor().jDarker().getFloatColor();
-
-                ImGui.pushStyleColor(ImGuiCol.Text, 1f, 1f, 1f, 1.00f);
-                ImGui.pushStyleColor(ImGuiCol.Button, dColor[0], dColor[1], dColor[2], 0.5f);
-                ImGui.pushStyleColor(ImGuiCol.ButtonHovered, color[0], color[1], color[2], 0.65f);
-                ImGui.pushStyleColor(ImGuiCol.ButtonActive, color[0], color[1], color[2], 0.7f);
-            } else {
-                ImGui.pushStyleColor(ImGuiCol.Text, 1f, 1f, 1f, 1.00f);
-                ImGui.pushStyleColor(ImGuiCol.Button, 0.09f, 0.09f, 0.15f, 0f);
-                ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.09f, 0.09f, 0.15f, 0f);
-                ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.1f, 0.1f, 0.16f, 0f);
-            }
-
-            ImGui.pushFont(IMLoader.getBigCustomFont());
-            ImGui.button(category.toString(), 165f, 33f);
-            ImGui.popFont();
-            ImGui.popStyleColor(4);
-
-            if (ImGui.isItemHovered()) {
-                if (ImGui.isMouseClicked(1) || ImGui.isMouseClicked(0)) {
-                    selected = category;
-                    InfinityGUI.getInstance().locY = 0;
-                }
-            }
-            ImGui.popID();
-        }
         pos = ImGui.getWindowPos();
         ImGui.end();
     }

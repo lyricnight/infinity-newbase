@@ -30,7 +30,7 @@ public class NumberSetting extends Setting implements Renderable {
         if (moduleBase != null) moduleBase.addSettings(this);
     }
 
-    public double getValue() {
+    public long getValue() {
         return this.value;
     }
 
@@ -86,7 +86,7 @@ public class NumberSetting extends Setting implements Renderable {
             ImDouble val = new ImDouble(value);
 
             ImGui.pushItemWidth(170f);
-            changed = ImGui.sliderScalar("", ImGuiDataType.Double, val, minimum, maximum, "%.3f");
+            changed = ImGui.sliderScalar("", ImGuiDataType.Double, val, minimum, maximum, "%.2f");
             ImGui.popItemWidth();
 
             if (changed) value = val.doubleValue();

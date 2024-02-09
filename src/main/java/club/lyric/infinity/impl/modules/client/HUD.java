@@ -47,8 +47,8 @@ public final class HUD extends ModuleBase
         super("HUD", "Displays HUD elements on the screen.", Category.Client);
     }
 
-    protected int width;
-    protected int height;
+    private int width;
+    private int height;
     protected int fpsCount;
     protected final LinkedList<Long> frames = new LinkedList<>();
 

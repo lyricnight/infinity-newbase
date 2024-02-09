@@ -100,12 +100,12 @@ public class IMLoader implements IMinecraft {
             Infinity.LOGGER.atError();
         }
 
-        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/JetBrainsMono-Regular.ttf")) {
+        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/museo-sans-rounded-500.ttf")) {
             if (is != null) {
                 byte[] fontData = is.readAllBytes();
 
                 customFont = fontAtlas.addFontFromMemoryTTF(fontData, 18);
-                bigCustomFont = fontAtlas.addFontFromMemoryTTF(fontData, 24);
+                bigCustomFont = fontAtlas.addFontFromMemoryTTF(fontData, 21);
                 biggerCustomFont = fontAtlas.addFontFromMemoryTTF(fontData, 32);
             }
         } catch (IOException ignored) {
@@ -113,7 +113,7 @@ public class IMLoader implements IMinecraft {
         }
 
         byte[] dosisFontData = null;
-        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/JetBrainsMono-Regular.ttf")) {
+        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/Museo-Sans-Cyrl-900.ttf")) {
             if (is != null) {
                 dosisFontData = is.readAllBytes();
 

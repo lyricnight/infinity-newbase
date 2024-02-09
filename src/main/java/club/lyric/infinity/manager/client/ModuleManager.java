@@ -4,7 +4,6 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.api.util.minecraft.player.FakePlayer;
 import club.lyric.infinity.impl.modules.client.*;
 import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.impl.modules.combat.Aura;
@@ -38,7 +37,6 @@ public final class ModuleManager implements IMinecraft
                 new Chat(),
                 new HUD(),
                 new Aura(),
-                new FakePlayer(),
                 new Sprint(),
                 new Step(),
                 new NoJumpDelay(),
@@ -47,7 +45,10 @@ public final class ModuleManager implements IMinecraft
                 new PhaseWalk(),
                 new Latency(),
                 new Clip(),
-                new RaytraceBypass()
+                new RaytraceBypass(),
+                new FakePlayer(),
+                new HoleESP(),
+                new HoleSnap()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }

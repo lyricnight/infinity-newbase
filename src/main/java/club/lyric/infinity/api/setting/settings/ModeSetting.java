@@ -3,6 +3,7 @@ package club.lyric.infinity.api.setting.settings;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
+import club.lyric.infinity.impl.modules.combat.AutoCrystal;
 import imgui.ImGui;
 import imgui.type.ImInt;
 
