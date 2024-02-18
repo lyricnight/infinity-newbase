@@ -26,6 +26,8 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /* TODO: make calculated breaking smarter by: calculating enemy and own damage and finding the best possible crystal to break;
 * make placing modes like breaking: do the same shit i just said; ADD PLACING, add id predict*/
@@ -45,6 +47,7 @@ public class AutoCrystal extends ModuleBase {
     private final StopWatch.Single breakTimer = new StopWatch.Single();
     private final Map<BlockPos, Long> ownCrystals = new HashMap<>();
     private final Map<Integer, StopWatch.Single> hitCrystals = new HashMap<>();
+    ExecutorService service = Executors.newCachedThreadPool();
 
     public AutoCrystal() {
         super("AutoCrystal", "automatically crystal", Category.Combat);
@@ -60,10 +63,20 @@ public class AutoCrystal extends ModuleBase {
     public void onUpdate() {
 
         assert mc.world != null;
-        List<LivingEntity> targets = Streams.stream(mc.world.getEntities()).filter(e -> e instanceof PlayerEntity).filter(e -> e != mc.player).map(e -> (LivingEntity) e).toList();
+        List<LivingEntity> targets = Streams.stream(
+                mc.world.getEntities())
+                .filter(e -> e instanceof PlayerEntity)
+                .filter(e -> e != mc.player)
+                .map(e -> (LivingEntity) e)
+                .toList();
         assert mc.player != null;
 
-        List<EndCrystalEntity> near = Streams.stream(mc.world.getEntities()).filter(e -> e instanceof EndCrystalEntity).map(e -> (EndCrystalEntity) e).sorted(Comparator.comparing(mc.player::distanceTo)).toList();
+        List<EndCrystalEntity> near = Streams.stream
+                (mc.world.getEntities())
+                .filter(e -> e instanceof EndCrystalEntity)
+                .map(e -> (EndCrystalEntity) e)
+                .sorted(Comparator.comparing(mc.player::distanceTo))
+                .toList();
 
         // breaking
         if (mc.player != null && mc.interactionManager != null) {
@@ -79,7 +92,12 @@ public class AutoCrystal extends ModuleBase {
                         return;
                     }
 
-                    if (mc.player.distanceTo(crystal) >= hitRange.getValue() || mc.world.getOtherEntities(null, new Box(crystal.getPos(), crystal.getPos()).expand(7), targets::contains).isEmpty()) {
+                    if (mc.player.distanceTo(crystal) >= hitRange.getValue() ||
+                            mc.world.getOtherEntities(null,
+                                    new Box(crystal.getPos(),
+                                            crystal.getPos()).expand(7),
+                                    targets::contains).isEmpty()
+                    ) {
 
                         if (inhibit.value()) {
                             StopWatch.Single timer = hitCrystals.get(crystal.getId());
@@ -91,21 +109,24 @@ public class AutoCrystal extends ModuleBase {
                             }
                         }
 
-                        hitCrystals.put(crystal.getId(), new StopWatch.Single());
+                        service.submit(() -> {
+                            hitCrystals.put(crystal.getId(), new StopWatch.Single());
 
-                        switch (breaks.getMode()) {
-                            case "Vanilla" -> mc.interactionManager.attackEntity(mc.player, crystal);
-                            case "Packet" -> send(PlayerInteractEntityC2SPacket.attack(mc.player, mc.player.isSneaking()));
-                        }
-
-                        if (Objects.equals(swingOn.getMode(), "Both") && Objects.equals(swingOn.getMode(), "Break")) {
-                            switch (hands.getMode()) {
-                                case "Main" -> swingType(Hand.MAIN_HAND);
-                                case "Off" -> swingType(Hand.OFF_HAND);
+                            switch (breaks.getMode()) {
+                                case "Vanilla" -> mc.interactionManager.attackEntity(mc.player, crystal);
+                                case "Packet" ->
+                                        send(PlayerInteractEntityC2SPacket.attack(mc.player, mc.player.isSneaking()));
                             }
-                        }
 
-                        breakTimer.reset();
+                            if (Objects.equals(swingOn.getMode(), "Both") && Objects.equals(swingOn.getMode(), "Break")) {
+                                switch (hands.getMode()) {
+                                    case "Main" -> swingType(Hand.MAIN_HAND);
+                                    case "Off" -> swingType(Hand.OFF_HAND);
+                                }
+                            }
+
+                            breakTimer.reset();
+                        });
                     }
                 }
             }
@@ -138,7 +159,14 @@ public class AutoCrystal extends ModuleBase {
                     if (ent == null) {
                         return;
                     }
-                    if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(explosion.getX(), explosion.getY(), explosion.getZ()) <= 6.0d) {
+                    if (ent instanceof EndCrystalEntity crystal &&
+
+                            crystal.squaredDistanceTo(
+                                    explosion.getX(),
+                                    explosion.getY(),
+                                    explosion.getZ()
+                            ) <= 6.0d)
+                    {
                         int entity = crystal.getId();
                         mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
                         mc.world.removeBlockEntity(crystal.getBlockPos());
