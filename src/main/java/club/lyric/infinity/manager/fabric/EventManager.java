@@ -93,8 +93,6 @@ public final class EventManager implements IMinecraft {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTickPost);
     }
 
-
-
     @EventHandler
     public void onKeyPress(KeyPressEvent event) {
         if (event.getAction() == GLFW.GLFW_RELEASE)
