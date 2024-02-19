@@ -33,7 +33,8 @@
     "MixinSplashTextResourceSupplier",
     "MixinWindow",
     "MixinWorldRenderer",
-    "accessors.IChatHudLine"
+    "accessors.IChatHudLine",
+    "accessors.IMinecraft"
   ],
   "injectors": {
     "defaultRequire": 1

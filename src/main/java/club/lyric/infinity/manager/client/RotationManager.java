@@ -27,25 +27,44 @@ public class RotationManager implements IMinecraft {
     private int ticksSinceRotation;
 
     /**
-     * have we rotated this tick?
+     * have we rotated this tick -> for convenience, so you don't have to query tickSinceRotation
      */
     private boolean hasRotated;
 
     @EventHandler
     public void onLocationPre(LocationEvent.Pre event)
     {
-        
+        yaw = mc.player.getYaw();
+        pitch = mc.player.getPitch();
     }
 
     @EventHandler
     public void onLocationPost(LocationEvent.Post event)
     {
+        ticksSinceRotation++;
 
+        if (ticksSinceRotation > 2)
+        {
+            hasRotated = false;
+        }
+
+        mc.player.setYaw(yaw);
+        mc.player.headYaw = yaw;
+        mc.player.setPitch(pitch);
     }
 
 
+    public void set(float[] rotations) {
+        this.set(rotations[0], rotations[1]);
+    }
 
-
+    public void set(float yaw, float pitch) {
+        hasRotated = true;
+        ticksSinceRotation = 0;
+        mc.player.setYaw(yaw);
+        mc.player.setHeadYaw(yaw);
+        mc.player.setPitch(pitch);
+    }
 
     public float getPitch() {
         return pitch;

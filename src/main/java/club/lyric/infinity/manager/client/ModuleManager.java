@@ -50,7 +50,8 @@ public final class ModuleManager implements IMinecraft
                 new FakePlayer(),
                 new HoleESP(),
                 new HoleSnap(),
-                new AutoCrystal()
+                new AutoCrystal(),
+                new Delays()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }

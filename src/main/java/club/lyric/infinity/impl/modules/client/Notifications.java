@@ -37,6 +37,13 @@ public final class Notifications extends ModuleBase
             this
     );
 
+    public BooleanSetting visualRange =
+            new BooleanSetting(
+            "VisualRange",
+            false,
+            this
+    );
+
     private final HashMap<String, Integer> totemPop = new HashMap<>();
     private final HashMap<String, Integer> id = new HashMap<>();
 
@@ -87,5 +94,8 @@ public final class Notifications extends ModuleBase
             }
         }
     }
+    
+
+
 
 }
