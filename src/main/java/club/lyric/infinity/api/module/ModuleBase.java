@@ -127,7 +127,7 @@ public class ModuleBase implements IMinecraft {
         this.setEnabled(!this.isOn());
     }
 
-    private void enable() {
+    protected void enable() {
         enabled = true;
         EventBus.getInstance().register(this);
         this.onEnable();
@@ -136,7 +136,7 @@ public class ModuleBase implements IMinecraft {
         }
     }
 
-    private void disable() {
+    protected void disable() {
         enabled = false;
         this.onDisable();
         EventBus.getInstance().unregister(this);
@@ -144,15 +144,6 @@ public class ModuleBase implements IMinecraft {
             ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", id);
         }
     }
-
-    public boolean isDrawn() {
-        return drawn.value();
-    }
-
-    public void setDrawn(boolean drawn) {
-        this.drawn.setValue(drawn);
-    }
-
     public Category getCategory() {
         return this.category;
     }
@@ -175,8 +166,6 @@ public class ModuleBase implements IMinecraft {
         this.settingList.addAll(Arrays.asList(settings));
         this.settingList.sort(Comparator.comparingInt(s -> s == bind ? 1 : 0));
     }
-
-
 
     /**
      * name

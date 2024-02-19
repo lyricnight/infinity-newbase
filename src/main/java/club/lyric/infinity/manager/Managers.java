@@ -17,6 +17,7 @@ public final class Managers {
     public static FriendsManager FRIENDS = new FriendsManager();
     public static ConfigManager CONFIG = new ConfigManager();
     public static EventManager EVENTS = new EventManager();
+    public static RotationManager ROTATIONS = new RotationManager();
     public static CommandManager COMMANDS = new CommandManager();
     public static ServerManager SERVER = new ServerManager();
     public static TextManager TEXT = new TextManager();
@@ -28,7 +29,7 @@ public final class Managers {
     public static void sub()
     {
         Infinity.LOGGER.info("starting manager subscription.");
-        subscribe(FRIENDS, CONFIG, EVENTS, COMMANDS, SERVER, MODULES, TEXT, TIMER);
+        subscribe(FRIENDS, CONFIG, EVENTS, ROTATIONS, COMMANDS, SERVER, MODULES, TEXT, TIMER);
     }
 
 

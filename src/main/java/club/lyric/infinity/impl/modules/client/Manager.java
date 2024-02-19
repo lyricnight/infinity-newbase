@@ -4,6 +4,7 @@ import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.event.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.module.PersistentModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.asm.accessors.ICustomPayloadC2SPacket;
@@ -15,7 +16,7 @@ import net.minecraft.util.Identifier;
 /**
  * @author lyric
  */
-public final class Manager extends ModuleBase {
+public final class Manager extends PersistentModuleBase {
     public ModeSetting bracket = new ModeSetting("Bracket", this, "Black", "None", "Black", "DarkGray", "Gray", "DarkBlue", "Blue", "DarkGreen", "Green", "DarkAqua", "Aqua", "DarkRed", "Red", "DarkPurple", "Purple", "Gold", "Yellow");
     public ModeSetting nameColour = new ModeSetting("NameColour", this, "DarkGray", "None", "Black", "DarkGray", "Gray", "DarkBlue", "Blue", "DarkGreen", "Green", "DarkAqua", "Aqua", "DarkRed", "Red", "DarkPurple", "Purple", "Gold", "Yellow");
     public BooleanSetting modHider = new BooleanSetting("ModHider", false, this);
