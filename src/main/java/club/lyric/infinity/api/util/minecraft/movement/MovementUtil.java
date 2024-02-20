@@ -1,5 +1,6 @@
 package club.lyric.infinity.api.util.minecraft.movement;
 
+import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 
 /**
@@ -34,8 +35,8 @@ public class MovementUtil implements IMinecraft {
             }
         }
 
-        final double sin = Math.sin(Math.toRadians(yaw + 90));
-        final double cos = Math.cos(Math.toRadians(yaw + 90));
+        final double sin = ApacheMath.sin(ApacheMath.toRadians(yaw + 90));
+        final double cos = ApacheMath.cos(ApacheMath.toRadians(yaw + 90));
         final double posX = (forward * speed * cos + side * speed * sin);
         final double posZ = (forward * speed * sin - side * speed * cos);
         return new double[]{posX, posZ};

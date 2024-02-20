@@ -25,6 +25,7 @@ public final class List extends Command {
     @Override
     public void onCommand(String[] args)
     {
+
         if(args.length > 1)
         {
             state(CommandState.ERROR);

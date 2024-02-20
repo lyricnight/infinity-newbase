@@ -3,7 +3,6 @@ package club.lyric.infinity.manager.client;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.event.mc.movement.LocationEvent;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import com.sun.jna.platform.win32.Variant;
 
 /**
  * @author lyric

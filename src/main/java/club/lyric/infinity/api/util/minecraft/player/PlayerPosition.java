@@ -41,6 +41,7 @@ public class PlayerPosition extends Vec3d implements IMinecraft {
     public void applyTo(Entity entity) {
         entity.setPos(getX(), getY(), getZ());
         //might be the other way around, mc mappings are fucking annoying
+        //TODO: test this
         entity.setPitch(getXRot());
         entity.setYaw(getYRot());
         entity.setOnGround(isOnGround());

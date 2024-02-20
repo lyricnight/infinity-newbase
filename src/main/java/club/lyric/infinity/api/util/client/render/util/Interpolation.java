@@ -4,6 +4,9 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.client.render.Camera;
 import net.minecraft.util.math.Vec3d;
 
+/**
+ * @author vasler
+ */
 public class Interpolation implements IMinecraft {
 
     public static Vec3d getCameraPos() {

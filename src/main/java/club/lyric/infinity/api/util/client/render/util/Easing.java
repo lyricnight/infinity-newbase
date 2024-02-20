@@ -1,5 +1,6 @@
 package club.lyric.infinity.api.util.client.render.util;
 
+import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
 import net.minecraft.util.math.MathHelper;
 
 public final class Easing {
@@ -27,7 +28,7 @@ public final class Easing {
      * @return An exponential progression of a float from the initial value to the target value over the course of the duration.
      */
     public static float exponential(float time, float initial, float target, float duration) {
-        return (time >= duration) ? initial + target : target * ((float) -Math.pow(2, -10 * time / duration) + 1) + initial;
+        return (time >= duration) ? initial + target : target * ((float) -ApacheMath.pow(2, -10 * time / duration) + 1) + initial;
     }
 
     /**
@@ -44,13 +45,13 @@ public final class Easing {
         if ((time /= duration / 2) == 2) return initial + target;
         float a = 1.0F;
         float s;
-        if (a < Math.abs(target)) {
+        if (a < ApacheMath.abs(target)) {
             a = target;
             s = 1.0F / 4.0F;
-        } else s = 1.0F / (float) (2 * Math.PI) * (float) Math.asin(target / a);
+        } else s = 1.0F / (float) (2 * ApacheMath.PI) * (float) ApacheMath.asin(target / a);
         if (time < 1)
-            return -.5f * (a * (float) Math.pow(2, 10 * (time -= 1)) * MathHelper.sin((float) ((time * duration - s) * (2 * Math.PI)))) + initial;
-        return a * (float) Math.pow(2, -10 * (time -= 1)) * MathHelper.sin((float) ((time * duration - s) * (2 * Math.PI))) * .5f + target + initial;
+            return -.5f * (a * (float) ApacheMath.pow(2, 10 * (time -= 1)) * MathHelper.sin((float) ((time * duration - s) * (2 * ApacheMath.PI)))) + initial;
+        return a * (float) ApacheMath.pow(2, -10 * (time -= 1)) * MathHelper.sin((float) ((time * duration - s) * (2 * ApacheMath.PI))) * .5f + target + initial;
     }
 
     /**
@@ -60,7 +61,7 @@ public final class Easing {
      * @param initial  The initial starting float value of the animation.
      * @param target   The target float for the animation to reach.
      * @param duration The duration, in ms, of the animation.
-     * @return An bouncing progression of a float from the initial value to the target value over the course of the duration.
+     * @return A bouncing progression of a float from the initial value to the target value over the course of the duration.
      */
     public static float bounce(float time, float initial, float target, float duration) {
         float s = 1.70158f;

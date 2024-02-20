@@ -55,7 +55,7 @@ public final class EventManager implements IMinecraft {
     }
 
     /**
-     * this needs highest priority for eventbus
+     * this needs -1 highest priority for eventbus
      * @param ignored - event
      */
 

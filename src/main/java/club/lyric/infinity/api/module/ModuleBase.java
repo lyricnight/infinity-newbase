@@ -10,6 +10,7 @@ import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Notifications;
 import club.lyric.infinity.manager.Managers;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.Formatting;
 
@@ -159,6 +160,11 @@ public class ModuleBase implements IMinecraft {
     protected void send(Packet<?> packet) {
         if (mc.getNetworkHandler() == null) return;
 
+        mc.getNetworkHandler().sendPacket(packet);
+    }
+
+    protected void sendUnsafe(Packet<?> packet)
+    {
         mc.getNetworkHandler().sendPacket(packet);
     }
 

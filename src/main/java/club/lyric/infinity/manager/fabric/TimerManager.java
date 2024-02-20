@@ -4,6 +4,7 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
 
 /**
  * @author vasler
+ * how does this actually change the game's physics timer??
  */
 public class TimerManager implements IMinecraft {
     private float temp;

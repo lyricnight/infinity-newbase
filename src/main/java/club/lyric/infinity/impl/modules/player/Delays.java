@@ -22,7 +22,7 @@ public class Delays extends ModuleBase {
 
     @Override
     public void onTickPre() {
-        if (breaking.value() && mc.interactionManager != null) {
+        if (mc.interactionManager != null && breaking.value()) {
             IClientPlayerInteractionManager interactionManager = (IClientPlayerInteractionManager) mc.interactionManager;
             interactionManager.setHitDelay(0);
         }

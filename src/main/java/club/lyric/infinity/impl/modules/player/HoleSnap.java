@@ -13,7 +13,7 @@ import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
 import club.lyric.infinity.api.util.minecraft.block.HoleUtils;
 import club.lyric.infinity.api.util.minecraft.block.hole.Hole;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
-import club.lyric.infinity.api.util.minecraft.player.rotation.RotationUtils;
+import club.lyric.infinity.api.util.minecraft.rotation.RotationUtils;
 import club.lyric.infinity.impl.modules.movement.Step;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.util.math.Vec3d;
@@ -144,16 +144,16 @@ public final class HoleSnap extends ModuleBase {
         Vec3d playerPos = mc.player.getPos();
         Vec3d holePos = HoleUtils.getCenter(this.hole);
         Vec3d targetPos = new Vec3d(holePos.x, mc.player.getY(), holePos.z);
-        double yawRad = Math.toRadians(RotationUtils.getRotationTo(playerPos, targetPos).x);
+        double yawRad = ApacheMath.toRadians(RotationUtils.getRotationTo(playerPos, targetPos).x);
         double dist = playerPos.distanceTo(targetPos);
-        double d = speed = mc.player.isOnGround() ? -Math.min(0.2805, dist / 2.0) : -PlayerUtils.getSpeed(mc.player) + 0.02;
+        double d = speed = mc.player.isOnGround() ? -ApacheMath.min(0.2805, dist / 2.0) : -PlayerUtils.getSpeed(mc.player) + 0.02;
         if (dist < 0.1) {
             event.setX(0.0);
             event.setZ(0.0);
             return;
         }
-        event.setX(-Math.sin(yawRad) * speed);
-        event.setZ(Math.cos(yawRad) * speed);
+        event.setX(-ApacheMath.sin(yawRad) * speed);
+        event.setZ(ApacheMath.cos(yawRad) * speed);
     }
 
 

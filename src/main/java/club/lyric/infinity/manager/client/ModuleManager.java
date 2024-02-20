@@ -13,6 +13,7 @@ import club.lyric.infinity.impl.modules.exploit.*;
 import club.lyric.infinity.impl.modules.movement.*;
 import club.lyric.infinity.impl.modules.player.*;
 import club.lyric.infinity.impl.modules.render.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -51,6 +52,8 @@ public final class ModuleManager implements IMinecraft
                 new HoleESP(),
                 new HoleSnap(),
                 new AutoCrystal(),
+                new Resolver(),
+                new Copenheimer(),
                 new Delays()
         );
         Infinity.LOGGER.info("Initialising modules.");
@@ -66,6 +69,7 @@ public final class ModuleManager implements IMinecraft
 
     /**
      * gets a module from a class.
+     * this can't produce a NPR, but intellij is too stupid to realise
      * @param clazz - class in
      * @return - the corresponding module
      * @param <T> - type parameter
@@ -107,8 +111,6 @@ public final class ModuleManager implements IMinecraft
         return null;
     }
 
-
-    @SuppressWarnings("unused")
     public List<ModuleBase> getModulesInCategory(Category c) {
         return modules.stream().filter(m -> m.getCategory() == c).collect(Collectors.toList());
     }
