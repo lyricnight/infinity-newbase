@@ -30,6 +30,7 @@
     "MixinMinecraftOptions",
     "MixinMouse",
     "MixinRenderSystem",
+    "MixinRenderTickCounter",
     "MixinSplashTextResourceSupplier",
     "MixinWindow",
     "MixinWorldRenderer",

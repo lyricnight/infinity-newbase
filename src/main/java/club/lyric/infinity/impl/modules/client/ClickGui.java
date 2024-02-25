@@ -37,8 +37,7 @@ public final class ClickGui extends ModuleBase {
     public void onDisable() {
         mc.setScreenAndRender(null);
         InfinityGUI.getInstance().toggle();
-        if (mc.currentScreen == null)
-            mc.mouse.lockCursor();
+        if (mc.currentScreen == null) mc.mouse.lockCursor();
     }
 
     @EventHandler

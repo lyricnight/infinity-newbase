@@ -86,11 +86,13 @@ public final class EventManager implements IMinecraft {
     {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTickPre);
     }
-
+    //update should probably go here? so that it doesn't miss a tick if we do it on pre
+    //weird
     @EventHandler(priority = Integer.MAX_VALUE - 4)
     public void onTickPost(TickEvent.Post event)
     {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTickPost);
+        Managers.TIMER.update();
     }
 
     @EventHandler

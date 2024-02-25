@@ -69,14 +69,13 @@ public final class ModuleManager implements IMinecraft
 
     /**
      * gets a module from a class.
-     * this can't produce a NPR, but intellij is too stupid to realise
      * @param clazz - class in
      * @return - the corresponding module
      * @param <T> - type parameter
      */
 
     @SuppressWarnings("unchecked")
-    public <T extends ModuleBase> T getModuleFromClass(Class<T> clazz)
+    public <T> T getModuleFromClass(@NotNull Class<T> clazz)
     {
         for (ModuleBase moduleBase : getModules())
         {
@@ -85,7 +84,7 @@ public final class ModuleManager implements IMinecraft
                 return (T) moduleBase;
             }
         }
-        return null;
+        return (T) clazz;
     }
 
     /**
