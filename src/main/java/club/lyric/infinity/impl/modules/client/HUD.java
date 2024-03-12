@@ -89,6 +89,9 @@ public final class HUD extends ModuleBase
                     event.getDrawContext().getMatrices().push();
                     event.getDrawContext().getMatrices().scale(0.75F, 0.75F, 1F);
                     RenderSystem.disableDepthTest();
+                    //
+                    //VASLER USE MANAGERS.TEXT INSTEAD
+                    //
                     event.getDrawContext().drawText(mc.textRenderer, Text.of(((int) (percent)) + "%"), (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333F), (int) ((height - y - 5) * 1.333F), ColorUtils.toColor(percent / 100.0F * 120.0F, 100.0F, 50.0F, 1.0F).getRGB(), true);
                     RenderSystem.enableDepthTest();
                     event.getDrawContext().getMatrices().scale(1.0F, 1.0F, 1.0F);
@@ -105,6 +108,9 @@ public final class HUD extends ModuleBase
         if (potions.value()) {
             for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
                 int x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(getString(statusEffectInstance))) - 2;
+                //
+                //VASLER USE MANAGERS.TEXT INSTEAD
+                //
                 event.getDrawContext().drawText(mc.textRenderer, getString(statusEffectInstance), x, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, statusEffectInstance.getEffectType().getColor(), true);
                 offset += 9;
             }
@@ -115,8 +121,11 @@ public final class HUD extends ModuleBase
             double distanceX = mc.player.getX() - mc.player.prevX;
             double distanceZ = mc.player.getZ() - mc.player.prevZ;
 
-            String speed = "Speed: " + Formatting.WHITE + MathUtils.roundFloat((MathHelper.sqrt((float) (Math.pow(distanceX, 2) + Math.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) + " km/h";
+            String speed = "Speed: " + Formatting.WHITE + MathUtils.roundFloat((MathHelper.sqrt((float) (ApacheMath.pow(distanceX, 2) + ApacheMath.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) + " km/h";
 
+            //
+            //VASLER USE MANAGERS.TEXT INSTEAD
+            //
             event.getDrawContext().drawText(mc.textRenderer, speed, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(speed)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
             offset += 9;
         }
@@ -126,6 +135,9 @@ public final class HUD extends ModuleBase
         if (tps.value()) {
             String tps = "TPS: " + Formatting.WHITE + Managers.SERVER.getOurTPS();
 
+            //
+            //VASLER USE MANAGERS.TEXT INSTEAD
+            //
             event.getDrawContext().drawText(mc.textRenderer, tps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
             offset += 9;
         }
@@ -134,7 +146,9 @@ public final class HUD extends ModuleBase
         // TPS starts
         if (ping.value()) {
             String ping = "Ping: " + Formatting.WHITE + Managers.SERVER.getFastLatencyPing();
-
+            //
+            //VASLER USE MANAGERS.TEXT INSTEAD
+            //
             event.getDrawContext().drawText(mc.textRenderer, ping, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
             offset += 9;
         }
@@ -161,6 +175,9 @@ public final class HUD extends ModuleBase
 
             String fps = "FPS: " + Formatting.WHITE + fpsCount;
 
+            //
+            //VASLER USE MANAGERS.TEXT INSTEAD
+            //
             event.getDrawContext().drawText(mc.textRenderer, fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
         }
         // FPS ends

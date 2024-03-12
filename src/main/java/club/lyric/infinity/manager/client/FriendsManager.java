@@ -90,12 +90,11 @@ public final class FriendsManager  {
         String uuid;
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openStream()));
-            uuid = (((JsonObject)new JsonParser().parse(bufferedReader)).get("id")).toString().replaceAll("\"", "");
+            uuid = ((JsonObject)new JsonParser().parse(bufferedReader)).get("id").toString().replaceAll("\"", "");
             uuid = uuid.replaceAll("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5");
             bufferedReader.close();
         } catch (Exception e) {
-            System.out.println("Unable to get UUID of: " + name + "!");
-            uuid = "";
+            throw new RuntimeException("UUID Error -> couldn't get the uuid of:" + name);
         }
         return uuid;
     }

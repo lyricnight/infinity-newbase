@@ -5,6 +5,10 @@ import club.lyric.infinity.api.command.CommandState;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.manager.Managers;
 
+/**
+ * @author lyric
+ * gets the hashCode of a module (checks it has been loaded and can receive events)
+ */
 public final class Identifier extends Command {
 
     public Identifier()

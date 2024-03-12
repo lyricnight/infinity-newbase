@@ -1,5 +1,6 @@
 package club.lyric.infinity.manager.client;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.ducks.IDrawContext;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.client.font.TextRenderer;
@@ -28,19 +29,31 @@ public final class TextManager implements IMinecraft {
 
     public void drawString(String value, float x, float y, int color, boolean shadow)
     {
-        if(!ready) return;
+        if(!ready)
+        {
+            Infinity.LOGGER.error("drawString() called when null.");
+            return;
+        }
         ((IDrawContext)context).infinity_newbase$drawText(mc.textRenderer, value, x, y, color, shadow);
     }
 
-    public float width(TextRenderer renderer, String value, boolean shadow)
+    public float width(String value, boolean shadow)
     {
-        if(!ready) return 0f;
-        return renderer.getWidth(value) + (shadow ? 1 : 0);
+        if(!ready)
+        {
+            Infinity.LOGGER.error("width() called when null.");
+            return 0f;
+        }
+        return mc.textRenderer.getWidth(value) + (shadow ? 1 : 0);
     }
 
-    public float height(TextRenderer renderer, boolean shadow)
+    public float height(boolean shadow)
     {
-        if(!ready) return 0f;
-        return renderer.fontHeight + (shadow ? 1 : 0);
+        if(!ready)
+        {
+            Infinity.LOGGER.error("height() called when null.");
+            return 0f;
+        }
+        return mc.textRenderer.fontHeight + (shadow ? 1 : 0);
     }
 }

@@ -13,6 +13,7 @@ import club.lyric.infinity.impl.modules.exploit.*;
 import club.lyric.infinity.impl.modules.movement.*;
 import club.lyric.infinity.impl.modules.player.*;
 import club.lyric.infinity.impl.modules.render.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,7 +51,10 @@ public final class ModuleManager implements IMinecraft
                 new FakePlayer(),
                 new HoleESP(),
                 new HoleSnap(),
-                new AutoCrystal()
+                new AutoCrystal(),
+                new Resolver(),
+                new Copenheimer(),
+                new Delays()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }
@@ -71,7 +75,7 @@ public final class ModuleManager implements IMinecraft
      */
 
     @SuppressWarnings("unchecked")
-    public <T extends ModuleBase> T getModuleFromClass(Class<T> clazz)
+    public <T> T getModuleFromClass(@NotNull Class<T> clazz)
     {
         for (ModuleBase moduleBase : getModules())
         {
@@ -80,7 +84,7 @@ public final class ModuleManager implements IMinecraft
                 return (T) moduleBase;
             }
         }
-        return null;
+        return (T) clazz;
     }
 
     /**
@@ -106,8 +110,6 @@ public final class ModuleManager implements IMinecraft
         return null;
     }
 
-
-    @SuppressWarnings("unused")
     public List<ModuleBase> getModulesInCategory(Category c) {
         return modules.stream().filter(m -> m.getCategory() == c).collect(Collectors.toList());
     }

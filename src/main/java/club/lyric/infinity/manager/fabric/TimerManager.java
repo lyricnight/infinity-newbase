@@ -3,7 +3,7 @@ package club.lyric.infinity.manager.fabric;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 
 /**
- * @author vasler
+ * @author vasler and lyric
  */
 public class TimerManager implements IMinecraft {
     private float temp;
@@ -26,6 +26,18 @@ public class TimerManager implements IMinecraft {
             }
         }
     }
+    public void update()
+    {
+        if (ticks != 0) {
+            if (ticks >= max) {
+                reset();
+                ticks = 0;
+                return;
+            }
+            timer = temp;
+            ++ticks;
+        }
+    }
 
     public void set(float timer) {
         this.timer = timer <= 0.0f ? 0.1f : timer;
@@ -38,7 +50,6 @@ public class TimerManager implements IMinecraft {
     public void reset() {
         this.timer = 1.0f;
     }
-
 
     public void setFor(float timer, int ticks) {
         this.temp = timer;

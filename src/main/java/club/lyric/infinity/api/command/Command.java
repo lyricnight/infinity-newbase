@@ -1,8 +1,8 @@
 package club.lyric.infinity.api.command;
 
-
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import net.minecraft.util.Formatting;
 
 /**
  * @author lyric
@@ -32,15 +32,19 @@ public class Command {
         return "";
     }
 
+    /**
+     * success or failure
+     * @param state - state of command to throw
+     */
     public void state(CommandState state) {
         switch (state) {
             case ERROR: {
-                ChatUtils.sendMessagePrivate("Invalid command.");
+                ChatUtils.sendMessagePrivate(Formatting.RED + "Command failed. Correct syntax: " + theCommand());
                 break;
             }
 
             case PERFORMED: {
-                Infinity.LOGGER.info("Command success registered.");
+                Infinity.LOGGER.info("Command success registered. Command: " + theCommand());
                 break;
             }
         }

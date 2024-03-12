@@ -1,6 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
+import club.lyric.infinity.api.event.mc.movement.LocationEvent;
 import club.lyric.infinity.api.event.mc.movement.MotionEvent;
 import club.lyric.infinity.api.event.mc.update.UpdateEvent;
 import club.lyric.infinity.api.event.mc.update.UpdateWalkingPlayerEvent;
@@ -11,12 +12,17 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.MovementType;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPlayerEntity.class)
 public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
+
+    @Unique
+    private LocationEvent eventGlobal;
+
     public MixinClientPlayerEntity(ClientWorld world, GameProfile profile) {
         super(world, profile);
     }
@@ -47,5 +53,20 @@ public class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
             super.move(movementType, new Vec3d(event.getX(), event.getY(), event.getZ()));
             callbackInfo.cancel();
         }
+    }
+    @Inject(method = "sendMovementPackets", at = @At(value = "HEAD"), cancellable = true)
+    private void onSendMovementPacketsHead(CallbackInfo info) {
+        eventGlobal = new LocationEvent.Pre(this.getX(), this.getBoundingBox().minY, this.getZ(), this.getYaw(), this.getPitch(), this.isOnGround());
+        EventBus.getInstance().post(eventGlobal);
+        if (eventGlobal.isCancelled()) {
+            info.cancel();
+        }
+    }
+
+    @Inject(method = "sendMovementPackets", at = @At(value = "RETURN"))
+    private void onSendMovementPacketsTail(CallbackInfo info) {
+        LocationEvent.Post event = new LocationEvent.Post(eventGlobal.getX(), eventGlobal.getY(), eventGlobal.getZ(), eventGlobal.getYaw(), eventGlobal.getPitch(), eventGlobal.isOnGround());
+        event.setCancelled(eventGlobal.isCancelled());
+        EventBus.getInstance().post(event);
     }
 }

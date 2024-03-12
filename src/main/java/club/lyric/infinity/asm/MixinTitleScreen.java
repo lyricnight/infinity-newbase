@@ -23,6 +23,6 @@ public abstract class MixinTitleScreen {
 
         Managers.TEXT.drawString(Infinity.CLIENT_NAME + Infinity.VERSION, 2, 2, 0x68478D, true);
 
-        Managers.TEXT.drawString(Formatting.GRAY + " build (" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + ")", Managers.TEXT.width(mc.textRenderer,Infinity.CLIENT_NAME + Infinity.VERSION, true) + 2, 2, -1, true);
+        Managers.TEXT.drawString(Formatting.GRAY + " build (" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + ")", Managers.TEXT.width(Infinity.CLIENT_NAME + Infinity.VERSION, true) + 2, 2, -1, true);
     }
 }

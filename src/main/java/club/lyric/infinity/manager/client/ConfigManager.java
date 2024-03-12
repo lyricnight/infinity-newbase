@@ -37,6 +37,7 @@ public final class ConfigManager {
     private String[] namesArray;
 
     public ConfigManager() {
+        //wow, ghost client
         String tempFolderDirectory = System.getProperty("java.io.tmpdir");
         Infinity.LOGGER.info(tempFolderDirectory);
         pathConfigFolder = Paths.get(tempFolderDirectory).resolve("infinity");

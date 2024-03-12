@@ -5,15 +5,13 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.asm.accessors.IMinecraft;
 
 /**
  * @author lyric
  */
 public class Delays extends ModuleBase {
-
     public BooleanSetting breaking = new BooleanSetting("Breaking", false, this);
-
-    public BooleanSetting eating = new BooleanSetting("Eating", false, this);
 
     public NumberSetting placing = new NumberSetting("Placing", this, 0, 0, 5, 1);
 
@@ -22,10 +20,9 @@ public class Delays extends ModuleBase {
         super("Delays", "Manages delays", Category.Player);
     }
 
-
     @Override
     public void onTickPre() {
-        if (mc.interactionManager != null) {
+        if (mc.interactionManager != null && breaking.value()) {
             IClientPlayerInteractionManager interactionManager = (IClientPlayerInteractionManager) mc.interactionManager;
             interactionManager.setHitDelay(0);
         }
@@ -34,8 +31,9 @@ public class Delays extends ModuleBase {
     @Override
     public void onTickPost()
     {
-        if (mc.options.useKey.isPressed());
+        if (mc.options.useKey.isPressed() && placing.getIValue() < ((IMinecraft)mc).getItemUseCooldown())
+        {
+            ((IMinecraft)mc).setItemUseCooldown(placing.getIValue());
+        }
     }
-
-
 }

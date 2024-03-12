@@ -22,18 +22,20 @@ public class Bind extends Command {
 
     @Override
     public void onCommand(String[] args) {
-        if (args.length != 3)
+        if (args.length > 3 || args.length < 1)
         {
             state(CommandState.ERROR);
             return;
         }
 
-        ModuleBase module = Managers.MODULES.getModuleByName(args[2]);
+        ModuleBase module = Managers.MODULES.getModuleByName(args[1]);
 
         if (module == null)
         {
             state(CommandState.ERROR);
             return;
         }
+
+        module.setBind(Integer.parseInt(args[2]));
     }
 }

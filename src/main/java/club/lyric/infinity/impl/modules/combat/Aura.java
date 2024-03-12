@@ -2,7 +2,6 @@ package club.lyric.infinity.impl.modules.combat;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.event.mc.update.UpdateWalkingPlayerEvent;
-import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -26,9 +25,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author lyric
@@ -110,7 +106,7 @@ public final class Aura extends ModuleBase {
                     Vec3d vec = new Vec3d(bbCords.x, own.y, bbCords.z);
                     double cSq = MathHelper.square(6.0 - 1.0E-7);
                     double aSq = vec.squaredDistanceTo(bbCords);
-                    double b = Math.sqrt(cSq - aSq);
+                    double b = ApacheMath.sqrt(cSq - aSq);
                     Vec3d t = vec.add(own.subtract(vec).normalize().multiply(b));
                     teleportPos = t.subtract(0.0, player.getStandingEyeHeight(), 0.0);
                     if (teleportPos.squaredDistanceTo(last) > MathHelper.square(PlayerUtils.getSpeed(mc.player))) {
@@ -191,7 +187,7 @@ public final class Aura extends ModuleBase {
         }
     }
 
-    protected void useShield() {
+    private void useShield() {
         if ((mc.player.getMainHandStack().getItem() instanceof SwordItem || mc.player.getMainHandStack().getItem() instanceof AxeItem) && mc.player.getOffHandStack().getItem() instanceof ShieldItem) {
             mc.world.getDamageSources().playerAttack(mc.player);
         }
