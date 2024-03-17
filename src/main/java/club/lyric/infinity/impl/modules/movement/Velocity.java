@@ -15,20 +15,19 @@ import java.util.concurrent.TimeUnit;
 public class Velocity extends ModuleBase {
 
     public ModeSetting mode = new ModeSetting("Mode", this, "Normal", "Normal", "JumpReset");
+
     protected final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     protected static final Random random = new Random();
 
     public Velocity() {
-        super("Velocity", "Velocity", Category.Movement);
+        super("Velocity", "Tries to remove velocity", Category.Movement);
     }
-
     @EventHandler
     public void onEntityVelocity(PacketEvent.Receive event) {
         if (mode.getMode().equals("JumpReset")) {
-            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket && mc.player.hurtTime > 0 && mc.player.isOnGround()) {
+            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket && mc.player.hurtTime > 0 && mc.player.isOnGround() && mc.player.isAlive()) {
                 if (random.nextDouble() < 0.4) {
                     int value = random.nextInt(5) + 1;
-                    mc.player.jump();
                     executor.schedule(() -> mc.player.jump(), value, TimeUnit.MILLISECONDS);
                 }
             }

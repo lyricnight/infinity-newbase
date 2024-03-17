@@ -1,5 +1,6 @@
 package club.lyric.infinity.api.util.minecraft.player;
 
+import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

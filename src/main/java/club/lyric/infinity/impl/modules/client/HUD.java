@@ -6,6 +6,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.math.MathUtils;
+import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
 import club.lyric.infinity.api.util.client.render.util.Easing;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
@@ -92,7 +93,7 @@ public final class HUD extends ModuleBase
                     //
                     //VASLER USE MANAGERS.TEXT INSTEAD
                     //
-                    event.getDrawContext().drawText(mc.textRenderer, Text.of(((int) (percent)) + "%"), (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333F), (int) ((height - y - 5) * 1.333F), ColorUtils.toColor(percent / 100.0F * 120.0F, 100.0F, 50.0F, 1.0F).getRGB(), true);
+                    Managers.TEXT.drawString(((int) (percent)) + "%", (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333F), (int) ((height - y - 5) * 1.333F), ColorUtils.toColor(percent / 100.0F * 120.0F, 100.0F, 50.0F, 1.0F).getRGB(), true);
                     RenderSystem.enableDepthTest();
                     event.getDrawContext().getMatrices().scale(1.0F, 1.0F, 1.0F);
                     event.getDrawContext().getMatrices().pop();
@@ -111,7 +112,7 @@ public final class HUD extends ModuleBase
                 //
                 //VASLER USE MANAGERS.TEXT INSTEAD
                 //
-                event.getDrawContext().drawText(mc.textRenderer, getString(statusEffectInstance), x, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, statusEffectInstance.getEffectType().getColor(), true);
+                Managers.TEXT.drawString(getString(statusEffectInstance), x, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, statusEffectInstance.getEffectType().getColor(), true);
                 offset += 9;
             }
         }
@@ -126,7 +127,7 @@ public final class HUD extends ModuleBase
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
             //
-            event.getDrawContext().drawText(mc.textRenderer, speed, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(speed)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
+            Managers.TEXT.drawString(speed, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(speed)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
             offset += 9;
         }
         // Speed ends
@@ -138,7 +139,7 @@ public final class HUD extends ModuleBase
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
             //
-            event.getDrawContext().drawText(mc.textRenderer, tps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
+            Managers.TEXT.drawString(tps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
             offset += 9;
         }
         // TPS ends
@@ -149,7 +150,7 @@ public final class HUD extends ModuleBase
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
             //
-            event.getDrawContext().drawText(mc.textRenderer, ping, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
+            Managers.TEXT.drawString(ping, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
             offset += 9;
         }
         // TPS ends
@@ -178,7 +179,7 @@ public final class HUD extends ModuleBase
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
             //
-            event.getDrawContext().drawText(mc.textRenderer, fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
+            Managers.TEXT.drawString(fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
         }
         // FPS ends
 

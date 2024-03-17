@@ -5,6 +5,7 @@ import club.lyric.infinity.api.event.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
 import club.lyric.infinity.api.util.minecraft.player.MovementPlayer;
 import club.lyric.infinity.api.util.minecraft.player.PlayerPosition;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
@@ -86,7 +87,8 @@ public final class Aura extends ModuleBase {
         }
     }
 
-    private @Nullable Target computeTarget(ClientPlayerEntity player, ClientWorld level) {
+    @Nullable
+    private Target computeTarget(ClientPlayerEntity player, ClientWorld level) {
         Target result = null;
         MovementPlayer teleportPlayer = null;
         for (Entity entity : level.getOtherEntities(null, PlayerUtils.getAABBOfRadius(player, 8.0))) {

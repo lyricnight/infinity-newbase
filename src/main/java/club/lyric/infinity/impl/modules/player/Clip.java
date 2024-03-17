@@ -50,6 +50,7 @@ public final class Clip extends ModuleBase {
                 }
             }
             case "NoCheck" -> {
+                // wtf u trying to do here lyric stupid ass nigga
                 send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(),mc.player.getY() - 0.0042123, mc.player.getZ(), mc.player.isOnGround()));
                 send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(),mc.player.getY() - 0.02141, mc.player.getZ(), mc.player.isOnGround()));
                 //illegal / overflow angles because some servers don't bother checking for them.
