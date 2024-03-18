@@ -54,7 +54,8 @@ public final class ModuleManager implements IMinecraft
                 new AutoCrystal(),
                 new Resolver(),
                 new Copenheimer(),
-                new Delays()
+                new Delays(),
+                new Colours()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }

@@ -10,8 +10,10 @@ import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.api.util.minecraft.block.HoleUtils;
 import club.lyric.infinity.api.util.minecraft.block.hole.Hole;
 import net.minecraft.client.render.Camera;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
@@ -23,7 +25,7 @@ import java.util.concurrent.Executors;
 public class HoleESP extends ModuleBase {
 
     public NumberSetting range = new NumberSetting("Range", this, 4f, 1f, 10f, 0.5f);
-    public NumberSetting size = new NumberSetting("Size", this, 1f, 0.1f, 1f, 0.5f);
+    public NumberSetting size = new NumberSetting("Size", this, 1f, 0.01f, 1f, 0.5f);
     public BooleanSetting doubles = new BooleanSetting("Doubles", false, this);
     public NumberSetting alphas = new NumberSetting("Alpha", this, 76.0f, 1.0f, 255f, 1.0f);
     public BooleanSetting fade = new BooleanSetting("Fade", false, this);
@@ -48,13 +50,33 @@ public class HoleESP extends ModuleBase {
             return;
         }
 
+        MatrixStack matrix = event.getMatrix();
+
         for (Hole hole : holes) {
+            double alpha = 1.0;
+
+            if (fade.value())
+            {
+                double fadeRange = range.getValue() - 1.0;
+                double fadeRangeSq = fadeRange * fadeRange;
+                alpha = (fadeRangeSq + 9.0 - mc.player.squaredDistanceTo(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) / fadeRangeSq;
+                alpha = MathHelper.clamp(alpha, 0.0, 1.0);
+            }
+
+            alpha = alpha * alphas.getFValue();
+
             Box bb = interpolatePos(hole.getFirst(), size.getFValue());
 
             if (hole.getSecond() != null) {
                 bb = new Box(hole.getFirst().getX() - getCameraPos().x, hole.getFirst().getY() - getCameraPos().y, hole.getFirst().getZ() - getCameraPos().z, hole.getSecond().getX() + 1 - getCameraPos().x, hole.getSecond().getY() + size.getFValue() - getCameraPos().y, hole.getSecond().getZ() + 1 - getCameraPos().z);
             }
-            Render3DUtils.drawBox(event.getMatrix(), bb, new Color(255, 255, 255, 76).getRGB());
+
+            Render3DUtils.enable3D();
+            matrix.push();
+            Render3DUtils.drawBox(event.getMatrix(), bb, new Color(255, 255, 255, (int) alpha).getRGB());
+            matrix.pop();
+            Render3DUtils.disable3D();
+
         }
     }
 

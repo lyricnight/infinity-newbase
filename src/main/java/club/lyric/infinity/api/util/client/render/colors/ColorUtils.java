@@ -87,4 +87,68 @@ public class ColorUtils implements IMinecraft {
                     : red;
         }
     }
+
+    public static Color darken(Color color, int amount)
+    {
+        int red = Math.max(color.getRed() - amount, 20);
+        int green = Math.max(color.getGreen() - amount, 20);
+        int blue = Math.max(color.getBlue() - amount, 20);
+
+        return new Color(red, green, blue, color.getAlpha());
+    }
+
+    public static Color hslToColor(float hue, float sat, float light, float alpha)
+    {
+        if (sat < 0.0f || sat > 100.0f)
+        {
+            throw new IllegalArgumentException("Color parameter outside of expected range - Saturation");
+        }
+        if (light < 0.0f || light > 100.0f)
+        {
+            throw new IllegalArgumentException("Color parameter outside of expected range - Lightness");
+        }
+        if (alpha < 0.0f || alpha > 1.0f)
+        {
+            throw new IllegalArgumentException("Color parameter outside of expected range - Alpha");
+        }
+        hue %= 360.0f;
+        float f5;
+        f5 = (double)light < 0.5 ? light * (1.0f + sat) : (light /= 100.0f) + (sat /= 100.0f) - sat * light;
+        sat = 2.0f * light - f5;
+        light = Math.max(0.0f, colorCalc(sat, f5, (hue /= 360.0f) + 0.33333334f));
+        float f6 = Math.max(0.0f, colorCalc(sat, f5, hue));
+        sat = Math.max(0.0f, colorCalc(sat, f5, hue - 0.33333334f));
+        light = Math.min(light, 1.0f);
+        f6 = Math.min(f6, 1.0f);
+        sat = Math.min(sat, 1.0f);
+        return new Color(light, f6, sat, alpha);
+    }
+
+    private static float colorCalc(float f, float f2, float f3)
+    {
+        if (f3 < 0.0f)
+        {
+            f3 += 1.0f;
+        }
+        if (f3 > 1.0f)
+        {
+            f3 -= 1.0f;
+        }
+        if (6.0f * f3 < 1.0f)
+        {
+            float f4 = f;
+            return f4 + (f2 - f4) * 6.0f * f3;
+        }
+        if (2.0f * f3 < 1.0f)
+        {
+            return f2;
+        }
+        if (3.0f * f3 < 2.0f)
+        {
+            float f5 = f;
+            return f5 + (f2 - f5) * 6.0f * (0.6666667f - f3);
+        }
+        return f;
+    }
+
 }

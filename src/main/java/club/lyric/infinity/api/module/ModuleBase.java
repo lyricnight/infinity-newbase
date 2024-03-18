@@ -132,18 +132,18 @@ public class ModuleBase implements IMinecraft {
         enabled = true;
         EventBus.getInstance().register(this);
         this.onEnable();
-        if (Managers.MODULES.getModuleFromClass(Notifications.class).enable.value()) {
-            ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", id);
-        }
+        //if (Managers.MODULES.getModuleFromClass(Notifications.class).enable.value()) {
+            //ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", id);
+        //}
     }
 
     protected void disable() {
         enabled = false;
         this.onDisable();
         EventBus.getInstance().unregister(this);
-        if (Managers.MODULES.getModuleFromClass(Notifications.class).disable.value()) {
-            ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", id);
-        }
+        //if (Managers.MODULES.getModuleFromClass(Notifications.class).disable.value()) {
+            //ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", id);
+        //}
     }
     public Category getCategory() {
         return this.category;

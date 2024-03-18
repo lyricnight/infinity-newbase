@@ -7,7 +7,21 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Box;
 import org.joml.Matrix4f;
 
+import static org.lwjgl.opengl.GL11.*;
+
 public class Render3DUtils implements IMinecraft {
+
+    public static void enable3D() {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_CULL_FACE);
+        glDisable(GL_DEPTH_TEST);
+    }
+
+    public static void disable3D() {
+        glEnable(GL_DEPTH_TEST);
+        glDisable(GL_BLEND);
+    }
 
 
     // swish pasted rewrite

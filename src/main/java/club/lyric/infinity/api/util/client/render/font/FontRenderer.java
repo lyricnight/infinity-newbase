@@ -1,5 +1,6 @@
 package club.lyric.infinity.api.util.client.render.font;
 
+import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
@@ -130,13 +131,13 @@ public class FontRenderer {
         MinecraftClient.getInstance().execute(() -> MinecraftClient.getInstance().getTextureManager().registerTexture(identifier, new NativeImageBackedTexture(nativeImage)));
     }
 
-    public void drawString(MatrixStack matrixStack, String text, float x, float y, Color color, Color color2, boolean shadow) {
+    public void drawString(MatrixStack matrixStack, String text, float x, float y, Color color, boolean shadow) {
         matrixStack.push();
         RenderSystem.depthFunc(519);
         RenderSystem.enableBlend();
         matrixStack.scale(0.5f, 0.5f, 0.5f);
         if (shadow) {
-            drawer(matrixStack, text, x + 0.5f, y + 0.5f, color2);
+            drawer(matrixStack, text, x + 0.5f, y + 0.5f, ColorUtils.darken(color, 187));
         }
         drawer(matrixStack, text, x, y, color);
         matrixStack.scale(1.0f, 1.0f, 1.0f);
@@ -148,10 +149,9 @@ public class FontRenderer {
         drawString(text, x, y, color, true);
     }
 
-    private void drawString(String text, float x, float y, Color color, boolean shadow) {
-        int n = Math.min(187, color.getAlpha());
-        MatrixStack matrixStack = Managers.FONT.getMatrixStack();
-        drawString(matrixStack, text, x, y, color, new Color(0, 0, 0, n == -1 ? color.getAlpha() : n), shadow);
+    public void drawString(String text, float x, float y, Color color, boolean shadow) {
+        MatrixStack matrixStack = Managers.TEXT.getMatrixStack();
+        drawString(matrixStack, text, x, y, color, shadow);
     }
 
     private void drawer(MatrixStack matrixStack, String text, float x, float y, Color color) {

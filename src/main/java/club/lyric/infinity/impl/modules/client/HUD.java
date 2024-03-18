@@ -22,6 +22,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
 import java.util.LinkedList;
 
 /**
@@ -61,11 +62,12 @@ public final class HUD extends ModuleBase
     public void onRender2D(Render2DEvent event) {
         int offset = 0;
 
+        Color color = Managers.MODULES.getModuleFromClass(Colours.class).getColor();
 
         boolean chatOpened = mc.currentScreen instanceof ChatScreen;
 
         if (watermark.value()) {
-            event.getDrawContext().drawText(mc.textRenderer, Infinity.CLIENT_NAME, 2, 2, -1, true);
+            Managers.TEXT.drawString(mc.textRenderer, Infinity.CLIENT_NAME, 2, 2, color.getRGB(), true);
         }
 
         if (armorHud.value()) {
@@ -93,7 +95,9 @@ public final class HUD extends ModuleBase
                     //
                     //VASLER USE MANAGERS.TEXT INSTEAD
                     //
-                    Managers.TEXT.drawString(((int) (percent)) + "%", (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333F), (int) ((height - y - 5) * 1.333F), ColorUtils.toColor(percent / 100.0F * 120.0F, 100.0F, 50.0F, 1.0F).getRGB(), true);
+
+                    // need to use that for this or it wont render
+                    event.getDrawContext().drawTextWithShadow(mc.textRenderer, Text.of(((int) (percent)) + "%"), (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333F), (int) ((height - y - 5) * 1.333F), ColorUtils.toColor(percent / 100.0F * 120.0F, 100.0F, 50.0F, 1.0F).getRGB());
                     RenderSystem.enableDepthTest();
                     event.getDrawContext().getMatrices().scale(1.0F, 1.0F, 1.0F);
                     event.getDrawContext().getMatrices().pop();
@@ -127,7 +131,7 @@ public final class HUD extends ModuleBase
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
             //
-            Managers.TEXT.drawString(speed, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(speed)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
+            Managers.TEXT.drawString(speed, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(speed)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, color.getRGB(), true);
             offset += 9;
         }
         // Speed ends
@@ -139,7 +143,7 @@ public final class HUD extends ModuleBase
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
             //
-            Managers.TEXT.drawString(tps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
+            Managers.TEXT.drawString(tps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, color.getRGB(), true);
             offset += 9;
         }
         // TPS ends
@@ -150,7 +154,7 @@ public final class HUD extends ModuleBase
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
             //
-            Managers.TEXT.drawString(ping, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
+            Managers.TEXT.drawString(ping, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, color.getRGB(), true);
             offset += 9;
         }
         // TPS ends
@@ -179,7 +183,7 @@ public final class HUD extends ModuleBase
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
             //
-            Managers.TEXT.drawString(fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, -1, true);
+            Managers.TEXT.drawString(fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, color.getRGB(), true);
         }
         // FPS ends
 

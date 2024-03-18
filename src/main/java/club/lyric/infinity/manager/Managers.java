@@ -6,7 +6,6 @@ import club.lyric.infinity.manager.client.*;
 import club.lyric.infinity.manager.fabric.EventManager;
 import club.lyric.infinity.manager.fabric.ServerManager;
 import club.lyric.infinity.manager.fabric.TimerManager;
-import club.lyric.infinity.manager.font.FontManager;
 
 /**
  * @author lyric
@@ -23,7 +22,6 @@ public final class Managers {
     public static ServerManager SERVER = new ServerManager();
     public static TextManager TEXT = new TextManager();
     public static TimerManager TIMER = new TimerManager();
-    public static FontManager FONT = new FontManager();
 
     /**
      * subscribing all managers...
@@ -31,7 +29,7 @@ public final class Managers {
     public static void sub()
     {
         Infinity.LOGGER.info("starting manager subscription.");
-        subscribe(FRIENDS, CONFIG, EVENTS, ROTATIONS, COMMANDS, SERVER, MODULES, TEXT, TIMER, FONT);
+        subscribe(FRIENDS, CONFIG, EVENTS, ROTATIONS, COMMANDS, SERVER, MODULES, TEXT, TIMER);
     }
 
 
