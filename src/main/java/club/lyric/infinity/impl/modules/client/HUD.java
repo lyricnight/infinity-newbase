@@ -67,7 +67,7 @@ public final class HUD extends ModuleBase
         boolean chatOpened = mc.currentScreen instanceof ChatScreen;
 
         if (watermark.value()) {
-            Managers.TEXT.drawString(mc.textRenderer, Infinity.CLIENT_NAME, 2, 2, color.getRGB(), true);
+            Managers.TEXT.drawString(Infinity.CLIENT_NAME, 2, 2, color.getRGB(), true);
         }
 
         if (armorHud.value()) {

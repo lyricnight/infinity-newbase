@@ -23,6 +23,9 @@ public class Render3DUtils implements IMinecraft {
         glDisable(GL_BLEND);
     }
 
+    public static void resetColor() {
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+    }
 
     // swish pasted rewrite
     public static void drawBox(MatrixStack matrixStack, Box bb, int color) {
@@ -68,5 +71,6 @@ public class Render3DUtils implements IMinecraft {
         bufferBuilder.vertex(matrix, (float) bb.minX, (float) bb.maxY, (float) bb.maxZ).next();
         bufferBuilder.vertex(matrix, (float) bb.minX, (float) bb.maxY, (float) bb.minZ).next();
         tessellator.draw();
+        resetColor();
     }
 }

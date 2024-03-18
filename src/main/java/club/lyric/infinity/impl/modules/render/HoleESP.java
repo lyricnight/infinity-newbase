@@ -71,6 +71,7 @@ public class HoleESP extends ModuleBase {
                 bb = new Box(hole.getFirst().getX() - getCameraPos().x, hole.getFirst().getY() - getCameraPos().y, hole.getFirst().getZ() - getCameraPos().z, hole.getSecond().getX() + 1 - getCameraPos().x, hole.getSecond().getY() + size.getFValue() - getCameraPos().y, hole.getSecond().getZ() + 1 - getCameraPos().z);
             }
 
+            // idk why the fuck it changes the alpha of the screen
             Render3DUtils.enable3D();
             matrix.push();
             Render3DUtils.drawBox(event.getMatrix(), bb, new Color(255, 255, 255, (int) alpha).getRGB());
