@@ -1,11 +1,13 @@
 package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.math.MathUtils;
+import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
 import club.lyric.infinity.api.util.client.render.util.Easing;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
@@ -54,23 +56,31 @@ public final class HUD extends ModuleBase
 
     private final LinkedList<Long> frames = new LinkedList<>();
     private int chatY = 0;
-    private final long openTime = System.currentTimeMillis();
+    protected StopWatch timer = new StopWatch.Single();
     protected int width;
     protected int height;
 
     @Override
     public void onRender2D(Render2DEvent event) {
+
+        if (mc.options.debugEnabled)
+        {
+            return;
+        }
+
         int offset = 0;
 
         Color color = Managers.MODULES.getModuleFromClass(Colours.class).getColor();
 
         boolean chatOpened = mc.currentScreen instanceof ChatScreen;
 
-        if (watermark.value()) {
+        if (watermark.value())
+        {
             Managers.TEXT.drawString(Infinity.CLIENT_NAME, 2, 2, color.getRGB(), true);
         }
 
-        if (armorHud.value()) {
+        if (armorHud.value())
+        {
             width = event.getDrawContext().getScaledWindowWidth();
             height = event.getDrawContext().getScaledWindowHeight();
             int x = 15;
@@ -110,7 +120,8 @@ public final class HUD extends ModuleBase
             }
         }
 
-        if (potions.value()) {
+        if (potions.value())
+        {
             for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
                 int x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(getString(statusEffectInstance))) - 2;
                 //
@@ -122,7 +133,8 @@ public final class HUD extends ModuleBase
         }
 
         // Speed starts
-        if (speed.value()) {
+        if (speed.value())
+        {
             double distanceX = mc.player.getX() - mc.player.prevX;
             double distanceZ = mc.player.getZ() - mc.player.prevZ;
 
@@ -137,7 +149,8 @@ public final class HUD extends ModuleBase
         // Speed ends
 
         // TPS starts
-        if (tps.value()) {
+        if (tps.value())
+        {
             String tps = "TPS: " + Formatting.WHITE + Managers.SERVER.getOurTPS();
 
             //
@@ -149,7 +162,8 @@ public final class HUD extends ModuleBase
         // TPS ends
 
         // TPS starts
-        if (ping.value()) {
+        if (ping.value())
+        {
             String ping = "Ping: " + Formatting.WHITE + Managers.SERVER.getFastLatencyPing();
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
@@ -160,7 +174,8 @@ public final class HUD extends ModuleBase
         // TPS ends
 
         // FPS starts
-        if (fps.value()) {
+        if (fps.value())
+        {
             long time = System.nanoTime();
 
             frames.add(time);
@@ -187,19 +202,23 @@ public final class HUD extends ModuleBase
         }
         // FPS ends
 
-        float diff = System.currentTimeMillis() - this.openTime;
-        if (chatOpened) {
-            if (chatY != 16) {
-                if (chatY > 16) {
-                    chatY = (int) Easing.exponential(diff, 0.0f, 16.0f, 100.0f);
-                }
+        if (chatOpened)
+        {
+            if (chatY == 14) {
+                return;
             }
-        } else {
-            if (chatY != 2) {
-                if (chatY > 2) {
-                    chatY = (int) Easing.exponential(diff, 0.0f, 2.0f, 100.0f);
-                }
+            timer.hasBeen(50);
+            chatY++;
+            timer.reset();
+        }
+        else
+        {
+            if (chatY == 0) {
+                return;
             }
+            timer.hasBeen(50);
+            chatY--;
+            timer.reset();
         }
     }
 
@@ -221,4 +240,5 @@ public final class HUD extends ModuleBase
         Text name = statusEffectInstance.getEffectType().getName();
         return name.getString() + (amplifier > 0 ? (" " + (amplifier + 1) + ": ") : ": ") + Formatting.WHITE + PlayerUtils.getPotionDurationString(statusEffectInstance);
     }
+
 }
