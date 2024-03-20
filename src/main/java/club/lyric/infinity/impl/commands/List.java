@@ -31,7 +31,8 @@ public final class List extends Command {
             state(CommandState.ERROR);
             return;
         }
-        ChatUtils.sendMessagePrivate(Formatting.GREEN + Managers.COMMANDS.getCommandsAsString().toString());
+
+        ChatUtils.sendMessagePrivate(Formatting.WHITE + String.format("Commands: (%s) ", Managers.COMMANDS.getCommandAmount()) + Managers.COMMANDS.getCommandsAsString());
         state(CommandState.PERFORMED);
     }
 }

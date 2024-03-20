@@ -39,6 +39,7 @@ public class Command {
     public void state(CommandState state) {
         switch (state) {
             case ERROR: {
+                // This just dont work lyric
                 ChatUtils.sendMessagePrivate(Formatting.RED + "Command failed. Correct syntax: " + theCommand());
                 break;
             }

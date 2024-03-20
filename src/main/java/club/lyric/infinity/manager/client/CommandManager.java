@@ -3,8 +3,6 @@ package club.lyric.infinity.manager.client;
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.commands.*;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -63,8 +61,16 @@ public final class CommandManager implements IMinecraft {
         StringBuilder str = new StringBuilder();
         for(Command commands : getCommands())
         {
-            str.append(commands.getCommand()).append(" ");
+            str.append(commands.getCommand()).append(", ");
         }
         return str;
+    }
+
+    public int getCommandAmount() {
+        int counter = 0;
+        for (Command commands : getCommands()) {
+            counter++;
+        }
+        return counter;
     }
 }
