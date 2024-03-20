@@ -1,6 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -21,7 +22,7 @@ public abstract class MixinTitleScreen {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)I", ordinal = 0))
     private void onRender(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 
-        Managers.TEXT.drawString(Infinity.CLIENT_NAME + Infinity.VERSION, 2, 2, 0x68478D, true);
+        Managers.TEXT.drawString(Infinity.CLIENT_NAME + Infinity.VERSION, 2, 2, Managers.MODULES.getModuleFromClass(Colours.class).getColor().getRGB(), true);
 
         Managers.TEXT.drawString(Formatting.GRAY + " build (" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + ")", Managers.TEXT.width(Infinity.CLIENT_NAME + Infinity.VERSION, true) + 2, 2, -1, true);
     }

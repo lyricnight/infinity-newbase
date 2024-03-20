@@ -23,6 +23,8 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 
 /**
@@ -92,7 +94,17 @@ public final class HUD extends ModuleBase
 
         if (watermark.value())
         {
-            Managers.TEXT.drawString(Infinity.CLIENT_NAME, 2, 2, color.getRGB(), true);
+            Managers.TEXT.drawString(Infinity.CLIENT_NAME +
+                    Infinity.VERSION +
+                    Formatting.GRAY +
+                    " build (" +
+                    new SimpleDateFormat("dd/MM/yyyy").format(new Date()) +
+                    ")",
+                    2,
+                    2,
+                    color.getRGB(),
+                    true
+            );
         }
 
         if (armorHud.value())
@@ -202,6 +214,20 @@ public final class HUD extends ModuleBase
         }
         // TPS ends
 
+        // Packets Start
+        if (packet.value())
+        {
+            String packetz = "Packets: " + Formatting.GRAY + "[" + Formatting.WHITE + packets + Formatting.GRAY + "]";
+            Managers.TEXT.drawString(packetz,
+                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(packetz)) - 2,
+                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
+                    color.getRGB(),
+                    true
+            );
+            offset += 9;
+        }
+        // Packets End
+
         // TPS starts
         if (ping.value())
         {
@@ -251,19 +277,6 @@ public final class HUD extends ModuleBase
             );
         }
         // FPS ends
-
-        // Packets Start
-        if (packet.value())
-        {
-            String packetz = "Packets: " + Formatting.GRAY + "[" + Formatting.WHITE + packets + Formatting.GRAY + "]";
-            Managers.TEXT.drawString(packetz,
-                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(packetz)) - 2,
-                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                    color.getRGB(),
-                    true
-            );
-        }
-        // Packets End
 
         // Coords Start
         if (coordinates.value())
