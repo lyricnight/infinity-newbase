@@ -72,7 +72,7 @@ public final class Notifications extends ModuleBase
         });
     }
 
-    @EventHandler
+    /*@EventHandler
     public void onReceivePacket(PacketEvent.Receive event)
     {
         if (nullCheck()) return;
@@ -93,7 +93,7 @@ public final class Notifications extends ModuleBase
                 }
             }
         }
-    }
+    }*/
     
 
 

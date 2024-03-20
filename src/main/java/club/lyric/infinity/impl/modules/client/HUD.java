@@ -2,6 +2,7 @@ package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventHandler;
+import club.lyric.infinity.api.event.network.PacketEvent;
 import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
@@ -9,20 +10,17 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
-import club.lyric.infinity.api.util.client.render.util.Easing;
+import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
-import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -49,6 +47,10 @@ public final class HUD extends ModuleBase
     public BooleanSetting speed = new BooleanSetting("Speed", true, this);
 
 
+    public BooleanSetting packet = new BooleanSetting("Packets", true, this);
+
+    public BooleanSetting coordinates = new BooleanSetting("Coordinates", true, this);
+
     public HUD()
     {
         super("HUD", "Displays HUD elements on the screen.", Category.Client);
@@ -56,12 +58,26 @@ public final class HUD extends ModuleBase
 
     private final LinkedList<Long> frames = new LinkedList<>();
     private int chatY = 0;
-    protected StopWatch timer = new StopWatch.Single();
-    protected int width;
-    protected int height;
+    private final StopWatch timer = new StopWatch.Single();
+    private final StopWatch packetTimer = new StopWatch.Single();
+    private int width;
+    private int height;
+    int packets;
+
+    @EventHandler
+    public void onPacketSend(PacketEvent.Send event)
+    {
+        packets++;
+    }
 
     @Override
     public void onRender2D(Render2DEvent event) {
+
+        if (packetTimer.hasBeen(1000))
+        {
+            packets = 0;
+            packetTimer.reset();
+        }
 
         if (mc.options.debugEnabled)
         {
@@ -107,7 +123,13 @@ public final class HUD extends ModuleBase
                     //
 
                     // need to use that for this or it wont render
-                    event.getDrawContext().drawTextWithShadow(mc.textRenderer, Text.of(((int) (percent)) + "%"), (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333F), (int) ((height - y - 5) * 1.333F), ColorUtils.toColor(percent / 100.0F * 120.0F, 100.0F, 50.0F, 1.0F).getRGB());
+                    event.getDrawContext().drawTextWithShadow(mc.textRenderer,
+                            Text.of(((int) (percent)) + "%"),
+                            (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333F),
+                            (int) ((height - y - 5) * 1.333F), ColorUtils.toColor(percent / 100.0F * 120.0F,
+                                    100.0F,
+                                    50.0F,
+                                    1.0F).getRGB());
                     RenderSystem.enableDepthTest();
                     event.getDrawContext().getMatrices().scale(1.0F, 1.0F, 1.0F);
                     event.getDrawContext().getMatrices().pop();
@@ -127,7 +149,12 @@ public final class HUD extends ModuleBase
                 //
                 //VASLER USE MANAGERS.TEXT INSTEAD
                 //
-                Managers.TEXT.drawString(getString(statusEffectInstance), x, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, statusEffectInstance.getEffectType().getColor(), true);
+                Managers.TEXT.drawString(getString(statusEffectInstance),
+                        x,
+                        event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
+                        statusEffectInstance.getEffectType().getColor(),
+                        true
+                );
                 offset += 9;
             }
         }
@@ -138,12 +165,21 @@ public final class HUD extends ModuleBase
             double distanceX = mc.player.getX() - mc.player.prevX;
             double distanceZ = mc.player.getZ() - mc.player.prevZ;
 
-            String speed = "Speed: " + Formatting.WHITE + MathUtils.roundFloat((MathHelper.sqrt((float) (ApacheMath.pow(distanceX, 2) + ApacheMath.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) + " km/h";
+            String speed = "Speed: " +
+                    Formatting.WHITE +
+                    MathUtils.roundFloat((MathHelper.sqrt((float) (ApacheMath.pow(distanceX, 2) +
+                            ApacheMath.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) +
+                    " km/h";
 
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
             //
-            Managers.TEXT.drawString(speed, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(speed)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, color.getRGB(), true);
+            Managers.TEXT.drawString(speed,
+                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(speed)) - 2,
+                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
+                    color.getRGB(),
+                    true
+            );
             offset += 9;
         }
         // Speed ends
@@ -156,7 +192,12 @@ public final class HUD extends ModuleBase
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
             //
-            Managers.TEXT.drawString(tps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, color.getRGB(), true);
+            Managers.TEXT.drawString(tps,
+                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2,
+                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
+                    color.getRGB(),
+                    true
+            );
             offset += 9;
         }
         // TPS ends
@@ -168,7 +209,12 @@ public final class HUD extends ModuleBase
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
             //
-            Managers.TEXT.drawString(ping, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, color.getRGB(), true);
+            Managers.TEXT.drawString(ping,
+                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2,
+                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
+                    color.getRGB(),
+                    true
+            );
             offset += 9;
         }
         // TPS ends
@@ -198,10 +244,77 @@ public final class HUD extends ModuleBase
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
             //
-            Managers.TEXT.drawString(fps, event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2, event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, color.getRGB(), true);
+            Managers.TEXT.drawString(fps,
+                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2,
+                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY, color.getRGB(),
+                    true
+            );
         }
         // FPS ends
 
+        // Packets Start
+        if (packet.value())
+        {
+            String packetz = "Packets: " + Formatting.GRAY + "[" + Formatting.WHITE + packets + Formatting.GRAY + "]";
+            Managers.TEXT.drawString(packetz,
+                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(packetz)) - 2,
+                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
+                    color.getRGB(),
+                    true
+            );
+        }
+        // Packets End
+
+        // Coords Start
+        if (coordinates.value())
+        {
+            boolean inHell = mc.world.getBiome(mc.player.getBlockPos()).equals("Hell");
+            if (inHell) {
+                Managers.TEXT.drawString("XYZ: " +
+                        Formatting.WHITE +
+                        iGotzDatDawgInMe(mc.player.getPos().x) +
+                        ", " +
+                        iGotzDatDawgInMe(mc.player.getPos().y) +
+                        ", " +
+                        iGotzDatDawgInMe(mc.player.getPos().z) +
+                        Formatting.GRAY +
+                        " (" +
+                        Formatting.WHITE +
+                        iGotzDatDawgInMe(mc.player.getPos().x * 8.0) +
+                        ", " +
+                        iGotzDatDawgInMe(mc.player.getPos().z * 8.0) +
+                        Formatting.GRAY +
+                        ")",
+                        2,
+                        event.getDrawContext().getScaledWindowHeight() - 9 - 2 - chatY,
+                        color.getRGB(),
+                        true
+                );
+            }
+            else {
+                Managers.TEXT.drawString("XYZ: " +
+                        Formatting.WHITE +
+                        iGotzDatDawgInMe(mc.player.getPos().x) +
+                        ", " +
+                        iGotzDatDawgInMe(mc.player.getPos().y) +
+                        ", " +
+                        iGotzDatDawgInMe(mc.player.getPos().z) +
+                        Formatting.GRAY +
+                        " (" +
+                        Formatting.WHITE +
+                        iGotzDatDawgInMe(mc.player.getPos().x / 8.0) +
+                        ", " +
+                        iGotzDatDawgInMe(mc.player.getPos().z / 8.0) +
+                        Formatting.GRAY +
+                        ")",
+                        2,
+                        event.getDrawContext().getScaledWindowHeight() - 9 - 2 - chatY,
+                        color.getRGB(),
+                        true
+                );
+            }
+        }
+        // coords end
         if (chatOpened)
         {
             if (chatY == 14) {
@@ -232,13 +345,20 @@ public final class HUD extends ModuleBase
             return 1.5F;
         }
     }
+    
+    public String iGotzDatDawgInMe(double number) {
+        return String.format("%.1f", number);
+    }
 
 
     private String getString(StatusEffectInstance statusEffectInstance)
     {
         int amplifier = statusEffectInstance.getAmplifier();
         Text name = statusEffectInstance.getEffectType().getName();
-        return name.getString() + (amplifier > 0 ? (" " + (amplifier + 1) + ": ") : ": ") + Formatting.WHITE + PlayerUtils.getPotionDurationString(statusEffectInstance);
+        return name.getString() +
+                (amplifier > 0 ? (" " + (amplifier + 1) + ": ") : ": ") +
+                Formatting.WHITE +
+                PlayerUtils.getPotionDurationString(statusEffectInstance);
     }
 
 }
