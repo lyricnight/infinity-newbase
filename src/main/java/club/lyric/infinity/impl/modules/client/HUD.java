@@ -343,9 +343,17 @@ public final class HUD extends ModuleBase
             }
         }
         // coords end
+
+        // my attempt at a somewhat exponential animation
         if (chatOpened)
         {
             if (chatY == 14) {
+                return;
+            }
+            if (chatY == 9) {
+                timer.hasBeen(100);
+                chatY++;
+                timer.reset();
                 return;
             }
             timer.hasBeen(50);
@@ -355,6 +363,12 @@ public final class HUD extends ModuleBase
         else
         {
             if (chatY == 0) {
+                return;
+            }
+            if (chatY == 5) {
+                timer.hasBeen(100);
+                chatY--;
+                timer.reset();
                 return;
             }
             timer.hasBeen(50);
