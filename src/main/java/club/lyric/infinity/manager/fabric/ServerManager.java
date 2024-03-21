@@ -111,4 +111,8 @@ public final class ServerManager implements IMinecraft {
     {
         return ping;
     }
+
+    public boolean isServerNotResponding() {
+        return stopWatch.hasBeen(2500);
+    }
 }

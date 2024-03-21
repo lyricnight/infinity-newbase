@@ -5,14 +5,10 @@ import club.lyric.infinity.api.event.render.Render2DEvent;
 import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
-import club.lyric.infinity.api.setting.settings.*;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.api.setting.settings.BindSetting;
+import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.Notifications;
-import club.lyric.infinity.manager.Managers;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
 import java.util.Arrays;

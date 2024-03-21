@@ -2,7 +2,6 @@ package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.ducks.IDrawContext;
-import club.lyric.infinity.api.util.client.render.font.FontRenderer;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -16,7 +15,6 @@ import net.minecraft.client.util.math.MatrixStack;
 //TODO: once we add custom fonts, make them render through this.
 public final class TextManager implements IMinecraft {
     public MatrixStack matrix;
-    public FontRenderer fontRenderer = new FontRenderer(Infinity.class.getClassLoader().getResourceAsStream("assets/JetBrainsMono-Regular.ttf"), 18);
 
     /**
      * thing that does everything.
@@ -63,10 +61,6 @@ public final class TextManager implements IMinecraft {
 
     public MatrixStack getMatrixStack() {
         return this.matrix;
-    }
-
-    public FontRenderer getFontRenderer() {
-        return this.fontRenderer;
     }
 
     public void setMatrixStack(MatrixStack matrixStack) {

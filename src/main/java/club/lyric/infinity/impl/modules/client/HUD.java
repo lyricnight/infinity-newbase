@@ -53,6 +53,8 @@ public final class HUD extends ModuleBase
 
     public BooleanSetting coordinates = new BooleanSetting("Coordinates", true, this);
 
+    public BooleanSetting lagOMeter = new BooleanSetting("Lag'O'Meter", true, this);
+
     public HUD()
     {
         super("HUD", "Displays HUD elements on the screen.", Category.Client);
@@ -60,6 +62,7 @@ public final class HUD extends ModuleBase
 
     private final LinkedList<Long> frames = new LinkedList<>();
     private int chatY = 0;
+    private int lagY = 0;
     private final StopWatch timer = new StopWatch.Single();
     private final StopWatch packetTimer = new StopWatch.Single();
     private int width;
@@ -278,6 +281,18 @@ public final class HUD extends ModuleBase
         }
         // FPS ends
 
+        if (lagOMeter.value())
+        {
+            if (Managers.SERVER.isServerNotResponding()) {
+                String lag = "Server hasn't responded in " + String.format("%.1f", (Managers.SERVER.responseTime / 1000f)) + " seconds.";
+                Managers.TEXT.drawString(lag,
+                        event.getDrawContext().getScaledWindowWidth() / 2.0f + lagY,
+                        0, color.getRGB(),
+                        true
+                );
+            }
+        }
+
         // Coords Start
         if (coordinates.value())
         {
@@ -344,6 +359,26 @@ public final class HUD extends ModuleBase
             }
             timer.hasBeen(50);
             chatY--;
+            timer.reset();
+        }
+
+        // lag anim
+        if (Managers.SERVER.isServerNotResponding())
+        {
+            if (lagY == 20) {
+                return;
+            }
+            timer.hasBeen(50);
+            lagY++;
+            timer.reset();
+        }
+        else
+        {
+            if (lagY == 0) {
+                return;
+            }
+            timer.hasBeen(50);
+            lagY--;
             timer.reset();
         }
     }
