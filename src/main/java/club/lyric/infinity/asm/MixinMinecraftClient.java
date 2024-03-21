@@ -2,7 +2,6 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.mc.TickEvent;
-import club.lyric.infinity.asm.accessors.IMinecraft;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
@@ -36,11 +35,11 @@ public abstract class MixinMinecraftClient {
     @Inject(method = "close", at = @At(value = "HEAD"))
     private void close(CallbackInfo callbackInfo)
     {
-        Managers.CONFIG.saveConfig();
+        Managers.unload();
     }
     @Inject(method = "cleanUpAfterCrash", at = @At(value = "HEAD"))
     public void cleanUpAfterCrash(CallbackInfo ci) {
-        Managers.CONFIG.saveConfig();
+        Managers.unload();
     }
 }
 

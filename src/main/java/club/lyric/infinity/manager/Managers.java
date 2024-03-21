@@ -46,6 +46,15 @@ public final class Managers {
     }
 
     /**
+     * unloads all managers that need it.
+     */
+    public static void unload()
+    {
+        CONFIG.saveConfig();
+        TIMER.unload();
+    }
+
+    /**
      * subscribes managers
      * @param subscribers the managers to subscribe
      */

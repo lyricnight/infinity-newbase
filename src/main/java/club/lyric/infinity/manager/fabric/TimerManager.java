@@ -39,6 +39,11 @@ public class TimerManager implements IMinecraft {
         }
     }
 
+    public void unload()
+    {
+        reset();
+    }
+
     public void set(float timer) {
         this.timer = timer <= 0.0f ? 0.1f : timer;
     }

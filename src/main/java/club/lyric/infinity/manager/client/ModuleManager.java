@@ -30,6 +30,7 @@ public final class ModuleManager implements IMinecraft
     public void init()
     {
         register(
+                new Notifications(),
                 new ClickGui(),
                 new Configuration(),
                 new AntiCheat(),
@@ -43,7 +44,6 @@ public final class ModuleManager implements IMinecraft
                 new Step(),
                 new NoJumpDelay(),
                 new HitboxDesync(),
-                new Notifications(),
                 new PhaseWalk(),
                 new Latency(),
                 new Clip(),
@@ -76,7 +76,7 @@ public final class ModuleManager implements IMinecraft
      */
 
     @SuppressWarnings("unchecked")
-    public <T> T getModuleFromClass(@NotNull Class<T> clazz)
+    public <T extends ModuleBase> T getModuleFromClass(Class<T> clazz)
     {
         for (ModuleBase moduleBase : getModules())
         {
@@ -85,7 +85,7 @@ public final class ModuleManager implements IMinecraft
                 return (T) moduleBase;
             }
         }
-        return (T) clazz;
+        return null;
     }
 
     /**

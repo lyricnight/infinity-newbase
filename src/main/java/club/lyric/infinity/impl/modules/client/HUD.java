@@ -133,11 +133,6 @@ public final class HUD extends ModuleBase
                     event.getDrawContext().getMatrices().push();
                     event.getDrawContext().getMatrices().scale(0.75F, 0.75F, 1F);
                     RenderSystem.disableDepthTest();
-                    //
-                    //VASLER USE MANAGERS.TEXT INSTEAD
-                    //
-
-                    // need to use that for this or it wont render
                     event.getDrawContext().drawTextWithShadow(mc.textRenderer,
                             Text.of(((int) (percent)) + "%"),
                             (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333F),
