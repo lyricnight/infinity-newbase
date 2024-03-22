@@ -33,7 +33,6 @@ public class GuiScreen extends Screen implements IMinecraft {
         super(Text.literal("Infinity"));
 
         float x = 2.0f;
-
         for (Category category : Category.values()) {
             frames.add(new Frame(category, x, 2.0f));
             x += 102.0f;
@@ -57,11 +56,11 @@ public class GuiScreen extends Screen implements IMinecraft {
         // Makes it so only our gui changes scale.
         context.getMatrices().push();
 
-        // Scaling gui.
-        float scaling = Managers.MODULES.getModuleFromClass(GuiRewrite.class).getScaledNumber();
-        context.getMatrices().scale(scaling, scaling, scaling);
-
         frames.forEach(frame -> frame.drawScreen(context, mouseX, mouseY, delta));
+
+        // Scaling gui.
+        //float scaling = Managers.MODULES.getModuleFromClass(GuiRewrite.class).getScaledNumber();
+        //context.getMatrices().scale(scaling, scaling, scaling);
 
         context.getMatrices().pop();
 
@@ -77,9 +76,9 @@ public class GuiScreen extends Screen implements IMinecraft {
      */
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-        if (Frame.isHovering((int) mouseX, (int) mouseY) && mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-            Infinity.LOGGER.info("left lcick");
-            Frame.dragging = true;
+        if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+            leftClick = true;
+            leftHold = true;
         }
         if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
             Infinity.LOGGER.info("right click");
@@ -97,7 +96,8 @@ public class GuiScreen extends Screen implements IMinecraft {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
         if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-            Frame.dragging = false;
+            leftClick = false;
+            leftHold = false;
         }
         if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
             rightClick = false;

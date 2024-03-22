@@ -96,7 +96,7 @@ public class AutoCrystal extends ModuleBase {
                             mc.world.getOtherEntities(null,
                                     new Box(crystal.getPos(),
                                             crystal.getPos()).expand(7),
-                                    target::contains).isEmpty()
+                                    targets::contains).isEmpty()
                     ) {
 
                         if (inhibit.value()) {
