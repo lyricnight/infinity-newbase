@@ -55,7 +55,8 @@ public final class ModuleManager implements IMinecraft
                 new Resolver(),
                 new Copenheimer(),
                 new Delays(),
-                new GuiRewrite()
+                new GuiRewrite(),
+                new Colours()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }

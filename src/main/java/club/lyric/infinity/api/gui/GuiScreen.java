@@ -1,5 +1,8 @@
 package club.lyric.infinity.api.gui;
 
+import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.gui.configuration.Frame;
+import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
 import club.lyric.infinity.manager.Managers;
@@ -8,10 +11,13 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public class GuiScreen extends Screen implements IMinecraft {
 
-    float lastMouseX;
-    float lastMouseY;
+    public static float lastMouseX;
+    public static float lastMouseY;
 
     // Detects whether you are clicking.
     public static boolean leftClick;
@@ -21,8 +27,17 @@ public class GuiScreen extends Screen implements IMinecraft {
     public static boolean leftHold;
     public static boolean rightHold;
 
+    public static final List<Frame> frames = new CopyOnWriteArrayList<>();
+
     public GuiScreen() {
         super(Text.literal("Infinity"));
+
+        float x = 2.0f;
+
+        for (Category category : Category.values()) {
+            frames.add(new Frame(category, x, 2.0f));
+            x += 102.0f;
+        }
     }
 
     /**
@@ -39,10 +54,6 @@ public class GuiScreen extends Screen implements IMinecraft {
         // renders black background
         renderBackground(context);
 
-        // mouse pos
-        lastMouseX = mouseX;
-        lastMouseY = mouseY;
-
         // Makes it so only our gui changes scale.
         context.getMatrices().push();
 
@@ -50,8 +61,13 @@ public class GuiScreen extends Screen implements IMinecraft {
         float scaling = Managers.MODULES.getModuleFromClass(GuiRewrite.class).getScaledNumber();
         context.getMatrices().scale(scaling, scaling, scaling);
 
+        frames.forEach(frame -> frame.drawScreen(context, mouseX, mouseY, delta));
+
         context.getMatrices().pop();
 
+        // mouse pos
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
     }
 
     /**
@@ -61,11 +77,12 @@ public class GuiScreen extends Screen implements IMinecraft {
      */
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-        if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-            leftClick = true;
-            leftHold = true;
+        if (Frame.isHovering((int) mouseX, (int) mouseY) && mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+            Infinity.LOGGER.info("left lcick");
+            Frame.dragging = true;
         }
         if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
+            Infinity.LOGGER.info("right click");
             rightClick = true;
             rightHold = true;
         }
@@ -80,8 +97,7 @@ public class GuiScreen extends Screen implements IMinecraft {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
         if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
-            leftClick = false;
-            leftHold = false;
+            Frame.dragging = false;
         }
         if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
             rightClick = false;
