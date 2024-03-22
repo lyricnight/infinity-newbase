@@ -2,19 +2,17 @@ package club.lyric.infinity.api.gui;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.gui.configuration.Frame;
+import club.lyric.infinity.api.gui.interfaces.Screening;
 import club.lyric.infinity.api.module.Category;
-import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class GuiScreen extends Screen implements IMinecraft {
+public class GuiScreen extends Screening {
 
     public static float lastMouseX;
     public static float lastMouseY;
@@ -30,8 +28,6 @@ public class GuiScreen extends Screen implements IMinecraft {
     public static final List<Frame> frames = new CopyOnWriteArrayList<>();
 
     public GuiScreen() {
-        super(Text.literal("Infinity"));
-
         float x = 2.0f;
         for (Category category : Category.values()) {
             frames.add(new Frame(category, x, 2.0f));
@@ -114,11 +110,6 @@ public class GuiScreen extends Screen implements IMinecraft {
             Managers.MODULES.getModuleFromClass(GuiRewrite.class).setEnabled(false);
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public boolean shouldPause() {
-        return false;
     }
 
 }
