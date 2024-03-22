@@ -31,6 +31,7 @@ public class GuiScreen extends Screen implements IMinecraft {
      * @param mouseY = y coordinates of the mouse
      * @param delta = delta
      */
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
@@ -41,6 +42,14 @@ public class GuiScreen extends Screen implements IMinecraft {
         // mouse pos
         lastMouseX = mouseX;
         lastMouseY = mouseY;
+
+        // Makes it so only our gui changes scale.
+        context.getMatrices().push();
+
+        // Scaling gui.
+        float scaling = Managers.MODULES.getModuleFromClass(GuiRewrite.class).getScaledNumber();
+        context.getMatrices().scale(scaling, scaling, scaling);
+
         context.getMatrices().pop();
 
     }

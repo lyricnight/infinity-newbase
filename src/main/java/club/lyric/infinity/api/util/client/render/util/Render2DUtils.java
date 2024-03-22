@@ -1,15 +1,10 @@
 package club.lyric.infinity.api.util.client.render.util;
 
-import club.lyric.infinity.api.util.client.math.MathUtils;
-import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL20;
-
-import java.awt.*;
 
 /**
  * @author vasler, railhack
@@ -50,6 +45,13 @@ public class Render2DUtils implements IMinecraft
         Tessellator.getInstance().draw();
         end();
         // Rect ends here
+    }
+
+    public static void drawOutlineRect(MatrixStack matrices, float x, float y, float width, float height, float lineSize, int color) {
+        drawRect(matrices, x, y, x + lineSize, height, color);
+        drawRect(matrices, width - lineSize, y, width, height, color);
+        drawRect(matrices, x, height - lineSize, width, height, color);
+        drawRect(matrices, x, y, width, y + lineSize, color);
     }
 
     public static void setup()
