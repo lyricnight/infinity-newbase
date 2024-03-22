@@ -17,7 +17,6 @@ import static org.lwjgl.glfw.GLFW.glfwGetCurrentContext;
 import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 
 public class IMLoader implements IMinecraft {
-
     private static final Set<RenderableElement> renderstack = new HashSet<>();
     private static final Set<RenderableElement> toRemove = new HashSet<>();
     private static final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();

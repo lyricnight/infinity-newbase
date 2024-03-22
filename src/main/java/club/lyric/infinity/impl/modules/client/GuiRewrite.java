@@ -6,6 +6,10 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import org.lwjgl.glfw.GLFW;
 
+/**
+ * @author valser
+ * i didnt make this - lyric
+ */
 public final class GuiRewrite extends ModuleBase
 {
 
