@@ -6,13 +6,10 @@ import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
 
 public class DiscordUtil {
-
     private static final DiscordRPC lib = DiscordRPC.INSTANCE;
     private static final String applicationId = "1087455760092500130";
     private static final DiscordEventHandlers handlers = new DiscordEventHandlers();
-
     private static volatile boolean running = false;
-
     public static synchronized void start() {
         if (!running) {
             handlers.ready = (user) -> Infinity.LOGGER.info("Discord RPC starting!");

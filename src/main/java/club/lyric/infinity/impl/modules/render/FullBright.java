@@ -4,6 +4,9 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 
+/**
+ * @author vasler
+ */
 public class FullBright extends ModuleBase {
 
     public BooleanSetting darkness = new BooleanSetting("Darkness", true, this);
