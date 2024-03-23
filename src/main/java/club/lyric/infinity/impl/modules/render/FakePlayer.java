@@ -29,7 +29,7 @@ public final class FakePlayer extends ModuleBase {
             fake.getInventory().setStack(i, mc.player.getInventory().getStack(i));
         }
 
-        mc.world.addPlayer(-2352352, fake);
+        mc.world.addEntity(fake);
         fake.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 400, 1));
         fake.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 6000, 0));
         fake.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 2400, 3));

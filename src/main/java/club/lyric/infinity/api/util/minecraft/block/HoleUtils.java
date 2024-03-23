@@ -110,7 +110,7 @@ public class HoleUtils implements IMinecraft {
         }
         for (BlockPos off : HOLE_OFFSETS) {
             Block block = mc.world.getBlockState(pos.add(off)).getBlock();
-            if (block == Blocks.STONE || block == Blocks.DIRT || block == Blocks.GRASS_BLOCK || block == Blocks.GRASS || block == Blocks.NETHERRACK || block == Blocks.COBBLESTONE || block == Blocks.GRAVEL || block == Blocks.END_STONE || BlockUtils.isSafe(pos.add(off))) continue;
+            if (block == Blocks.STONE || block == Blocks.DIRT || block == Blocks.GRASS_BLOCK || block == Blocks.SHORT_GRASS || block == Blocks.TALL_GRASS || block == Blocks.NETHERRACK || block == Blocks.COBBLESTONE || block == Blocks.GRAVEL || block == Blocks.END_STONE || BlockUtils.isSafe(pos.add(off))) continue;
             return false;
         }
         return true;

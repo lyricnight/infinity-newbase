@@ -5,6 +5,9 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
+/**
+ * @author valser
+ */
 public class Screening extends Screen implements IMinecraft {
 
     public Screening() {

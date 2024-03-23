@@ -3,6 +3,9 @@ package club.lyric.infinity.api.gui.interfaces;
 import club.lyric.infinity.api.setting.Setting;
 import net.minecraft.client.gui.DrawContext;
 
+/**
+ * @author valser
+ */
 public abstract class Component {
 
     // Placement

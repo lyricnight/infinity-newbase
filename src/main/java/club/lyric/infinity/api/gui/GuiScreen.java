@@ -4,7 +4,6 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.gui.configuration.Frame;
 import club.lyric.infinity.api.gui.interfaces.Screening;
 import club.lyric.infinity.api.module.Category;
-import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
@@ -13,6 +12,9 @@ import org.lwjgl.glfw.GLFW;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * @author valser
+ */
 public class GuiScreen extends Screening {
 
     public static float lastMouseX;
@@ -42,24 +44,14 @@ public class GuiScreen extends Screening {
      * @param mouseY = y coordinates of the mouse
      * @param delta = delta
      */
-    @SuppressWarnings("DataFlowIssue")
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
 
         // renders black background
-        renderBackground(context);
-
-        // Makes it so only our gui changes scale.
-        context.getMatrices().push();
-
-        // Scaling gui.
-        float scaling = Managers.MODULES.getModuleFromClass(GuiRewrite.class).getScaledNumber();
-        context.getMatrices().scale(scaling, scaling, scaling);
+        renderBackground(context, mouseX, mouseY, delta);
 
         frames.forEach(frame -> frame.drawScreen(context, mouseX, mouseY, delta));
-
-        context.getMatrices().pop();
 
         // mouse pos
         lastMouseX = mouseX;

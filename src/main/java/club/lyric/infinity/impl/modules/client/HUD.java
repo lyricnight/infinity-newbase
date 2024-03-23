@@ -84,11 +84,6 @@ public final class HUD extends ModuleBase
             packetTimer.reset();
         }
 
-        if (mc.options.debugEnabled)
-        {
-            return;
-        }
-
         int offset = 0;
 
         Color color = Managers.MODULES.getModuleFromClass(Colours.class).getColor();

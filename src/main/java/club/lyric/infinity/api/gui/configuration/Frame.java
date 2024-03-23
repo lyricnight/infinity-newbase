@@ -10,6 +10,9 @@ import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
+/**
+ * @author valser
+ */
 public class Frame implements IMinecraft {
 
     public DrawContext context;

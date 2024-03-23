@@ -8,6 +8,9 @@ import net.minecraft.client.gui.DrawContext;
 
 import java.awt.*;
 
+/**
+ * @author valser
+ */
 public class BaseComponent extends Component {
 
     public BaseComponent(Setting setting, float x, float y, float width, float height) {

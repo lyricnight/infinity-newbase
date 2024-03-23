@@ -21,7 +21,7 @@ public abstract class MixinLivingEntity {
     private int jumpingCooldown;
 
     @Inject(method = "updateTrackedPositionAndAngles", at = @At(value = "HEAD"))
-    private void updateTrackedPositionAndAnglesHead(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate, CallbackInfo ci) {
+    private void updateTrackedPositionAndAnglesHead(double x, double y, double z, float yaw, float pitch, int interpolationSteps, CallbackInfo ci) {
         EventBus.getInstance().post(new InterpolationEvent(LivingEntity.class.cast(this), x, y, z, yaw, pitch, lastInterp));
         lastInterp = Time.getMillis();
     }

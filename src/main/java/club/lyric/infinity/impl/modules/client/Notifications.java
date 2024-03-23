@@ -1,13 +1,9 @@
 package club.lyric.infinity.impl.modules.client;
 
-import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
-import net.minecraft.entity.Entity;
-import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 
 import java.util.HashMap;
 
@@ -64,9 +60,9 @@ public final class Notifications extends ModuleBase
         if(nullCheck()) return;
         mc.world.getPlayers().forEach(player -> {
             if(player.getHealth() <= 0) {
-                if (totemPop.containsKey(player.getEntityName())) {
-                    ChatUtils.sendOverwriteMessage(player.getEntityName() + " died after popping " + totemPop.get(player.getEntityName()) + " time(s).", player.getId());
-                    totemPop.remove(player.getEntityName(), totemPop.get(player.getEntityName()));
+                if (totemPop.containsKey(player.getName())) {
+                    ChatUtils.sendOverwriteMessage(player.getName() + " died after popping " + totemPop.get(player.getName()) + " time(s).", player.getId());
+                    totemPop.remove(player.getName(), totemPop.get(player.getName()));
                 }
             }
         });

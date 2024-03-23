@@ -18,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinInGameHud {
     @Inject(method = "render", at = @At("RETURN"))
     public void render(DrawContext context, float tickDelta, CallbackInfo ci) {
-        if(MinecraftClient.getInstance().options.debugEnabled) return;
         RenderSystem.setShaderColor(1, 1, 1, 1);
 
         RenderSystem.disableDepthTest();
