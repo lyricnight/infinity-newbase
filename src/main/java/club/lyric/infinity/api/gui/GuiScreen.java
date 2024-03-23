@@ -4,6 +4,7 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.gui.configuration.Frame;
 import club.lyric.infinity.api.gui.interfaces.Screening;
 import club.lyric.infinity.api.module.Category;
+import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
@@ -26,6 +27,8 @@ public class GuiScreen extends Screening {
     public static boolean rightHold;
 
     public static final List<Frame> frames = new CopyOnWriteArrayList<>();
+    int scrollY;
+    private final StopWatch timer = new StopWatch.Single();
 
     public GuiScreen() {
         float x = 2.0f;
@@ -52,11 +55,11 @@ public class GuiScreen extends Screening {
         // Makes it so only our gui changes scale.
         context.getMatrices().push();
 
-        frames.forEach(frame -> frame.drawScreen(context, mouseX, mouseY, delta));
-
         // Scaling gui.
-        //float scaling = Managers.MODULES.getModuleFromClass(GuiRewrite.class).getScaledNumber();
-        //context.getMatrices().scale(scaling, scaling, scaling);
+        float scaling = Managers.MODULES.getModuleFromClass(GuiRewrite.class).getScaledNumber();
+        context.getMatrices().scale(scaling, scaling, scaling);
+
+        frames.forEach(frame -> frame.drawScreen(context, mouseX, mouseY, delta));
 
         context.getMatrices().pop();
 

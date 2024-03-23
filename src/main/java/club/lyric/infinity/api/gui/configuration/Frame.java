@@ -7,6 +7,7 @@ import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
+import net.minecraft.client.Mouse;
 import net.minecraft.client.gui.DrawContext;
 
 import java.awt.*;
@@ -23,9 +24,6 @@ public class Frame implements IMinecraft {
     // Size
     private float width;
     private float height;
-
-    // Dragging
-    public boolean dragging;
 
     public Frame(Category category, float x, float y, float width, float height) {
 
@@ -50,5 +48,13 @@ public class Frame implements IMinecraft {
         Render2DUtils.drawRect(context.getMatrices(), x, y, width, height, new Color(color.getRed(), color.getGreen(), color.getBlue()).getRGB());
 
         Managers.TEXT.drawString(moduleCategory.name(), x + 2.0f, y + 3.0f, new Color(255, 255, 255).getRGB(), true);
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
     }
 }
