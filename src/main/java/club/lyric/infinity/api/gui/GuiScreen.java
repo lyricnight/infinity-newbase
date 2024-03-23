@@ -27,8 +27,6 @@ public class GuiScreen extends Screening {
     public static boolean rightHold;
 
     public static final List<Frame> frames = new CopyOnWriteArrayList<>();
-    int scrollY;
-    private final StopWatch timer = new StopWatch.Single();
 
     public GuiScreen() {
         float x = 2.0f;
@@ -84,6 +82,7 @@ public class GuiScreen extends Screening {
             rightClick = true;
             rightHold = true;
         }
+        frames.forEach(frame -> frame.mouseClicked((int) mouseX, (int) mouseY, mouseButton));
         return super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
@@ -102,6 +101,7 @@ public class GuiScreen extends Screening {
             rightClick = false;
             rightHold = false;
         }
+        frames.forEach(frame -> frame.mouseReleased((int) mouseX, (int) mouseY, mouseButton));
         return super.mouseReleased(mouseX, mouseY, mouseButton);
     }
 
