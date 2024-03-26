@@ -5,6 +5,8 @@ import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.sound.SoundEvents;
 
 import java.awt.*;
 
@@ -31,4 +33,13 @@ public class BaseComponent extends Component {
         Managers.TEXT.drawString(setting.getName(), x + 2.0f, y + 3.0f, new Color(255, 255, 255).getRGB(), true);
 
     }
+
+    @Override
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+        if (mouseButton == 0 && isHovering(mouseX, mouseY)) {
+            // something should be here
+        }
+    }
+
+
 }

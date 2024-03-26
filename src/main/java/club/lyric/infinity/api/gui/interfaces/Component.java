@@ -1,12 +1,13 @@
 package club.lyric.infinity.api.gui.interfaces;
 
 import club.lyric.infinity.api.setting.Setting;
+import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.client.gui.DrawContext;
 
 /**
  * @author valser
  */
-public abstract class Component {
+public abstract class Component implements IMinecraft {
 
     // Placement
     protected float x;
@@ -26,4 +27,8 @@ public abstract class Component {
     }
 
     public abstract void drawScreen(DrawContext context, int mouseX, int mouseY, float partialTicks);
+
+    protected boolean isHovering(int mouseX, int mouseY) {
+        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
+    }
 }

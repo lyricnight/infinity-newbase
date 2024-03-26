@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinSplashTextResourceSupplier implements IMinecraft {
     @Unique
     private boolean applied = true;
+
     @Inject(method = "get", at = @At("HEAD"), cancellable = true)
     private void onApply(CallbackInfoReturnable<SplashTextRenderer> cir) {
         if (Managers.CONFIG == null || Managers.MODULES == null) return;

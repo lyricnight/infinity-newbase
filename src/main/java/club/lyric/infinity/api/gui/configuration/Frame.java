@@ -1,5 +1,7 @@
 package club.lyric.infinity.api.gui.configuration;
 
+import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.gui.interfaces.Component;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
@@ -61,6 +63,7 @@ public class Frame implements IMinecraft {
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT && isHovering(mouseX, mouseY)) {
+            Infinity.LOGGER.info("Back again");
             dragging = true;
         }
     }
@@ -71,7 +74,7 @@ public class Frame implements IMinecraft {
         }
     }
 
-    private boolean isHovering(int mouseX, int mouseY) {
+    protected boolean isHovering(int mouseX, int mouseY) {
         return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
     }
 }
