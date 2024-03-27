@@ -1,7 +1,6 @@
 package club.lyric.infinity.api.gui.configuration;
 
 import club.lyric.infinity.Infinity;
-import club.lyric.infinity.api.gui.interfaces.Component;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
@@ -21,8 +20,8 @@ public class Frame implements IMinecraft {
     public Category moduleCategory;
 
     // Placement
-    private float x;
-    private float y;
+    public float x;
+    public float y;
 
     // Size
     private final float width;
@@ -30,6 +29,7 @@ public class Frame implements IMinecraft {
 
     // Dragging
     private boolean dragging;
+
 
     public Frame(Category category, float x, float y, float width, float height) {
 

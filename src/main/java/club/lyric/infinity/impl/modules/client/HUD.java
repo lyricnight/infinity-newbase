@@ -24,6 +24,8 @@ import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -32,8 +34,12 @@ import java.util.LinkedList;
  * hud
  * @since a while ago
  */
+
+@SuppressWarnings("ConstantConditions")
 public final class HUD extends ModuleBase
 {
+    public BooleanSetting arraylist = new BooleanSetting("Arraylist", true, this);
+
     public BooleanSetting fps = new BooleanSetting("FPS", true, this);
 
     public BooleanSetting tps = new BooleanSetting("TPS", true, this);
@@ -65,8 +71,6 @@ public final class HUD extends ModuleBase
     private int lagY = 0;
     private final StopWatch timer = new StopWatch.Single();
     private final StopWatch packetTimer = new StopWatch.Single();
-    private int width;
-    private int height;
     int packets;
 
     @EventHandler
@@ -105,10 +109,41 @@ public final class HUD extends ModuleBase
             );
         }
 
+        if (arraylist.value())
+        {
+
+            int arrayOffset = 0;
+
+            ArrayList<ModuleBase> moduleList = new ArrayList<>();
+
+            // Gets the module if it is drawn and enabled.
+            Managers.MODULES.getModules().forEach(module -> { if (module.isOn() && module.isDrawn()) moduleList.add(module); });
+
+            // Length sorting
+            moduleList.sort(Comparator.comparingInt(module -> (int) -Managers.TEXT.width(module.getName(), true)));
+
+            for (ModuleBase module : moduleList) {
+
+                String label = module.getName();
+
+                // X Position
+                int x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(label)) - 2;
+
+                Managers.TEXT.drawString(label,
+                        x,
+                        2 + arrayOffset,
+                        color.getRGB(),
+                        true
+                );
+                arrayOffset += 9;
+            }
+
+        }
+
         if (armorHud.value())
         {
-            width = event.getDrawContext().getScaledWindowWidth();
-            height = event.getDrawContext().getScaledWindowHeight();
+            int width = event.getDrawContext().getScaledWindowWidth();
+            int height = event.getDrawContext().getScaledWindowHeight();
             int x = 15;
             for (int i = 3; i >= 0; i--)
             {
@@ -276,8 +311,8 @@ public final class HUD extends ModuleBase
             if (Managers.SERVER.isServerNotResponding()) {
                 String lag = "Server hasn't responded in " + String.format("%.1f", (Managers.SERVER.responseTime / 1000f)) + " seconds.";
                 Managers.TEXT.drawString(lag,
-                        event.getDrawContext().getScaledWindowWidth() / 2.0f + lagY,
-                        0, color.getRGB(),
+                        event.getDrawContext().getScaledWindowWidth() / 2.0f - Managers.TEXT.width(lag, true),
+                        lagY, color.getRGB(),
                         true
                 );
             }

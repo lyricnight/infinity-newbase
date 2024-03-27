@@ -27,14 +27,19 @@ public final class ClickGui extends ModuleBase {
     @Override
     public void onEnable()
     {
-        if (mc.world == null)
+        if (mc.world == null) {
+            disable();
             return;
+        }
         InfinityGUI.getInstance().toggle();
         mc.mouse.unlockCursor();
     }
 
     @Override
     public void onDisable() {
+        if (mc.world == null) {
+            return;
+        }
         mc.setScreenAndRender(null);
         InfinityGUI.getInstance().toggle();
         if (mc.currentScreen == null) mc.mouse.lockCursor();

@@ -5,8 +5,6 @@ import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.sound.SoundEvents;
 
 import java.awt.*;
 

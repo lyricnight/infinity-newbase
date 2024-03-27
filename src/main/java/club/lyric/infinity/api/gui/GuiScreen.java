@@ -17,9 +17,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class GuiScreen extends Screening {
 
-    public static float lastMouseX;
-    public static float lastMouseY;
-
     // Detects whether you are clicking.
     public static boolean leftClick;
     public static boolean rightClick;
@@ -52,10 +49,6 @@ public class GuiScreen extends Screening {
         renderBackground(context, mouseX, mouseY, delta);
 
         frames.forEach(frame -> frame.drawScreen(context, mouseX, mouseY, delta));
-
-        // mouse pos
-        lastMouseX = mouseX;
-        lastMouseY = mouseY;
     }
 
     /**

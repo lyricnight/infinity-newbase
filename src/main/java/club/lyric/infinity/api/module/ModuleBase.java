@@ -111,6 +111,10 @@ public class ModuleBase implements IMinecraft {
         return !enabled;
     }
 
+    public boolean isDrawn() {
+        return drawn.value();
+    }
+
     public void setEnabled(boolean enabled) {
         if (enabled) {
             this.enable();
