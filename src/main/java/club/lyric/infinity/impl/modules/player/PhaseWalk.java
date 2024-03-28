@@ -106,6 +106,6 @@ public final class PhaseWalk extends ModuleBase {
         if (mode.equals("Zero")) return 0.0D;
         if (mode.equals("Negative")) return -666.0D;
         Infinity.LOGGER.error("No position value set.");
-        return 1337.0D;
+        throw new RuntimeException("No Position Found!");
     }
 }

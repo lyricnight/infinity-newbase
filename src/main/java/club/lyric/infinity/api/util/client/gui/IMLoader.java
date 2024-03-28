@@ -57,6 +57,7 @@ public class IMLoader implements IMinecraft {
         endFrame();
     }
 
+    @SuppressWarnings("BlockingMethodInNonBlockingContext")
     private static void initializeImGui() {
         ImGui.createContext();
 

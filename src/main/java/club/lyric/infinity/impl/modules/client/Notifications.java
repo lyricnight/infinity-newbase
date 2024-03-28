@@ -41,7 +41,6 @@ public final class Notifications extends ModuleBase
     );
 
     private final HashMap<String, Integer> totemPop = new HashMap<>();
-    private final HashMap<String, Integer> id = new HashMap<>();
 
     public Notifications()
     {
