@@ -43,7 +43,7 @@ public class Nametags extends ModuleBase {
 
         if (entityId.value())
         {
-            name += player.getId();
+            name += " ID: " + player.getId();
         }
 
         if (gamemode.value())
@@ -53,7 +53,7 @@ public class Nametags extends ModuleBase {
 
         if (latency.value())
         {
-            name += getPlayerLatency(player);
+            name += " " + getPlayerLatency(player) + "ms ";
         }
 
         return name;
@@ -73,6 +73,6 @@ public class Nametags extends ModuleBase {
     }
 
     private String getGamemode(GameMode gamemode) {
-        return switch (gamemode) { case SURVIVAL -> "[S]"; case CREATIVE -> "[C]"; case SPECTATOR -> "[I]"; case ADVENTURE -> "[A]"; };
+        return switch (gamemode) { case SURVIVAL -> " [S] "; case CREATIVE -> " [C] "; case SPECTATOR -> " [I] "; case ADVENTURE -> " [A] "; };
     }
 }

@@ -7,6 +7,7 @@ import club.lyric.infinity.api.module.ModuleBase;
  * @author vasler
  * nojumping delay
  * @since 12/23/2023
+ * @link @MixinLivingEntity
  */
 public final class NoJumpDelay extends ModuleBase {
     public NoJumpDelay() {
