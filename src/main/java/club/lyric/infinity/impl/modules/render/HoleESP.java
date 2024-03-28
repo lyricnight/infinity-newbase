@@ -4,8 +4,9 @@ import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
-import club.lyric.infinity.api.util.client.math.MathUtils;
+import club.lyric.infinity.api.util.client.render.colors.JColor;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.api.util.minecraft.block.HoleUtils;
 import club.lyric.infinity.api.util.minecraft.block.hole.Hole;
@@ -22,13 +23,27 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@SuppressWarnings("ConstantConditions")
 public class HoleESP extends ModuleBase {
 
+    // Properties
     public NumberSetting range = new NumberSetting("Range", this, 4f, 1f, 10f, 0.5f);
     public NumberSetting size = new NumberSetting("Size", this, 1f, 0.01f, 1f, 0.5f);
-    public BooleanSetting doubles = new BooleanSetting("Doubles", false, this);
-    public NumberSetting alphas = new NumberSetting("Alpha", this, 76.0f, 1.0f, 255f, 1.0f);
+
+    // Color
+    public ColorSetting bedrock = new ColorSetting("Bedrock", this, new JColor(new Color(50, 255, 50, 76)), true);
+    public ColorSetting obsidian = new ColorSetting("Obsidian", this, new JColor(new Color(255, 50, 50, 76)), true);
+
+    // Box
+    public BooleanSetting doubles = new BooleanSetting("Doubles", true, this);
+    public BooleanSetting outline = new BooleanSetting("Outline", true, this);
+    public BooleanSetting box = new BooleanSetting("Box", true, this);
+
+    // Misc
+    public BooleanSetting onlyOut = new BooleanSetting("OnlyOut", false, this);
     public BooleanSetting fade = new BooleanSetting("Fade", false, this);
+
+
 
     protected List<Hole> holes = new ArrayList<>();
     ExecutorService service = Executors.newCachedThreadPool();
@@ -52,18 +67,26 @@ public class HoleESP extends ModuleBase {
 
         MatrixStack matrix = event.getMatrix();
 
+        if (onlyOut.value() && HoleUtils.isInHole(mc.player))
+        {
+            return;
+        }
+
         for (Hole hole : holes) {
             double alpha = 1.0;
+            double outlineAlpha;
 
-            if (fade.value())
-            {
+            if (fade.value()) {
                 double fadeRange = range.getValue() - 1.0;
                 double fadeRangeSq = fadeRange * fadeRange;
                 alpha = (fadeRangeSq + 9.0 - mc.player.squaredDistanceTo(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) / fadeRangeSq;
                 alpha = MathHelper.clamp(alpha, 0.0, 1.0);
             }
 
-            alpha = alpha * alphas.getFValue();
+            Color color = HoleUtils.isBedrockHole(new BlockPos(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) ? bedrock.getColor() : obsidian.getColor();
+
+            alpha = alpha * color.getAlpha();
+            outlineAlpha = alpha * 255;
 
             Box bb = interpolatePos(hole.getFirst(), size.getFValue());
 
@@ -74,7 +97,16 @@ public class HoleESP extends ModuleBase {
             // idk why the fuck it changes the alpha of the screen
             Render3DUtils.enable3D();
             matrix.push();
-            Render3DUtils.drawBox(event.getMatrix(), bb, new Color(255, 255, 255, (int) alpha).getRGB());
+
+            if (box.value()) {
+                Render3DUtils.drawBox(event.getMatrix(), bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) alpha).getRGB());
+            }
+
+            if (outline.value())
+            {
+                Render3DUtils.drawOutline(event.getMatrix(), bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) outlineAlpha).getRGB());
+            }
+
             matrix.pop();
             Render3DUtils.disable3D();
 

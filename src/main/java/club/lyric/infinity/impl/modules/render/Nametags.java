@@ -4,9 +4,14 @@ import club.lyric.infinity.api.event.render.Render3DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.manager.Managers;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.client.render.Camera;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
 
 @SuppressWarnings("ConstantConditions")
@@ -32,10 +37,41 @@ public class Nametags extends ModuleBase {
         }
         for (Entity entity : mc.world.getEntities())
         {
-            if (entity == mc.player && !self.value()) continue;
+            if (entity instanceof PlayerEntity player)
+            {
+                if (player == mc.player && !self.value()) continue;
 
+                double x = player.prevX + (player.getX() - player.prevX) * mc.getTickDelta();
+                double y = player.prevY + (player.getY() - player.prevY) * mc.getTickDelta();
+                double z = player.prevZ + (player.getZ() - player.prevZ) * mc.getTickDelta();
+
+                float width = Managers.TEXT.width(renderPlayerName(player), true) / 2.0f;
+
+                renderNametag(event.getMatrix(), player, width, (float) x, (float) y, (float) z, 2.0f);
+            }
         }
         mc.getProfiler().endTick();
+    }
+
+    private void renderNametag(MatrixStack matrix, PlayerEntity player, float width, float x, float y, float z, float scale) {
+        Camera camera = new Camera();
+        Vec3d pos = camera.getPos();
+
+        matrix.push();
+        matrix.translate(x - pos.getX(), y + (double) player.getHeight() + (player.isSneaking() ? 0.3f : 0.4f) - pos.getY(), z - pos.getZ());
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.enableDepthTest();
+
+        matrix.scale(-scale, -scale, -1.0f);
+
+        Managers.TEXT.drawString(renderPlayerName(player), width, 0, -1, true);
+
+        RenderSystem.disableDepthTest();
+        RenderSystem.disableBlend();
+
+        matrix.pop();
     }
 
     private String renderPlayerName(PlayerEntity player) {
