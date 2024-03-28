@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * @author vasler
+ */
 public class HoleESP extends ModuleBase {
 
     public NumberSetting range = new NumberSetting("Range", this, 4f, 1f, 10f, 0.5f);

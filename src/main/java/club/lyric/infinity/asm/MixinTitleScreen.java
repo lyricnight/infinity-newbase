@@ -1,6 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.TitleScreen;

@@ -5,7 +5,7 @@
 	"name": "Infinity",
 	"description": "from london with love",
 	"authors": [
-		"lyric, vasler"
+		"lyric, vasler, railhack"
 	],
 	"icon": "assets/infinity/icon.png",
 	"accessWidener": "infinity.accesswidener",
