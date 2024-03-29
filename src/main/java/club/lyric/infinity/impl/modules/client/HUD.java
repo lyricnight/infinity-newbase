@@ -20,6 +20,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
@@ -58,6 +59,8 @@ public final class HUD extends ModuleBase
     public BooleanSetting packet = new BooleanSetting("Packets", true, this);
 
     public BooleanSetting coordinates = new BooleanSetting("Coordinates", true, this);
+
+    public BooleanSetting direction = new BooleanSetting("Direction", true, this);
 
     public BooleanSetting lagOMeter = new BooleanSetting("Lag'O'Meter", true, this);
 
@@ -313,11 +316,14 @@ public final class HUD extends ModuleBase
                 String lag = "Server hasn't responded in " + String.format("%.1f", (Managers.SERVER.responseTime / 1000f)) + " seconds.";
                 Managers.TEXT.drawString(lag,
                         event.getDrawContext().getScaledWindowWidth() / 2.0f - Managers.TEXT.width(lag, true),
-                        lagY, color.getRGB(),
+                        lagY,
+                        color.getRGB(),
                         true
                 );
             }
         }
+
+        int coordOffset = 0;
 
         // Coords Start
         if (coordinates.value())
@@ -362,13 +368,35 @@ public final class HUD extends ModuleBase
                         Formatting.GRAY +
                         ")",
                         2,
-                        event.getDrawContext().getScaledWindowHeight() - 9 - 2 - chatY,
-                        color.getRGB(),
+                        event.getDrawContext().getScaledWindowHeight() - 9 - coordOffset - 2 - chatY,
+                        hudColor(coordOffset).getRGB(),
                         true
                 );
             }
+            coordOffset += (int) (Managers.TEXT.height(true) + 1);
         }
         // coords end
+
+        if (direction.value())
+        {
+            String cool = "";
+            Direction facing = mc.player.getHorizontalFacing();
+            boolean positive = facing.getDirection() == Direction.AxisDirection.POSITIVE;
+            String pos = positive ? "+" : "-";
+            switch (facing) {
+                case WEST -> cool = "West ";
+                case EAST -> cool = "East ";
+                case NORTH -> cool = "North ";
+                case SOUTH -> cool = "South ";
+            }
+            String direction = cool + Formatting.GRAY + "(" + Formatting.WHITE + iGotzDatDawgInMe(MathHelper.wrapDegrees(mc.player.getYaw())) + Formatting.GRAY + ", " + Formatting.WHITE + iGotzDatDawgInMe(mc.player.getPitch()) + Formatting.GRAY + ", " + Formatting.WHITE + pos + facing.getAxis().toString().toUpperCase() + Formatting.GRAY + ")";
+            Managers.TEXT.drawString(direction,
+                    2,
+                    event.getDrawContext().getScaledWindowHeight() - 9 - coordOffset - 2 - chatY,
+                    hudColor(coordOffset).getRGB(),
+                    true
+            );
+        }
 
         // my attempt at a somewhat exponential animation
         if (chatOpened)
