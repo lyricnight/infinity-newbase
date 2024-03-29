@@ -2,9 +2,14 @@ package club.lyric.infinity.impl.modules.movement;
 
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.setting.settings.ModeSetting;
+
+import java.awt.*;
 
 public final class Sprint extends ModuleBase
 {
+
+    public ModeSetting mode = new ModeSetting("Mode", this, "Rage", "Rage", "Legit");
     public Sprint()
     {
         super("Sprint", "Sprints for you", Category.Movement);
@@ -17,10 +22,23 @@ public final class Sprint extends ModuleBase
         {
             return;
         }
+
         if (mc.player.getHungerManager().getFoodLevel() <= 6.0F || mc.player == null || mc.player.isSneaking())
         {
             return;
         }
-        mc.player.setSprinting(true);
+
+        if (mode.is("Rage")) {
+            if (mc.options.forwardKey.isPressed() || mc.options.leftKey.isPressed() || mc.options.rightKey.isPressed() || mc.options.backKey.isPressed()) {
+                mc.player.setSprinting(true);
+            }
+        } else if (mode.is("Legit")) {
+            try {
+                Robot robot = new Robot();
+                robot.keyPress(mc.options.sprintKey.hashCode());
+            } catch (AWTException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

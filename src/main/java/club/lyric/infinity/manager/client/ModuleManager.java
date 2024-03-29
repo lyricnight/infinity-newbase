@@ -57,7 +57,8 @@ public final class ModuleManager implements IMinecraft
                 new Delays(),
                 new GuiRewrite(),
                 new Colours(),
-                new Nametags()
+                new Nametags(),
+                new Velocity()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }
