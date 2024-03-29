@@ -14,6 +14,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
 
+/**
+ * @author vasler
+ */
+
 @SuppressWarnings("ConstantConditions")
 public class Nametags extends ModuleBase {
 

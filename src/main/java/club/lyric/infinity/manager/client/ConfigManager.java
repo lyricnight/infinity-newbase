@@ -25,6 +25,7 @@ import java.util.Map;
  * @author ???
  */
 
+@SuppressWarnings("BlockingMethodInNonBlockingContext")
 public final class ConfigManager {
     private final Gson GSON = new Gson();
     private final Path pathConfigFolder;
@@ -172,6 +173,7 @@ public final class ConfigManager {
         ImGui.popID();
     }
 
+    @SuppressWarnings("BlockingMethodInNonBlockingContext")
     public class ConfigProfile {
         private String name;
         private Path pathProfile;

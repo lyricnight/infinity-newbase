@@ -23,7 +23,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@SuppressWarnings("ConstantConditions")
+
+/**
+ * @author vasler
+ */
 public class HoleESP extends ModuleBase {
 
     // Properties

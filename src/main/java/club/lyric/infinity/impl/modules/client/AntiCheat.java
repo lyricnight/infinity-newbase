@@ -9,6 +9,7 @@ import club.lyric.infinity.manager.Managers;
 /**
  * @author lyric
  * module that handles all anti-cheat related settings.
+ * has static getters for all the anti-cheat settings.
  */
 public final class AntiCheat extends PersistentModuleBase {
     public BooleanSetting rotate = new BooleanSetting("Rotate", false, this);
