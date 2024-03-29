@@ -1,11 +1,17 @@
 package club.lyric.infinity.impl.modules.client;
 
+import club.lyric.infinity.api.event.bus.EventHandler;
+import club.lyric.infinity.api.event.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import net.minecraft.entity.Entity;
+import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author vasler
@@ -41,6 +47,7 @@ public final class Notifications extends ModuleBase
     );
 
     private final HashMap<String, Integer> totemPop = new HashMap<>();
+    private HashMap<String, Integer> id = new HashMap<>();
 
     public Notifications()
     {
@@ -54,7 +61,7 @@ public final class Notifications extends ModuleBase
         totemPop.clear();
     }
 
-    @Override
+    /*@Override
     public void onUpdate() {
         if(nullCheck()) return;
         mc.world.getPlayers().forEach(player -> {
@@ -65,7 +72,7 @@ public final class Notifications extends ModuleBase
                 }
             }
         });
-    }
+    }*/
 
     /*@EventHandler
     public void onReceivePacket(PacketEvent.Receive event)
@@ -82,9 +89,9 @@ public final class Notifications extends ModuleBase
                 Entity entity = packet.getEntity(mc.world);
                 if (packet.getStatus() == 35)
                 {
-                    int pops = totemPop.get(entity.getEntityName()) == null ? 1 : totemPop.get(entity.getEntityName()) + 1;
-                    totemPop.put(entity.getEntityName(), pops);
-                    ChatUtils.sendOverwriteMessage(entity.getEntityName() + " popped " + totemPop.get(entity.getEntityName()) + " time(s).", entity.getId());
+                    int pops = totemPop.get(entity.getName()) == null ? 1 : totemPop.get(entity.getName()) + 1;
+                    totemPop.put(String.valueOf(entity.getName()), pops);
+                    ChatUtils.sendOverwriteMessage(entity.getName() + " popped " + totemPop.get(entity.getName()) + " time(s).", entity.getId());
                 }
             }
         }

@@ -16,9 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-/**
- * credits to shoreline and thunderhack n more for grim velocity
- */
+
 @SuppressWarnings("ConstantConditions")
 public class Velocity extends ModuleBase {
 
@@ -69,6 +67,8 @@ public class Velocity extends ModuleBase {
                 grimCancel = true;
 
             }
+        } else if (mode.is("Normal")) {
+
         }
 
     }

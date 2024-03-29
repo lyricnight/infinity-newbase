@@ -7,8 +7,12 @@ import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.modules.client.Notifications;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -128,6 +132,7 @@ public class ModuleBase implements IMinecraft {
         this.setEnabled(!this.isOn());
     }
 
+    @SuppressWarnings("ConstantConditions")
     protected void enable() {
         enabled = true;
         EventBus.getInstance().register(this);
@@ -137,6 +142,7 @@ public class ModuleBase implements IMinecraft {
         //}
     }
 
+    @SuppressWarnings("ConstantConditions")
     protected void disable() {
         enabled = false;
         this.onDisable();
@@ -145,6 +151,7 @@ public class ModuleBase implements IMinecraft {
             //ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", id);
         //}
     }
+
     public Category getCategory() {
         return this.category;
     }

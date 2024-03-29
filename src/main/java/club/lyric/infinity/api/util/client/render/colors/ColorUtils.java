@@ -152,6 +152,20 @@ public class ColorUtils implements IMinecraft {
     }
 
 
+    public static Color gradientColor(Color color1, Color color2, double offset) {
+        if (offset > 1) {
+            double left = offset % 1;
+            int off = (int) offset;
+            offset = off % 2 == 0 ? left : 1 - left;
+        }
+
+        double inverse_percent = 1 - offset;
+        int redPart = (int) (color1.getRed() * inverse_percent + color2.getRed() * offset);
+        int greenPart = (int) (color1.getGreen() * inverse_percent + color2.getGreen() * offset);
+        int bluePart = (int) (color1.getBlue() * inverse_percent + color2.getBlue() * offset);
+        return new Color(redPart, greenPart, bluePart);
+    }
+
     // INFINITY OLD DEF PASTED
     public static Color interpolate(final float value, final Color start, final Color end) {
         final float sr = start.getRed() / 255.0f;
