@@ -132,10 +132,10 @@ public final class HUD extends ModuleBase
                 Managers.TEXT.drawString(label,
                         x,
                         2 + arrayOffset,
-                        hudColor(2 + arrayOffset).getRGB(),
+                        hudColor(arrayOffset).getRGB(),
                         true
                 );
-                arrayOffset += 9;
+                arrayOffset += (int) (Managers.TEXT.height(true) + 1);
             }
 
         }
@@ -195,7 +195,7 @@ public final class HUD extends ModuleBase
                         statusEffectInstance.getEffectType().getColor(),
                         true
                 );
-                offset += 9;
+                offset += (int) (Managers.TEXT.height(true) + 1);
             }
         }
 
@@ -220,7 +220,7 @@ public final class HUD extends ModuleBase
                     hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
                     true
             );
-            offset += 9;
+            offset += (int) (Managers.TEXT.height(true) + 1);
         }
         // Speed ends
 
@@ -238,7 +238,7 @@ public final class HUD extends ModuleBase
                     hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
                     true
             );
-            offset += 9;
+            offset += (int) (Managers.TEXT.height(true) + 1);
         }
         // TPS ends
 
@@ -252,7 +252,7 @@ public final class HUD extends ModuleBase
                     hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
                     true
             );
-            offset += 9;
+            offset += (int) (Managers.TEXT.height(true) + 1);
         }
         // Packets End
 
@@ -269,7 +269,7 @@ public final class HUD extends ModuleBase
                     hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
                     true
             );
-            offset += 9;
+            offset += (int) (Managers.TEXT.height(true) + 1);
         }
         // TPS ends
 

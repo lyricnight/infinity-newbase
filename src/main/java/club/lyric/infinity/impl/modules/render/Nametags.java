@@ -8,6 +8,8 @@ import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.Camera;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -50,7 +52,7 @@ public class Nametags extends ModuleBase {
 
                 float width = Managers.TEXT.width(renderPlayerName(player), true) / 2.0f;
 
-                renderNametag(event.getMatrix(), player, width, (float) x, (float) y, (float) z, 2.0f);
+                renderNametag(event.getMatrix(), player, width, (float) x, (float) y, (float) z, 300);
             }
         }
         mc.getProfiler().endTick();
@@ -65,13 +67,15 @@ public class Nametags extends ModuleBase {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.enableDepthTest();
 
         matrix.scale(-scale, -scale, -1.0f);
 
+        VertexConsumerProvider.Immediate vertexConsumers = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+
         Managers.TEXT.drawString(renderPlayerName(player), width, 0, -1, true);
 
-        RenderSystem.disableDepthTest();
+        vertexConsumers.draw();
+
         RenderSystem.disableBlend();
 
         matrix.pop();
