@@ -55,7 +55,6 @@ public final class HUD extends ModuleBase
 
     public BooleanSetting speed = new BooleanSetting("Speed", true, this);
 
-
     public BooleanSetting packet = new BooleanSetting("Packets", true, this);
 
     public BooleanSetting coordinates = new BooleanSetting("Coordinates", true, this);
@@ -379,16 +378,15 @@ public final class HUD extends ModuleBase
 
         if (direction.value())
         {
-            String cool = "";
             Direction facing = mc.player.getHorizontalFacing();
+
             boolean positive = facing.getDirection() == Direction.AxisDirection.POSITIVE;
             String pos = positive ? "+" : "-";
-            switch (facing) {
-                case WEST -> cool = "West ";
-                case EAST -> cool = "East ";
-                case NORTH -> cool = "North ";
-                case SOUTH -> cool = "South ";
-            }
+
+            // used brain
+            String[] directions = new String[]{"South ", "South West ", "West ", "North West ", "North ", "North East ", "East ", "South East "};
+            String cool = directions[MathUtils.angleDirection(MathHelper.wrapDegrees(mc.player.getYaw()), directions.length)];
+
             String direction = cool + Formatting.GRAY + "(" + Formatting.WHITE + iGotzDatDawgInMe(MathHelper.wrapDegrees(mc.player.getYaw())) + Formatting.GRAY + ", " + Formatting.WHITE + iGotzDatDawgInMe(mc.player.getPitch()) + Formatting.GRAY + ", " + Formatting.WHITE + pos + facing.getAxis().toString().toUpperCase() + Formatting.GRAY + ")";
             Managers.TEXT.drawString(direction,
                     2,
