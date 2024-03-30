@@ -2,12 +2,15 @@ package club.lyric.infinity.api.util.minecraft.movement;
 
 import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffects;
 
 /**
  * @author lyric
  * for movement.
  */
 
+@SuppressWarnings("ConstantConditions")
 public class MovementUtil implements IMinecraft {
 
     /**
@@ -51,4 +54,54 @@ public class MovementUtil implements IMinecraft {
         //noinspection DataFlowIssue
         return mc.player.input.pressingLeft || mc.player.input.pressingRight || mc.player.input.pressingBack || mc.player.input.pressingForward || mc.player.input.sneaking;
     }
+
+    public static double calcEffects(double speed)
+    {
+        int amplifier;
+        double i = speed;
+        if (mc.player.hasStatusEffect(StatusEffects.SPEED)) {
+            amplifier = mc.player.getStatusEffect(StatusEffects.SPEED).getAmplifier();
+            i *= 1.0 + 0.2 * (double)(amplifier + 1);
+        }
+        if (mc.player.hasStatusEffect(StatusEffects.SLOWNESS)) {
+            amplifier = mc.player.getStatusEffect(StatusEffects.SLOWNESS).getAmplifier();
+            i /= 1.0 + 0.2 * (double)(amplifier + 1);
+        }
+        return i;
+    }
+
+    public static double getJumpSpeed()
+    {
+        double defaultSpeed = 0.0;
+        if (mc.player.hasStatusEffect(StatusEffects.JUMP_BOOST)) {
+            int amplifier = mc.player.getStatusEffect(StatusEffects.JUMP_BOOST).getAmplifier();
+            defaultSpeed += (double)(amplifier + 1) * 0.1;
+        }
+        return defaultSpeed;
+    }
+
+    public static double getSpeed() {
+        return getSpeed(false);
+    }
+
+    public static double getSpeed(boolean slowness) {
+        int amplifier;
+        double defaultSpeed = 0.2873;
+        if (mc.player.hasStatusEffect(StatusEffects.SPEED)) {
+            amplifier = mc.player.getStatusEffect(StatusEffects.SPEED).getAmplifier();
+            defaultSpeed *= 1.0 + 0.2 * (double)(amplifier + 1);
+        }
+        if (slowness && mc.player.hasStatusEffect(StatusEffects.SLOWNESS)) {
+            amplifier = mc.player.getStatusEffect(StatusEffects.SLOWNESS).getAmplifier();
+            defaultSpeed /= 1.0 + 0.2 * (double)(amplifier + 1);
+        }
+        return defaultSpeed;
+    }
+
+    public static double getDistanceXZ() {
+        double xDist = mc.player.getX() - mc.player.prevX;
+        double zDist = mc.player.getX() - mc.player.prevZ;
+        return Math.sqrt(xDist * xDist + zDist * zDist);
+    }
+
 }
