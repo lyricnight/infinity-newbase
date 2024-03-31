@@ -7,7 +7,7 @@ import club.lyric.infinity.manager.Managers;
 
 /**
  * @author lyric
- * gets the hashCode of a module (checks it has been loaded and can receive events)
+ * gets the hashCode of a module (checks it has been loaded and can receive events) - for debugging
  */
 public final class Identifier extends Command {
 

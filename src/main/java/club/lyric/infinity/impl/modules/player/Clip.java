@@ -6,7 +6,7 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.MathUtils;
-import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
+
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.MathHelper;
@@ -40,13 +40,13 @@ public final class Clip extends ModuleBase {
         {
             case "Normal" -> {
                 if (mc.world.getEntityCollisions(mc.player, mc.player.getBoundingBox().expand(0.01, 0, 0.01)).size() < 2) {
-                    mc.player.setPosition(MathUtils.roundToClosest(mc.player.getX(), ApacheMath.floor(mc.player.getX()) + 0.301, ApacheMath.floor(mc.player.getX()) + 0.699), mc.player.getY(), MathUtils.roundToClosest(mc.player.getZ(), ApacheMath.floor(mc.player.getZ()) + 0.301, ApacheMath.floor(mc.player.getZ())));
+                    mc.player.setPosition(MathUtils.roundToClosest(mc.player.getX(), Math.floor(mc.player.getX()) + 0.301, Math.floor(mc.player.getX()) + 0.699), mc.player.getY(), MathUtils.roundToClosest(mc.player.getZ(), Math.floor(mc.player.getZ()) + 0.301, Math.floor(mc.player.getZ())));
                 }
                 //might be wrong
                 else if (mc.player.ticksSinceLastPositionPacketSent % delay.getValue() == 0) {
-                    mc.player.setPosition(mc.player.getX() + MathHelper.clamp(MathUtils.roundToClosest(mc.player.getX(), ApacheMath.floor(mc.player.getX()) + 0.241, ApacheMath.floor(mc.player.getX()) + 0.759) - mc.player.getX(), -0.03, 0.03), mc.player.getY(), mc.player.getZ() + MathHelper.clamp(MathUtils.roundToClosest(mc.player.getZ(), ApacheMath.floor(mc.player.getZ()) + 0.241, ApacheMath.floor(mc.player.getZ()) + 0.759) - mc.player.getZ(), -0.03, 0.03));
+                    mc.player.setPosition(mc.player.getX() + MathHelper.clamp(MathUtils.roundToClosest(mc.player.getX(), Math.floor(mc.player.getX()) + 0.241, Math.floor(mc.player.getX()) + 0.759) - mc.player.getX(), -0.03, 0.03), mc.player.getY(), mc.player.getZ() + MathHelper.clamp(MathUtils.roundToClosest(mc.player.getZ(), Math.floor(mc.player.getZ()) + 0.241, Math.floor(mc.player.getZ()) + 0.759) - mc.player.getZ(), -0.03, 0.03));
                     send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY(), mc.player.getZ(), true));
-                    send(new PlayerMoveC2SPacket.PositionAndOnGround(MathUtils.roundToClosest(mc.player.getX(), ApacheMath.floor(mc.player.getX()) + 0.23, ApacheMath.floor(mc.player.getX()) + 0.77), mc.player.getY(), MathUtils.roundToClosest(mc.player.getZ(), ApacheMath.floor(mc.player.getZ()) + 0.23, ApacheMath.floor(mc.player.getZ()) + 0.77), true));
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(MathUtils.roundToClosest(mc.player.getX(), Math.floor(mc.player.getX()) + 0.23, Math.floor(mc.player.getX()) + 0.77), mc.player.getY(), MathUtils.roundToClosest(mc.player.getZ(), Math.floor(mc.player.getZ()) + 0.23, Math.floor(mc.player.getZ()) + 0.77), true));
                 }
             }
             case "NoCheck" -> {

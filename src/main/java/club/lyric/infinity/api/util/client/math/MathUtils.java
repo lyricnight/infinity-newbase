@@ -1,7 +1,5 @@
 package club.lyric.infinity.api.util.client.math;
 
-import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -33,15 +31,15 @@ public class MathUtils {
      */
 
     public static int clamp(int num, int min, int max) {
-        return num < min ? min : ApacheMath.min(num, max);
+        return num < min ? min : Math.min(num, max);
     }
 
     public static float clamp(float num, float min, float max) {
-        return num < min ? min : ApacheMath.min(num, max);
+        return num < min ? min : Math.min(num, max);
     }
 
     public static double clamp(double num, double min, double max) {
-        return num < min ? min : ApacheMath.min(num, max);
+        return num < min ? min : Math.min(num, max);
     }
 
     public static float square(float in)

@@ -1,6 +1,6 @@
 package club.lyric.infinity.api.util.minecraft.player;
 
-import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
+
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -89,7 +89,7 @@ public class PlayerUtils implements IMinecraft {
     }
 
     public static Box getAABBOfRadius(Entity entity, double radius) {
-        return new Box(ApacheMath.floor(entity.getX() - radius), ApacheMath.floor(entity.getY() - radius), ApacheMath.floor(entity.getZ() - radius), ApacheMath.floor(entity.getX() + radius), ApacheMath.floor(entity.getY() + radius), ApacheMath.floor(entity.getZ() + radius));
+        return new Box(Math.floor(entity.getX() - radius), Math.floor(entity.getY() - radius), Math.floor(entity.getZ() - radius), Math.floor(entity.getX() + radius), Math.floor(entity.getY() + radius), Math.floor(entity.getZ() + radius));
     }
 
     public static Vec3d getBBCoords(Box bb, Vec3d from) {

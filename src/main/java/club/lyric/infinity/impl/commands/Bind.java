@@ -7,6 +7,7 @@ import club.lyric.infinity.manager.Managers;
 
 /**
  * @author lyric
+ * unfinished
  */
 public class Bind extends Command {
     public Bind()
@@ -17,7 +18,7 @@ public class Bind extends Command {
     @Override
     public String theCommand()
     {
-        return "bind <module> <key>";
+        return "bind <module> <key(has to be the GLFW key as an integer)>";
     }
 
     @Override

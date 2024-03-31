@@ -3,7 +3,7 @@ package club.lyric.infinity.api.setting.settings;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
-import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
+
 import imgui.ImGui;
 import imgui.flag.ImGuiDataType;
 import imgui.type.ImDouble;
@@ -26,7 +26,7 @@ public class NumberSetting extends Setting implements Renderable {
         this.minimum = minimum;
         this.maximum = maximum;
         this.increment = increment;
-        this.decimal = !(ApacheMath.floor(increment) == increment);
+        this.decimal = !(Math.floor(increment) == increment);
 
         if (moduleBase != null) moduleBase.addSettings(this);
     }
@@ -48,7 +48,7 @@ public class NumberSetting extends Setting implements Renderable {
 
     public void setValue(double value) {
         double precision = 1.0D / this.increment;
-        this.value = ApacheMath.round(ApacheMath.max(this.minimum, ApacheMath.min(this.maximum, value)) * precision) / precision;
+        this.value = Math.round(Math.max(this.minimum, Math.min(this.maximum, value)) * precision) / precision;
     }
 
     public void increment(boolean positive) {

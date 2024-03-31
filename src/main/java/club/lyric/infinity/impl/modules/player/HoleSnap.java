@@ -7,7 +7,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
-import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
+
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
 import club.lyric.infinity.api.util.minecraft.block.HoleUtils;
@@ -99,7 +99,7 @@ public final class HoleSnap extends ModuleBase {
         if (boosted <= timerLength.getValue()) {
             if (remove.value()) {
                 //might not work properly
-                Managers.TIMER.set(ApacheMath.max(timerIntensity.getFValue() - local, 1.0f));
+                Managers.TIMER.set(Math.max(timerIntensity.getFValue() - local, 1.0f));
             } else {
                 Managers.TIMER.set(timerIntensity.getFValue());
             }
@@ -127,7 +127,7 @@ public final class HoleSnap extends ModuleBase {
             Managers.TIMER.setFor(postTimerIntensity.getFValue(), postTimerLength.getIValue());
             setEnabled(false);
         }
-        doPull(event);
+        execute(event);
         if (mc.player.horizontalCollision && mc.player.isOnGround()) {
             ++this.stuck;
             if (this.stuck == 10) {
@@ -139,21 +139,21 @@ public final class HoleSnap extends ModuleBase {
     }
 
 
-    private void doPull(EntityMovementEvent event) {
+    private void execute(EntityMovementEvent event) {
         double speed;
         Vec3d playerPos = mc.player.getPos();
-        Vec3d holePos = HoleUtils.getCenter(this.hole);
+        Vec3d holePos = HoleUtils.getCenter(hole);
         Vec3d targetPos = new Vec3d(holePos.x, mc.player.getY(), holePos.z);
-        double yawRad = ApacheMath.toRadians(RotationUtils.getRotationTo(playerPos, targetPos).x);
+        double yawRad = Math.toRadians(RotationUtils.getRotationTo(playerPos, targetPos).x);
         double dist = playerPos.distanceTo(targetPos);
-        double d = speed = mc.player.isOnGround() ? -ApacheMath.min(0.2805, dist / 2.0) : -PlayerUtils.getSpeed(mc.player) + 0.02;
+        double d = speed = mc.player.isOnGround() ? -Math.min(0.2805, dist / 2.0) : -PlayerUtils.getSpeed(mc.player) + 0.02;
         if (dist < 0.1) {
             event.setX(0.0);
             event.setZ(0.0);
             return;
         }
-        event.setX(-ApacheMath.sin(yawRad) * speed);
-        event.setZ(ApacheMath.cos(yawRad) * speed);
+        event.setX(-Math.sin(yawRad) * speed);
+        event.setZ(Math.cos(yawRad) * speed);
     }
 
 

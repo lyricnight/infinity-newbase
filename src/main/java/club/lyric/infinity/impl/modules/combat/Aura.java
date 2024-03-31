@@ -6,7 +6,7 @@ import club.lyric.infinity.api.event.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
-import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
+
 import club.lyric.infinity.api.util.minecraft.player.MovementPlayer;
 import club.lyric.infinity.api.util.minecraft.player.PlayerPosition;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
@@ -119,7 +119,7 @@ public final class Aura extends ModuleBase {
                     Vec3d vec = new Vec3d(bbCords.x, own.y, bbCords.z);
                     double cSq = MathHelper.square(6.0 - 1.0E-7);
                     double aSq = vec.squaredDistanceTo(bbCords);
-                    double b = ApacheMath.sqrt(cSq - aSq);
+                    double b = Math.sqrt(cSq - aSq);
                     Vec3d t = vec.add(own.subtract(vec).normalize().multiply(b));
                     teleportPos = t.subtract(0.0, player.getStandingEyeHeight(), 0.0);
                     if (teleportPos.squaredDistanceTo(last) > MathHelper.square(PlayerUtils.getSpeed(mc.player))) {

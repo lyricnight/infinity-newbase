@@ -9,7 +9,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
-import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
+
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
@@ -209,8 +209,8 @@ public final class HUD extends ModuleBase
 
             String speed = "Speed: " +
                     Formatting.WHITE +
-                    MathUtils.roundFloat((MathHelper.sqrt((float) (ApacheMath.pow(distanceX, 2) +
-                            ApacheMath.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) +
+                    MathUtils.roundFloat((MathHelper.sqrt((float) (Math.pow(distanceX, 2) +
+                            Math.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) +
                     " km/h";
 
             //

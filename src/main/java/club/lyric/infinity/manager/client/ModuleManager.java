@@ -53,7 +53,6 @@ public final class ModuleManager implements IMinecraft
                 new HoleSnap(),
                 new AutoCrystal(),
                 new Resolver(),
-                new Copenheimer(),
                 new Delays(),
                 new GuiRewrite(),
                 new Colours(),

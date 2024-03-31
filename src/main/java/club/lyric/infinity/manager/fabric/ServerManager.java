@@ -2,7 +2,6 @@ package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.event.network.PacketEvent;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
@@ -73,8 +72,7 @@ public final class ServerManager implements IMinecraft {
         //We don't actually need to check if Latency is enabled, because time is the most important thing here, and receiving the packet we check for is impossible normally.
         //TODO: somehow account for ms variations caused by game lag / client lag due to low fps / lots of events being fired at one time
         //maybe have a toggle button that tests the latency of the eventbus at that moment?
-        //also take into account jvm latency
-
+        //also take into account jvm latency somehow??
         if(!(event.getPacket() instanceof ChatMessageS2CPacket))
         {
             stopWatch.reset();

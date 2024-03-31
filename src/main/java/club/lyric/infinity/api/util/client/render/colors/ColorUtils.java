@@ -1,6 +1,6 @@
 package club.lyric.infinity.api.util.client.render.colors;
 
-import club.lyric.infinity.api.util.client.math.apache.ApacheMath;
+
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import org.lwjgl.opengl.GL11;
 
@@ -34,12 +34,12 @@ public class ColorUtils implements IMinecraft {
                     }
 
                     green = 2.0f * blue - blueOff;
-                    blue = ApacheMath.max(0.0f, getFactor(green, blueOff, red + 0.33333334f));
-                    float max = ApacheMath.max(0.0f, getFactor(green, blueOff, red));
-                    green = ApacheMath.max(0.0f, getFactor(green, blueOff, red - 0.33333334f));
-                    blue = ApacheMath.min(blue, 1.0f);
-                    max = ApacheMath.min(max, 1.0f);
-                    green = ApacheMath.min(green, 1.0f);
+                    blue = Math.max(0.0f, getFactor(green, blueOff, red + 0.33333334f));
+                    float max = Math.max(0.0f, getFactor(green, blueOff, red));
+                    green = Math.max(0.0f, getFactor(green, blueOff, red - 0.33333334f));
+                    blue = Math.min(blue, 1.0f);
+                    max = Math.min(max, 1.0f);
+                    green = Math.min(green, 1.0f);
                     return new Color(blue, max, green, alpha);
                 }
                 else
