@@ -125,8 +125,13 @@ public final class HUD extends ModuleBase
             moduleList.sort(Comparator.comparingInt(module -> (int) -Managers.TEXT.width(module.getName(), true)));
 
             for (ModuleBase module : moduleList) {
+                String label;
 
-                String label = module.getName();
+                if (!moduleInformation().isEmpty()) {
+                    label = module.getName() + Formatting.GRAY + " [" + Formatting.WHITE + moduleInformation() + Formatting.GRAY + "]";
+                } else {
+                    label = module.getName();
+                }
 
                 // X Position
                 int x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(label)) - 2;

@@ -26,7 +26,9 @@ public final class GuiRewrite extends ModuleBase
     {
         if (mc.world == null) return;
 
-        mc.setScreen(new GuiScreen());
+        if (mc.currentScreen == null) {
+            mc.setScreen(new GuiScreen());
+        }
     }
 
     @Override

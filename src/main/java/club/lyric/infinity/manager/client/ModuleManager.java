@@ -58,7 +58,8 @@ public final class ModuleManager implements IMinecraft
                 new Colours(),
                 new Nametags(),
                 new Velocity(),
-                new Speed()
+                new Speed(),
+                new InstantAcceleration()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }

@@ -31,6 +31,7 @@ import java.util.concurrent.Executors;
 
 /* TODO: make calculated breaking smarter by: calculating enemy and own damage and finding the best possible crystal to break;
 * make placing modes like breaking: do the same shit i just said; ADD PLACING, add id predict*/
+@SuppressWarnings({"ConstantConditions", "unused"})
 public class AutoCrystal extends ModuleBase {
     public ModeSetting breaking = new ModeSetting("Breaking", this, "All", "Calculated", "All");
     public ModeSetting breaks = new ModeSetting("Break", this, "Vanilla", "Vanilla", "Packet");
@@ -48,9 +49,16 @@ public class AutoCrystal extends ModuleBase {
     private final Map<BlockPos, Long> ownCrystals = new HashMap<>();
     private final Map<Integer, StopWatch.Single> hitCrystals = new HashMap<>();
     ExecutorService service = Executors.newCachedThreadPool();
+    private String information;
 
     public AutoCrystal() {
         super("AutoCrystal", "automatically crystal", Category.Combat);
+    }
+
+    @Override
+    public String moduleInformation() {
+        if (nullCheck()) return "";
+        return information;
     }
 
     @Override
@@ -61,18 +69,23 @@ public class AutoCrystal extends ModuleBase {
 
     @Override
     public void onUpdate() {
+        breakCrystals();
+    }
 
-        assert mc.world != null;
+    public void placeCrystals() {
+
+    }
+
+    public void breakCrystals() {
         List<LivingEntity> targets = Streams.stream(
-                mc.world.getEntities())
+                        mc.world.getEntities())
                 .filter(e -> e instanceof PlayerEntity)
                 .filter(e -> e != mc.player)
                 .map(e -> (LivingEntity) e)
                 .toList();
-        assert mc.player != null;
 
         List<EndCrystalEntity> near = Streams.stream
-                (mc.world.getEntities())
+                        (mc.world.getEntities())
                 .filter(e -> e instanceof EndCrystalEntity)
                 .map(e -> (EndCrystalEntity) e)
                 .sorted(Comparator.comparing(mc.player::distanceTo))
@@ -109,6 +122,8 @@ public class AutoCrystal extends ModuleBase {
                             }
                         }
 
+                        information = "Breaking";
+
                         service.submit(() -> {
                             hitCrystals.put(crystal.getId(), new StopWatch.Single());
 
@@ -132,7 +147,6 @@ public class AutoCrystal extends ModuleBase {
             }
         }
     }
-
     @Override
     public void onTickPost() {
         List<BlockPos> toRemove = new ArrayList<>();
@@ -153,7 +167,7 @@ public class AutoCrystal extends ModuleBase {
     @EventHandler
     public void onPacketReceive(PacketEvent.Receive event) {
         if (explosion.value()) {
-            if (event.getPacket() instanceof ExplosionS2CPacket explosion) {
+            if (event.getPacket() instanceof ExplosionS2CPacket explosionPacket) {
                 assert mc.world != null;
                 for (Entity ent : mc.world.getEntities()) {
                     if (ent == null) {
@@ -162,10 +176,9 @@ public class AutoCrystal extends ModuleBase {
                     if (ent instanceof EndCrystalEntity crystal &&
 
                             crystal.squaredDistanceTo(
-                                    explosion.getX(),
-                                    explosion.getY(),
-                                    explosion.getZ()
-                            ) <= 6.0d)
+                                    explosionPacket.getX(),
+                                    explosionPacket.getY(),
+                                    explosionPacket.getZ()) <= 6.0d)
                     {
                         int entity = crystal.getId();
                         mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
@@ -176,14 +189,14 @@ public class AutoCrystal extends ModuleBase {
         }
 
         if (sound.value()) {
-            if (event.getPacket() instanceof PlaySoundS2CPacket sound) {
-                if (sound.getCategory() == SoundCategory.BLOCKS && sound.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
+            if (event.getPacket() instanceof PlaySoundS2CPacket soundPacket) {
+                if (soundPacket.getCategory() == SoundCategory.BLOCKS && soundPacket.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
                     assert mc.world != null;
                     for (Entity ent : mc.world.getEntities()) {
                         if (ent == null) {
                             return;
                         }
-                        if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(sound.getX(), sound.getY(), sound.getZ()) < 36.0d) {
+                        if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(soundPacket.getX(), soundPacket.getY(), soundPacket.getZ()) < 36.0d) {
                             int entity = crystal.getId();
                             mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
                             mc.world.removeBlockEntity(crystal.getBlockPos());

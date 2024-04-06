@@ -25,15 +25,9 @@ public class Velocity extends ModuleBase {
     protected final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     protected static final Random random = new Random();
     protected StopWatch stopWatch = new StopWatch.Single();
-    private boolean grimCancel;
 
     public Velocity() {
         super("Velocity", "Tries to remove velocity", Category.Movement);
-    }
-
-    @Override
-    public void onEnable() {
-        grimCancel = false;
     }
 
     @EventHandler
@@ -64,8 +58,6 @@ public class Velocity extends ModuleBase {
 
                 event.setCancelled(true);
 
-                grimCancel = true;
-
             }
         } else if (mode.is("Normal")) {
 
@@ -75,21 +67,16 @@ public class Velocity extends ModuleBase {
         
     @Override
     public void onTickPre() {
-        if (grimCancel)
+        if (mode.is("Grim"))
         {
 
-            if (mode.is("Grim"))
-            {
-                
-                float yaw = mc.player.getYaw();
-                float pitch = mc.player.getPitch();
-                
-                send(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch, mc.player.isOnGround()));
-                send(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, mc.player.getBlockPos(), mc.player.getHorizontalFacing().getOpposite()));
+            float yaw = mc.player.getYaw();
+            float pitch = mc.player.getPitch();
 
-            }
+            send(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch, mc.player.isOnGround()));
+            send(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, mc.player.getBlockPos(), mc.player.getHorizontalFacing().getOpposite()));
 
-            grimCancel = false;
         }
+
     }
 }

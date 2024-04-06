@@ -1,7 +1,7 @@
 package club.lyric.infinity.impl.modules.movement;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.mc.movement.EntityMovementEvent;
+import club.lyric.infinity.api.event.mc.movement.PlayerMovementEvent;
 import club.lyric.infinity.api.event.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.api.event.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
@@ -38,7 +38,7 @@ public class Speed extends ModuleBase {
     }
 
     @EventHandler
-    public void onMove(EntityMovementEvent event)
+    public void onMove(PlayerMovementEvent event)
     {
         if (nullCheck() || !MovementUtil.movement() || mc.player.isSpectator()) return;
 

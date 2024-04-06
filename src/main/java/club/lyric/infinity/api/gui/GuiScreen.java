@@ -100,4 +100,9 @@ public class GuiScreen extends Screening {
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
+    @Override
+    public void close() {
+        frames.forEach(Frame::close);
+    }
+
 }

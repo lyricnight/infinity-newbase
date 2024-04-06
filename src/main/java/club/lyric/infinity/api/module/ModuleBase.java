@@ -175,6 +175,11 @@ public class ModuleBase implements IMinecraft {
         mc.getNetworkHandler().sendPacket(packet);
     }
 
+    public String moduleInformation()
+    {
+        return "";
+    }
+
     public void addSettings(Setting... settings) {
         this.settingList.addAll(Arrays.asList(settings));
         this.settingList.sort(Comparator.comparingInt(s -> s == bind ? 1 : 0));

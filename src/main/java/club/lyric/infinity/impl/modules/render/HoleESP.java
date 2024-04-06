@@ -34,11 +34,12 @@ public class HoleESP extends ModuleBase {
     public NumberSetting size = new NumberSetting("Size", this, 1f, 0.01f, 1f, 0.5f);
 
     // Color
-    public ColorSetting bedrock = new ColorSetting("Bedrock", this, new JColor(new Color(50, 255, 50, 76)), true);
-    public ColorSetting obsidian = new ColorSetting("Obsidian", this, new JColor(new Color(255, 50, 50, 76)), true);
+    public ColorSetting bedrock = new ColorSetting("Bedrock", this, new JColor(new Color(50, 255, 50)), false);
+    public ColorSetting obsidian = new ColorSetting("Obsidian", this, new JColor(new Color(255, 50, 50)), false);
+    public ColorSetting doubles = new ColorSetting("Doubles", this, new JColor(new Color(50, 50, 255)), false);
 
     // Box
-    public BooleanSetting doubles = new BooleanSetting("Doubles", true, this);
+    public BooleanSetting doublez = new BooleanSetting("Doubles", true, this);
     public BooleanSetting outline = new BooleanSetting("Outline", true, this);
     public BooleanSetting box = new BooleanSetting("Box", true, this);
 
@@ -58,7 +59,7 @@ public class HoleESP extends ModuleBase {
     @Override
     public void onUpdate() {
         service.submit(() -> {
-            holes = HoleUtils.getHoles(mc.player, range.getFValue(), doubles.value(), false, false, false);
+            holes = HoleUtils.getHoles(mc.player, range.getFValue(), doublez.value(), false, false, false);
         });
     }
 
@@ -77,19 +78,21 @@ public class HoleESP extends ModuleBase {
 
         for (Hole hole : holes) {
             double alpha = 1.0;
-            double outlineAlpha;
+            double outlineAlpha = 1.0;
 
             if (fade.value()) {
                 double fadeRange = range.getValue() - 1.0;
                 double fadeRangeSq = fadeRange * fadeRange;
                 alpha = (fadeRangeSq + 9.0 - mc.player.squaredDistanceTo(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) / fadeRangeSq;
                 alpha = MathHelper.clamp(alpha, 0.0, 1.0);
+                outlineAlpha = (fadeRangeSq + 9.0 - mc.player.squaredDistanceTo(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) / fadeRangeSq;
+                outlineAlpha = MathHelper.clamp(outlineAlpha, 0.0, 1.0);
             }
 
-            Color color = HoleUtils.isBedrockHole(new BlockPos(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) ? bedrock.getColor() : obsidian.getColor();
+            Color color = HoleUtils.isBedrockHole(new BlockPos(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) ? bedrock.getColor() : HoleUtils.isObbyHole(new BlockPos(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) ? obsidian.getColor() : doubles.getColor();
 
-            alpha = alpha * color.getAlpha();
-            outlineAlpha = alpha * 255;
+            alpha = alpha * 73;
+            outlineAlpha = outlineAlpha * 255;
 
             Box bb = interpolatePos(hole.getFirst(), size.getFValue());
 
@@ -101,14 +104,8 @@ public class HoleESP extends ModuleBase {
             Render3DUtils.enable3D();
             matrix.push();
 
-            if (box.value()) {
-                Render3DUtils.drawBox(event.getMatrix(), bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) alpha).getRGB());
-            }
-
-            if (outline.value())
-            {
-                Render3DUtils.drawOutline(event.getMatrix(), bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) outlineAlpha).getRGB());
-            }
+            Render3DUtils.drawBox(event.getMatrix(), bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) alpha).getRGB());
+            Render3DUtils.drawOutline(event.getMatrix(), bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) outlineAlpha).getRGB());
 
             matrix.pop();
             Render3DUtils.disable3D();
