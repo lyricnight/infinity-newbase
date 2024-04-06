@@ -45,6 +45,13 @@ public class MovementUtil implements IMinecraft {
         return new double[]{posX, posZ};
     }
 
+    public static void createSpeed(double speed)
+    {
+        double[] directionSpeed = MovementUtil.directionSpeed(speed);
+
+        mc.player.setVelocity(directionSpeed[0], mc.player.getVelocity().getY(), directionSpeed[1]);
+    }
+
     /**
      * check if movement keys are down
      * @return above
