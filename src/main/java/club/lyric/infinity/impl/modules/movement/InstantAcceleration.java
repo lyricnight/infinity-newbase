@@ -6,11 +6,16 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
+import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
+/**
+ * @author vasler
+ */
 @SuppressWarnings({"unused", "ConstantConditions"})
 public class InstantAcceleration extends ModuleBase {
 
-    public ModeSetting mode = new ModeSetting("Mode", this, "Strict", "Strict", "Normal");
+    public ModeSetting mode = new ModeSetting("Mode", this, "Strict", "Strict", "Normal", "Grim");
 
     public InstantAcceleration()
     {
@@ -22,13 +27,18 @@ public class InstantAcceleration extends ModuleBase {
     {
         if (mode.is("Strict"))
         {
+
             if (!mc.player.isOnGround()) return;
 
-            MovementUtil.directionSpeed(MovementUtil.getSpeed(true));
+            MovementUtil.createSpeed(MovementUtil.getSpeed(true));
+
         }
+
         if (mode.is("Normal"))
         {
-            MovementUtil.directionSpeed(MovementUtil.getSpeed(true));
+
+            MovementUtil.createSpeed(MovementUtil.getSpeed(true));
+
         }
     }
 }
