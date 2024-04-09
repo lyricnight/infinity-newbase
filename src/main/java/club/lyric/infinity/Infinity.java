@@ -1,5 +1,6 @@
 package club.lyric.infinity;
 
+import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
@@ -7,17 +8,22 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+
 /**
  * @author lyric
  * @since 12/12/23
  * main class.
  */
 
-public class Infinity implements ModInitializer, ClientModInitializer {
+public class Infinity implements ModInitializer, ClientModInitializer, IMinecraft {
 	public static final String CLIENT_NAME = "Infinity";
 	public static final String VERSION = " v1.0.1";
     public static final Logger LOGGER = LogManager.getLogger("Infinity");
+	private static final String tempFolderDirectory = System.getProperty("java.io.tmpdir");
+	private static final File dir = new File(tempFolderDirectory, "infinity");
 	private static long start;
+	public boolean first;
 
 	@Override
 	public void onInitialize() {
@@ -28,6 +34,7 @@ public class Infinity implements ModInitializer, ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
+        first = dir.exists();
 		LOGGER.info("Infinity has received onInitializeClient()!");
 		Managers.init();
 		Infinity.LOGGER.info("Infinity has fully initialised in " + (System.nanoTime() / 1000000L - start) + " ms.");

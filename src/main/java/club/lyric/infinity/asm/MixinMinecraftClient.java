@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
+
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void tick(CallbackInfo callbackInfo)
     {
@@ -37,8 +38,10 @@ public abstract class MixinMinecraftClient {
     {
         Managers.unload();
     }
+
     @Inject(method = "cleanUpAfterCrash", at = @At(value = "HEAD"))
-    public void cleanUpAfterCrash(CallbackInfo ci) {
+    public void cleanUpAfterCrash(CallbackInfo ci)
+    {
         Managers.unload();
     }
 }

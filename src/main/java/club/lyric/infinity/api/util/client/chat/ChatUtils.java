@@ -1,12 +1,12 @@
 package club.lyric.infinity.api.util.client.chat;
 
 import club.lyric.infinity.api.ducks.IChatHud;
-import club.lyric.infinity.api.util.client.render.text.StringUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.Manager;
+import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 /**
  * @author vasler, lyric
@@ -15,19 +15,19 @@ import net.minecraft.text.Text;
 
 public class ChatUtils implements IMinecraft
 {
-    private static String clientMessage = "";
 
-    public static void format()
+    @SuppressWarnings("ConstantConditions")
+    public static Text clientMessage()
     {
-        clientMessage = StringUtils.coloredString("[", Managers.MODULES.getModuleFromClass(Manager.class).bracket.getMode()) + StringUtils.coloredString("Infinity", Managers.MODULES.getModuleFromClass(Manager.class).nameColour.getMode()) + StringUtils.coloredString("] ", Managers.MODULES.getModuleFromClass(Manager.class).bracket.getMode());
+        MutableText clientMessage = Text.literal("[" + "Infinity" +  "]");
+        return clientMessage.setStyle(clientMessage.getStyle().withColor(Managers.MODULES.getModuleFromClass(Colours.class).getColor().getRGB()));
     }
 
     public static void sendMessagePrivate(String message)
     {
         if (mc.world == null) return;
-        format();
         MutableText text = Text.empty();
-        text.append(clientMessage);
+        text.append(clientMessage());
         text.append(" " + message);
         mc.inGameHud.getChatHud().addMessage(text);
     }
@@ -35,10 +35,9 @@ public class ChatUtils implements IMinecraft
     public static void sendOverwriteMessage(String message, int id)
     {
         if(mc.world == null) return;
-        format();
         MutableText text = Text.empty();
-        text.append(clientMessage + " ");
-        text.append(message);
+        text.append(clientMessage());
+        text.append(" " + message);
         ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
     }
 

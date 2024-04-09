@@ -1,19 +1,35 @@
 package club.lyric.infinity.api.util.client.render.text;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.impl.modules.client.Colours;
+import club.lyric.infinity.manager.Managers;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+
+import java.awt.*;
+import java.text.Format;
+import java.text.Normalizer;
 
 /**
  * @author lyric
  * for some string methods we may need...
  */
 public class StringUtils {
+
     public static String coloredString(String string, String color) {
         String coloredString;
 
         coloredString = getCodeFromSetting(color) + string + Formatting.RESET;
 
         return coloredString;
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public Text clientName()
+    {
+        MutableText clientText = Text.literal("[" + Formatting.WHITE + "Infinity" + "]");
+        return clientText.setStyle(clientText.getStyle().withColor(Managers.MODULES.getModuleFromClass(Colours.class).getColor().getRGB()));
     }
 
     public static boolean contains(String name, String... items) {

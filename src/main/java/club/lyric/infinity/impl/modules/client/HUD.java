@@ -231,24 +231,6 @@ public final class HUD extends ModuleBase
         }
         // Speed ends
 
-        // TPS starts
-        if (tps.value())
-        {
-            String tps = "TPS: " + Formatting.WHITE + Managers.SERVER.getOurTPS();
-
-            //
-            //VASLER USE MANAGERS.TEXT INSTEAD
-            //
-            Managers.TEXT.drawString(tps,
-                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2,
-                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                    hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
-                    true
-            );
-            offset += (int) (Managers.TEXT.height(true) + 1);
-        }
-        // TPS ends
-
         // Packets Start
         if (packet.value())
         {
@@ -263,15 +245,33 @@ public final class HUD extends ModuleBase
         }
         // Packets End
 
-        // TPS starts
-        if (ping.value())
+        // Ping starts
+        if (ping.value() && !mc.isInSingleplayer())
         {
-            String ping = "Ping: " + Formatting.WHITE + Managers.SERVER.getFastLatencyPing();
+            String ping = "Ping: " + Formatting.WHITE + Managers.SERVER.getFastLatencyPing() + "ms";
             //
             //VASLER USE MANAGERS.TEXT INSTEAD
             //
             Managers.TEXT.drawString(ping,
                     event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2,
+                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
+                    hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
+                    true
+            );
+            offset += (int) (Managers.TEXT.height(true) + 1);
+        }
+        // Ping ends
+
+        // TPS starts
+        if (tps.value() && !mc.isInSingleplayer())
+        {
+            String tps = "TPS: " + Formatting.WHITE + Managers.SERVER.getOurTPS();
+
+            //
+            //VASLER USE MANAGERS.TEXT INSTEAD
+            //
+            Managers.TEXT.drawString(tps,
+                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
                     hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
                     true

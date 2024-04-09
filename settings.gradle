@@ -9,4 +9,4 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = 'infinity-newbase'
+rootProject.name = 'infinity'

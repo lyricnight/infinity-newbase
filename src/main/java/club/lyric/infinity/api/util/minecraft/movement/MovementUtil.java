@@ -5,6 +5,7 @@ import club.lyric.infinity.api.event.mc.movement.EntityMovementEvent;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.util.math.Vec2f;
 
 /**
  * @author lyric
@@ -46,7 +47,7 @@ public class MovementUtil implements IMinecraft {
         return new double[]{posX, posZ};
     }
 
-    public static void eventSpeed(double speed) {
+    public static Vec2f strafeSpeed(double speed) {
         float forward = mc.player.input.movementForward;
         float side = mc.player.input.movementSideways;
         float yaw = mc.player.prevYaw + (mc.player.getYaw() - mc.player.prevYaw) * mc.getTickDelta();
@@ -69,8 +70,7 @@ public class MovementUtil implements IMinecraft {
         final double cos = Math.cos(Math.toRadians(yaw + 90));
         final double posX = (forward * speed * cos + side * speed * sin);
         final double posZ = (forward * speed * sin - side * speed * cos);
-
-        mc.player.setVelocity(posX, mc.player.getVelocity().getY(), posZ);
+        return new Vec2f((float) posX, (float) posZ);
     }
 
     public static void createSpeed(double speed)
@@ -113,6 +113,17 @@ public class MovementUtil implements IMinecraft {
             defaultSpeed += (double)(amplifier + 1) * 0.1;
         }
         return defaultSpeed;
+    }
+
+    public static void strafe(EntityMovementEvent event, double speed) {
+        if (movement()) {
+            double[] strafe = directionSpeed(speed);
+            event.setX(strafe[0]);
+            event.setZ(strafe[1]);
+        } else {
+            event.setX(0.0);
+            event.setZ(0.0);
+        }
     }
 
     public static double getSpeed() {

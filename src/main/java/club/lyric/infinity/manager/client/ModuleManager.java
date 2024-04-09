@@ -13,7 +13,6 @@ import club.lyric.infinity.impl.modules.exploit.*;
 import club.lyric.infinity.impl.modules.movement.*;
 import club.lyric.infinity.impl.modules.player.*;
 import club.lyric.infinity.impl.modules.render.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,7 +33,6 @@ public final class ModuleManager implements IMinecraft
                 new ClickGui(),
                 new Configuration(),
                 new AntiCheat(),
-                new Manager(),
                 new DiscordRPC(),
                 new AutoMine(),
                 new Chat(),
@@ -45,7 +43,7 @@ public final class ModuleManager implements IMinecraft
                 new NoJumpDelay(),
                 new HitboxDesync(),
                 new PhaseWalk(),
-                new Latency(),
+                new FastLatency(),
                 new Clip(),
                 new RaytraceBypass(),
                 new FakePlayer(),

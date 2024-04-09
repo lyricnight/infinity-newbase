@@ -82,12 +82,7 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 
             ci.cancel();
 
-            double d = getX();
-            double e = getZ();
-
             super.move(movementType, playerMoveEvent.getMovement());
-
-            autoJump((float) (getX() - d), (float) (getZ() - e));
 
         }
     }

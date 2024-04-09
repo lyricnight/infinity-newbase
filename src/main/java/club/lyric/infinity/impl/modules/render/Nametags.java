@@ -1,6 +1,8 @@
 package club.lyric.infinity.impl.modules.render;
 
+import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.event.render.Render3DEvent;
+import club.lyric.infinity.api.event.render.RenderWorldEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -12,9 +14,13 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
+
+import java.awt.*;
 
 /**
  * @author vasler
@@ -34,13 +40,9 @@ public class Nametags extends ModuleBase {
         super("Nametags", "Fire", Category.Render);
     }
 
-    @Override
-    public void onRender3D(Render3DEvent event) {
-        if (mc.gameRenderer == null || mc.getCameraEntity() == null || nullCheck())
-        {
-            return;
-        }
-        for (Entity entity : mc.world.getEntities())
+    @EventHandler
+    public void onRender3D(RenderWorldEvent event) {
+        /*for (Entity entity : mc.world.getEntities())
         {
             if (entity instanceof PlayerEntity player)
             {
@@ -52,23 +54,32 @@ public class Nametags extends ModuleBase {
 
                 float width = Managers.TEXT.width(renderPlayerName(player), true) / 2.0f;
 
-                renderNametag(event.getMatrix(), player, width, (float) x, (float) y, (float) z, 300);
+                renderNametag(event.getMatrix(), player, width, (float) x, (float) y, (float) z);
             }
         }
-        mc.getProfiler().endTick();
+        mc.getProfiler().endTick();*/
+
+        for(Entity entity : mc.world.getEntities()) {
+            if (entity instanceof PlayerEntity player) {
+                drawEntityTag(event.getMatrix(), player);
+            }
+        }
     }
 
-    private void renderNametag(MatrixStack matrix, PlayerEntity player, float width, float x, float y, float z, float scale) {
-        Camera camera = new Camera();
-        Vec3d pos = camera.getPos();
+    private void renderNametag(MatrixStack matrix, PlayerEntity player, float width, float x, float y, float z) {
 
+        Camera camera = mc.gameRenderer.getCamera();
         matrix.push();
-        matrix.translate(x - pos.getX(), y + (double) player.getHeight() + (player.isSneaking() ? 0.3f : 0.4f) - pos.getY(), z - pos.getZ());
 
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+        matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));
 
-        matrix.scale(-scale, -scale, -1.0f);
+        matrix.translate(x - camera.getPos().getX(), y + (double) player.getHeight() + (player.isSneaking() ? 0.3f : 0.4f) - camera.getPos().getY(), z - camera.getPos().getZ());
+
+        matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
+        matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+
+        matrix.scale(-0.025F, -0.025F, 1.0F);
 
         VertexConsumerProvider.Immediate vertexConsumers = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
 
@@ -78,6 +89,25 @@ public class Nametags extends ModuleBase {
 
         RenderSystem.disableBlend();
 
+        matrix.pop();
+    }
+
+    public void drawEntityTag(MatrixStack matrix, PlayerEntity entity) {
+        Camera camera = mc.gameRenderer.getCamera();
+        matrix.push();
+        matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+        matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));
+        matrix.translate(
+                entity.getX() - camera.getPos().x,
+                entity.getY() + (double)entity.getHeight() + 0.5 - camera.getPos().y,
+                entity.getZ() - camera.getPos().z
+        );
+        matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
+        matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+        matrix.scale(-0.025F, -0.025F, 1.0F);
+        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+        Managers.TEXT.drawString(renderPlayerName(entity), mc.textRenderer.getWidth(renderPlayerName(entity)) * -0.5F, 0, -1, true);
+        immediate.draw();
         matrix.pop();
     }
 
