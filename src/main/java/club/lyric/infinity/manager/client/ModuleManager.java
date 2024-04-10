@@ -57,7 +57,8 @@ public final class ModuleManager implements IMinecraft
                 new Nametags(),
                 new Velocity(),
                 new Speed(),
-                new InstantAcceleration()
+                new InstantAcceleration(),
+                new SpeedMine()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }

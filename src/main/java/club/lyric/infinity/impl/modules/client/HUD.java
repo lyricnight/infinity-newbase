@@ -383,16 +383,14 @@ public final class HUD extends ModuleBase
 
         if (direction.value())
         {
-            Direction facing = mc.player.getHorizontalFacing();
-
-            boolean positive = facing.getDirection() == Direction.AxisDirection.POSITIVE;
-            String pos = positive ? "+" : "-";
-
-            // used brain
+            // THERE MUST BE A ETTER WAY
             String[] directions = new String[]{"South ", "South West ", "West ", "North West ", "North ", "North East ", "East ", "South East "};
+            String[] axis = new String[]{"+Z ", "+Z -X ", "-X ", "-Z -X ", "-Z ", "-Z +X", "+X ", "+Z +X "};
+
+            String gang = axis[MathUtils.angleDirection(MathHelper.wrapDegrees(mc.player.getYaw()), axis.length)];
             String cool = directions[MathUtils.angleDirection(MathHelper.wrapDegrees(mc.player.getYaw()), directions.length)];
 
-            String direction = cool + Formatting.GRAY + "(" + Formatting.WHITE + iGotzDatDawgInMe(MathHelper.wrapDegrees(mc.player.getYaw())) + Formatting.GRAY + ", " + Formatting.WHITE + iGotzDatDawgInMe(mc.player.getPitch()) + Formatting.GRAY + ", " + Formatting.WHITE + pos + facing.getAxis().toString().toUpperCase() + Formatting.GRAY + ")";
+            String direction = cool + Formatting.GRAY + "(" + Formatting.WHITE + iGotzDatDawgInMe(MathHelper.wrapDegrees(mc.player.getYaw())) + Formatting.GRAY + ", " + Formatting.WHITE + iGotzDatDawgInMe(mc.player.getPitch()) + Formatting.GRAY + ", " + Formatting.WHITE + gang + Formatting.GRAY + ")";
             Managers.TEXT.drawString(direction,
                     2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - coordOffset - 2 - chatY,

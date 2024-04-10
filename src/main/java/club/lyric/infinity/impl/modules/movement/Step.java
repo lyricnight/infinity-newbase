@@ -1,11 +1,14 @@
 package club.lyric.infinity.impl.modules.movement;
 
+import club.lyric.infinity.api.event.bus.EventHandler;
+import club.lyric.infinity.api.event.mc.movement.EntityMovementEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
+@SuppressWarnings("ConstantConditions")
 public final class Step extends ModuleBase {
 
     public ModeSetting mode = new ModeSetting("Mode", this, "Vanilla", "Vanilla", "Normal");
@@ -35,16 +38,24 @@ public final class Step extends ModuleBase {
             return;
         }
 
-        switch (mode.getMode()) {
-            case "Value" -> mc.player.setStepHeight(height.getFValue());
-            case "Normal" -> {
-                double stepHeight = mc.player.getY() - mc.player.prevY;
-                double[] offsets = getOffset(stepHeight);
+        if (mode.is("Vanilla"))
+        {
+            mc.player.setStepHeight(height.getFValue());
+        }
+    }
 
-                if (offsets != null && offsets.length > 1) {
-                    for (double offset : offsets) {
-                       send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + offset, mc.player.getZ(), false));
-                    }
+    @EventHandler
+    public void onMove(EntityMovementEvent event)
+    {
+        if (mode.is("Normal"))
+        {
+            double stepHeight = mc.player.getY() - mc.player.prevY;
+            double[] offsets = getOffset(stepHeight);
+
+            if (offsets != null && offsets.length > 1)
+            {
+                for (double offset : offsets) {
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + offset, mc.player.getZ(), false));
                 }
             }
         }

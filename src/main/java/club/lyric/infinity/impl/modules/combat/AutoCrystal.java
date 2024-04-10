@@ -8,6 +8,7 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.StopWatch;
+import club.lyric.infinity.api.util.minecraft.entity.EntityUtils;
 import com.google.common.collect.Streams;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -33,6 +34,12 @@ import java.util.concurrent.Executors;
 * make placing modes like breaking: do the same shit i just said; ADD PLACING, add id predict*/
 @SuppressWarnings({"ConstantConditions", "unused"})
 public class AutoCrystal extends ModuleBase {
+    // Entities
+    public BooleanSetting players = new BooleanSetting("Players", true, this);
+    public BooleanSetting animals = new BooleanSetting("Animals", true, this);
+    public BooleanSetting mobs = new BooleanSetting("Mobs", true, this);
+    public NumberSetting enemyRange = new NumberSetting("EnemyRange", this, 6.0f, 1.0f, 7.0f, 0.1f);
+    // Breaking
     public ModeSetting breaking = new ModeSetting("Breaking", this, "All", "Calculated", "All");
     public ModeSetting breaks = new ModeSetting("Break", this, "Vanilla", "Vanilla", "Packet");
     public NumberSetting hitRange = new NumberSetting("HitRange", this, 6.0f, 1.0f, 7.0f, 0.1f);
@@ -92,7 +99,7 @@ public class AutoCrystal extends ModuleBase {
                 .toList();
 
         // breaking
-        if (mc.player != null && mc.interactionManager != null) {
+        if (mc.player != null) {
             for (EndCrystalEntity crystal : near) {
 
                 if (crystal == null || crystal.age < tickExisted.getValue()) {
@@ -105,12 +112,9 @@ public class AutoCrystal extends ModuleBase {
                         return;
                     }
 
-                    if (mc.player.distanceTo(crystal) >= hitRange.getValue() ||
-                            mc.world.getOtherEntities(null,
-                                    new Box(crystal.getPos(),
-                                            crystal.getPos()).expand(7),
-                                    targets::contains).isEmpty()
-                    ) {
+                    if (isValid((Entity) targets)) continue;
+
+                    if (mc.player.distanceTo(crystal) >= hitRange.getValue() || mc.world.getOtherEntities(null, new Box(crystal.getPos(), crystal.getPos()).expand(enemyRange.getFValue()), targets::contains).isEmpty()) {
 
                         if (inhibit.value()) {
                             StopWatch.Single timer = hitCrystals.get(crystal.getId());
@@ -224,5 +228,10 @@ public class AutoCrystal extends ModuleBase {
             if (entry.getKey().equals(pos)) return true;
         }
         return false;
+    }
+
+    private boolean isValid(Entity entity)
+    {
+        return entity instanceof PlayerEntity && players.value() || EntityUtils.isMob(entity) && mobs.value() || EntityUtils.isAnimal(entity) && animals.value();
     }
 }
