@@ -7,10 +7,13 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.util.client.render.text.StringUtils;
+import club.lyric.infinity.impl.modules.client.Colours;
+import club.lyric.infinity.manager.Managers;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -50,10 +53,6 @@ public final class Chat extends ModuleBase {
             this
     );
 
-    public ModeSetting time = new ModeSetting("TimeColour", this, "DarkGray", "None", "Black", "DarkGray", "Gray", "DarkBlue", "Blue", "DarkGreen", "Green", "DarkAqua", "Aqua", "DarkRed", "Red", "DarkPurple", "Purple", "Gold", "Yellow");
-
-    public ModeSetting brackets = new ModeSetting("BracketColour", this, "Black", "None", "Black", "DarkGray", "Gray", "DarkBlue", "Blue", "DarkGreen", "Green", "DarkAqua", "Aqua", "DarkRed", "Red", "DarkPurple", "Purple", "Gold", "Yellow");
-
 
     public BooleanSetting keep = new BooleanSetting("Keep", false, this);
 
@@ -74,13 +73,16 @@ public final class Chat extends ModuleBase {
     {
         if (timeStamps.value()) {
             Text message = event.getMessage();
-            MutableText bracketPre = Text.literal("<").formatted(StringUtils.getCodeFromSetting(brackets.getMode()));
-            MutableText dateText = Text.literal(date.format(new Date())).formatted(StringUtils.getCodeFromSetting(time.getMode()));
-            MutableText bracketPost = Text.literal("> ").formatted(StringUtils.getCodeFromSetting(brackets.getMode()));
-            Text timestamp = Text.literal(bracketPre + String.valueOf(dateText) + bracketPost);
-            message = Text.empty().append(timestamp).append(message);
+            message = Text.empty().append(timeStamps()).append(message);
             event.setMessage(message);
         }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public Text timeStamps()
+    {
+        MutableText timeStamps = Text.literal("<" + date.format(new Date()) + "> " + Formatting.RESET);
+        return timeStamps.setStyle(timeStamps.getStyle().withColor(Managers.MODULES.getModuleFromClass(Colours.class).getColor().getRGB()));
     }
 
     /**
