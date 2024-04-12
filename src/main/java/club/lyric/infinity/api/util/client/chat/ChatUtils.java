@@ -32,12 +32,31 @@ public class ChatUtils implements IMinecraft
         mc.inGameHud.getChatHud().addMessage(text);
     }
 
+    /**
+     * ID 1111 = Caution
+     * ID 2222 = Danger
+     * ID 3333 = Perfect
+     */
     public static void sendOverwriteMessage(String message, int id)
     {
         if(mc.world == null) return;
         MutableText text = Text.empty();
         text.append(clientMessage());
         text.append(" " + message);
+        if (id == 1111)
+        {
+            text.append(" (!)");
+            ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
+            return;
+        } else if (id == 2222) {
+            text.append(" (-)");
+            ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
+            return;
+        } else if (id == 3333) {
+            text.append(" (*)");
+            ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
+            return;
+        }
         ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
     }
 

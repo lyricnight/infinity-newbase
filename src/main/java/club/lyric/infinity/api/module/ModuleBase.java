@@ -8,6 +8,7 @@ import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Notifications;
 import club.lyric.infinity.manager.Managers;
