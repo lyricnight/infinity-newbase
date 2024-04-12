@@ -5,19 +5,16 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.entity.player.PlayerEntity;
-import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 
 /**
  * @author lyric
  */
+@SuppressWarnings("ConstantConditions")
 public final class FriendsManager  {
     private JsonObject friends = new JsonObject();
 
@@ -39,28 +36,6 @@ public final class FriendsManager  {
         }
         this.friends.add(getUUID(name), new JsonPrimitive(name));
         ChatUtils.sendOverwriteMessage("Added " + name + " to your friends list.", 9349);
-    }
-
-    public void addFriend(PlayerEntity player) {
-        if (isFriend(player))
-        {
-            ChatUtils.sendOverwriteMessage(player.getDisplayName().toString() + " is already on your friends list!", 9349);
-            return;
-        }
-        this.friends.add(player.getUuidAsString(), new JsonPrimitive(player.getDisplayName().toString()));
-        ChatUtils.sendOverwriteMessage("Added " + player.getDisplayName().toString() + " to your friends list.", 9349);
-    }
-
-    public void removeFriend(PlayerEntity player) {
-        if (isFriend(player))
-        {
-            ChatUtils.sendOverwriteMessage("Removed " + player.getDisplayName().toString() + " from your friends list.", 9349);
-            friends.remove(player.getUuidAsString());
-        }
-        else
-        {
-            ChatUtils.sendOverwriteMessage(player.getDisplayName().toString() + " is not on your friends list!", 9349);
-        }
     }
 
     public void removeFriend(String name)

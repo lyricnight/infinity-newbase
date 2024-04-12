@@ -6,6 +6,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.util.client.math.StopWatch;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 @SuppressWarnings("ConstantConditions")
@@ -23,6 +24,8 @@ public final class Step extends ModuleBase {
                     0.1f
             );
 
+    StopWatch.Single stopWatch = new StopWatch.Single();
+
     public Step() {
         super("Step", "steps", Category.Movement);
     }
@@ -33,31 +36,28 @@ public final class Step extends ModuleBase {
     }
 
     @Override
-    public void onUpdate() {
-        if (nullCheck()) {
-            return;
-        }
+    public void onTickPre()
+    {
+        if (nullCheck()) return;
 
-        if (mode.is("Vanilla"))
+        if (mc.player.isOnGround() && stopWatch.hasBeen(200))
         {
             mc.player.setStepHeight(height.getFValue());
         }
-    }
 
-    @EventHandler
-    public void onMove(EntityMovementEvent event)
-    {
-        if (mode.is("Normal"))
+        if (mode.is("Normal") && stopWatch.hasBeen(200))
         {
             double stepHeight = mc.player.getY() - mc.player.prevY;
             double[] offsets = getOffset(stepHeight);
 
-            if (offsets != null && offsets.length > 1)
-            {
+            if (stepHeight <= 0.5 || stepHeight > height.getFValue()) return;
+
+            if (offsets != null && offsets.length > 1) {
                 for (double offset : offsets) {
                     send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + offset, mc.player.getZ(), false));
                 }
             }
+            stopWatch.reset();
         }
     }
 
