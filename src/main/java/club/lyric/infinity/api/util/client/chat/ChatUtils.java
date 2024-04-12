@@ -48,11 +48,15 @@ public class ChatUtils implements IMinecraft
             text.append(" (!)");
             ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
             return;
-        } else if (id == 2222) {
+        }
+        else if (id == 2222)
+        {
             text.append(" (-)");
             ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
             return;
-        } else if (id == 3333) {
+        }
+        else if (id == 3333)
+        {
             text.append(" (*)");
             ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
             return;
