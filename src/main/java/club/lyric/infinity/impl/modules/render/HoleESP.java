@@ -89,7 +89,7 @@ public class HoleESP extends ModuleBase {
                 outlineAlpha = MathHelper.clamp(outlineAlpha, 0.0, 1.0);
             }
 
-            Color color = HoleUtils.isBedrockHole(new BlockPos(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) ? bedrock.getColor() : HoleUtils.isObbyHole(new BlockPos(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) ? obsidian.getColor() : doubles.getColor();
+            Color color = HoleUtils.isBedrockHole(new BlockPos(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) ? bedrock.getColor() : HoleUtils.isDoubleHole(new BlockPos(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) ? doubles.getColor() : obsidian.getColor();
 
             alpha = alpha * 73;
             outlineAlpha = outlineAlpha * 255;

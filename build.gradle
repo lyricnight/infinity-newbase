@@ -19,10 +19,6 @@ repositories {
 		name = "jitpack.io"
 		url = "https://jitpack.io"
 	}
-	maven {
-		name = "meteor-maven"
-		url = "https://maven.meteordev.org/releases"
-	}
 }
 
 compileJava {

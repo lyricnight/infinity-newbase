@@ -52,10 +52,6 @@ public class Velocity extends ModuleBase {
 
             if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
 
-                if (!stopWatch.hasBeen(100)) return;
-
-                if (event.getPacket() instanceof PlayerPositionLookS2CPacket) return;
-
                 event.setCancelled(true);
 
             }
@@ -66,7 +62,8 @@ public class Velocity extends ModuleBase {
     }
         
     @Override
-    public void onTickPre() {
+    public void onTickPre()
+    {
         if (mode.is("Grim"))
         {
 

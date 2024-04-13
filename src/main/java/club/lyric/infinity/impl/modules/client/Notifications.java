@@ -3,21 +3,20 @@ package club.lyric.infinity.impl.modules.client;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.event.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
-import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.module.PersistentModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author vasler
  * NOTIFIY
  */
-public final class Notifications extends ModuleBase
+@SuppressWarnings("ConstantConditions")
+public class Notifications extends PersistentModuleBase
 {
 
     public BooleanSetting totemPops =
@@ -47,40 +46,29 @@ public final class Notifications extends ModuleBase
     );
 
     private final HashMap<String, Integer> totemPop = new HashMap<>();
-    private HashMap<String, Integer> id = new HashMap<>();
 
     public Notifications()
     {
         super("Notifications", "Notifies in chat for stuff.", Category.Client);
     }
 
-
     @Override
-    public void onEnable()
-    {
-        totemPop.clear();
-    }
-
-    /*@Override
     public void onUpdate() {
         if(nullCheck()) return;
         mc.world.getPlayers().forEach(player -> {
             if(player.getHealth() <= 0) {
-                if (totemPop.containsKey(player.getName())) {
-                    ChatUtils.sendOverwriteMessage(player.getName() + " died after popping " + totemPop.get(player.getName()) + " time(s).", player.getId());
-                    totemPop.remove(player.getName(), totemPop.get(player.getName()));
+                if (totemPop.containsKey(player.getName().toString())) {
+                    ChatUtils.sendOverwriteMessage(player.getName() + " died after popping " + totemPop.get(player.getName().toString()) + " time(s).", player.getId());
+                    totemPop.remove(player.getName().toString(), totemPop.get(player.getName().toString()));
                 }
             }
         });
-    }*/
+    }
 
-    /*@EventHandler
+    @EventHandler
     public void onReceivePacket(PacketEvent.Receive event)
     {
         if (nullCheck()) return;
-        String uuidString = mc.player.getUuid().toString();
-        String truncated = uuidString.substring(0, 4);
-        id.put(truncated, Integer.valueOf(uuidString));
 
         if (totemPops.value())
         {
@@ -89,13 +77,13 @@ public final class Notifications extends ModuleBase
                 Entity entity = packet.getEntity(mc.world);
                 if (packet.getStatus() == 35)
                 {
-                    int pops = totemPop.get(entity.getName()) == null ? 1 : totemPop.get(entity.getName()) + 1;
+                    int pops = totemPop.get(entity.getName().toString()) == null ? 1 : totemPop.get(entity.getName().toString()) + 1;
                     totemPop.put(String.valueOf(entity.getName()), pops);
-                    ChatUtils.sendOverwriteMessage(entity.getName() + " popped " + totemPop.get(entity.getName()) + " time(s).", entity.getId());
+                    ChatUtils.sendOverwriteMessage(entity.getName() + " popped " + totemPop.get(entity.getName().toString()) + " time(s).", entity.getId());
                 }
             }
         }
-    }*/
+    }
     
 
 

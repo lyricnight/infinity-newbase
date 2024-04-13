@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
@@ -50,16 +51,12 @@ public final class HUD extends ModuleBase
     public BooleanSetting armorHud = new BooleanSetting("ArmorHUD", true, this);
 
     public BooleanSetting watermark = new BooleanSetting("Watermark", true, this);
-
     public BooleanSetting speed = new BooleanSetting("Speed", true, this);
 
     public BooleanSetting packet = new BooleanSetting("Packets", true, this);
 
     public BooleanSetting coordinates = new BooleanSetting("Coordinates", true, this);
-
     public BooleanSetting direction = new BooleanSetting("Direction", true, this);
-
-    public BooleanSetting lagOMeter = new BooleanSetting("LagMeter", true, this);
 
     public HUD()
     {
@@ -68,7 +65,6 @@ public final class HUD extends ModuleBase
 
     private final LinkedList<Long> frames = new LinkedList<>();
     private int chatY = 0;
-    private int lagY = 0;
     private final StopWatch timer = new StopWatch.Single();
     private final StopWatch packetTimer = new StopWatch.Single();
     int packets;
@@ -82,11 +78,11 @@ public final class HUD extends ModuleBase
     @Override
     public void onRender2D(Render2DEvent event) {
 
-        if (packetTimer.hasBeen(1000))
-        {
+        if (packetTimer.hasBeen(1000)) {
             packets = 0;
             packetTimer.reset();
         }
+
 
         int offset = 0;
 
@@ -94,14 +90,13 @@ public final class HUD extends ModuleBase
 
         boolean chatOpened = mc.currentScreen instanceof ChatScreen;
 
-        if (watermark.value())
-        {
+        if (watermark.value()) {
             Managers.TEXT.drawString(Infinity.CLIENT_NAME +
-                    Infinity.VERSION +
-                    Formatting.GRAY +
-                    " build (" +
-                    new SimpleDateFormat("dd/MM/yyyy").format(new Date()) +
-                    ")",
+                            Infinity.VERSION +
+                            Formatting.GRAY +
+                            " build (" +
+                            new SimpleDateFormat("dd/MM/yyyy").format(new Date()) +
+                            ")",
                     2,
                     2,
                     hudColor(2).getRGB(),
@@ -109,14 +104,15 @@ public final class HUD extends ModuleBase
             );
         }
 
-        if (arraylist.value())
-        {
+        if (arraylist.value()) {
 
             int arrayOffset = 0;
 
             ArrayList<ModuleBase> moduleList = new ArrayList<>();
 
-            Managers.MODULES.getModules().forEach(module -> { if (module.isOn() && module.isDrawn()) moduleList.add(module); });
+            Managers.MODULES.getModules().forEach(module -> {
+                if (module.isOn() && module.isDrawn()) moduleList.add(module);
+            });
 
             moduleList.sort(Comparator.comparingInt(module -> (int) -Managers.TEXT.width(module.getName(), true)));
 
@@ -142,23 +138,17 @@ public final class HUD extends ModuleBase
 
         }
 
-        if (armorHud.value())
-        {
+        if (armorHud.value()) {
             int width = event.getDrawContext().getScaledWindowWidth();
             int height = event.getDrawContext().getScaledWindowHeight();
             int x = 15;
-            for (int i = 3; i >= 0; i--)
-            {
+            for (int i = 3; i >= 0; i--) {
                 ItemStack stack = mc.player.getInventory().armor.get(i);
-                if (!stack.isEmpty())
-                {
+                if (!stack.isEmpty()) {
                     int y;
-                    if (mc.player.isInsideWaterOrBubbleColumn() && mc.player.getAir() > 0 && !mc.player.isCreative())
-                    {
+                    if (mc.player.isInsideWaterOrBubbleColumn() && mc.player.getAir() > 0 && !mc.player.isCreative()) {
                         y = 65;
-                    }
-                    else
-                    {
+                    } else {
                         y = mc.player.isCreative() ? (mc.player.isRiding() ? 45 : 38) : 55;
                     }
                     final float percent = InventoryUtils.getPercent(stack);
@@ -184,8 +174,7 @@ public final class HUD extends ModuleBase
             }
         }
 
-        if (potions.value())
-        {
+        if (potions.value()) {
             for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
                 int x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(getString(statusEffectInstance))) - 2;
                 Managers.TEXT.drawString(getString(statusEffectInstance),
@@ -198,8 +187,7 @@ public final class HUD extends ModuleBase
             }
         }
 
-        if (speed.value())
-        {
+        if (speed.value()) {
             double distanceX = mc.player.getX() - mc.player.prevX;
             double distanceZ = mc.player.getZ() - mc.player.prevZ;
 
@@ -208,7 +196,7 @@ public final class HUD extends ModuleBase
                     MathUtils.roundFloat((MathHelper.sqrt((float) (Math.pow(distanceX, 2) +
                             Math.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) +
                     " km/h";
-            
+
             Managers.TEXT.drawString(speed,
                     event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(speed)) - 2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
@@ -217,11 +205,10 @@ public final class HUD extends ModuleBase
             );
             offset += (int) (Managers.TEXT.height(true) + 1);
         }
-        
-        if (packet.value())
-        {
+
+        if (packet.value()) {
             String packet = "Packets: " + Formatting.GRAY + "[" + Formatting.WHITE + packets + Formatting.GRAY + "]";
-            
+
             Managers.TEXT.drawString(packet,
                     event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(packet)) - 2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
@@ -230,11 +217,10 @@ public final class HUD extends ModuleBase
             );
             offset += (int) (Managers.TEXT.height(true) + 1);
         }
-        
-        if (ping.value() && !mc.isInSingleplayer())
-        {
+
+        if (ping.value() && !mc.isInSingleplayer()) {
             String ping = "Ping: " + Formatting.WHITE + Managers.SERVER.getFastLatencyPing() + "ms";
-            
+
             Managers.TEXT.drawString(ping,
                     event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
@@ -244,10 +230,9 @@ public final class HUD extends ModuleBase
             offset += (int) (Managers.TEXT.height(true) + 1);
         }
 
-        if (tps.value() && !mc.isInSingleplayer())
-        {
+        if (tps.value() && !mc.isInSingleplayer()) {
             String tps = "TPS: " + Formatting.WHITE + Managers.SERVER.getOurTPS();
-            
+
             Managers.TEXT.drawString(tps,
                     event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
@@ -257,8 +242,7 @@ public final class HUD extends ModuleBase
             offset += (int) (Managers.TEXT.height(true) + 1);
         }
 
-        if (fps.value())
-        {
+        if (fps.value()) {
             long time = System.nanoTime();
 
             frames.add(time);
@@ -277,7 +261,7 @@ public final class HUD extends ModuleBase
             int fpsCount = frames.size();
 
             String fps = "FPS: " + Formatting.WHITE + fpsCount;
-            
+
             Managers.TEXT.drawString(fps,
                     event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
@@ -286,62 +270,47 @@ public final class HUD extends ModuleBase
             );
         }
 
-        if (lagOMeter.value())
-        {
-            if (Managers.SERVER.isServerNotResponding()) {
-                String lag = "Server hasn't responded in " + String.format("%.1f", (Managers.SERVER.responseTime / 1000f)) + " seconds.";
-                Managers.TEXT.drawString(lag,
-                        event.getDrawContext().getScaledWindowWidth() / 2.0f - Managers.TEXT.width(lag, true) + 2,
-                        lagY,
-                        color.getRGB(),
-                        true
-                );
-            }
-        }
-
         int coordinateOffset = 0;
-        
-        if (coordinates.value())
-        {
+
+        if (coordinates.value()) {
             boolean inHell = mc.world.getRegistryKey().getValue().getPath().equals("nether");
             if (inHell) {
                 Managers.TEXT.drawString("XYZ: " +
-                        Formatting.WHITE +
-                        getFormatting(mc.player.getPos().x) +
-                        ", " +
-                        getFormatting(mc.player.getPos().y) +
-                        ", " +
-                        getFormatting(mc.player.getPos().z) +
-                        Formatting.GRAY +
-                        " (" +
-                        Formatting.WHITE +
-                        getFormatting(mc.player.getPos().x * 8.0) +
-                        ", " +
-                        getFormatting(mc.player.getPos().z * 8.0) +
-                        Formatting.GRAY +
-                        ")",
+                                Formatting.WHITE +
+                                getFormatting(mc.player.getPos().x) +
+                                ", " +
+                                getFormatting(mc.player.getPos().y) +
+                                ", " +
+                                getFormatting(mc.player.getPos().z) +
+                                Formatting.GRAY +
+                                " (" +
+                                Formatting.WHITE +
+                                getFormatting(mc.player.getPos().x * 8.0) +
+                                ", " +
+                                getFormatting(mc.player.getPos().z * 8.0) +
+                                Formatting.GRAY +
+                                ")",
                         2,
                         event.getDrawContext().getScaledWindowHeight() - 9 - 2 - chatY,
                         color.getRGB(),
                         true
                 );
-            }
-            else {
+            } else {
                 Managers.TEXT.drawString("XYZ: " +
-                        Formatting.WHITE +
-                        getFormatting(mc.player.getPos().x) +
-                        ", " +
-                        getFormatting(mc.player.getPos().y) +
-                        ", " +
-                        getFormatting(mc.player.getPos().z) +
-                        Formatting.GRAY +
-                        " (" +
-                        Formatting.WHITE +
-                        getFormatting(mc.player.getPos().x / 8.0) +
-                        ", " +
-                        getFormatting(mc.player.getPos().z / 8.0) +
-                        Formatting.GRAY +
-                        ")",
+                                Formatting.WHITE +
+                                getFormatting(mc.player.getPos().x) +
+                                ", " +
+                                getFormatting(mc.player.getPos().y) +
+                                ", " +
+                                getFormatting(mc.player.getPos().z) +
+                                Formatting.GRAY +
+                                " (" +
+                                Formatting.WHITE +
+                                getFormatting(mc.player.getPos().x / 8.0) +
+                                ", " +
+                                getFormatting(mc.player.getPos().z / 8.0) +
+                                Formatting.GRAY +
+                                ")",
                         2,
                         event.getDrawContext().getScaledWindowHeight() - 9 - coordinateOffset - 2 - chatY,
                         hudColor(coordinateOffset).getRGB(),
@@ -351,8 +320,7 @@ public final class HUD extends ModuleBase
             coordinateOffset += (int) (Managers.TEXT.height(true) + 1);
         }
 
-        if (direction.value())
-        {
+        if (direction.value()) {
             String direction = getDirections();
             Managers.TEXT.drawString(direction,
                     2,
@@ -362,11 +330,10 @@ public final class HUD extends ModuleBase
             );
         }
 
-        if (chatOpened)
-        {
-            if (chatY == 14) {
-                return;
-            }
+        if (chatOpened) {
+
+            if (chatY == 14) return;
+
             if (chatY == 9) {
                 timer.hasBeen(100);
                 chatY++;
@@ -376,12 +343,10 @@ public final class HUD extends ModuleBase
             timer.hasBeen(50);
             chatY++;
             timer.reset();
-        }
-        else
-        {
-            if (chatY == 0) {
-                return;
-            }
+        } else {
+
+            if (chatY == 0) return;
+
             if (chatY == 5) {
                 timer.hasBeen(100);
                 chatY--;
@@ -393,24 +358,6 @@ public final class HUD extends ModuleBase
             timer.reset();
         }
 
-        if (Managers.SERVER.isServerNotResponding())
-        {
-            if (lagY == 20) {
-                return;
-            }
-            timer.hasBeen(50);
-            lagY++;
-            timer.reset();
-        }
-        else
-        {
-            if (lagY == 0) {
-                return;
-            }
-            timer.hasBeen(50);
-            lagY--;
-            timer.reset();
-        }
     }
     
     private String getDirections() {

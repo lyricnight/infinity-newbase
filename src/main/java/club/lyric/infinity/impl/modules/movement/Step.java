@@ -1,7 +1,5 @@
 package club.lyric.infinity.impl.modules.movement;
 
-import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.mc.movement.EntityMovementEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
@@ -40,12 +38,12 @@ public final class Step extends ModuleBase {
     {
         if (nullCheck()) return;
 
-        if (mc.player.isOnGround() && stopWatch.hasBeen(200))
+        if (mc.player.isOnGround())
         {
             mc.player.setStepHeight(height.getFValue());
         }
 
-        if (mode.is("Normal") && stopWatch.hasBeen(200))
+        if (mode.is("Normal"))
         {
             double stepHeight = mc.player.getY() - mc.player.prevY;
             double[] offsets = getOffset(stepHeight);

@@ -3,12 +3,10 @@ package club.lyric.infinity.impl.commands;
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.command.CommandState;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.manager.Managers;
+import org.lwjgl.glfw.GLFW;
 
-/**
- * @author lyric
- * unfinished
- */
 public class Bind extends Command {
     public Bind()
     {
@@ -18,7 +16,7 @@ public class Bind extends Command {
     @Override
     public String theCommand()
     {
-        return "bind <module> <key(has to be the GLFW key as an integer)>";
+        return "bind <module> <key>";
     }
 
     @Override
@@ -37,6 +35,19 @@ public class Bind extends Command {
             return;
         }
 
-        module.setBind(Integer.parseInt(args[2]));
+        int bind = getKey(args[2]);
+
+        module.setBind(bind);
+    }
+
+    public int getKey(String bind) {
+        for (int key = 39; key < 97; key++)
+        {
+            if (bind.equalsIgnoreCase(GLFW.glfwGetKeyName(key, GLFW.glfwGetKeyScancode(key))))
+            {
+                return key;
+            }
+        }
+        return GLFW.GLFW_KEY_UNKNOWN;
     }
 }

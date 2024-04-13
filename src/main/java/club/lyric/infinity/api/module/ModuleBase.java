@@ -8,13 +8,17 @@ import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
-import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.impl.modules.client.Notifications;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
+import java.text.Format;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -138,9 +142,7 @@ public class ModuleBase implements IMinecraft {
         enabled = true;
         EventBus.getInstance().register(this);
         this.onEnable();
-        //if (Managers.MODULES.getModuleFromClass(Notifications.class).enable.value()) {
-            //ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.GREEN + "enabled.", id);
-        //}
+        ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + Formatting.RESET + " enabled.", id);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -148,9 +150,7 @@ public class ModuleBase implements IMinecraft {
         enabled = false;
         this.onDisable();
         EventBus.getInstance().unregister(this);
-        //if (Managers.MODULES.getModuleFromClass(Notifications.class).disable.value()) {
-            //ChatUtils.sendOverwriteMessage(Formatting.BOLD + getName() + " has been " + Formatting.RED + "disabled.", id);
-        //}
+        ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + Formatting.RESET + " disabled.", id);
     }
 
     public Category getCategory() {

@@ -12,9 +12,6 @@ public final class Configuration extends PersistentModuleBase {
     {
         super("Configuration", "Manages configs.", Category.Client);
     }
-
-    private final List<String> names = new ArrayList<>();
-
     @Override
     public void renderSettings()
     {

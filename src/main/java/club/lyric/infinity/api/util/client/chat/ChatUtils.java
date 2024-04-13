@@ -6,17 +6,16 @@ import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
 /**
  * @author vasler, lyric
  * chatuils
  */
 
+@SuppressWarnings("ConstantConditions")
 public class ChatUtils implements IMinecraft
 {
 
-    @SuppressWarnings("ConstantConditions")
     public static Text clientMessage()
     {
         MutableText clientMessage = Text.literal("[" + "Infinity" +  "]");
@@ -69,6 +68,33 @@ public class ChatUtils implements IMinecraft
         if(mc.world == null) return;
         MutableText text = Text.empty();
         text.append(message);
+        ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
+    }
+
+    public static void sendOverwriteMessageColored(String message, int id) {
+        if(mc.world == null) return;
+        MutableText text = Text.empty();
+        text.append(clientMessage());
+        text.append(" " + message);
+        text.setStyle(text.getStyle().withColor(Managers.MODULES.getModuleFromClass(Colours.class).getColor().getRGB()));
+        if (id == 1111)
+        {
+            text.append(" (!)");
+            ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
+            return;
+        }
+        else if (id == 2222)
+        {
+            text.append(" (-)");
+            ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
+            return;
+        }
+        else if (id == 3333)
+        {
+            text.append(" (*)");
+            ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
+            return;
+        }
         ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
     }
 }
