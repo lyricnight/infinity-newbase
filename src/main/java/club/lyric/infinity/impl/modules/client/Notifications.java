@@ -58,7 +58,7 @@ public class Notifications extends PersistentModuleBase
         mc.world.getPlayers().forEach(player -> {
             if(player.getHealth() <= 0) {
                 if (totemPop.containsKey(player.getName().toString())) {
-                    ChatUtils.sendOverwriteMessage(player.getName() + " died after popping " + totemPop.get(player.getName().toString()) + " time(s).", player.getId());
+                    ChatUtils.sendOverwriteMessage(player.getName() + " died after popping " + (totemPop.get(player.getName().toString()) != 1 ? totemPop.get(player.getName().toString()) + " times." : "once."), player.getId());
                     totemPop.remove(player.getName().toString(), totemPop.get(player.getName().toString()));
                 }
             }
@@ -79,7 +79,7 @@ public class Notifications extends PersistentModuleBase
                 {
                     int pops = totemPop.get(entity.getName().toString()) == null ? 1 : totemPop.get(entity.getName().toString()) + 1;
                     totemPop.put(String.valueOf(entity.getName()), pops);
-                    ChatUtils.sendOverwriteMessage(entity.getName() + " popped " + totemPop.get(entity.getName().toString()) + " time(s).", entity.getId());
+                    ChatUtils.sendOverwriteMessage(entity.getName() + " popped " + (totemPop.get(entity.getName().toString()) != 1 ? totemPop.get(entity.getName().toString()) + " times." : "once."), entity.getId());
                 }
             }
         }
