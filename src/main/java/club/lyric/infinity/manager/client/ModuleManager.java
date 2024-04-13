@@ -58,7 +58,8 @@ public final class ModuleManager implements IMinecraft
                 new Velocity(),
                 new Speed(),
                 new InstantAcceleration(),
-                new SpeedMine()
+                new SpeedMine(),
+                new AntiAscii()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }
