@@ -14,7 +14,9 @@
     "MixinStringHelper",
     "MixinTitleScreen",
     "accessors.ICustomPayloadC2SPacket",
-    "accessors.IPlayerMoveC2SPacket"
+    "accessors.IPlayerMoveC2SPacket",
+    "accessors.IExplosionS2CPacket",
+    "accessors.IEntityVelocityUpdateS2CPacket"
   ],
   "client": [
     "MixinChatHud",

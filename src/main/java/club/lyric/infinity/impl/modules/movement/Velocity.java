@@ -5,11 +5,13 @@ import club.lyric.infinity.api.event.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
-import club.lyric.infinity.api.util.client.math.StopWatch;
+import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.asm.accessors.IEntityVelocityUpdateS2CPacket;
+import club.lyric.infinity.asm.accessors.IExplosionS2CPacket;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
-import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
+import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 
 import java.util.Random;
 import java.util.concurrent.Executors;
@@ -17,14 +19,15 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"ConstantConditions", "unused"})
 public class Velocity extends ModuleBase {
 
     public ModeSetting mode = new ModeSetting("Mode", this, "Normal", "Normal", "JumpReset", "Grim");
+    public NumberSetting horizontal = new NumberSetting("Horizontal", this, 0.0f, -100.0f, 100.0f, 1.0f);
+    public NumberSetting vertical = new NumberSetting("Vertical", this, 0.0f, -100.0f, 100.0f, 1.0f);
 
     protected final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     protected static final Random random = new Random();
-    protected StopWatch stopWatch = new StopWatch.Single();
 
     public Velocity() {
         super("Velocity", "Tries to remove velocity", Category.Movement);
@@ -48,15 +51,34 @@ public class Velocity extends ModuleBase {
 
             }
         }
-        else if (mode.is("Grim")) {
+        else if (mode.is("Grim"))
+        {
 
             if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
 
                 event.setCancelled(true);
 
             }
-        } else if (mode.is("Normal")) {
+        }
+        else if (mode.is("Normal"))
+        {
 
+            if (event.getPacket() instanceof ExplosionS2CPacket)
+            {
+
+                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityX(((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityX() * (horizontal.getFValue() / 100.0f));
+                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityY(((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityY() * (vertical.getFValue() / 100.0f));
+                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityZ(((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityZ() * (horizontal.getFValue() / 100.0f));
+
+            }
+            else if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket)
+            {
+
+                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityX(((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityX() * (horizontal.getIValue() / 100));
+                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityY(((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityY() * (vertical.getIValue() / 100));
+                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityZ(((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityZ() * (horizontal.getIValue() / 100));
+
+            }
         }
 
     }
