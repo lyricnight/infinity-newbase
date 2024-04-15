@@ -6,6 +6,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.asm.accessors.IEntityVelocityUpdateS2CPacket;
 import club.lyric.infinity.asm.accessors.IExplosionS2CPacket;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
@@ -28,6 +29,7 @@ public class Velocity extends ModuleBase {
 
     protected final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     protected static final Random random = new Random();
+    protected StopWatch.Single stopWatch = new StopWatch.Single();
 
     public Velocity() {
         super("Velocity", "Tries to remove velocity", Category.Movement);
@@ -54,7 +56,7 @@ public class Velocity extends ModuleBase {
         else if (mode.is("Grim"))
         {
 
-            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
+            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket && stopWatch.hasBeen(100)) {
 
                 event.setCancelled(true);
 
@@ -63,15 +65,7 @@ public class Velocity extends ModuleBase {
         else if (mode.is("Normal"))
         {
 
-            if (event.getPacket() instanceof ExplosionS2CPacket)
-            {
-
-                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityX(((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityX() * (horizontal.getFValue() / 100.0f));
-                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityY(((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityY() * (vertical.getFValue() / 100.0f));
-                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityZ(((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityZ() * (horizontal.getFValue() / 100.0f));
-
-            }
-            else if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket)
+            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket)
             {
 
                 ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityX(((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityX() * (horizontal.getIValue() / 100));
@@ -86,7 +80,7 @@ public class Velocity extends ModuleBase {
     @Override
     public void onTickPre()
     {
-        if (mode.is("Grim"))
+        if (mode.is("Grim") && stopWatch.hasBeen(100))
         {
 
             float yaw = mc.player.getYaw();

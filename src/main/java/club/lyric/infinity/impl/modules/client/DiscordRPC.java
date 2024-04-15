@@ -9,14 +9,4 @@ public final class DiscordRPC extends ModuleBase {
     public DiscordRPC() {
         super("DiscordRPC", "Toggles the Discord Presence", Category.Client);
     }
-
-    @Override
-    public void onEnable() {
-        DiscordUtil.start();
-    }
-
-    @Override
-    public void onDisable() {
-        DiscordUtil.stop();
-    }
 }
