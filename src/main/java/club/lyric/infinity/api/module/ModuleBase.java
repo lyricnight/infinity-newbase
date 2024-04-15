@@ -142,7 +142,7 @@ public class ModuleBase implements IMinecraft {
         enabled = true;
         EventBus.getInstance().register(this);
         this.onEnable();
-        ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + Formatting.RESET + " enabled.", id);
+        ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + " was" +  Formatting.RESET + " enabled.", id);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -150,7 +150,7 @@ public class ModuleBase implements IMinecraft {
         enabled = false;
         this.onDisable();
         EventBus.getInstance().unregister(this);
-        ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + Formatting.RESET + " disabled.", id);
+        ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + " was" + Formatting.RESET + " disabled.", id);
     }
 
     public Category getCategory() {

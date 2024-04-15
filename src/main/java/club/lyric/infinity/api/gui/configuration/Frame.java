@@ -1,6 +1,8 @@
 package club.lyric.infinity.api.gui.configuration;
 
+import club.lyric.infinity.api.gui.configuration.components.ModuleComponent;
 import club.lyric.infinity.api.module.Category;
+import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Colours;
@@ -9,6 +11,7 @@ import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * @author valser
@@ -29,8 +32,12 @@ public class Frame implements IMinecraft {
     // Dragging
     private boolean dragging;
 
+    private final ArrayList<ModuleComponent> components;
+
 
     public Frame(Category category, float x, float y, float width, float height) {
+
+        this.components = new ArrayList<>();
 
         this.moduleCategory = category;
 
@@ -39,6 +46,12 @@ public class Frame implements IMinecraft {
 
         this.width = width;
         this.height = height;
+
+        for (ModuleBase module : Managers.MODULES.getModules()) {
+            if (module.getCategory() == category) {
+                components.add(new ModuleComponent(module));
+            }
+        }
     }
 
     public Frame(Category category, float x, float y) {

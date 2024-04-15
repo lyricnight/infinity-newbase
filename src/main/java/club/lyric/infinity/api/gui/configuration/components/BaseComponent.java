@@ -32,12 +32,5 @@ public class BaseComponent extends Component {
 
     }
 
-    @Override
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-        if (mouseButton == 0 && isHovering(mouseX, mouseY)) {
-            // something should be here
-        }
-    }
-
 
 }
