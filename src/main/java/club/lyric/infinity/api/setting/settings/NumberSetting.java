@@ -31,7 +31,7 @@ public class NumberSetting extends Setting implements Renderable {
         if (moduleBase != null) moduleBase.addSettings(this);
     }
 
-    public NumberSetting(String name, ModuleBase moduleBase, double value, double minimum, double maximum) {
+    public NumberSetting(String name, ModuleBase moduleBase, double value, double minimum, double maximum, double increment, boolean visibility) {
         this.name = name;
         this.moduleBase = moduleBase;
         this.value = value;
@@ -39,6 +39,7 @@ public class NumberSetting extends Setting implements Renderable {
         this.maximum = maximum;
         this.increment = 1.0f;
         this.decimal = !(Math.floor(increment) == increment);
+        this.visibility = visibility;
 
         if (moduleBase != null) moduleBase.addSettings(this);
     }

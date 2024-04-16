@@ -40,6 +40,27 @@ public class ColorSetting extends Setting implements Renderable {
         moduleBase.addSettings(this);
     }
 
+    public ColorSetting(String name, ModuleBase moduleBase, JColor color, boolean alpha, boolean visibility) {
+        this.name = name;
+        this.moduleBase = moduleBase;
+        this.color = color;
+        this.alpha = alpha;
+        this.showSliders = false;
+        this.rainbow = false;
+
+        renderableSettings.addAll(List.of(
+                new BooleanRainbowSetting("Rainbow", moduleBase.getName() + "/" + this.getName() + "/Rainbow", rainbow),
+                new ColorSliderSetting("Red", moduleBase.getName() + "/" + this.getName() + "/Red", color.getRed()),
+                new ColorSliderSetting("Green", moduleBase.getName() + "/" + this.getName() + "/Green", color.getGreen()),
+                new ColorSliderSetting("Blue", moduleBase.getName() + "/" + this.getName() + "/Blue", color.getBlue())));
+
+        if (alpha) renderableSettings.add(new ColorSliderSetting("Alpha", moduleBase.getName() + "/" + this.getName() + "/Alpha", color.getAlpha()));
+
+        this.visibility = visibility;
+
+        moduleBase.addSettings(this);
+    }
+
     private static class ColorSliderSetting extends NumberSetting {
         private final String imGuiID;
         public ColorSliderSetting(String name, String imGuiID, int value) {

@@ -17,6 +17,8 @@ public abstract class Setting {
      */
     protected ModuleBase moduleBase;
 
+    protected boolean visibility;
+
     public String getName() {
         return name;
     }

@@ -21,6 +21,16 @@ public class BooleanSetting extends Setting implements Renderable {
         if (moduleBase != null) moduleBase.addSettings(this);
     }
 
+    public BooleanSetting(String name, boolean value, ModuleBase moduleBase, boolean visibility)
+    {
+        this.name = name;
+        this.value = value;
+        this.moduleBase = moduleBase;
+        this.visibility = visibility;
+
+        if (moduleBase != null) moduleBase.addSettings(this);
+    }
+
     /**
      * gets value
      * @return - value of setting

@@ -24,6 +24,15 @@ public class ModeSetting extends Setting implements Renderable {
         moduleBase.addSettings(this);
     }
 
+    public ModeSetting(String name, ModuleBase moduleBase, String defaultMode, boolean visibility, String... modes) {
+        this.name = name;
+        this.moduleBase = moduleBase;
+        this.modes = modes;
+        this.index = Arrays.stream(this.modes).toList().indexOf(defaultMode);
+        this.visibility = visibility;
+        moduleBase.addSettings(this);
+    }
+
     public String getMode() {
         return modes[index];
     }
