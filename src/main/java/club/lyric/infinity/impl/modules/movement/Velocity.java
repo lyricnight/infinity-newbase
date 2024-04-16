@@ -8,11 +8,9 @@ import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.asm.accessors.IEntityVelocityUpdateS2CPacket;
-import club.lyric.infinity.asm.accessors.IExplosionS2CPacket;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
-import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 
 import java.util.Random;
 import java.util.concurrent.Executors;
