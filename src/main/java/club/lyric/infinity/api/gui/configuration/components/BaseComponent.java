@@ -24,6 +24,16 @@ public class BaseComponent extends Component {
     }
 
     @Override
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+
+    }
+
+    @Override
+    public void mouseReleased(int mouseX, int mouseY, int releaseButton) {
+
+    }
+
+    @Override
     public void drawScreen(DrawContext context, int mouseX, int mouseY, float partialTicks) {
 
         Render2DUtils.drawRect(context.getMatrices(), x, y, x + width, y + height, new Color(255, 255, 255).getRGB());

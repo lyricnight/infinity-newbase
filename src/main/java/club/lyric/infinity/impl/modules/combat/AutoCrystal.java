@@ -112,9 +112,7 @@ public class AutoCrystal extends ModuleBase {
                         return;
                     }
 
-                    if (isValid((Entity) targets)) continue;
-
-                    if (mc.player.distanceTo(crystal) >= hitRange.getValue() || mc.world.getOtherEntities(null, new Box(crystal.getPos(), crystal.getPos()).expand(enemyRange.getFValue()), targets::contains).isEmpty()) {
+                    if (mc.player.distanceTo(crystal) >= hitRange.getValue() || !mc.world.getOtherEntities(null, new Box(crystal.getPos(), crystal.getPos()).expand(enemyRange.getFValue()), targets::contains).isEmpty()) {
 
                         if (inhibit.value()) {
                             StopWatch.Single timer = hitCrystals.get(crystal.getId());
@@ -177,12 +175,7 @@ public class AutoCrystal extends ModuleBase {
                     if (ent == null) {
                         return;
                     }
-                    if (ent instanceof EndCrystalEntity crystal &&
-
-                            crystal.squaredDistanceTo(
-                                    explosionPacket.getX(),
-                                    explosionPacket.getY(),
-                                    explosionPacket.getZ()) <= 6.0d)
+                    if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(explosionPacket.getX(), explosionPacket.getY(), explosionPacket.getZ()) <= 6.0d)
                     {
                         int entity = crystal.getId();
                         mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);

@@ -32,12 +32,10 @@ public class Frame implements IMinecraft {
     // Dragging
     private boolean dragging;
 
-    private final ArrayList<ModuleComponent> components;
+    private final ArrayList<ModuleComponent> components = new ArrayList<>();;
 
 
     public Frame(Category category, float x, float y, float width, float height) {
-
-        this.components = new ArrayList<>();
 
         this.moduleCategory = category;
 
@@ -47,10 +45,13 @@ public class Frame implements IMinecraft {
         this.width = width;
         this.height = height;
 
-        for (ModuleBase module : Managers.MODULES.getModules()) {
-            if (module.getCategory() == category) {
-                components.add(new ModuleComponent(module));
+        for (ModuleBase module : Managers.MODULES.getModules())
+        {
+            if (!module.getCategory().equals(category))
+            {
+                return;
             }
+            components.add(new ModuleComponent(module));
         }
     }
 

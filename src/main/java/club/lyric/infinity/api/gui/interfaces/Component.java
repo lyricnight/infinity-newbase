@@ -20,11 +20,9 @@ public abstract class Component implements IMinecraft {
     // Settings
     protected Setting setting;
 
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-    }
+    public abstract void mouseClicked(int mouseX, int mouseY, int mouseButton);
 
-    public void mouseReleased(int mouseX, int mouseY, int releaseButton) {
-    }
+    public abstract void mouseReleased(int mouseX, int mouseY, int releaseButton);
 
     public abstract void drawScreen(DrawContext context, int mouseX, int mouseY, float partialTicks);
 
