@@ -112,6 +112,8 @@ public class AutoCrystal extends ModuleBase {
                         return;
                     }
 
+                    if (isValid((Entity) targets)) continue;
+
                     if (mc.player.distanceTo(crystal) >= hitRange.getValue() || !mc.world.getOtherEntities(null, new Box(crystal.getPos(), crystal.getPos()).expand(enemyRange.getFValue()), targets::contains).isEmpty()) {
 
                         if (inhibit.value()) {
