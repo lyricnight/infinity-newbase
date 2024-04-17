@@ -153,17 +153,17 @@ public final class HUD extends ModuleBase
                     }
                     final float percent = InventoryUtils.getPercent(stack);
                     event.getDrawContext().getMatrices().push();
-                    event.getDrawContext().getMatrices().scale(0.75F, 0.75F, 1F);
+                    event.getDrawContext().getMatrices().scale(0.75f, 0.75f, 0.75f);
                     RenderSystem.disableDepthTest();
                     event.getDrawContext().drawTextWithShadow(mc.textRenderer,
                             Text.of(((int) (percent)) + "%"),
-                            (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333F),
-                            (int) ((height - y - 5) * 1.333F), ColorUtils.toColor(percent / 100.0F * 120.0F,
-                                    100.0F,
-                                    50.0F,
-                                    1.0F).getRGB());
+                            (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333f),
+                            (int) ((height - y - 5) * 1.333f), ColorUtils.toColor(percent / 100.0f * 120.0f,
+                                    100.0f,
+                                    50.0f,
+                                    1.0f).getRGB());
                     RenderSystem.enableDepthTest();
-                    event.getDrawContext().getMatrices().scale(1.0F, 1.0F, 1.0F);
+                    event.getDrawContext().getMatrices().scale(1.0f, 1.0f, 1.0f);
                     event.getDrawContext().getMatrices().pop();
                     event.getDrawContext().getMatrices().push();
                     event.getDrawContext().drawItemInSlot(mc.textRenderer, stack, width / 2 + x, height - y);
