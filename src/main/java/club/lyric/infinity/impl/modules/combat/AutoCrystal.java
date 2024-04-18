@@ -22,6 +22,7 @@ import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -31,7 +32,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /* TODO: make calculated breaking smarter by: calculating enemy and own damage and finding the best possible crystal to break;
-* make placing modes like breaking: do the same shit i just said; ADD PLACING, add id predict*/
+ * make placing modes like breaking: do the same shit i just said; ADD PLACING, add id predict*/
 @SuppressWarnings({"ConstantConditions", "unused"})
 public class AutoCrystal extends ModuleBase {
     // Entities
@@ -76,18 +77,9 @@ public class AutoCrystal extends ModuleBase {
 
     @Override
     public void onUpdate() {
-        breakCrystals();
-    }
-
-    public void placeCrystals() {
-
-    }
-
-    public void breakCrystals() {
         List<LivingEntity> targets = Streams.stream(
                         mc.world.getEntities())
                 .filter(e -> e instanceof PlayerEntity)
-                .filter(e -> e != mc.player)
                 .map(e -> (LivingEntity) e)
                 .toList();
 
@@ -98,6 +90,14 @@ public class AutoCrystal extends ModuleBase {
                 .sorted(Comparator.comparing(mc.player::distanceTo))
                 .toList();
 
+        breakCrystals(near, targets);
+    }
+
+    public void placeCrystals() {
+
+    }
+
+    public void breakCrystals(List<EndCrystalEntity> near, List<LivingEntity> targets) {
         // breaking
         if (mc.player != null) {
             for (EndCrystalEntity crystal : near) {
@@ -108,11 +108,11 @@ public class AutoCrystal extends ModuleBase {
 
                 if (breakTimer.hasBeen(hitDelay.getLValue())) {
 
-                    if (Objects.equals(breaking.getMode(), "Calculated") && !isOwn(crystal.getPos())) {
+                    if (breaking.is("Calculated") && !isOwn(crystal.getPos())) {
                         return;
                     }
 
-                    if (isValid((Entity) targets)) continue;
+                    //if (!isValid((Entity) targets)) return;
 
                     if (mc.player.distanceTo(crystal) >= hitRange.getValue() || !mc.world.getOtherEntities(null, new Box(crystal.getPos(), crystal.getPos()).expand(enemyRange.getFValue()), targets::contains).isEmpty()) {
 
@@ -137,7 +137,7 @@ public class AutoCrystal extends ModuleBase {
                                         send(PlayerInteractEntityC2SPacket.attack(mc.player, mc.player.isSneaking()));
                             }
 
-                            if (Objects.equals(swingOn.getMode(), "Both") && Objects.equals(swingOn.getMode(), "Break")) {
+                            if (swingOn.is("Both") && swingOn.is("Break")) {
                                 switch (hands.getMode()) {
                                     case "Main" -> swingType(Hand.MAIN_HAND);
                                     case "Off" -> swingType(Hand.OFF_HAND);
@@ -172,6 +172,7 @@ public class AutoCrystal extends ModuleBase {
     public void onPacketReceive(PacketEvent.Receive event) {
         if (explosion.value()) {
             if (event.getPacket() instanceof ExplosionS2CPacket explosionPacket) {
+                assert mc.world != null;
                 for (Entity ent : mc.world.getEntities()) {
                     if (ent == null) {
                         return;
@@ -180,9 +181,9 @@ public class AutoCrystal extends ModuleBase {
                     {
                         int entity = crystal.getId();
                         mc.executeSync(() -> {
-                            mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
-                            mc.world.removeBlockEntity(crystal.getBlockPos());
-                        });
+                         mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
+                         mc.world.removeBlockEntity(crystal.getBlockPos());
+                         });
                     }
                 }
             }
@@ -191,11 +192,12 @@ public class AutoCrystal extends ModuleBase {
         if (sound.value()) {
             if (event.getPacket() instanceof PlaySoundS2CPacket soundPacket) {
                 if (soundPacket.getCategory() == SoundCategory.BLOCKS && soundPacket.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
+                    assert mc.world != null;
                     for (Entity ent : mc.world.getEntities()) {
                         if (ent == null) {
                             return;
                         }
-                        if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(soundPacket.getX(), soundPacket.getY(), soundPacket.getZ()) < 11.0d) {
+                        if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(soundPacket.getX(), soundPacket.getY(), soundPacket.getZ()) < 36.0d) {
                             int entity = crystal.getId();
                             mc.executeSync(() -> {
                                 mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
@@ -230,5 +232,26 @@ public class AutoCrystal extends ModuleBase {
     private boolean isValid(Entity entity)
     {
         return entity instanceof PlayerEntity && players.value() || EntityUtils.isMob(entity) && mobs.value() || EntityUtils.isAnimal(entity) && animals.value();
+    }
+
+    private void place(BlockHitResult result, EndCrystalEntity entity)
+    {
+        Hand hand = null;
+
+        switch (hands.getMode()) {
+            case "Main" -> hand = Hand.MAIN_HAND;
+            case "Off" -> hand = Hand.OFF_HAND;
+        }
+
+        Hand finalHand = hand;
+        switch (breaks.getMode()) {
+            case "Vanilla" -> mc.interactionManager.interactBlock(mc.player, hand, result);
+            case "Packet" ->
+                    sendSeq(id -> new PlayerInteractBlockC2SPacket(finalHand, result, id));
+        }
+
+        if (swingOn.is("Both") && swingOn.is("Place")) {
+            swingType(hand);
+        }
     }
 }

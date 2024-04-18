@@ -12,6 +12,8 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.impl.modules.client.Notifications;
 import club.lyric.infinity.manager.Managers;
+import net.minecraft.client.network.PendingUpdateManager;
+import net.minecraft.client.network.SequencedPacketCreator;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -169,6 +171,17 @@ public class ModuleBase implements IMinecraft {
         if (mc.getNetworkHandler() == null) return;
 
         mc.getNetworkHandler().sendPacket(packet);
+    }
+
+    protected void sendSeq(SequencedPacketCreator packetCreator) {
+        if (mc.getNetworkHandler() == null) return;
+
+        PendingUpdateManager sequence = mc.world.getPendingUpdateManager().incrementSequence();
+        Packet<?> packet = packetCreator.predict(sequence.getSequence());
+
+        mc.getNetworkHandler().sendPacket(packet);
+
+        sequence.close();
     }
 
     protected void sendUnsafe(Packet<?> packet)
