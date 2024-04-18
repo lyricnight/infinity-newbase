@@ -172,7 +172,6 @@ public class AutoCrystal extends ModuleBase {
     public void onPacketReceive(PacketEvent.Receive event) {
         if (explosion.value()) {
             if (event.getPacket() instanceof ExplosionS2CPacket explosionPacket) {
-                assert mc.world != null;
                 for (Entity ent : mc.world.getEntities()) {
                     if (ent == null) {
                         return;
@@ -180,8 +179,10 @@ public class AutoCrystal extends ModuleBase {
                     if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(explosionPacket.getX(), explosionPacket.getY(), explosionPacket.getZ()) <= 6.0d)
                     {
                         int entity = crystal.getId();
-                        mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
-                        mc.world.removeBlockEntity(crystal.getBlockPos());
+                        mc.executeSync(() -> {
+                            mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
+                            mc.world.removeBlockEntity(crystal.getBlockPos());
+                        });
                     }
                 }
             }
@@ -190,15 +191,16 @@ public class AutoCrystal extends ModuleBase {
         if (sound.value()) {
             if (event.getPacket() instanceof PlaySoundS2CPacket soundPacket) {
                 if (soundPacket.getCategory() == SoundCategory.BLOCKS && soundPacket.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
-                    assert mc.world != null;
                     for (Entity ent : mc.world.getEntities()) {
                         if (ent == null) {
                             return;
                         }
-                        if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(soundPacket.getX(), soundPacket.getY(), soundPacket.getZ()) < 36.0d) {
+                        if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(soundPacket.getX(), soundPacket.getY(), soundPacket.getZ()) < 11.0d) {
                             int entity = crystal.getId();
-                            mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
-                            mc.world.removeBlockEntity(crystal.getBlockPos());
+                            mc.executeSync(() -> {
+                                mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
+                                mc.world.removeBlockEntity(crystal.getBlockPos());
+                            });
                         }
                     }
                 }
