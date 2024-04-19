@@ -3,7 +3,6 @@ package club.lyric.infinity.api.util.client.render.colors;
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.manager.Managers;
-import com.mojang.blaze3d.platform.GlStateManager;
 
 import java.awt.*;
 import java.io.Serial;

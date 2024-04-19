@@ -8,5 +8,6 @@ import org.jetbrains.annotations.Nullable;
  * @see club.lyric.infinity.manager.client.TextManager
  */
 public interface IDrawContext {
+    @SuppressWarnings("UnusedReturnValue")
     float infinity_newbase$drawText(TextRenderer renderer, @Nullable String text, float x, float y, int color, boolean shadow);
 }

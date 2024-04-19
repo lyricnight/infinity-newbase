@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.event.render;
+package club.lyric.infinity.impl.events.render;
 
 import club.lyric.infinity.api.event.Event;
 import net.minecraft.entity.LivingEntity;

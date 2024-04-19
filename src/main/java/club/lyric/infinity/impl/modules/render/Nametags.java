@@ -1,8 +1,7 @@
 package club.lyric.infinity.impl.modules.render;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.render.Render3DEvent;
-import club.lyric.infinity.api.event.render.RenderWorldEvent;
+import club.lyric.infinity.impl.events.render.RenderWorldEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -14,18 +13,13 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
-
-import java.awt.*;
 
 /**
  * @author vasler
  */
-@SuppressWarnings("ConstantConditions")
 public class Nametags extends ModuleBase {
 
     public BooleanSetting self = new BooleanSetting("Self", true, this);

@@ -2,7 +2,7 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.event.network.PacketEvent;
+import club.lyric.infinity.impl.events.network.PacketEvent;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.ClientConnection;

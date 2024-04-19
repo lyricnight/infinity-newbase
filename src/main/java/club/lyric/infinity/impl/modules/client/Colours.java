@@ -1,7 +1,6 @@
 package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.api.module.Category;
-import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.module.PersistentModuleBase;
 import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
@@ -11,7 +10,6 @@ import club.lyric.infinity.api.util.client.render.colors.JColor;
 import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
-import java.util.function.Predicate;
 
 public class Colours extends PersistentModuleBase {
 

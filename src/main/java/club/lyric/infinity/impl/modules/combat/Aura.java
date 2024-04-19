@@ -1,8 +1,8 @@
 package club.lyric.infinity.impl.modules.combat;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.client.KeyPressEvent;
-import club.lyric.infinity.api.event.mc.update.UpdateWalkingPlayerEvent;
+import club.lyric.infinity.impl.events.client.KeyPressEvent;
+import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;

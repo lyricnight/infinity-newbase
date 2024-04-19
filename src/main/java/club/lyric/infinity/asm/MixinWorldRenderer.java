@@ -1,7 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.event.render.Render3DEvent;
+import club.lyric.infinity.impl.events.render.Render3DEvent;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;

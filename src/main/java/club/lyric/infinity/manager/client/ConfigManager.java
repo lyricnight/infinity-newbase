@@ -25,7 +25,6 @@ import java.util.Map;
  * @author ???
  */
 
-@SuppressWarnings("BlockingMethodInNonBlockingContext")
 public final class ConfigManager {
     private final Gson GSON = new Gson();
     private final Path pathConfigFolder;
@@ -38,7 +37,6 @@ public final class ConfigManager {
     private String[] namesArray;
 
     public ConfigManager() {
-        //wow, ghost client
         String tempFolderDirectory = System.getProperty("java.io.tmpdir");
         Infinity.LOGGER.info(tempFolderDirectory);
         pathConfigFolder = Paths.get(tempFolderDirectory).resolve("infinity");
@@ -109,7 +107,6 @@ public final class ConfigManager {
 
             jsonConfig.addProperty("profile", currentProfile.getPathProfile().toString());
 
-            //noinspection BlockingMethodInNonBlockingContext
             Files.writeString(pathConfig, GSON.toJson(jsonConfig));
 
             currentProfile.saveProfile();
@@ -173,7 +170,6 @@ public final class ConfigManager {
         ImGui.popID();
     }
 
-    @SuppressWarnings("BlockingMethodInNonBlockingContext")
     public class ConfigProfile {
         private String name;
         private Path pathProfile;
@@ -186,7 +182,6 @@ public final class ConfigManager {
             try {
                 if (name == null || name.isBlank()) {
                     if (Files.isRegularFile(pathProfile)) {
-                        //noinspection BlockingMethodInNonBlockingContext
                         String stringProfile = Files.readString(pathProfile);
 
                         if (stringProfile.isBlank()) return;
@@ -271,7 +266,6 @@ public final class ConfigManager {
 
         public void saveProfile() {
             try {
-                //noinspection BlockingMethodInNonBlockingContext
                 Files.createDirectories(pathProfilesFolder);
 
                 jsonProfile = new JsonObject();

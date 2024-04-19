@@ -1,7 +1,6 @@
-package club.lyric.infinity.api.event.mc.movement;
+package club.lyric.infinity.impl.events.mc.movement;
 
 import club.lyric.infinity.api.event.Event;
-import net.minecraft.util.math.Vec3d;
 
 /**
  * @author lyric

@@ -5,6 +5,10 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 
+/**
+ * @author various
+ * basic functions used for rotation calculations.
+ */
 public class RotationUtils implements IMinecraft {
     public static Vec2f getRotationTo(Vec3d posTo, Vec3d posFrom) {
         return getRotationFromVec(posTo.subtract(posFrom));

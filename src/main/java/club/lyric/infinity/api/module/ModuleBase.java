@@ -1,26 +1,19 @@
 package club.lyric.infinity.api.module;
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.event.render.Render2DEvent;
-import club.lyric.infinity.api.event.render.Render3DEvent;
+import club.lyric.infinity.impl.events.render.Render2DEvent;
+import club.lyric.infinity.impl.events.render.Render3DEvent;
 import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.Colours;
-import club.lyric.infinity.impl.modules.client.Notifications;
-import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.network.PendingUpdateManager;
 import net.minecraft.client.network.SequencedPacketCreator;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-import java.text.Format;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -110,10 +103,6 @@ public class ModuleBase implements IMinecraft {
     public void onRender3D(Render3DEvent event) {
     }
 
-    public String getDisplayInfo() {
-        return "";
-    }
-
     public boolean isOn() {
         return enabled;
     }
@@ -139,7 +128,6 @@ public class ModuleBase implements IMinecraft {
         this.setEnabled(!this.isOn());
     }
 
-    @SuppressWarnings("ConstantConditions")
     protected void enable() {
         enabled = true;
         EventBus.getInstance().register(this);
@@ -147,7 +135,6 @@ public class ModuleBase implements IMinecraft {
         ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + " was" +  Formatting.RESET + " enabled.", id);
     }
 
-    @SuppressWarnings("ConstantConditions")
     protected void disable() {
         enabled = false;
         this.onDisable();
@@ -183,6 +170,7 @@ public class ModuleBase implements IMinecraft {
 
         sequence.close();
     }
+
 
     protected void sendUnsafe(Packet<?> packet)
     {

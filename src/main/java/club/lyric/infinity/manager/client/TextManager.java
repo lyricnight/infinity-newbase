@@ -1,20 +1,15 @@
 package club.lyric.infinity.manager.client;
 
-import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.ducks.IDrawContext;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 
 /**
  * @author lyric
- * I spent 2 hours reading minecraft code to figure out how to instantiate DrawContext...
+ * I spent 2 hours reading minecraft code to figure out how to instantiate DrawContext
+ * this allows us to draw text whenever we like -> rather than drawing it through getting the drawContext from an event, which means things like drawing text in the server screen become impossible.
  */
-
-//TODO: once we add custom fonts, make them render through this.
 public final class TextManager implements IMinecraft {
-    public MatrixStack matrix;
 
     /**
      * thing that does everything.
@@ -33,8 +28,7 @@ public final class TextManager implements IMinecraft {
     {
         if(!ready)
         {
-            Infinity.LOGGER.error("drawString() called when null.");
-            return;
+            throw new RuntimeException("drawString() called too early! Report this!");
         }
         ((IDrawContext)context).infinity_newbase$drawText(mc.textRenderer, value, x, y, color, shadow);
     }
@@ -43,8 +37,7 @@ public final class TextManager implements IMinecraft {
     {
         if(!ready)
         {
-            Infinity.LOGGER.error("width() called when null.");
-            return 0f;
+            throw new RuntimeException("width() called too early! Report this!");
         }
         return mc.textRenderer.getWidth(value) + (shadow ? 1 : 0);
     }
@@ -53,17 +46,8 @@ public final class TextManager implements IMinecraft {
     {
         if(!ready)
         {
-            Infinity.LOGGER.error("height() called when null.");
-            return 0f;
+            throw new RuntimeException("height() called too early! Report this!");
         }
         return mc.textRenderer.fontHeight + (shadow ? 1 : 0);
-    }
-
-    public MatrixStack getMatrixStack() {
-        return this.matrix;
-    }
-
-    public void setMatrixStack(MatrixStack matrixStack) {
-        this.matrix = matrixStack;
     }
 }

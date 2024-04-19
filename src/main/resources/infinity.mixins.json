@@ -14,9 +14,9 @@
     "MixinStringHelper",
     "MixinTitleScreen",
     "accessors.ICustomPayloadC2SPacket",
-    "accessors.IPlayerMoveC2SPacket",
+    "accessors.IEntityVelocityUpdateS2CPacket",
     "accessors.IExplosionS2CPacket",
-    "accessors.IEntityVelocityUpdateS2CPacket"
+    "accessors.IPlayerMoveC2SPacket"
   ],
   "client": [
     "MixinChatHud",
@@ -27,6 +27,7 @@
     "MixinClientPlayerInteractionManager",
     "MixinClientPlayNetworkHandler",
     "MixinDrawContext",
+    "MixinGameRenderer",
     "MixinKeyboard",
     "MixinMinecraftClient",
     "MixinMinecraftOptions",

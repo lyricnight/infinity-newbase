@@ -1,9 +1,8 @@
 package club.lyric.infinity.api.util.minecraft.movement;
 
 
-import club.lyric.infinity.api.event.mc.movement.EntityMovementEvent;
+import club.lyric.infinity.impl.events.mc.movement.EntityMovementEvent;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.Vec2f;
 
@@ -12,7 +11,6 @@ import net.minecraft.util.math.Vec2f;
  * for movement.
  */
 
-@SuppressWarnings("ConstantConditions")
 public class MovementUtil implements IMinecraft {
 
     /**

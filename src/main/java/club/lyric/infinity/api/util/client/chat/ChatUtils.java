@@ -9,10 +9,9 @@ import net.minecraft.text.Text;
 
 /**
  * @author vasler, lyric
- * chatuils
  */
 
-@SuppressWarnings("ConstantConditions")
+//TODO: rewrite all this to select colour and prefix based on importance level
 public class ChatUtils implements IMinecraft
 {
 
@@ -36,6 +35,7 @@ public class ChatUtils implements IMinecraft
      * ID 2222 = Danger
      * ID 3333 = Perfect
      */
+    //WTF is this
     public static void sendOverwriteMessage(String message, int id)
     {
         if(mc.world == null) return;
@@ -60,14 +60,6 @@ public class ChatUtils implements IMinecraft
             ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
             return;
         }
-        ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
-    }
-
-    public static void sendOverwriteMessageNoTag(String message, int id)
-    {
-        if(mc.world == null) return;
-        MutableText text = Text.empty();
-        text.append(message);
         ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
     }
 

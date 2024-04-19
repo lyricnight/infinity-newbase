@@ -32,8 +32,6 @@ public class Frame implements IMinecraft {
     // Dragging
     private boolean dragging;
 
-    private final ArrayList<ModuleComponent> components = new ArrayList<>();;
-
 
     public Frame(Category category, float x, float y, float width, float height) {
 
@@ -51,6 +49,7 @@ public class Frame implements IMinecraft {
             {
                 return;
             }
+            ArrayList<ModuleComponent> components = new ArrayList<>();
             components.add(new ModuleComponent(module));
         }
     }

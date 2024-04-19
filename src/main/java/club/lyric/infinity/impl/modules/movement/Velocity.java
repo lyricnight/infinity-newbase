@@ -1,7 +1,7 @@
 package club.lyric.infinity.impl.modules.movement;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.network.PacketEvent;
+import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
@@ -18,7 +18,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-@SuppressWarnings({"ConstantConditions", "unused"})
+@SuppressWarnings({"unused"})
 public class Velocity extends ModuleBase {
 
     public ModeSetting mode = new ModeSetting("Mode", this, "Normal", "Normal", "JumpReset", "Grim");

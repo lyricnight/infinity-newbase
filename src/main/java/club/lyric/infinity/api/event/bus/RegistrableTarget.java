@@ -8,10 +8,11 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+/**
+ * @author railhack
+ */
 public final class RegistrableTarget {
-
     private final Class<?> targetClass;
-
     private final AccessType accessType;
 
     public RegistrableTarget(Object target) {

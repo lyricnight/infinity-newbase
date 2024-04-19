@@ -3,7 +3,6 @@ package club.lyric.infinity.api.gui.configuration.components;
 import club.lyric.infinity.api.gui.interfaces.Component;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Setting;
-import club.lyric.infinity.api.util.client.gui.Tab;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;

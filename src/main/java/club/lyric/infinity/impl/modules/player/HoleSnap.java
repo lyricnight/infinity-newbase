@@ -1,7 +1,7 @@
 package club.lyric.infinity.impl.modules.player;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.mc.movement.EntityMovementEvent;
+import club.lyric.infinity.impl.events.mc.movement.EntityMovementEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;

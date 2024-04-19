@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.event.mc.mine;
+package club.lyric.infinity.impl.events.mc.mine;
 
 import club.lyric.infinity.api.event.Event;
 import net.minecraft.block.BlockState;

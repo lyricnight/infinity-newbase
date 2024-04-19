@@ -5,7 +5,6 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.*;
-import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.impl.modules.combat.Aura;
 import club.lyric.infinity.impl.modules.combat.AutoCrystal;
 import club.lyric.infinity.impl.modules.combat.AutoMine;

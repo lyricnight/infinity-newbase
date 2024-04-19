@@ -1,7 +1,7 @@
 package club.lyric.infinity.impl.modules.render;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.mc.ReceiveChatEvent;
+import club.lyric.infinity.impl.events.mc.ReceiveChatEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -76,7 +76,6 @@ public final class Chat extends ModuleBase {
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
     public Text timeStamps()
     {
         MutableText timeStamps = Text.literal("<" + date.format(new Date()) + "> " + Formatting.RESET);

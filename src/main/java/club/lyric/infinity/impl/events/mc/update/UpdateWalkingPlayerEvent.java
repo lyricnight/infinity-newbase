@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.event.mc.update;
+package club.lyric.infinity.impl.events.mc.update;
 
 
 import club.lyric.infinity.api.event.Event;

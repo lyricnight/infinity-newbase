@@ -4,6 +4,9 @@ import club.lyric.infinity.api.event.Event;
 
 import java.lang.reflect.Method;
 
+/**
+ * @author railhack
+ */
 @FunctionalInterface
 public interface Invoker {
     void invoke(Event event);

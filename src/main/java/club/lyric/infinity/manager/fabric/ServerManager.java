@@ -1,7 +1,7 @@
 package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.network.PacketEvent;
+import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
@@ -102,7 +102,7 @@ public final class ServerManager implements IMinecraft {
 
     /**
      * this gets fastLatency ping
-     * you MUST CHECK if this returns 0 (means fastlatency is off)
+     * you MUST CHECK if this returns 0 (means fastLatency is off)
      * @return ping
      */
     public int getFastLatencyPing()

@@ -16,6 +16,7 @@ public class MixinSharedConstants {
      * @see <a href="https://github.com/astei/lazydfu/blob/master/src/main/java/me/steinborn/lazydfu/mixin/SharedConstantsMixin.java">...</a>
      */
 
+    @SuppressWarnings("EmptyMethod")
     @Overwrite
     public static void enableDataFixerOptimization() {
         // Turn this method into a no-op.

@@ -1,11 +1,10 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.event.render.Render2DEvent;
+import club.lyric.infinity.impl.events.render.Render2DEvent;
 import club.lyric.infinity.impl.modules.render.Chat;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import org.lwjgl.opengl.GL11;

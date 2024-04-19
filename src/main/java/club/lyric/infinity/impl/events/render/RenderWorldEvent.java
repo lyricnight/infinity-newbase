@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.event.render;
+package club.lyric.infinity.impl.events.render;
 
 import club.lyric.infinity.api.event.Event;
 import net.minecraft.client.util.math.MatrixStack;
@@ -20,8 +20,8 @@ public class RenderWorldEvent extends Event {
     public static class Game extends RenderWorldEvent {
 
         /**
-         * @param matrices
-         * @param tickDelta
+         * @param matrices - matrix stack
+         * @param tickDelta - time taken between rendering
          */
         public Game(MatrixStack matrices, float tickDelta) {
             super(matrices, tickDelta);

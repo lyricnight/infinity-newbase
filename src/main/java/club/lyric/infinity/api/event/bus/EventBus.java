@@ -9,8 +9,10 @@ import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * @author railhack
+ */
 public final class EventBus {
-
     private static final EventBus instance = new EventBus();
 
     private final MethodHandles.Lookup lookup = MethodHandles.lookup();

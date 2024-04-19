@@ -14,7 +14,6 @@ import java.net.URL;
 /**
  * @author lyric
  */
-@SuppressWarnings("ConstantConditions")
 public final class FriendsManager  {
     private JsonObject friends = new JsonObject();
 
@@ -64,11 +63,9 @@ public final class FriendsManager  {
     public static String getUUID(String name) {
         String uuid;
         try {
-            //noinspection BlockingMethodInNonBlockingContext
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openStream()));
             uuid = ((JsonObject)new JsonParser().parse(bufferedReader)).get("id").toString().replaceAll("\"", "");
             uuid = uuid.replaceAll("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5");
-            //noinspection BlockingMethodInNonBlockingContext
             bufferedReader.close();
         } catch (Exception e) {
             throw new RuntimeException("UUID Error -> couldn't get the uuid of:" + name);

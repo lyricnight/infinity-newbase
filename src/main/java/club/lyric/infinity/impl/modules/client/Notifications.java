@@ -1,7 +1,7 @@
 package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.network.PacketEvent;
+import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.PersistentModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -16,7 +16,6 @@ import java.util.HashMap;
  * @author vasler
  * NOTIFIY
  */
-@SuppressWarnings("ConstantConditions")
 public class Notifications extends PersistentModuleBase
 {
 

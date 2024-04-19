@@ -28,7 +28,7 @@ public class MixinMouse {
         if (Managers.MODULES.getModuleFromClass(ClickGui.class).isOn()) {
             double scrollY = vertical * 30;
             if (IMLoader.isRendered(InfinityGUI.getInstance())) {
-                InfinityGUI.getInstance().locY -= scrollY;
+                InfinityGUI.getInstance().locY -= (float) scrollY;
             }
             ci.cancel();
         }

@@ -1,11 +1,11 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.event.mc.movement.LocationEvent;
-import club.lyric.infinity.api.event.mc.movement.MotionEvent;
-import club.lyric.infinity.api.event.mc.movement.PlayerMovementEvent;
-import club.lyric.infinity.api.event.mc.update.UpdateEvent;
-import club.lyric.infinity.api.event.mc.update.UpdateWalkingPlayerEvent;
+import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
+import club.lyric.infinity.impl.events.mc.movement.MotionEvent;
+import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
+import club.lyric.infinity.impl.events.mc.update.UpdateEvent;
+import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;

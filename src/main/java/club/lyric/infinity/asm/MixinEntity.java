@@ -1,7 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.event.mc.movement.EntityMovementEvent;
+import club.lyric.infinity.impl.events.mc.movement.EntityMovementEvent;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MovementType;

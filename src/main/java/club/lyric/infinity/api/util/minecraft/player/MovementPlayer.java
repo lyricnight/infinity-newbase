@@ -32,11 +32,6 @@ public class MovementPlayer extends Fake {
     }
 
     @Override
-    public float getStepHeight() {
-        return super.getStepHeight();
-    }
-
-    @Override
     public void copyPositionAndRotation(Entity entity) {
         super.copyPositionAndRotation(entity);
         this.setOnGround(entity.isOnGround());

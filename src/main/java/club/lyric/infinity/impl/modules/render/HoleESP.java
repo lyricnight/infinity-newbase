@@ -1,6 +1,6 @@
 package club.lyric.infinity.impl.modules.render;
 
-import club.lyric.infinity.api.event.render.Render3DEvent;
+import club.lyric.infinity.impl.events.render.Render3DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;

@@ -2,7 +2,6 @@ package club.lyric.infinity.api.util.client.render.colors;
 
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
@@ -136,8 +135,7 @@ public class ColorUtils implements IMinecraft {
         }
         if (6.0f * f3 < 1.0f)
         {
-            float f4 = f;
-            return f4 + (f2 - f4) * 6.0f * f3;
+            return f + (f2 - f) * 6.0f * f3;
         }
         if (2.0f * f3 < 1.0f)
         {
@@ -145,8 +143,7 @@ public class ColorUtils implements IMinecraft {
         }
         if (3.0f * f3 < 2.0f)
         {
-            float f5 = f;
-            return f5 + (f2 - f5) * 6.0f * (0.6666667f - f3);
+            return f + (f2 - f) * 6.0f * (0.6666667f - f3);
         }
         return f;
     }

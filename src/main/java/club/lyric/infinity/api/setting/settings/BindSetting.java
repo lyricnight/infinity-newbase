@@ -2,7 +2,7 @@ package club.lyric.infinity.api.setting.settings;
 
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.client.KeyPressEvent;
+import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;

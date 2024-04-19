@@ -1,7 +1,7 @@
 package club.lyric.infinity.impl.modules.combat;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.network.PacketEvent;
+import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
 
 /* TODO: make calculated breaking smarter by: calculating enemy and own damage and finding the best possible crystal to break;
  * make placing modes like breaking: do the same shit i just said; ADD PLACING, add id predict*/
-@SuppressWarnings({"ConstantConditions", "unused"})
+@SuppressWarnings({"unused"})
 public class AutoCrystal extends ModuleBase {
     // Entities
     public BooleanSetting players = new BooleanSetting("Players", true, this);

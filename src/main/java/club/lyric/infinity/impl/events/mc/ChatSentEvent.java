@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.event.mc;
+package club.lyric.infinity.impl.events.mc;
 
 
 import club.lyric.infinity.api.event.Event;
@@ -8,10 +8,10 @@ import club.lyric.infinity.api.event.Event;
  * event fired whenever a chat message is sent
  */
 
-public class ChatEvent extends Event {
+public class ChatSentEvent extends Event {
     private final String message;
 
-    public ChatEvent(String message) {
+    public ChatSentEvent(String message) {
         this.message = message;
     }
     public String getMessage() {

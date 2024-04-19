@@ -1,9 +1,9 @@
 package club.lyric.infinity.impl.modules.movement;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
-import net.minecraft.client.font.TextRenderer;
 
 import java.awt.*;
 
@@ -38,7 +38,7 @@ public final class Sprint extends ModuleBase
                 Robot robot = new Robot();
                 robot.keyPress(mc.options.sprintKey.hashCode());
             } catch (AWTException e) {
-                e.printStackTrace();
+                Infinity.LOGGER.atError();
             }
         }
     }

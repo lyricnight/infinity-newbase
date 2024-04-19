@@ -2,8 +2,7 @@ package club.lyric.infinity.asm;
 
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.event.client.KeyPressEvent;
-import club.lyric.infinity.api.util.client.keyboard.KeyPressAction;
+import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import net.minecraft.client.Keyboard;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;

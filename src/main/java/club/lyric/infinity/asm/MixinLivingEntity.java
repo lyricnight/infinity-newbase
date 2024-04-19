@@ -1,7 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.event.render.InterpolationEvent;
+import club.lyric.infinity.impl.events.render.InterpolationEvent;
 import club.lyric.infinity.api.util.client.math.Time;
 import club.lyric.infinity.impl.modules.movement.NoJumpDelay;
 import club.lyric.infinity.manager.Managers;

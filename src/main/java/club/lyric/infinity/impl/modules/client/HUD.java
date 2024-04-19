@@ -2,8 +2,8 @@ package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.network.PacketEvent;
-import club.lyric.infinity.api.event.render.Render2DEvent;
+import club.lyric.infinity.impl.events.network.PacketEvent;
+import club.lyric.infinity.impl.events.render.Render2DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -20,7 +20,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
@@ -35,7 +34,7 @@ import java.util.LinkedList;
  * @since a while ago
  */
 
-@SuppressWarnings({"ConstantConditions", "unused"})
+@SuppressWarnings({"unused"})
 public final class HUD extends ModuleBase
 {
     public BooleanSetting arraylist = new BooleanSetting("Arraylist", true, this);

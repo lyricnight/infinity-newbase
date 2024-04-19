@@ -1,7 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.event.mc.TickEvent;
+import club.lyric.infinity.impl.events.mc.TickEvent;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;

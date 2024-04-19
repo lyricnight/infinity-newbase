@@ -7,10 +7,6 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-import java.awt.*;
-import java.text.Format;
-import java.text.Normalizer;
-
 /**
  * @author lyric
  * for some string methods we may need...
@@ -25,7 +21,6 @@ public class StringUtils {
         return coloredString;
     }
 
-    @SuppressWarnings("ConstantConditions")
     public Text clientName()
     {
         MutableText clientText = Text.literal("[" + Formatting.WHITE + "Infinity" + "]");

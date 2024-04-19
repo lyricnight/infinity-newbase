@@ -2,12 +2,12 @@ package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.event.client.KeyPressEvent;
-import club.lyric.infinity.api.event.mc.*;
-import club.lyric.infinity.api.event.mc.update.UpdateEvent;
+import club.lyric.infinity.impl.events.client.KeyPressEvent;
+import club.lyric.infinity.impl.events.mc.*;
+import club.lyric.infinity.impl.events.mc.update.UpdateEvent;
 import club.lyric.infinity.api.command.Command;
-import club.lyric.infinity.api.event.render.Render2DEvent;
-import club.lyric.infinity.api.event.render.Render3DEvent;
+import club.lyric.infinity.impl.events.render.Render2DEvent;
+import club.lyric.infinity.impl.events.render.Render3DEvent;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
@@ -31,7 +31,7 @@ public final class EventManager implements IMinecraft {
      * @param event - the chat event
      */
     @EventHandler
-    public void onChat(ChatEvent event) {
+    public void onChat(ChatSentEvent event) {
         if (event.getMessage().startsWith(Managers.COMMANDS.getPrefix())) {
             event.setCancelled(true);
 
@@ -71,7 +71,8 @@ public final class EventManager implements IMinecraft {
     }
 
     @EventHandler
-    public void onWorldRender(Render3DEvent event) {
+    public void onWorldRender(Render3DEvent event)
+    {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(module -> module.onRender3D(event));
     }
 
@@ -86,8 +87,7 @@ public final class EventManager implements IMinecraft {
     {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTickPre);
     }
-    //update should probably go here? so that it doesn't miss a tick if we do it on pre
-    //weird
+
     @EventHandler(priority = Integer.MAX_VALUE - 4)
     public void onTickPost(TickEvent.Post event)
     {
