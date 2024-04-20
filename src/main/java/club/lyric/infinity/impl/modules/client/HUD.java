@@ -5,6 +5,7 @@ import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
@@ -59,7 +60,9 @@ public final class HUD extends ModuleBase
 
     public BooleanSetting coordinates = new BooleanSetting("Coordinates", true, this);
     public BooleanSetting direction = new BooleanSetting("Direction", true, this);
-
+    public ModeSetting casing = new ModeSetting("Casing", this, "Normal", "Normal", "Lowercase", "Uppercase", "Random");
+    public ModeSetting sorting = new ModeSetting("Sorting", this, "Length", "Length", "Alphabetical");
+    public ModeSetting effectHud = new ModeSetting("EffectHud", this, "Move", "Remove", "Keep", "Move");
     public HUD()
     {
         super("HUD", "Displays HUD elements on the screen.", Category.Client);
@@ -67,6 +70,7 @@ public final class HUD extends ModuleBase
 
     private final LinkedList<Long> frames = new LinkedList<>();
     private int chatY = 0;
+    private int effectY = 0;
     private final StopWatch timer = new StopWatch.Single();
     private final StopWatch packetTimer = new StopWatch.Single();
     int packets;
@@ -93,12 +97,12 @@ public final class HUD extends ModuleBase
         boolean chatOpened = mc.currentScreen instanceof ChatScreen;
 
         if (watermark.value()) {
-            Managers.TEXT.drawString(Infinity.CLIENT_NAME +
+            Managers.TEXT.drawString(getLabel(Infinity.CLIENT_NAME +
                             Infinity.VERSION +
                             Formatting.GRAY +
                             " build (" +
                             new SimpleDateFormat("dd/MM/yyyy").format(new Date()) +
-                            ")",
+                            ")"),
                     2,
                     2,
                     hudColor(2).getRGB(),
@@ -116,7 +120,14 @@ public final class HUD extends ModuleBase
                 if (module.isOn() && module.isDrawn()) moduleList.add(module);
             });
 
-            moduleList.sort(Comparator.comparingInt(module -> (int) -Managers.TEXT.width(module.fullWidth(), true)));
+            if (sorting.is("Alphabetical"))
+            {
+                moduleList.sort(Comparator.comparing(module -> getLabel(module.fullWidth())));
+            }
+            else
+            {
+                moduleList.sort(Comparator.comparingInt(module -> (int) -Managers.TEXT.width(getLabel(module.fullWidth()), true)));
+            }
 
             for (ModuleBase module : moduleList) {
 
@@ -131,11 +142,30 @@ public final class HUD extends ModuleBase
                     label = module.getName() + Formatting.GRAY + " [" + Formatting.WHITE + module.moduleInformation() + Formatting.GRAY + "]";
                 }
 
-                float x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(label)) - 2;
+                if (effectHud.is("Move"))
+                {
+                    for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects())
+                    {
+                        effectY = 27;
+                        if (!statusEffectInstance.getEffectType().isBeneficial())
+                        {
+                            effectY = 53;
+                            break;
+                        }
+                    }
+                    if (mc.player.getStatusEffects().isEmpty())
+                    {
+                        effectY = 0;
+                    }
+                } else {
+                    effectY = 0;
+                }
 
-                Managers.TEXT.drawString(label,
+                float x = event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(label), true)) - 2;
+
+                Managers.TEXT.drawString(getLabel(label),
                         x,
-                        2 + arrayOffset,
+                        2 + arrayOffset + effectY,
                         hudColor(arrayOffset).getRGB(),
                         true
                 );
@@ -182,8 +212,8 @@ public final class HUD extends ModuleBase
 
         if (potions.value()) {
             for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
-                int x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(getString(statusEffectInstance))) - 2;
-                Managers.TEXT.drawString(getString(statusEffectInstance),
+                int x = (int) (event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(getString(statusEffectInstance)), true)) - 2);
+                Managers.TEXT.drawString(getLabel(getString(statusEffectInstance)),
                         x,
                         event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
                         statusEffectInstance.getEffectType().getColor(),
@@ -203,8 +233,8 @@ public final class HUD extends ModuleBase
                             Math.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) +
                     " km/h";
 
-            Managers.TEXT.drawString(speed,
-                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(speed)) - 2,
+            Managers.TEXT.drawString(getLabel(speed),
+                    event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(speed), true)) - 2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
                     hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
                     true
@@ -215,8 +245,8 @@ public final class HUD extends ModuleBase
         if (packet.value()) {
             String packet = "Packets: " + Formatting.GRAY + "[" + Formatting.WHITE + packets + Formatting.GRAY + "]";
 
-            Managers.TEXT.drawString(packet,
-                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(packet)) - 2,
+            Managers.TEXT.drawString(getLabel(packet),
+                    event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(packet), true)) - 2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
                     hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
                     true
@@ -235,8 +265,8 @@ public final class HUD extends ModuleBase
 
             String ping = "Ping: " + Formatting.WHITE + pinging + "ms";
 
-            Managers.TEXT.drawString(ping,
-                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2,
+            Managers.TEXT.drawString(getLabel(ping),
+                    event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(ping), true)) - 2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
                     hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
                     true
@@ -248,8 +278,8 @@ public final class HUD extends ModuleBase
         if (tps.value() && !mc.isInSingleplayer()) {
             String tps = "TPS: " + Formatting.WHITE + Managers.SERVER.getOurTPS();
 
-            Managers.TEXT.drawString(tps,
-                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(tps)) - 2,
+            Managers.TEXT.drawString(getLabel(tps),
+                    event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(tps), true)) - 2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
                     hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
                     true
@@ -277,8 +307,8 @@ public final class HUD extends ModuleBase
 
             String fps = "FPS: " + Formatting.WHITE + fpsCount;
 
-            Managers.TEXT.drawString(fps,
-                    event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(fps)) - 2,
+            Managers.TEXT.drawString(getLabel(fps),
+                    event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(fps), true)) - 2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
                     hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
                     true
@@ -290,7 +320,7 @@ public final class HUD extends ModuleBase
         if (coordinates.value()) {
             boolean inHell = mc.world.getRegistryKey().getValue().getPath().equals("nether");
             if (inHell) {
-                Managers.TEXT.drawString("XYZ: " +
+                Managers.TEXT.drawString(getLabel("XYZ: " +
                                 Formatting.WHITE +
                                 getFormatting(mc.player.getPos().x) +
                                 ", " +
@@ -304,14 +334,14 @@ public final class HUD extends ModuleBase
                                 ", " +
                                 getFormatting(mc.player.getPos().z * 8.0) +
                                 Formatting.GRAY +
-                                ")",
+                                ")"),
                         2,
                         event.getDrawContext().getScaledWindowHeight() - 9 - 2 - chatY,
                         color.getRGB(),
                         true
                 );
             } else {
-                Managers.TEXT.drawString("XYZ: " +
+                Managers.TEXT.drawString(getLabel("XYZ: " +
                                 Formatting.WHITE +
                                 getFormatting(mc.player.getPos().x) +
                                 ", " +
@@ -325,7 +355,7 @@ public final class HUD extends ModuleBase
                                 ", " +
                                 getFormatting(mc.player.getPos().z / 8.0) +
                                 Formatting.GRAY +
-                                ")",
+                                ")"),
                         2,
                         event.getDrawContext().getScaledWindowHeight() - 9 - coordinateOffset - 2 - chatY,
                         hudColor(coordinateOffset).getRGB(),
@@ -337,7 +367,7 @@ public final class HUD extends ModuleBase
 
         if (direction.value()) {
             String direction = getDirections();
-            Managers.TEXT.drawString(direction,
+            Managers.TEXT.drawString(getLabel(direction),
                     2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - coordinateOffset - 2 - chatY,
                     hudColor(coordinateOffset).getRGB(),
@@ -372,7 +402,6 @@ public final class HUD extends ModuleBase
             chatY--;
             timer.reset();
         }
-
     }
     
     private String getDirections() {
@@ -424,6 +453,46 @@ public final class HUD extends ModuleBase
 
     private Color hudColor(int y) {
         return Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor(y) : Managers.MODULES.getModuleFromClass(Colours.class).getColor();
+    }
+
+    public String getLabel(String label)
+    {
+        if (casing.is("Lowercase"))
+        {
+            return label.toLowerCase();
+        }
+        else if (casing.is("Uppercase"))
+        {
+            return label.toUpperCase();
+        }
+        else if (casing.is("Random"))
+        {
+            // skided
+            char[] array = label.toCharArray();
+            int chars = 0;
+
+            while (chars < label.length())
+            {
+
+                final char character;
+
+                if (Character.isUpperCase(array[chars]))
+                {
+                    character = Character.toLowerCase(array[chars]);
+                }
+                else
+                {
+                    character = Character.toUpperCase(array[chars]);
+                }
+
+                array[chars] = character;
+
+                chars += 2;
+            }
+            return String.valueOf(array);
+
+        }
+        return label;
     }
 
 }

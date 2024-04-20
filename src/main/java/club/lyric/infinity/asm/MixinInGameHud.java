@@ -2,6 +2,7 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.impl.events.render.Render2DEvent;
+import club.lyric.infinity.impl.modules.client.HUD;
 import club.lyric.infinity.impl.modules.render.Chat;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -32,6 +33,14 @@ public class MixinInGameHud {
 
         RenderSystem.enableDepthTest();
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @Inject(method = "renderStatusEffectOverlay", at = @At(value = "HEAD"), cancellable = true)
+    private void hookRenderStatusEffectOverlay(DrawContext context, CallbackInfo ci) {
+        if (Managers.MODULES.getModuleFromClass(HUD.class).effectHud.is("Remove")) {
+            ci.cancel();
+        }
     }
 
     @Inject(method = "clear", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;clear(Z)V"), cancellable = true)

@@ -59,7 +59,8 @@ public final class ModuleManager implements IMinecraft
                 new InstantAcceleration(),
                 new SpeedMine(),
                 new AntiAscii(),
-                new FastProjectile()
+                new FastProjectile(),
+                new FakeBrand()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }

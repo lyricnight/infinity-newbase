@@ -10,8 +10,12 @@ import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.util.minecraft.block.HoleUtils;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import club.lyric.infinity.manager.Managers;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vec3d;
 
 /**
  * @author vasler, zenov
@@ -20,7 +24,7 @@ import net.minecraft.util.math.Vec2f;
 @SuppressWarnings({"unused"})
 public class Speed extends ModuleBase {
 
-    public ModeSetting mode = new ModeSetting("Mode", this, "Strafe", "Strafe", "Jump");
+    public ModeSetting mode = new ModeSetting("Mode", this, "Strafe", "Strafe", "Jump", "Grim");
     public BooleanSetting timer = new BooleanSetting("Timer", true, this);
     public BooleanSetting inLiquids = new BooleanSetting("InLiquids", true, this);
     double speed;
@@ -145,6 +149,43 @@ public class Speed extends ModuleBase {
             stage++;
         }
     }
+
+    @Override
+    public void onTickPre()
+    {
+        if (nullCheck()) return;
+
+        if (mode.is("Grim"))
+        {
+
+            if (MovementUtil.movement()) return;
+
+            int grimCollide = 0;
+
+            for (Entity entity : mc.world.getEntities())
+            {
+
+                if (entity != mc.player && entity instanceof LivingEntity && MathHelper.sqrt((float) mc.player.squaredDistanceTo(entity)) <= 2.0f)
+                {
+
+                    grimCollide++;
+
+                }
+
+            }
+
+            if (grimCollide > 0)
+            {
+
+                double speed = 0.088888 * grimCollide;
+                final Vec2f motion = MovementUtil.strafeSpeed((float) speed);
+
+                mc.player.setVelocity(mc.player.getVelocity().x + motion.x, mc.player.getVelocity().y, mc.player.getVelocity().z + motion.y);
+
+            }
+        }
+    }
+
 
     @EventHandler
     public void onPacketReceive(PacketEvent.Receive event)
