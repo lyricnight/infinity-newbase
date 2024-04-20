@@ -123,7 +123,7 @@ public final class Chat extends ModuleBase {
     @Override
     public void onDisable()
     {
-        if (mc.options.getTextBackgroundOpacity().getValue() == 0.0)
+        if (mc.options.getTextBackgroundOpacity().getValue() != 0.5)
         {
             mc.options.getTextBackgroundOpacity().setValue(0.5);
         }
