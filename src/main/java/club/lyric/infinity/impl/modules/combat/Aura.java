@@ -71,6 +71,12 @@ public final class Aura extends ModuleBase {
     }
 
     @Override
+    public String moduleInformation()
+    {
+        return target.entity().getName().toString();
+    }
+
+    @Override
     public void onDisable() {
         target = null;
     }

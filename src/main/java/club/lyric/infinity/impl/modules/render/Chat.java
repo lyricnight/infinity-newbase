@@ -1,14 +1,18 @@
 package club.lyric.infinity.impl.modules.render;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.impl.events.mc.ReceiveChatEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
+import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -98,6 +102,22 @@ public final class Chat extends ModuleBase {
                 mc.options.getTextBackgroundOpacity().setValue(0.5);
             }
         }
+    }
+
+    @EventHandler
+    public void onPacketReceive(PacketEvent.Receive event)
+    {
+        /*if (event.getPacket() instanceof ChatMessageS2CPacket)
+        {
+            if (mc.player != null) {
+                String character = ((ChatMessageS2CPacket) event.getPacket()).body().content();
+                final String name = mc.player.getName().toString();
+
+                if (character.contains(name)) {
+                    SoundsUtils.playSound(sound, 100;
+                }
+            }
+        }*/
     }
 
     @Override

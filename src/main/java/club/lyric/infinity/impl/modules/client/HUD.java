@@ -10,6 +10,7 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
+import club.lyric.infinity.api.util.client.render.util.Easing;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.manager.Managers;
@@ -34,7 +35,7 @@ import java.util.LinkedList;
  * @since a while ago
  */
 
-@SuppressWarnings({"unused"})
+@SuppressWarnings({"unused", "ConstantConditions"})
 public final class HUD extends ModuleBase
 {
     public BooleanSetting arraylist = new BooleanSetting("Arraylist", true, this);
@@ -113,15 +114,19 @@ public final class HUD extends ModuleBase
                 if (module.isOn() && module.isDrawn()) moduleList.add(module);
             });
 
-            moduleList.sort(Comparator.comparingInt(module -> (int) -Managers.TEXT.width(module.getName(), true)));
+            moduleList.sort(Comparator.comparingInt(module -> (int) -Managers.TEXT.width(module.fullWidth(), true)));
 
             for (ModuleBase module : moduleList) {
+
                 String label;
 
-                if (!moduleInformation().isEmpty()) {
-                    label = module.getName() + Formatting.GRAY + " [" + Formatting.WHITE + moduleInformation() + Formatting.GRAY + "]";
-                } else {
+                if (module.moduleInformation().equals(""))
+                {
                     label = module.getName();
+                }
+                else
+                {
+                    label = module.getName() + Formatting.GRAY + " [" + Formatting.WHITE + module.moduleInformation() + Formatting.GRAY + "]";
                 }
 
                 float x = event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(label)) - 2;

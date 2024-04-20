@@ -36,7 +36,7 @@ public class Nametags extends ModuleBase {
 
     @EventHandler
     public void onRender3D(RenderWorldEvent event) {
-        /*for (Entity entity : mc.world.getEntities())
+        for (Entity entity : mc.world.getEntities())
         {
             if (entity instanceof PlayerEntity player)
             {
@@ -51,7 +51,7 @@ public class Nametags extends ModuleBase {
                 renderNametag(event.getMatrix(), player, width, (float) x, (float) y, (float) z);
             }
         }
-        mc.getProfiler().endTick();*/
+        mc.getProfiler().endTick();
 
         for(Entity entity : mc.world.getEntities()) {
             if (entity instanceof PlayerEntity player) {

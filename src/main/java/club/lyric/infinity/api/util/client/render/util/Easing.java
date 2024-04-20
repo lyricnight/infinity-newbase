@@ -1,6 +1,5 @@
 package club.lyric.infinity.api.util.client.render.util;
 
-
 import net.minecraft.util.math.MathHelper;
 
 public final class Easing {
@@ -61,7 +60,7 @@ public final class Easing {
      * @param initial  The initial starting float value of the animation.
      * @param target   The target float for the animation to reach.
      * @param duration The duration, in ms, of the animation.
-     * @return A bouncing progression of a float from the initial value to the target value over the course of the duration.
+     * @return An bouncing progression of a float from the initial value to the target value over the course of the duration.
      */
     public static float bounce(float time, float initial, float target, float duration) {
         float s = 1.70158f;

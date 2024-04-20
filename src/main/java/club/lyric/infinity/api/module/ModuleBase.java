@@ -68,6 +68,7 @@ public class ModuleBase implements IMinecraft {
      */
     public BooleanSetting drawn;
 
+
     public ModuleBase(String name, String description, Category category)
     {
         super();
@@ -233,6 +234,15 @@ public class ModuleBase implements IMinecraft {
                 renderable.render();
             }
         }
+    }
+
+    public String fullWidth()
+    {
+        if (!moduleInformation().equals(""))
+        {
+            return getName() + Formatting.GRAY + " [" + Formatting.WHITE + moduleInformation() + Formatting.GRAY + "]";
+        }
+        return getName();
     }
 
     /**

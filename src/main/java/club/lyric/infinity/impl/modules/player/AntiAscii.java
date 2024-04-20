@@ -7,6 +7,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
+import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
 import net.minecraft.util.Formatting;
 
 import java.nio.charset.CharsetEncoder;
@@ -27,9 +28,9 @@ public class AntiAscii extends ModuleBase {
     @EventHandler
     public void onPacketReceive(PacketEvent.Receive event)
     {
-        if (event.getPacket() instanceof ChatMessageC2SPacket)
+        if (event.getPacket() instanceof ChatMessageS2CPacket)
         {
-            String character = ((ChatMessageC2SPacket) event.getPacket()).chatMessage();
+            String character = ((ChatMessageS2CPacket) event.getPacket()).body().content();
             int counter = 0;
             for (char characters : character.toCharArray()) {
                 if (!asciiEncoder.get().canEncode(characters)) {

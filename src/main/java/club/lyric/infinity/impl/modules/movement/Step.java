@@ -37,10 +37,7 @@ public final class Step extends ModuleBase {
     {
         if (nullCheck()) return;
 
-        if (mc.player.isOnGround())
-        {
-            mc.player.setStepHeight(height.getFValue());
-        }
+        mc.player.setStepHeight(height.getFValue());
 
         if (mode.is("Normal"))
         {

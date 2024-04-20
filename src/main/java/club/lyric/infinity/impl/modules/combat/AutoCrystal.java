@@ -65,8 +65,7 @@ public class AutoCrystal extends ModuleBase {
 
     @Override
     public String moduleInformation() {
-        if (nullCheck()) return "";
-        return information;
+        return "GG";
     }
 
     @Override
@@ -172,7 +171,6 @@ public class AutoCrystal extends ModuleBase {
     public void onPacketReceive(PacketEvent.Receive event) {
         if (explosion.value()) {
             if (event.getPacket() instanceof ExplosionS2CPacket explosionPacket) {
-                assert mc.world != null;
                 for (Entity ent : mc.world.getEntities()) {
                     if (ent == null) {
                         return;
@@ -181,9 +179,9 @@ public class AutoCrystal extends ModuleBase {
                     {
                         int entity = crystal.getId();
                         mc.executeSync(() -> {
-                         mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
-                         mc.world.removeBlockEntity(crystal.getBlockPos());
-                         });
+                            mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
+                            mc.world.removeBlockEntity(crystal.getBlockPos());
+                        });
                     }
                 }
             }
@@ -192,7 +190,6 @@ public class AutoCrystal extends ModuleBase {
         if (sound.value()) {
             if (event.getPacket() instanceof PlaySoundS2CPacket soundPacket) {
                 if (soundPacket.getCategory() == SoundCategory.BLOCKS && soundPacket.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
-                    assert mc.world != null;
                     for (Entity ent : mc.world.getEntities()) {
                         if (ent == null) {
                             return;
