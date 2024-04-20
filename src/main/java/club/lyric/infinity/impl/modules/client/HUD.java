@@ -2,21 +2,23 @@ package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.impl.events.network.PacketEvent;
-import club.lyric.infinity.impl.events.render.Render2DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
-import club.lyric.infinity.api.util.client.render.util.Easing;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
+import club.lyric.infinity.impl.events.network.PacketEvent;
+import club.lyric.infinity.impl.events.render.Render2DEvent;
+import club.lyric.infinity.impl.modules.exploit.FastLatency;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -223,7 +225,15 @@ public final class HUD extends ModuleBase
         }
 
         if (ping.value() && !mc.isInSingleplayer()) {
-            String ping = "Ping: " + Formatting.WHITE + Managers.SERVER.getFastLatencyPing() + "ms";
+
+            int pinging = getPlayerLatency(mc.player);
+
+            if (Managers.MODULES.getModuleFromClass(FastLatency.class).isOn())
+            {
+                pinging = Managers.SERVER.getFastLatencyPing();
+            }
+
+            String ping = "Ping: " + Formatting.WHITE + pinging + "ms";
 
             Managers.TEXT.drawString(ping,
                     event.getDrawContext().getScaledWindowWidth() - (mc.textRenderer.getWidth(ping)) - 2,
@@ -231,6 +241,7 @@ public final class HUD extends ModuleBase
                     hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
                     true
             );
+
             offset += (int) (Managers.TEXT.height(true) + 1);
         }
 
@@ -398,6 +409,17 @@ public final class HUD extends ModuleBase
                 (amplifier > 0 ? (" " + (amplifier + 1) + ": ") : ": ") +
                 Formatting.WHITE +
                 PlayerUtils.getPotionDurationString(statusEffectInstance);
+    }
+
+    public static int getPlayerLatency(PlayerEntity player)
+    {
+        if (player == null) return 0;
+
+        if (mc.getNetworkHandler() == null) return 0;
+
+        PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
+
+        return playerListEntry == null ? 0 : playerListEntry.getLatency();
     }
 
     private Color hudColor(int y) {
