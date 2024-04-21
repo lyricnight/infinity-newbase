@@ -23,7 +23,7 @@ public class MixinSplashTextResourceSupplier implements IMinecraft {
     @Inject(method = "get", at = @At("HEAD"), cancellable = true)
     private void onApply(CallbackInfoReturnable<SplashTextRenderer> cir) {
         if (Managers.CONFIG == null || Managers.MODULES == null) return;
-        
+
         if (applied) cir.setReturnValue(new SplashTextRenderer("Welcome to Infinity."));
         applied = !applied;
     }

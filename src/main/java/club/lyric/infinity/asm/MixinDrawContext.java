@@ -1,6 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.ducks.IDrawContext;
+import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -9,6 +10,8 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+
+import java.awt.*;
 
 /**
  * @author lyric
@@ -33,10 +36,18 @@ public abstract class MixinDrawContext implements IDrawContext {
 
     @Override
     public float infinity_newbase$drawText(TextRenderer renderer, @Nullable String text, float x, float y, int color, boolean shadow) {
+        float i;
         if (text == null) {
             return 0f;
         } else {
-            float i = renderer.draw(text, x, y, color, shadow, this.matrices.peek().getPositionMatrix(), this.vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, 15728880, renderer.isRightToLeft());
+
+            if (!shadow)
+            {
+                int shadowColor = (color & 0xFCFCFC) >> 2 | color & 0xFF000000;
+                renderer.draw(text, x + 0.5f, y + 0.5f, color, true, this.matrices.peek().getPositionMatrix(), this.vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, 0, renderer.isRightToLeft());
+            }
+
+            i = renderer.draw(text, x, y, color, shadow, this.matrices.peek().getPositionMatrix(), this.vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, 15728880, renderer.isRightToLeft());
             this.tryDraw();
             return i;
         }
