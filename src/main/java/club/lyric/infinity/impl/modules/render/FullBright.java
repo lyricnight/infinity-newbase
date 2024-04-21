@@ -3,12 +3,18 @@ package club.lyric.infinity.impl.modules.render;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.ColorSetting;
+import club.lyric.infinity.api.setting.settings.ModeSetting;
+import club.lyric.infinity.api.util.client.render.colors.JColor;
+
+import java.awt.*;
 
 /**
  * @author vasler
  */
 public class FullBright extends ModuleBase {
 
+    public ModeSetting mode = new ModeSetting("Mode", this, "Normal", "Normal", "Ambience");
     public BooleanSetting darkness = new BooleanSetting("Darkness", true, this);
 
     public FullBright() {

@@ -4,6 +4,7 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.screen.SplashTextRenderer;
 import net.minecraft.client.resource.SplashTextResourceSupplier;
+import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +23,7 @@ public class MixinSplashTextResourceSupplier implements IMinecraft {
     @Inject(method = "get", at = @At("HEAD"), cancellable = true)
     private void onApply(CallbackInfoReturnable<SplashTextRenderer> cir) {
         if (Managers.CONFIG == null || Managers.MODULES == null) return;
-
+        
         if (applied) cir.setReturnValue(new SplashTextRenderer("Welcome to Infinity."));
         applied = !applied;
     }

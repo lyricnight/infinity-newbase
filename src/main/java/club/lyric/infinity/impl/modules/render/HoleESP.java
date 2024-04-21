@@ -65,22 +65,20 @@ public class HoleESP extends ModuleBase {
 
     @Override
     public void onRender3D(Render3DEvent event) {
-        if (holes.isEmpty()) {
-            return;
-        }
+
+        if (holes.isEmpty()) return;
 
         MatrixStack matrix = event.getMatrix();
 
-        if (onlyOut.value() && HoleUtils.isInHole(mc.player))
-        {
-            return;
-        }
+        if (onlyOut.value() && HoleUtils.isInHole(mc.player)) return;
 
-        for (Hole hole : holes) {
+        for (Hole hole : holes)
+        {
             double alpha = 1.0;
             double outlineAlpha = 1.0;
 
-            if (fade.value()) {
+            if (fade.value())
+            {
                 double fadeRange = range.getValue() - 1.0;
                 double fadeRangeSq = fadeRange * fadeRange;
                 alpha = (fadeRangeSq + 9.0 - mc.player.squaredDistanceTo(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) / fadeRangeSq;
@@ -96,16 +94,18 @@ public class HoleESP extends ModuleBase {
 
             Box bb = interpolatePos(hole.getFirst(), size.getFValue());
 
-            if (hole.getSecond() != null) {
+            if (hole.getSecond() != null)
                 bb = new Box(hole.getFirst().getX() - getCameraPos().x, hole.getFirst().getY() - getCameraPos().y, hole.getFirst().getZ() - getCameraPos().z, hole.getSecond().getX() + 1 - getCameraPos().x, hole.getSecond().getY() + size.getFValue() - getCameraPos().y, hole.getSecond().getZ() + 1 - getCameraPos().z);
-            }
 
             // idk why the fuck it changes the alpha of the screen
             Render3DUtils.enable3D();
             matrix.push();
 
-            Render3DUtils.drawBox(event.getMatrix(), bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) alpha).getRGB());
-            Render3DUtils.drawOutline(event.getMatrix(), bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) outlineAlpha).getRGB());
+            if (box.value())
+                Render3DUtils.drawBox(event.getMatrix(), bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) alpha).getRGB());
+
+            if (outline.value())
+                Render3DUtils.drawOutline(event.getMatrix(), bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) outlineAlpha).getRGB());
 
             matrix.pop();
             Render3DUtils.disable3D();
@@ -113,24 +113,20 @@ public class HoleESP extends ModuleBase {
         }
     }
 
-    public static Vec3d getCameraPos() {
+    public static Vec3d getCameraPos()
+    {
         Camera camera = mc.getBlockEntityRenderDispatcher().camera;
-        if (camera == null) {
+        if (camera == null)
+        {
             return Vec3d.ZERO;
         }
 
         return camera.getPos();
     }
 
-    public static Box interpolatePos(BlockPos pos, float size) {
-        return new Box(
-                pos.getX() - getCameraPos().x,
-                pos.getY() - getCameraPos().y,
-                pos.getZ() - getCameraPos().z,
-                pos.getX() - getCameraPos().x + 1,
-                pos.getY() - getCameraPos().y + size,
-                pos.getZ() - getCameraPos().z + 1
-        );
+    public static Box interpolatePos(BlockPos pos, float size)
+    {
+        return new Box(pos.getX() - getCameraPos().x, pos.getY() - getCameraPos().y, pos.getZ() - getCameraPos().z, pos.getX() - getCameraPos().x + 1, pos.getY() - getCameraPos().y + size, pos.getZ() - getCameraPos().z + 1);
     }
 
 }

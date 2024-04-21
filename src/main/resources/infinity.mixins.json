@@ -29,6 +29,7 @@
     "MixinDrawContext",
     "MixinGameRenderer",
     "MixinKeyboard",
+    "MixinLightmapTextureManager",
     "MixinMinecraftClient",
     "MixinMinecraftOptions",
     "MixinMouse",
