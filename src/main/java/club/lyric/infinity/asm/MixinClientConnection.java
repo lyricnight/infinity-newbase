@@ -16,6 +16,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * @author lyric
+ * @see PacketEvent
+ */
 @Mixin(ClientConnection.class)
 public class MixinClientConnection {
 

@@ -5,6 +5,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
+/**
+ * @author lyric
+ */
 @SuppressWarnings("SameReturnValue")
 @Mixin(GameOptions.class)
 public class MixinMinecraftOptions {

@@ -1,8 +1,7 @@
 package club.lyric.infinity.impl.modules.render;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
-import club.lyric.infinity.impl.events.mc.ReceiveChatEvent;
+import club.lyric.infinity.impl.events.mc.chat.ReceiveChatEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -11,8 +10,6 @@ import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;

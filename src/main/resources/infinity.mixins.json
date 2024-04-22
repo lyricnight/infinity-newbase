@@ -7,6 +7,7 @@
   "package": "club.lyric.infinity.asm",
   "mixins": [
     "MixinClientConnection",
+    "MixinCrashReport",
     "MixinEntity",
     "MixinInGameHud",
     "MixinLivingEntity",

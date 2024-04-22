@@ -17,6 +17,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * @author vasler
+ */
 @Mixin(WorldRenderer.class)
 public class MixinWorldRenderer implements IMinecraft {
     @Inject(method = "render", at = @At("RETURN"))

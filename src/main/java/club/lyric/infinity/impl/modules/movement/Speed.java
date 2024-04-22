@@ -20,6 +20,7 @@ import net.minecraft.util.math.Vec3d;
 /**
  * @author vasler, zenov
  * The strafe is not sixset, but zenov helped me with it.
+ * it better not be sixset - lyric
  */
 @SuppressWarnings({"unused"})
 public class Speed extends ModuleBase {

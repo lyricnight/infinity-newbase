@@ -1,4 +1,4 @@
-package club.lyric.infinity.impl.events.mc;
+package club.lyric.infinity.impl.events.mc.chat;
 
 import club.lyric.infinity.api.event.Event;
 import net.minecraft.client.gui.hud.MessageIndicator;

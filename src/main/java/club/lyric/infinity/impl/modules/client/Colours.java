@@ -11,6 +11,8 @@ import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
 
+//this getting deleted
+@Deprecated
 public class Colours extends PersistentModuleBase {
 
     //public NumberSetting hue = new NumberSetting("Hue", this, 100, 0, 360, 1.0f);

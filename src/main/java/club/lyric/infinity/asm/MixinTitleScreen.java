@@ -14,6 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author vasler
+ */
 @Mixin(value = TitleScreen.class)
 public abstract class MixinTitleScreen {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)I", ordinal = 0))

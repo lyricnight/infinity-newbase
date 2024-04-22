@@ -1,7 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.impl.events.mc.ChatSentEvent;
+import club.lyric.infinity.impl.events.mc.chat.ChatSentEvent;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

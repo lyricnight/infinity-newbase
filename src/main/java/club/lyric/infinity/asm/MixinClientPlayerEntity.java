@@ -19,6 +19,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * @author lyric
+ * clusterfuck
+ */
 @Mixin(ClientPlayerEntity.class)
 public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity {
 
@@ -73,17 +77,12 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
     @Inject(method = "move", at = @At(value = "HEAD"), cancellable = true)
     private void hookMove(MovementType movementType, Vec3d movement, CallbackInfo ci)
     {
-
         final PlayerMovementEvent playerMoveEvent = new PlayerMovementEvent(movementType, movement);
         EventBus.getInstance().post(playerMoveEvent);
-
         if (playerMoveEvent.isCancelled())
         {
-
             ci.cancel();
-
             super.move(movementType, playerMoveEvent.getMovement());
-
         }
     }
 

@@ -4,6 +4,7 @@ import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.impl.events.mc.*;
+import club.lyric.infinity.impl.events.mc.chat.ChatSentEvent;
 import club.lyric.infinity.impl.events.mc.update.UpdateEvent;
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.impl.events.render.Render2DEvent;
@@ -88,7 +89,7 @@ public final class EventManager implements IMinecraft {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTickPre);
     }
 
-    @EventHandler(priority = Integer.MAX_VALUE - 4)
+    @EventHandler(priority = Integer.MAX_VALUE - 3)
     public void onTickPost(TickEvent.Post event)
     {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTickPost);
