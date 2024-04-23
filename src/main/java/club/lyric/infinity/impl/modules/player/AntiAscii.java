@@ -15,7 +15,6 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * @author vasler
- * this is terrible delete this - lyric
  */
 
 @SuppressWarnings("unused")
