@@ -23,7 +23,6 @@ import java.util.Comparator;
 /**
  * @author lyric
  */
-//TODO: use threads to find hole, to improve performance
 @SuppressWarnings({"DataFlowIssue", "unused"})
 public final class HoleSnap extends ModuleBase {
     public NumberSetting range = new NumberSetting("Range", this, 4f, 1f, 10f, 0.5f);

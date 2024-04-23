@@ -30,8 +30,8 @@ public class DiscordUtil implements IMinecraft {
             DiscordRichPresence presence = new DiscordRichPresence();
             presence.startTimestamp = System.currentTimeMillis() / 1000;
             presence.details = "";
-            presence.largeImageKey = "logo";
-            presence.largeImageText = "Infinity for 1.20";
+            presence.largeImageKey = "real";
+            presence.largeImageText = "Infinity for 1.20.4";
             lib.Discord_UpdatePresence(presence);
 
             new Thread(() -> {

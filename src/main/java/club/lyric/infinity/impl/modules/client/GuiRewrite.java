@@ -10,6 +10,7 @@ import org.lwjgl.glfw.GLFW;
  * @author valser
  * i didnt make this - lyric
  */
+@Deprecated
 public final class GuiRewrite extends ModuleBase
 {
 

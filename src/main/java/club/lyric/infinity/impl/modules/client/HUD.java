@@ -38,6 +38,8 @@ import java.util.LinkedList;
  * @since a while ago
  */
 
+//this fucking sucks
+
 @SuppressWarnings({"unused", "ConstantConditions"})
 public final class HUD extends ModuleBase
 {

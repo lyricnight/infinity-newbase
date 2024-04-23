@@ -18,7 +18,6 @@ import java.util.HashMap;
  */
 public class Notifications extends PersistentModuleBase
 {
-
     public BooleanSetting totemPops =
             new BooleanSetting(
             "TotemPops",

@@ -15,34 +15,6 @@ import java.util.List;
 public class BlockUtils implements IMinecraft {
 
     public static class Offsets {
-        public final static BlockPos[] NORTH = {
-                new BlockPos(0, 0, -1),
-                new BlockPos(0, 0, -2),
-                new BlockPos(0, -1, -2),
-                new BlockPos(0, 0, -2)
-        };
-
-        public final static BlockPos[] EAST = {
-                new BlockPos(1, 0, 0),
-                new BlockPos(2, 0, 0),
-                new BlockPos(2, -1, 0),
-                new BlockPos(2, 0, 0)
-        };
-
-        public final static BlockPos[] SOUTH = {
-                new BlockPos(0, 0, 1),
-                new BlockPos(0, 0, 2),
-                new BlockPos(0, -1, 2),
-                new BlockPos(0, 0, 2)
-        };
-
-        public final static BlockPos[] WEST = {
-                new BlockPos(-1, 0, 0),
-                new BlockPos(-2, 0, 0),
-                new BlockPos(-2, -1, 0),
-                new BlockPos(-2, 0, 0)
-        };
-
         public final static BlockPos[] FACE_PLACE = new BlockPos[]{
                 new BlockPos(1, 1, 0),
                 new BlockPos(-1, 1, 0),

@@ -168,34 +168,6 @@ public class HoleUtils implements IMinecraft {
         return BlockUtils.isAir(pos) && BlockUtils.isAir(pos.add(offX, 0, offZ)) && BlockUtils.isBedrock(pos.add(0, -1, 0)) && BlockUtils.isBedrock(pos.add(offX, -1, offZ)) && BlockUtils.isBedrock(pos.add(offX * 2, 0, offZ * 2)) && BlockUtils.isBedrock(pos.add(-offX, 0, -offZ)) && BlockUtils.isBedrock(pos.add(offZ, 0, offX)) && BlockUtils.isBedrock(pos.add(-offZ, 0, -offX)) && BlockUtils.isBedrock(pos.add(offX, 0, offZ).add(offZ, 0, offX)) && BlockUtils.isBedrock(pos.add(offX, 0, offZ).add(-offZ, 0, -offX));
     }
 
-    public static Hole getHole(BlockPos pos, boolean doubles) {
-        return HoleUtils.getHole(pos, doubles, false);
-    }
-
-    public static Hole getHole(BlockPos pos, boolean doubles, boolean terrain) {
-        if (!BlockUtils.isAir(pos)) {
-            return null;
-        }
-        Hole hole = null;
-        if (HoleUtils.isBedrockHole(pos)) {
-            hole = new Hole(pos, HoleTypes.BEDROCK);
-        } else if (HoleUtils.isObbyHole(pos)) {
-            hole = new Hole(pos, HoleTypes.OBBY);
-        } else if (HoleUtils.isMixedHole(pos)) {
-            hole = new Hole(pos, HoleTypes.MIXED);
-        } else if (terrain && HoleUtils.isTerrainHole(pos)) {
-            hole = new Hole(pos, HoleTypes.TERRAIN);
-        }
-        if (doubles && HoleUtils.isDoubleHole(pos)) {
-            hole = HoleUtils.getDoubleHole(pos);
-        }
-        return hole;
-    }
-
-    public static List<Hole> getHoles(float range, boolean doubles, boolean webs) {
-        return HoleUtils.getHoles(mc.player, range, doubles, webs, false, false);
-    }
-
     public static List<Hole> getHoles(float range, boolean doubles, boolean webs, boolean trap, boolean terrain) {
         return HoleUtils.getHoles(mc.player, range, doubles, webs, trap, terrain);
     }

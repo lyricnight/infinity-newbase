@@ -29,10 +29,8 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * @author lyric
- * scheduled for deletion
+ * @author 3arth
  */
-@Deprecated
 @SuppressWarnings("DataFlowIssue")
 public final class Aura extends ModuleBase {
     public BooleanSetting tele = new BooleanSetting("Teleport", false, this);
@@ -250,11 +248,5 @@ public final class Aura extends ModuleBase {
         if (moveStrafing < 0F) rotationYaw += 90F * forward;
 
         return Math.toRadians(rotationYaw);
-    }
-
-    private void useShield() {
-        if ((mc.player.getMainHandStack().getItem() instanceof SwordItem || mc.player.getMainHandStack().getItem() instanceof AxeItem) && mc.player.getOffHandStack().getItem() instanceof ShieldItem) {
-            mc.world.getDamageSources().playerAttack(mc.player);
-        }
     }
 }

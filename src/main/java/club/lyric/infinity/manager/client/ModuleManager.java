@@ -59,6 +59,7 @@ public final class ModuleManager implements IMinecraft
                 new AntiAscii(),
                 new FastProjectile(),
                 new FakeBrand(),
+                new AutoReply(),
                 new FullBright()
         );
         Infinity.LOGGER.info("Initialising modules.");
