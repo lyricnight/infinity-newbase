@@ -169,7 +169,9 @@ public final class HUD extends ModuleBase
                     {
                         effectY = 0;
                     }
-                } else {
+                }
+                else
+                {
                     effectY = 0;
                 }
 
