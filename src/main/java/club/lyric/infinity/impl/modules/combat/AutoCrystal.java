@@ -17,6 +17,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.sound.SoundCategory;
@@ -34,9 +35,7 @@ import java.util.concurrent.Executors;
 /* TODO: make calculated breaking smarter by: calculating enemy and own damage and finding the best possible crystal to break;
  * make placing modes like breaking: do the same shit i just said; ADD PLACING, add id predict*/
 
-// delete this
-@Deprecated
-@SuppressWarnings({"unused"})
+@SuppressWarnings({"unused", "ConstantConditions"})
 public class AutoCrystal extends ModuleBase {
     // Entities
     public BooleanSetting players = new BooleanSetting("Players", true, this);
@@ -60,7 +59,6 @@ public class AutoCrystal extends ModuleBase {
     private final Map<BlockPos, Long> ownCrystals = new HashMap<>();
     private final Map<Integer, StopWatch.Single> hitCrystals = new HashMap<>();
     ExecutorService service = Executors.newCachedThreadPool();
-    private String information;
 
     public AutoCrystal() {
         super("AutoCrystal", "automatically crystal", Category.Combat);
@@ -128,7 +126,7 @@ public class AutoCrystal extends ModuleBase {
                             }
                         }
 
-                        information = "Breaking";
+                        String information = "Breaking";
 
                         service.submit(() -> {
                             hitCrystals.put(crystal.getId(), new StopWatch.Single());
@@ -204,6 +202,26 @@ public class AutoCrystal extends ModuleBase {
                                 mc.world.removeBlockEntity(crystal.getBlockPos());
                             });
                         }
+                    }
+                }
+            }
+        }
+
+        if (event.getPacket() instanceof EntitySpawnS2CPacket spawnPacket)
+        {
+            if (spawnPacket.getId() == 51)
+            {
+                for (Entity ent : mc.world.getEntities())
+                {
+                    if (ent == null) return;
+
+                    if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(spawnPacket.getX(), spawnPacket.getY(), spawnPacket.getZ()) <= hitRange.getFValue())
+                    {
+                        int entity = crystal.getId();
+                        mc.executeSync(() -> {
+                            mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
+                            mc.world.removeBlockEntity(crystal.getBlockPos());
+                        });
                     }
                 }
             }
