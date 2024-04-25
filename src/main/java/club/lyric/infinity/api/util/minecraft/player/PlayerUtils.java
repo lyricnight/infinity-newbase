@@ -124,10 +124,16 @@ public class PlayerUtils implements IMinecraft {
         return burrowList.contains(state.getBlock()) && state.getCollisionShape(mc.world, pos).getBoundingBox().offset(pos).maxY > player.getY();
     }
 
+    public static float getPlayerHealth()
+    {
+        return mc.player.getAbsorptionAmount() + mc.player.getHealth();
+    }
+
     public static boolean isTrapped(PlayerEntity player) {
         BlockPos pos = player.getBlockPos();
         return !mc.world.getBlockState(pos.up(2)).isReplaceable();
     }
+
     public static boolean isInPhase(PlayerEntity target) {
         return mc.world.getBlockState(target.getBlockPos()).getBlock() != Blocks.AIR;
     }
