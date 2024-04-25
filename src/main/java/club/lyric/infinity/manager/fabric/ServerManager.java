@@ -102,7 +102,7 @@ public final class ServerManager implements IMinecraft {
 
     /**
      * this gets fastLatency ping
-     * you MUST CHECK if this returns 0 (means fastLatency is off)
+     * you MUST CHECK if this returns 0 (means fastLatency is off
      * @return ping
      */
     public int getFastLatencyPing()
