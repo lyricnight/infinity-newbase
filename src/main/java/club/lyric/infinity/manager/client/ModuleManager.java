@@ -58,7 +58,8 @@ public final class ModuleManager implements IMinecraft
                 new FastProjectile(),
                 new FakeBrand(),
                 new AutoReply(),
-                new FullBright()
+                new FullBright(),
+                new Offhand()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }
