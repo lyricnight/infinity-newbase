@@ -72,9 +72,9 @@ public class Offhand extends ModuleBase
 
         float healthin = health.getFValue();
 
-        if (PlayerUtils.getPlayerHealth() >= healthin) return Items.TOTEM_OF_UNDYING;
+        if (PlayerUtils.getPlayerHealth() <= healthin) return Items.TOTEM_OF_UNDYING;
 
-        if (getFallDmg(mc.player.fallDistance, 1.0f) >= healthin) return Items.TOTEM_OF_UNDYING;
+        if (getFallDmg(mc.player.fallDistance, 1.0f) + 0.5f >= healthin) return Items.TOTEM_OF_UNDYING;
 
         if (mc.player.getMainHandStack().getItem() == getSword() && mc.options.useKey.isPressed() && swordGap.value()) return getGoldenApple();
 
