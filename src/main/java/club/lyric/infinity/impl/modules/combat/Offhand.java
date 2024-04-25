@@ -14,7 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.BedItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -48,7 +47,7 @@ public class Offhand extends ModuleBase
         Item item = getWeldingItemType();
 
         // if the item is in their offhand it doesn't switch.
-        if (mc.player.getOffHandStack().getItem() != item) return;
+        if (mc.player.getOffHandStack().getItem() == item) return;
 
         // closes the inventory gui if its in it
         if (mc.currentScreen instanceof InventoryScreen) mc.player.closeScreen();
