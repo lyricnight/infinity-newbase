@@ -49,7 +49,7 @@ public final class RichPresence extends ModuleBase {
             DiscordEventHandlers handlers = new DiscordEventHandlers();
             rpc.Discord_Initialize("1093053626198523935", handlers, true, "");
             presence.startTimestamp = (System.currentTimeMillis() / 1000L);
-            presence.largeImageText = "Infinity " + Infinity.VERSION + " for 1.20.";
+            presence.largeImageText = "Infinity " + Infinity.VERSION + " for 1.20.4";
             presence.largeImageKey = "real";
             rpc.Discord_UpdatePresence(presence);
 
