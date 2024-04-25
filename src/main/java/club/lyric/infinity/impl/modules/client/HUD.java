@@ -38,8 +38,6 @@ import java.util.LinkedList;
  * @since a while ago
  */
 
-//this fucking sucks
-
 @SuppressWarnings({"unused", "ConstantConditions"})
 public final class HUD extends ModuleBase
 {
@@ -272,17 +270,19 @@ public final class HUD extends ModuleBase
 
         if (ping.value() && !mc.isInSingleplayer()) {
 
-            int pinging = getPlayerLatency(mc.player);
+            String pingString;
 
-            if (Managers.MODULES.getModuleFromClass(FastLatency.class).isOn())
+            if (Managers.SERVER.getFastLatencyPing() != 0)
             {
-                pinging = Managers.SERVER.getFastLatencyPing();
+                pingString = "Latency: " + Formatting.WHITE + Managers.SERVER.getServerPing() + " [" + Managers.SERVER.getFastLatencyPing() + "]";
+            }
+            else
+            {
+                pingString = "Latency: " + Formatting.WHITE + Managers.SERVER.getServerPing();
             }
 
-            String ping = "Ping: " + Formatting.WHITE + pinging + "ms";
-
-            Managers.TEXT.drawString(getLabel(ping),
-                    event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(ping), true)) - 2,
+            Managers.TEXT.drawString(getLabel(pingString),
+                    event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(pingString), true)) - 2,
                     event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
                     hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB(),
                     shadow.value()
@@ -454,17 +454,6 @@ public final class HUD extends ModuleBase
                 (amplifier > 0 ? (" " + (amplifier + 1) + ": ") : ": ") +
                 Formatting.WHITE +
                 PlayerUtils.getPotionDurationString(statusEffectInstance);
-    }
-
-    public static int getPlayerLatency(PlayerEntity player)
-    {
-        if (player == null) return 0;
-
-        if (mc.getNetworkHandler() == null) return 0;
-
-        PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
-
-        return playerListEntry == null ? 0 : playerListEntry.getLatency();
     }
 
     private Color hudColor(int y) {

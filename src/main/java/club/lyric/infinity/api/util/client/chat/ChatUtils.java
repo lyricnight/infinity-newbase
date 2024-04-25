@@ -11,8 +11,7 @@ import net.minecraft.text.Text;
  * @author vasler, lyric
  */
 
-//TODO: rewrite all this to select colour and prefix based on importance level
-public class ChatUtils implements IMinecraft
+public final class ChatUtils implements IMinecraft
 {
 
     public static Text clientMessage()

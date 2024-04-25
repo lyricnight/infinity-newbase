@@ -1,12 +1,18 @@
 package club.lyric.infinity.impl.modules.client;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
-import club.lyric.infinity.api.util.client.discord.DiscordUtil;
+import club.lyric.infinity.api.util.client.discord.DiscordEventHandlers;
+import club.lyric.infinity.api.util.client.discord.DiscordRPC;
+import club.lyric.infinity.api.util.client.discord.DiscordRichPresence;
+import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.gui.screen.multiplayer.AddServerScreen;
+import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 
 /**
- * @author railhack
+ * @author lyric
  */
 public final class RichPresence extends ModuleBase {
     public RichPresence() {
@@ -14,16 +20,99 @@ public final class RichPresence extends ModuleBase {
     }
     public BooleanSetting ip = new BooleanSetting("ShowIP", false, this);
     public BooleanSetting ign = new BooleanSetting("ShowIGN", false, this);
+    private static final DiscordRPC rpc = DiscordRPC.INSTANCE;
+    public static DiscordRichPresence presence = new DiscordRichPresence();
+    private boolean started = false;
+    private static Thread thread;
 
     @Override
     public void onEnable()
     {
-        DiscordUtil.start();
+        start();
     }
 
     @Override
     public void onDisable()
     {
-        DiscordUtil.stop();
+        started = false;
+        if (thread != null && !thread.isInterrupted())
+        {
+            thread.interrupt();
+        }
+        rpc.Discord_Shutdown();
     }
+
+    private void start()
+    {
+        if (!started) {
+            started = true;
+            DiscordEventHandlers handlers = new DiscordEventHandlers();
+            rpc.Discord_Initialize("1093053626198523935", handlers, true, "");
+            presence.startTimestamp = (System.currentTimeMillis() / 1000L);
+            presence.largeImageText = "Infinity " + Infinity.VERSION + " for 1.20.";
+            presence.largeImageKey = "real";
+            rpc.Discord_UpdatePresence(presence);
+
+            thread = new Thread(() -> {
+                while (!Thread.currentThread().isInterrupted()) {
+                    rpc.Discord_RunCallbacks();
+
+                    presence.details = getStatus();
+
+                    presence.state = "Testing modules.";
+
+                    rpc.Discord_UpdatePresence(presence);
+                    try {
+                        Thread.sleep(2000L);
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+            }, "Infinity-RPC");
+            thread.start();
+        }
+    }
+
+    private String getStatus()
+    {
+        if (mc.currentScreen instanceof TitleScreen)
+        {
+            return "In the main menu.";
+        }
+        if (mc.currentScreen instanceof MultiplayerScreen || mc.currentScreen instanceof AddServerScreen)
+        {
+            return "Choosing a server.";
+        }
+        if (mc.getCurrentServerEntry() != null)
+        {
+            if (ip.value())
+            {
+                if (ign.value())
+                {
+                    return "Playing on " + mc.getCurrentServerEntry().address + " as " + mc.player.getDisplayName().getString();
+                }
+                else
+                {
+                    return "Playing on " + mc.getCurrentServerEntry().address;
+                }
+            }
+            else
+            {
+                if (ign.value())
+                {
+                    return "Playing as " + mc.player.getDisplayName().getString();
+                }
+                else
+                {
+                    return "Playing on a server.";
+                }
+            }
+        }
+        if (mc.isInSingleplayer())
+        {
+            return "Playing singleplayer.";
+        }
+        return "???";
+    }
+
 }
+
