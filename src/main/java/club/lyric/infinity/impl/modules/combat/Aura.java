@@ -84,6 +84,9 @@ public final class Aura extends ModuleBase {
     @Override
     public String moduleInformation()
     {
+        if (target == null) {
+            return "";
+        }
         return target.entity().getName().getString();
     }
 

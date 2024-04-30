@@ -245,6 +245,14 @@ public class ModuleBase implements IMinecraft {
         return getName();
     }
 
+    public String getSuffix()
+    {
+        if (moduleInformation().length() == 0) {
+            return "";
+        }
+        return Formatting.GRAY + " [" + Formatting.WHITE + moduleInformation() + Formatting.GRAY + "]";
+    }
+
     /**
      * null convenience
      * @return if null is present

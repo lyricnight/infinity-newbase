@@ -143,16 +143,7 @@ public final class HUD extends ModuleBase
 
             for (ModuleBase module : moduleList) {
 
-                String label;
-
-                if (module.moduleInformation().equals(""))
-                {
-                    label = module.getName();
-                }
-                else
-                {
-                    label = module.getName() + Formatting.GRAY + " [" + Formatting.WHITE + module.moduleInformation() + Formatting.GRAY + "]";
-                }
+                String label = module.getName() + module.getSuffix();
 
                 if (effectHud.is("Move"))
                 {

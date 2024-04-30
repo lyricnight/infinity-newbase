@@ -1,5 +1,7 @@
 package club.lyric.infinity.asm;
 
+import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.impl.modules.render.Chat;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.screen.ChatScreen;

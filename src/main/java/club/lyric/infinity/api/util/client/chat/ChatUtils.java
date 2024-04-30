@@ -29,6 +29,16 @@ public final class ChatUtils implements IMinecraft
         mc.inGameHud.getChatHud().addMessage(text);
     }
 
+    public static void sendMessagePrivateColored(String message)
+    {
+        if (mc.world == null) return;
+        MutableText text = Text.empty();
+        text.append(clientMessage());
+        text.append(" " + message);
+        text.setStyle(text.getStyle().withColor(Managers.MODULES.getModuleFromClass(Colours.class).getColor().getRGB()));
+        mc.inGameHud.getChatHud().addMessage(text);
+    }
+
     /**
      * ID 1111 = Caution
      * ID 2222 = Danger
