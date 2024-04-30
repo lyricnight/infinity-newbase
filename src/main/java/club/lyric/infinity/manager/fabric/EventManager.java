@@ -4,19 +4,15 @@ import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.impl.events.mc.*;
-import club.lyric.infinity.impl.events.mc.chat.ChatSentEvent;
 import club.lyric.infinity.impl.events.mc.update.UpdateEvent;
-import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.impl.events.render.Render2DEvent;
 import club.lyric.infinity.impl.events.render.Render3DEvent;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Formatting;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -26,34 +22,6 @@ import org.lwjgl.glfw.GLFW;
 
 @SuppressWarnings("unused")
 public final class EventManager implements IMinecraft {
-
-    /**
-     * for commands.
-     * @param event - the chat event
-     */
-    @EventHandler
-    public void onChat(ChatSentEvent event) {
-        if (event.getMessage().startsWith(Managers.COMMANDS.getPrefix())) {
-            event.setCancelled(true);
-
-            String[] arguments = event.getMessage().replaceFirst(Managers.COMMANDS.getPrefix(), "").split(" ");
-
-            boolean isCommand = false;
-
-            for (Command commands : Managers.COMMANDS.getCommands()) {
-                if (commands.getCommand().equals(arguments[0])) {
-                    commands.onCommand(arguments);
-
-                    isCommand = true;
-
-                    break;
-                }
-            }
-            if (!isCommand) {
-                ChatUtils.sendMessagePrivate(Formatting.RED + "Unknown command. Try " + Managers.COMMANDS.getPrefix() + "commands for a list of available commands.");
-            }
-        }
-    }
 
     /**
      * this needs -1 highest priority for eventbus

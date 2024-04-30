@@ -100,6 +100,7 @@ public final class ServerManager implements IMinecraft {
         return MathUtils.round(tps);
     }
 
+
     /**
      * this gets fastLatency ping
      * you MUST CHECK if this returns 0 (means fastLatency is off
