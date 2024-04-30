@@ -31,10 +31,10 @@ public abstract class MixinLivingEntity {
     }
 
 
-    @Inject(method = "tick", at = @At("HEAD"))
+    /**@Inject(method = "tick", at = @At("HEAD"))
     private void tick(final CallbackInfo ci) {
         if (Managers.MODULES.getModuleFromClass(NoJumpDelay.class).isOn()) {
             jumpingCooldown = 0;
         }
-    }
+    }*/
 }

@@ -31,6 +31,8 @@ public class Frame implements IMinecraft {
 
     // Dragging
     private boolean dragging;
+    ArrayList<ModuleComponent> components = new ArrayList<>();
+    private float off;
 
 
     public Frame(Category category, float x, float y, float width, float height) {
@@ -43,15 +45,12 @@ public class Frame implements IMinecraft {
         this.width = width;
         this.height = height;
 
-        for (ModuleBase module : Managers.MODULES.getModules())
+        /*for (ModuleBase module : Managers.MODULES.getModules())
         {
-            if (!module.getCategory().equals(category))
-            {
-                return;
+            if (module.getCategory() == category) {
+                components.add(new ModuleComponent(module, this, x, y));
             }
-            ArrayList<ModuleComponent> components = new ArrayList<>();
-            components.add(new ModuleComponent(module));
-        }
+        }*/
     }
 
     public Frame(Category category, float x, float y) {
@@ -71,6 +70,13 @@ public class Frame implements IMinecraft {
         Render2DUtils.drawRect(context.getMatrices(), x, y, width, height, new Color(color.getRed(), color.getGreen(), color.getBlue()).getRGB());
 
         Managers.TEXT.drawString(moduleCategory.name(), x + 2.0f, y + 3.0f, new Color(255, 255, 255).getRGB(), true);
+
+        off = y + height + 1.0f;
+
+        /**for (ModuleComponent moduleButton : components) {
+            moduleButton.drawScreen(context, (int) x + 1, (int) off + 1, delta);
+            off += 13.5f;
+        }*/
     }
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {

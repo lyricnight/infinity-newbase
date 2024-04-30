@@ -2,13 +2,16 @@ package club.lyric.infinity.api.gui;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.gui.configuration.Frame;
+import club.lyric.infinity.api.gui.configuration.components.ModuleComponent;
 import club.lyric.infinity.api.gui.interfaces.Screening;
 import club.lyric.infinity.api.module.Category;
+import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 

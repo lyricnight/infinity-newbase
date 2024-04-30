@@ -1,6 +1,8 @@
 package club.lyric.infinity.api.gui.configuration.components;
 
+import club.lyric.infinity.api.gui.configuration.Frame;
 import club.lyric.infinity.api.gui.interfaces.Component;
+import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
@@ -19,7 +21,7 @@ public class ModuleComponent extends Component {
     private final ModuleBase moduleBase;
     private final List<ModuleBase> moduleComponents = new ArrayList<>();
 
-    public ModuleComponent(ModuleBase moduleBase) {
+    public ModuleComponent(ModuleBase moduleBase, Frame frame, float x, float y) {
         this.moduleBase = moduleBase;
 
         for (Setting setting : moduleBase.getSettings()) {

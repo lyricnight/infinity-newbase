@@ -1,6 +1,7 @@
 package club.lyric.infinity.impl.modules.combat;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
+import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.api.module.Category;
@@ -10,6 +11,7 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.minecraft.player.MovementPlayer;
 import club.lyric.infinity.api.util.minecraft.player.PlayerPosition;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
+import club.lyric.infinity.impl.events.render.Render3DEvent;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
@@ -33,6 +35,7 @@ import org.jetbrains.annotations.Nullable;
  */
 @SuppressWarnings("DataFlowIssue")
 public final class Aura extends ModuleBase {
+    public NumberSetting range = new NumberSetting("Range", this, 6.0f, 1.0f, 7.0f, 0.1f);
     public BooleanSetting tele = new BooleanSetting("Teleport", false, this);
 
     public BooleanSetting require = new BooleanSetting("Require", true, this);
@@ -40,6 +43,8 @@ public final class Aura extends ModuleBase {
     public BooleanSetting entities = new BooleanSetting("AnyEntity", false, this);
 
     public BooleanSetting other = new BooleanSetting("Others", false, this);
+
+    public BooleanSetting cooldown = new BooleanSetting("Cooldown", false, this);
 
     public BooleanSetting sprint = new BooleanSetting("Sprint", false, this);
 
@@ -70,9 +75,16 @@ public final class Aura extends ModuleBase {
     }
 
     @Override
+    public void onRender3D(Render3DEvent event) {
+        if (target != null) {
+
+        }
+    }
+
+    @Override
     public String moduleInformation()
     {
-        return target.entity().getName().toString();
+        return target.entity().getName().getString();
     }
 
     @Override
@@ -81,7 +93,7 @@ public final class Aura extends ModuleBase {
     }
 
     private void attack(@Nullable Target target, ClientPlayerEntity player, boolean preMotion) {
-        if (target == null || player.isSpectator() || player.getAttackCooldownProgress(0.5f) < 1.0f || preMotion && target.inRangeForCurrentPos() || !preMotion && !target.inRangeForCurrentPos() || require.value() && !(player.getStackInHand(Hand.MAIN_HAND).getItem() instanceof SwordItem || player.getStackInHand(Hand.MAIN_HAND).getItem() instanceof AxeItem)) {
+        if (target == null || player.isSpectator() || cooldown.value() && !(player.getAttackCooldownProgress(0.5f) >= 1.0f) || preMotion && target.inRangeForCurrentPos() || !preMotion && !target.inRangeForCurrentPos() || require.value() && !(player.getStackInHand(Hand.MAIN_HAND).getItem() instanceof SwordItem || player.getStackInHand(Hand.MAIN_HAND).getItem() instanceof AxeItem)) {
             return;
         }
 
@@ -93,10 +105,10 @@ public final class Aura extends ModuleBase {
             player.setPos(target.teleportPos().x, target.teleportPos().y, target.teleportPos().z);
         }
 
-        if (mc.player.getAttackCooldownProgress(0) >= 1.0f) {
-            mc.interactionManager.attackEntity(mc.player, target.entity());
-            mc.player.swingHand(Hand.MAIN_HAND);
-        }
+        if (cooldown.value() && !(mc.player.getAttackCooldownProgress(0) >= 1.0f)) return;
+
+        mc.interactionManager.attackEntity(mc.player, target.entity());
+        mc.player.swingHand(Hand.MAIN_HAND);
 
         if (sprint.value()) {
             mc.player.setSprinting(true);
@@ -107,7 +119,7 @@ public final class Aura extends ModuleBase {
     private Target computeTarget(ClientPlayerEntity player, ClientWorld level) {
         Target result = null;
         MovementPlayer teleportPlayer = null;
-        for (Entity entity : level.getOtherEntities(null, PlayerUtils.getAABBOfRadius(player, 8.0))) {
+        for (Entity entity : level.getOtherEntities(null, PlayerUtils.getAABBOfRadius(player, range.getFValue()))) {
             if (entity == null || entity.isRemoved() || entity.getId() == player.getId() || !entity.isAttackable() || entity instanceof EndCrystalEntity || entity instanceof ExperienceOrbEntity || entity instanceof ArrowEntity || entity instanceof ItemEntity || entity instanceof ExperienceBottleEntity || player.getPassengerList().contains(entity) || entity.getPassengerList().contains(player)  || entity instanceof LivingEntity && !(entity instanceof PlayerEntity) && !entities.value() || !(entity instanceof LivingEntity) && !other.value() || entity instanceof PlayerEntity && Managers.FRIENDS.isFriend((PlayerEntity) entity)) {
                 continue;
             }

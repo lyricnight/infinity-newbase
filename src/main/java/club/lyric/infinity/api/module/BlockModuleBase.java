@@ -26,7 +26,7 @@ public class BlockModuleBase extends ModuleBase
     @Override
     public void onEnable()
     {
-
+        reset();
     }
 
     public void reset()
