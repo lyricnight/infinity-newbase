@@ -15,7 +15,11 @@ import net.minecraft.util.Formatting;
 
 import java.util.stream.Stream;
 
+/**
+ * @author lyric
+ */
 public class AutoReply extends ModuleBase {
+    public BooleanSetting armor = new BooleanSetting("Armor", false, this);
     public BooleanSetting coords = new BooleanSetting("Coords", true, this);
     public BooleanSetting afk = new BooleanSetting("AFK Responses",true, this);
     public NumberSetting time = new NumberSetting("AFK Time", this, 30, 10, 100, 5);
@@ -30,7 +34,7 @@ public class AutoReply extends ModuleBase {
     public void onEnable()
     {
         stopWatch.reset();
-        if (!afk.value() && !coords.value())
+        if (!afk.value() && !coords.value() && !armor.value())
         {
             ChatUtils.sendMessagePrivate(Formatting.RED + "You have not enabled either coordinate reply or afk mode, disabling...");
             disable();
@@ -84,7 +88,7 @@ public class AutoReply extends ModuleBase {
     {
         switch (type)
         {
-            case COORDINATE -> mc.player.sendMessage(Text.of("/w " + ign + " [Infinity] Coordinates: " + mc.player.getX() + ", " + mc.player.getZ()));
+            case COORDINATE -> mc.player.sendMessage(Text.of("/w " + ign + " [Infinity] Coordinates: " + mc.player.getX() + ", " + mc.player.getZ() + ", Dimension: " + mc.world.getDimension().toString()));
             case AFK -> mc.player.sendMessage(Text.of("/w " + ign  + " [Infinity] I'm AFK. Wait a bit."));
         }
     }

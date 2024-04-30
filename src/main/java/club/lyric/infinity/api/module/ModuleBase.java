@@ -56,7 +56,7 @@ public class ModuleBase implements IMinecraft {
     /**
      * enabled/disabled
      */
-    private boolean enabled;
+    private boolean enabled = false;
 
     /**
      * module's bind.

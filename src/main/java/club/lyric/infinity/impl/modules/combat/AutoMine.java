@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author lyric
  * this is getting redone
  */
-@Deprecated
+
 public final class AutoMine extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "Vanilla", "Vanilla", "Packet", "Both");
     public NumberSetting range = new NumberSetting("Range", this, 5.0, 0.0, 6.0, 0.1);
@@ -43,7 +43,7 @@ public final class AutoMine extends ModuleBase {
     private BlockPos attacking = null;
     private final StopWatch.Single watch = new StopWatch.Single();
 
-    private AtomicInteger count = new AtomicInteger();
+    private final AtomicInteger count = new AtomicInteger();
 
     private boolean first;
 
