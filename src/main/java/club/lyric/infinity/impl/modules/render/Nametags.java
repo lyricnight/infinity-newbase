@@ -77,7 +77,7 @@ public class Nametags extends ModuleBase {
 
         VertexConsumerProvider.Immediate vertexConsumers = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
 
-        Managers.TEXT.drawString(renderPlayerName(player), width, 0, -1, true);
+        Managers.TEXT.drawString(renderPlayerName(player), width, 0, -1);
 
         vertexConsumers.draw();
 
@@ -100,7 +100,7 @@ public class Nametags extends ModuleBase {
         matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
         matrix.scale(-0.025F, -0.025F, 1.0F);
         VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
-        Managers.TEXT.drawString(renderPlayerName(entity), mc.textRenderer.getWidth(renderPlayerName(entity)) * -0.5F, 0, -1, true);
+        Managers.TEXT.drawString(renderPlayerName(entity), mc.textRenderer.getWidth(renderPlayerName(entity)) * -0.5F, 0, -1);
         immediate.draw();
         matrix.pop();
     }

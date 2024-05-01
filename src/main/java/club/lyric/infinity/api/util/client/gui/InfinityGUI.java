@@ -64,7 +64,7 @@ public class InfinityGUI implements RenderableElement, IMinecraft {
         ImGui.getStyle().setFramePadding(4, 6);
         ImGui.getStyle().setButtonTextAlign(0.05f, 0.5f);
         ImGui.getStyle().setWindowPadding(16,16);
-        ImGui.getStyle().setWindowRounding(4);
+        ImGui.getStyle().setWindowRounding(20);
         ImGui.setNextWindowSize(600f, 600f, 0);
         ImGui.begin(get(), imGuiWindowFlags);
         ImGui.getStyle().setWindowPadding(6,6);
@@ -108,8 +108,6 @@ public class InfinityGUI implements RenderableElement, IMinecraft {
             }
 
             if (ImGui.isItemHovered()) {
-                ImGui.setTooltip(module.getDescription());
-
                 if (ImGui.isMouseClicked(1)) {
                     module.toggleShowSettings();
                 }
@@ -204,7 +202,7 @@ public class InfinityGUI implements RenderableElement, IMinecraft {
                 ImGui.getStyle().setColors(colors);
 
                 ImGui.getStyle().setScrollbarSize(10);
-                ImGui.getStyle().setScrollbarRounding(4);
+                ImGui.getStyle().setScrollbarRounding(20);
                 ImGui.getStyle().setWindowTitleAlign(0.5f, 0.5f);
 
                 //if (ImguiLoader.getCustomFont() != null) {

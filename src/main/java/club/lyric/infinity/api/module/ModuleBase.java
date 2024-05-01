@@ -236,15 +236,6 @@ public class ModuleBase implements IMinecraft {
         }
     }
 
-    public String fullWidth()
-    {
-        if (!moduleInformation().equals(""))
-        {
-            return getName() + Formatting.GRAY + " [" + Formatting.WHITE + moduleInformation() + Formatting.GRAY + "]";
-        }
-        return getName();
-    }
-
     public String getSuffix()
     {
         if (moduleInformation().length() == 0) {

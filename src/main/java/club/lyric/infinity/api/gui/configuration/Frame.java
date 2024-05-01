@@ -69,7 +69,7 @@ public class Frame implements IMinecraft {
         Color color = Managers.MODULES.getModuleFromClass(Colours.class).getColor();
         Render2DUtils.drawRect(context.getMatrices(), x, y, width, height, new Color(color.getRed(), color.getGreen(), color.getBlue()).getRGB());
 
-        Managers.TEXT.drawString(moduleCategory.name(), x + 2.0f, y + 3.0f, new Color(255, 255, 255).getRGB(), true);
+        Managers.TEXT.drawString(moduleCategory.name(), x + 2.0f, y + 3.0f, new Color(255, 255, 255).getRGB());
 
         off = y + height + 1.0f;
 

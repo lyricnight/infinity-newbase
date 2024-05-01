@@ -47,7 +47,7 @@ public class ModuleComponent extends Component {
 
         Render2DUtils.drawRect(context.getMatrices(), x, y, x + width, y + height, new Color(255, 255, 255).getRGB());
 
-        Managers.TEXT.drawString(moduleBase.getName(), x + 2.0f, y + 3.0f, new Color(255, 255, 255).getRGB(), true);
+        Managers.TEXT.drawString(moduleBase.getName(), x + 2.0f, y + 3.0f, new Color(255, 255, 255).getRGB());
 
         for (ModuleBase module : moduleComponents) {
 

@@ -2,6 +2,8 @@ package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.api.ducks.IDrawContext;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.modules.client.HUD;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 
 /**
@@ -24,13 +26,13 @@ public final class TextManager implements IMinecraft {
         ready = true;
     }
 
-    public void drawString(String value, float x, float y, int color, boolean shadow)
+    public void drawString(String value, float x, float y, int color)
     {
         if(!ready)
         {
             throw new RuntimeException("drawString() called too early! Report this!");
         }
-        ((IDrawContext)context).infinity_newbase$drawText(mc.textRenderer, value, x, y, color, shadow);
+        ((IDrawContext)context).infinity_newbase$drawText(mc.textRenderer, value, x, y, color, Managers.MODULES.getModuleFromClass(HUD.class).shadow.value());
     }
 
     public float width(String value, boolean shadow)

@@ -1,8 +1,11 @@
 package club.lyric.infinity;
 
+import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.SharedConstants;
+import net.minecraft.client.util.Window;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +18,7 @@ import java.io.File;
  * main class.
  */
 
-public class Infinity implements ModInitializer, ClientModInitializer {
+public class Infinity implements ModInitializer, ClientModInitializer, IMinecraft {
 	public static final String CLIENT_NAME = "Infinity";
 	public static final String VERSION = " v1.0.2";
     public static final Logger LOGGER = LogManager.getLogger("Infinity");

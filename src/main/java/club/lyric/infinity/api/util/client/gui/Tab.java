@@ -48,7 +48,7 @@ public class Tab implements RenderableElement, IMinecraft {
         ImGui.getStyle().setFramePadding(4, 6);
         ImGui.getStyle().setWindowPadding(16,16);
         ImGui.getStyle().setFrameRounding(8);
-        ImGui.getStyle().setWindowRounding(8);
+        ImGui.getStyle().setWindowRounding(20);
         ImGui.setNextWindowSize(600f, 600f, 0);
         ImGui.pushStyleColor(ImGuiCol.WindowBg, 0.08f, 0.08f, 0.12f, 0.8f);
         ImGui.begin(get(), imGuiWindowFlags);
