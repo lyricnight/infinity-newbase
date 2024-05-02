@@ -1,6 +1,5 @@
 package club.lyric.infinity.impl.modules.render;
 
-import club.lyric.infinity.impl.events.render.Render3DEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -64,11 +63,8 @@ public class HoleESP extends ModuleBase {
     }
 
     @Override
-    public void onRender3D(Render3DEvent event) {
-
+    public void onRender3D(MatrixStack matrixStack) {
         if (holes.isEmpty()) return;
-
-        MatrixStack matrix = event.getMatrix();
 
         if (onlyOut.value() && HoleUtils.isInHole(mc.player)) return;
 
@@ -99,15 +95,15 @@ public class HoleESP extends ModuleBase {
 
             // idk why the fuck it changes the alpha of the screen
             Render3DUtils.enable3D();
-            matrix.push();
+            matrixStack.push();
 
             if (box.value())
-                Render3DUtils.drawBox(event.getMatrix(), bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) alpha).getRGB());
+                Render3DUtils.drawBox(matrixStack, bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) alpha).getRGB());
 
             if (outline.value())
-                Render3DUtils.drawOutline(event.getMatrix(), bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) outlineAlpha).getRGB());
+                Render3DUtils.drawOutline(matrixStack, bb, new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) outlineAlpha).getRGB());
 
-            matrix.pop();
+            matrixStack.pop();
             Render3DUtils.disable3D();
 
         }

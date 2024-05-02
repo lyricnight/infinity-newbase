@@ -12,14 +12,11 @@ import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.impl.events.network.PacketEvent;
-import club.lyric.infinity.impl.events.render.Render2DEvent;
-import club.lyric.infinity.impl.modules.exploit.FastLatency;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -78,7 +75,7 @@ public final class HUD extends ModuleBase
     }
 
     @Override
-    public void onRender2D(Render2DEvent event) {
+    public void onRender2D(DrawContext context) {
 
         if (packetTimer.hasBeen(1000)) {
             packets = 0;
@@ -110,7 +107,7 @@ public final class HUD extends ModuleBase
 
             String text = "Hello, " + mc.player.getName().getString() + " :^)";
 
-            int x = (int) (event.getDrawContext().getScaledWindowWidth() / 2 - Managers.TEXT.width(text, true) / 2 + 2);
+            int x = (int) (context.getScaledWindowWidth() / 2 - Managers.TEXT.width(text, true) / 2 + 2);
 
             Managers.TEXT.drawString(getLabel(text),
                     x,
@@ -164,7 +161,7 @@ public final class HUD extends ModuleBase
                     effectY = 0;
                 }
 
-                float x = event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(label), true)) - 2;
+                float x = context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(label), true)) - 2;
 
                 Managers.TEXT.drawString(getLabel(label),
                         x,
@@ -177,8 +174,8 @@ public final class HUD extends ModuleBase
         }
 
         if (armorHud.value()) {
-            int width = event.getDrawContext().getScaledWindowWidth();
-            int height = event.getDrawContext().getScaledWindowHeight();
+            int width = context.getScaledWindowWidth();
+            int height = context.getScaledWindowHeight();
             int x = 15;
             for (int i = 3; i >= 0; i--) {
                 ItemStack stack = mc.player.getInventory().armor.get(i);
@@ -190,10 +187,10 @@ public final class HUD extends ModuleBase
                         y = mc.player.isCreative() ? (mc.player.isRiding() ? 45 : 38) : 55;
                     }
                     final float percent = InventoryUtils.getPercent(stack);
-                    event.getDrawContext().getMatrices().push();
-                    event.getDrawContext().getMatrices().scale(0.75f, 0.75f, 0.75f);
+                    context.getMatrices().push();
+                    context.getMatrices().scale(0.75f, 0.75f, 0.75f);
                     RenderSystem.disableDepthTest();
-                    event.getDrawContext().drawTextWithShadow(mc.textRenderer,
+                    context.drawTextWithShadow(mc.textRenderer,
                             Text.of(((int) (percent)) + "%"),
                             (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333f),
                             (int) ((height - y - 5) * 1.333f), ColorUtils.toColor(percent / 100.0f * 120.0f,
@@ -201,12 +198,12 @@ public final class HUD extends ModuleBase
                                     50.0f,
                                     1.0f).getRGB());
                     RenderSystem.enableDepthTest();
-                    event.getDrawContext().getMatrices().scale(1.0f, 1.0f, 1.0f);
-                    event.getDrawContext().getMatrices().pop();
-                    event.getDrawContext().getMatrices().push();
-                    event.getDrawContext().drawItemInSlot(mc.textRenderer, stack, width / 2 + x, height - y);
-                    event.getDrawContext().drawItem(stack, width / 2 + x, height - y);
-                    event.getDrawContext().getMatrices().pop();
+                    context.getMatrices().scale(1.0f, 1.0f, 1.0f);
+                    context.getMatrices().pop();
+                    context.getMatrices().push();
+                    context.drawItemInSlot(mc.textRenderer, stack, width / 2 + x, height - y);
+                    context.drawItem(stack, width / 2 + x, height - y);
+                    context.getMatrices().pop();
                     x += 18;
                 }
             }
@@ -214,11 +211,11 @@ public final class HUD extends ModuleBase
 
         if (potions.value()) {
             for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
-                int x = (int) (event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(getString(statusEffectInstance)), true)) - 2);
+                int x = (int) (context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(getString(statusEffectInstance)), true)) - 2);
                 Managers.TEXT.drawString(getLabel(getString(statusEffectInstance)),
                         x,
-                        event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                        potionColors.is("Normal") ? statusEffectInstance.getEffectType().getColor() : hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
+                        context.getScaledWindowHeight() - 9 - offset - 2 - chatY,
+                        potionColors.is("Normal") ? statusEffectInstance.getEffectType().getColor() : hudColor(context.getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
                 );
                 offset += (int) (Managers.TEXT.height(true) + 1);
             }
@@ -235,9 +232,9 @@ public final class HUD extends ModuleBase
                     " km/h";
 
             Managers.TEXT.drawString(getLabel(speed),
-                    event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(speed), true)) - 2,
-                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                    hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
+                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(speed), true)) - 2,
+                    context.getScaledWindowHeight() - 9 - offset - 2 - chatY,
+                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
             );
             offset += (int) (Managers.TEXT.height(true) + 1);
         }
@@ -246,9 +243,9 @@ public final class HUD extends ModuleBase
             String packet = "Packets: " + Formatting.GRAY + "[" + Formatting.WHITE + packets + Formatting.GRAY + "]";
 
             Managers.TEXT.drawString(getLabel(packet),
-                    event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(packet), true)) - 2,
-                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                    hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
+                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(packet), true)) - 2,
+                    context.getScaledWindowHeight() - 9 - offset - 2 - chatY,
+                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
             );
             offset += (int) (Managers.TEXT.height(true) + 1);
         }
@@ -267,9 +264,9 @@ public final class HUD extends ModuleBase
             }
 
             Managers.TEXT.drawString(getLabel(pingString),
-                    event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(pingString), true)) - 2,
-                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                    hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
+                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(pingString), true)) - 2,
+                    context.getScaledWindowHeight() - 9 - offset - 2 - chatY,
+                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
             );
 
             offset += (int) (Managers.TEXT.height(true) + 1);
@@ -279,9 +276,9 @@ public final class HUD extends ModuleBase
             String tps = "TPS: " + Formatting.WHITE + Managers.SERVER.getOurTPS();
 
             Managers.TEXT.drawString(getLabel(tps),
-                    event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(tps), true)) - 2,
-                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                    hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
+                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(tps), true)) - 2,
+                    context.getScaledWindowHeight() - 9 - offset - 2 - chatY,
+                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
             );
             offset += (int) (Managers.TEXT.height(true) + 1);
         }
@@ -307,9 +304,9 @@ public final class HUD extends ModuleBase
             String fps = "FPS: " + Formatting.WHITE + fpsCount;
 
             Managers.TEXT.drawString(getLabel(fps),
-                    event.getDrawContext().getScaledWindowWidth() - (Managers.TEXT.width(getLabel(fps), true)) - 2,
-                    event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                    hudColor(event.getDrawContext().getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
+                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(fps), true)) - 2,
+                    context.getScaledWindowHeight() - 9 - offset - 2 - chatY,
+                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
             );
         }
 
@@ -334,7 +331,7 @@ public final class HUD extends ModuleBase
                                 Formatting.GRAY +
                                 ")"),
                         2,
-                        event.getDrawContext().getScaledWindowHeight() - 9 - 2 - chatY,
+                        context.getScaledWindowHeight() - 9 - 2 - chatY,
                         color.getRGB()
                 );
             } else {
@@ -354,7 +351,7 @@ public final class HUD extends ModuleBase
                                 Formatting.GRAY +
                                 ")"),
                         2,
-                        event.getDrawContext().getScaledWindowHeight() - 9 - coordinateOffset - 2 - chatY,
+                        context.getScaledWindowHeight() - 9 - coordinateOffset - 2 - chatY,
                         hudColor(coordinateOffset).getRGB()
                 );
             }
@@ -365,7 +362,7 @@ public final class HUD extends ModuleBase
             String direction = getDirections();
             Managers.TEXT.drawString(getLabel(direction),
                     2,
-                    event.getDrawContext().getScaledWindowHeight() - 9 - coordinateOffset - 2 - chatY,
+                    context.getScaledWindowHeight() - 9 - coordinateOffset - 2 - chatY,
                     hudColor(coordinateOffset).getRGB()
             );
         }

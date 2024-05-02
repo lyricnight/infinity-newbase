@@ -24,7 +24,7 @@ public class MixinSplashTextResourceSupplier implements IMinecraft {
     private void onApply(CallbackInfoReturnable<SplashTextRenderer> cir) {
         if (Managers.CONFIG == null || Managers.MODULES == null) return;
 
-        if (applied) cir.setReturnValue(new SplashTextRenderer("Welcome to Infinity v1.0.2."));
+        if (applied) cir.setReturnValue(new SplashTextRenderer(Formatting.BOLD + "" + Formatting.DARK_PURPLE + "Welcome to Infinity v1.0.2."));
         applied = !applied;
     }
 }

@@ -2,6 +2,7 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventBus;
+import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.util.crash.CrashReport;
@@ -46,6 +47,8 @@ public final class MixinCrashReport {
         section.add("Version", Infinity.VERSION);
         section.add("Enabled Modules", module);
         section.add("EventBus", EventBus.getInstance().hashCode());
+        section.add("Listeners", EventBus.getInstance().getInvokers());
+
 
         return section;
     }

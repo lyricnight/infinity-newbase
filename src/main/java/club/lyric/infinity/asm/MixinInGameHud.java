@@ -1,7 +1,6 @@
 package club.lyric.infinity.asm;
 
-import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.impl.events.render.Render2DEvent;
+import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.impl.modules.client.HUD;
 import club.lyric.infinity.impl.modules.render.Chat;
 import club.lyric.infinity.manager.Managers;
@@ -21,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinInGameHud {
     @Inject(method = "render", at = @At("RETURN"))
     public void render(DrawContext context, float tickDelta, CallbackInfo ci) {
+        Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(module -> module.onRender2D(context));
         RenderSystem.setShaderColor(1, 1, 1, 1);
 
         RenderSystem.disableDepthTest();
@@ -29,10 +29,6 @@ public class MixinInGameHud {
 
         RenderSystem.disableCull();
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
-
-
-        Render2DEvent event = new Render2DEvent(context);
-        EventBus.getInstance().post(event);
 
         RenderSystem.enableDepthTest();
         GL11.glDisable(GL11.GL_LINE_SMOOTH);

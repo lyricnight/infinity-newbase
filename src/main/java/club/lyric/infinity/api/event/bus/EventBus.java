@@ -6,6 +6,7 @@ import club.lyric.infinity.api.event.Event;
 import java.lang.invoke.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -91,5 +92,10 @@ public final class EventBus {
 
     public static EventBus getInstance() {
         return instance;
+    }
+
+    public int getInvokers()
+    {
+        return registeredMethodInvokers.size();
     }
 }

@@ -11,7 +11,6 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.minecraft.player.MovementPlayer;
 import club.lyric.infinity.api.util.minecraft.player.PlayerPosition;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
-import club.lyric.infinity.impl.events.render.Render3DEvent;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
@@ -22,7 +21,6 @@ import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.thrown.ExperienceBottleEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShieldItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.util.Hand;
@@ -71,13 +69,6 @@ public final class Aura extends ModuleBase {
         else if (event.getStage() == 1)
         {
             attack(target, mc.player, false);
-        }
-    }
-
-    @Override
-    public void onRender3D(Render3DEvent event) {
-        if (target != null) {
-
         }
     }
 

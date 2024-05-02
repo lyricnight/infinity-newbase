@@ -1,16 +1,16 @@
 package club.lyric.infinity.api.module;
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.impl.events.render.Render2DEvent;
-import club.lyric.infinity.impl.events.render.Render3DEvent;
 import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.PendingUpdateManager;
 import net.minecraft.client.network.SequencedPacketCreator;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.Formatting;
 
@@ -98,10 +98,10 @@ public class ModuleBase implements IMinecraft {
     public void onUpdate() {
     }
 
-    public void onRender2D(Render2DEvent event) {
+    public void onRender2D(DrawContext drawContext) {
     }
 
-    public void onRender3D(Render3DEvent event) {
+    public void onRender3D(MatrixStack matrixStack) {
     }
 
     public boolean isOn() {

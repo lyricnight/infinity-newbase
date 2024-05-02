@@ -18,10 +18,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(LivingEntity.class)
 public abstract class MixinLivingEntity {
-
-    @Shadow
-    private int jumpingCooldown;
-
     @Unique
     private long lastInterp = 0L;
     @Inject(method = "updateTrackedPositionAndAngles", at = @At(value = "HEAD"))
@@ -29,12 +25,4 @@ public abstract class MixinLivingEntity {
         EventBus.getInstance().post(new InterpolationEvent(LivingEntity.class.cast(this), x, y, z, yaw, pitch, lastInterp));
         lastInterp = Time.getMillis();
     }
-
-
-    /**@Inject(method = "tick", at = @At("HEAD"))
-    private void tick(final CallbackInfo ci) {
-        if (Managers.MODULES.getModuleFromClass(NoJumpDelay.class).isOn()) {
-            jumpingCooldown = 0;
-        }
-    }*/
 }

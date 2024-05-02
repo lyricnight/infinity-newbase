@@ -1,8 +1,8 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
+import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.events.mc.TickEvent;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.MinecraftClient;
@@ -20,13 +20,14 @@ public abstract class MixinMinecraftClient implements IMinecraft {
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void tick(CallbackInfo callbackInfo)
     {
-        EventBus.getInstance().post(new TickEvent.Pre());
+        Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTickPre);
     }
 
     @Inject(method = "tick", at = @At(value = "TAIL"))
     private void tickPost(CallbackInfo callbackInfo)
     {
-        EventBus.getInstance().post(new TickEvent.Post());
+        Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTickPost);
+        Managers.TIMER.update();
     }
 
     @Inject(method = "<init>", at = @At(value = "TAIL"))
