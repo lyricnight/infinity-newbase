@@ -14,7 +14,7 @@ import java.awt.*;
 
 public final class ClickGui extends ModuleBase {
 
-    public ColorSetting color = new ColorSetting("Color", this, new JColor(Color.DARK_GRAY), false);
+    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(64, 64, 124)), false);
 
     public BooleanSetting shadow = new BooleanSetting("Shadow", true,this);
 
