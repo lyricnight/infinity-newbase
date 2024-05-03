@@ -3,12 +3,14 @@ package club.lyric.infinity.asm;
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.impl.events.network.PacketEvent;
+import club.lyric.infinity.manager.Managers;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.NetworkSide;
 import net.minecraft.network.PacketCallbacks;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.CommandSuggestionsS2CPacket;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,6 +36,10 @@ public class MixinClientConnection {
     public void channelRead0(ChannelHandlerContext channelHandlerContext, Packet<?> packet, CallbackInfo ci) {
         if (channel.isOpen() && packet != null) {
             try {
+                if (packet instanceof CommandSuggestionsS2CPacket commandSuggestionsS2CPacket && commandSuggestionsS2CPacket.getCompletionId() == 1337)
+                {
+                    Managers.SERVER.ping = (int) (System.currentTimeMillis() - Managers.SERVER.responseTime);
+                }
                 PacketEvent.Receive event = new PacketEvent.Receive(packet);
                 EventBus.getInstance().post(event);
                 if (event.isCancelled())

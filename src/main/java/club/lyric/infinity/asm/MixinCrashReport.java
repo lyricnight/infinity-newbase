@@ -37,7 +37,7 @@ public final class MixinCrashReport {
     @Unique
     private CrashReportSection getInfinityCrashReport()
     {
-        CrashReportSection section = new CrashReportSection("Infinity Debug");
+        CrashReportSection section = new CrashReportSection("Infinity Debug (lyric was here)");
 
         ArrayList<String> module = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public final class MixinCrashReport {
         section.add("Enabled Modules", module);
         section.add("EventBus", EventBus.getInstance().hashCode());
         section.add("Listeners", EventBus.getInstance().getInvokers());
-
+        section.add("Commands", Managers.COMMANDS.getCommandAmount() + ", " + Managers.COMMANDS.getCommandsAsString());
 
         return section;
     }

@@ -7,6 +7,8 @@ import club.lyric.infinity.manager.fabric.EventManager;
 import club.lyric.infinity.manager.fabric.ServerManager;
 import club.lyric.infinity.manager.fabric.TimerManager;
 
+import javax.print.attribute.standard.MediaSize;
+
 /**
  * @author lyric
  * for all managers.
@@ -22,7 +24,7 @@ public final class Managers {
     public static ServerManager SERVER = new ServerManager();
     public static TextManager TEXT = new TextManager();
     public static TimerManager TIMER = new TimerManager();
-    public static MovementManager MOVEMENT = new MovementManager();
+    public static OtherEntityManager OTHER = new OtherEntityManager();
 
     /**
      * subscribing all managers...
@@ -30,7 +32,7 @@ public final class Managers {
     public static void sub()
     {
         Infinity.LOGGER.info("starting manager subscription.");
-        subscribe(FRIENDS, CONFIG, EVENTS, ROTATIONS, COMMANDS, SERVER, MODULES, TEXT, TIMER, MOVEMENT);
+        subscribe(FRIENDS, CONFIG, EVENTS, ROTATIONS, COMMANDS, SERVER, MODULES, TEXT, TIMER);
     }
 
 
