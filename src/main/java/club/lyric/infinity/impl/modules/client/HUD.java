@@ -24,6 +24,7 @@ import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -106,6 +107,15 @@ public final class HUD extends ModuleBase
         {
 
             String text = "Hello, " + mc.player.getName().getString() + " :^)";
+
+            LocalDate currentDate = LocalDate.now();
+
+            boolean christmas = currentDate.getMonthValue() == 12 && currentDate.getDayOfMonth() == 25;
+
+            if (christmas)
+            {
+                text = "Merry Christmas, " + mc.player.getName().getString() + " :^)";
+            }
 
             int x = (int) (context.getScaledWindowWidth() / 2 - Managers.TEXT.width(text, true) / 2 + 2);
 
