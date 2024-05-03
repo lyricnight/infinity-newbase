@@ -20,6 +20,24 @@ public class Interpolation implements IMinecraft
         return camera.getPos();
     }
 
+    public static Vec3d interpolateEntity(Entity entity)
+    {
+        double x;
+        double y;
+        double z;
+        {
+            x = entity.prevX + (entity.getX() - entity.prevX) * mc.getTickDelta() - getCameraPos().x;
+            y = entity.prevY + (entity.getY() - entity.prevY) * mc.getTickDelta() - getCameraPos().y;
+            z = entity.prevZ + (entity.getZ() - entity.prevZ) * mc.getTickDelta() - getCameraPos().z;
+        }
+
+        return new Vec3d(x, y, z);
+    }
+
+    public static double interpolateLastTickPos(double pos, double lastPos)
+    {
+        return lastPos + (pos - lastPos) * mc.getTickDelta();
+    }
     public static Box interpolatePos(BlockPos pos)
     {
         return interpolatePos(pos, 1.0f);
@@ -28,6 +46,11 @@ public class Interpolation implements IMinecraft
     public static Box interpolatePos(BlockPos pos, float height)
     {
         return new Box(pos.getX() - getCameraPos().x, pos.getY() - getCameraPos().y, pos.getZ() - getCameraPos().z, pos.getX() - getCameraPos().x + 1, pos.getY() - getCameraPos().y + height, pos.getZ() - getCameraPos().z + 1);
+    }
+
+    public static Box interpolatedBox(Entity entity, Vec3d vec3d)
+    {
+        return new Box(0.0, 0.0, 0.0, entity.getWidth(), entity.getHeight(), entity.getWidth()).offset(vec3d.x - (double)(entity.getWidth() / 2.0F), vec3d.y, vec3d.z - (double)(entity.getWidth() / 2.0F));
     }
 
 }

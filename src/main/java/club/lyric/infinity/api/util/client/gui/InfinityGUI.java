@@ -201,7 +201,7 @@ public class InfinityGUI implements RenderableElement, IMinecraft {
                 colors[ImGuiCol.ModalWindowDimBg]       = new float[]{0.80f, 0.80f, 0.80f, 0.35f};
                 ImGui.getStyle().setColors(colors);
 
-                ImGui.getStyle().setScrollbarSize(8);
+                ImGui.getStyle().setScrollbarSize(11);
                 ImGui.getStyle().setScrollbarRounding(20);
                 ImGui.getStyle().setWindowTitleAlign(0.5f, 0.5f);
 

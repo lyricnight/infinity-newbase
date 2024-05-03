@@ -2,6 +2,8 @@ package club.lyric.infinity.impl.modules.combat;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.util.client.render.util.Interpolation;
+import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.api.module.Category;
@@ -11,8 +13,11 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.minecraft.player.MovementPlayer;
 import club.lyric.infinity.api.util.minecraft.player.PlayerPosition;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
+import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.*;
 import net.minecraft.entity.decoration.EndCrystalEntity;
@@ -28,11 +33,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
+
 /**
  * @author 3arth
  */
 @SuppressWarnings("DataFlowIssue")
 public final class Aura extends ModuleBase {
+
     public NumberSetting range = new NumberSetting("Range", this, 6.0f, 1.0f, 7.0f, 0.1f);
     public BooleanSetting tele = new BooleanSetting("Teleport", false, this);
 
@@ -55,8 +63,10 @@ public final class Aura extends ModuleBase {
     }
 
     @EventHandler
-    public void onInput(KeyPressEvent event) {
-        movementFix();
+    public void onInput(KeyPressEvent event)
+    {
+        if (target != null)
+            Managers.MOVEMENT.movementFix();
     }
 
     @EventHandler
@@ -69,6 +79,21 @@ public final class Aura extends ModuleBase {
         else if (event.getStage() == 1)
         {
             attack(target, mc.player, false);
+        }
+    }
+
+
+    @Override
+    public void onRender3D(MatrixStack matrixStack)
+    {
+        if (target != null)
+        {
+
+            Vec3d vec3D = Interpolation.interpolateEntity(target.entity());
+            Color color = Managers.MODULES.getModuleFromClass(Colours.class).getColor();
+
+            Render3DUtils.drawOutline(matrixStack, Interpolation.interpolatedBox(target.entity(), vec3D), new Color(color.getRed(), color.getGreen(), color.getBlue(), 255).getRGB());
+
         }
     }
 
@@ -209,50 +234,5 @@ public final class Aura extends ModuleBase {
 
             return lowest;
         }
-    }
-
-    // maybe add to movementutils?
-    public void movementFix() {
-        float forward = mc.player.input.movementForward;
-        float sideways = mc.player.input.movementSideways;
-        float delta = (mc.player.getYaw()) * MathHelper.RADIANS_PER_DEGREE;
-        float cos = MathHelper.cos(delta);
-        float sin = MathHelper.sin(delta);
-        final float strafe = mc.player.input.movementSideways;
-        final double angle = MathHelper.wrapDegrees(Math.toDegrees(direction(mc.player.bodyYaw, forward, strafe)));
-        if (forward == 0 && strafe == 0) {
-            return;
-        }
-        float closestForward = 0, closestStrafe = 0, closestDifference = Float.MAX_VALUE;
-        for (float predictedForward = -1F; predictedForward <= 1F; predictedForward += 1F) {
-            for (float predictedStrafe = -1F; predictedStrafe <= 1F; predictedStrafe += 1F) {
-                if (predictedStrafe == 0 && predictedForward == 0) continue;
-
-                final double predictedAngle = Math.round(sideways * cos - forward * sin);
-                final double difference = Math.abs(angle - predictedAngle);
-
-                if (difference < closestDifference) {
-                    closestDifference = (float) difference;
-                    closestForward = predictedForward;
-                    closestStrafe = predictedStrafe;
-                }
-            }
-        }
-        mc.player.input.movementForward = closestForward;
-        mc.player.input.movementSideways = closestStrafe;
-    }
-
-    public static double direction(float rotationYaw, final double moveForward, final double moveStrafing) {
-        if (moveForward < 0F) rotationYaw += 180F;
-
-        float forward = 1F;
-
-        if (moveForward < 0F) forward = -0.5F;
-        else if (moveForward > 0F) forward = 0.5F;
-
-        if (moveStrafing > 0F) rotationYaw -= 90F * forward;
-        if (moveStrafing < 0F) rotationYaw += 90F * forward;
-
-        return Math.toRadians(rotationYaw);
     }
 }

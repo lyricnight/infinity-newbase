@@ -22,6 +22,7 @@ public final class Managers {
     public static ServerManager SERVER = new ServerManager();
     public static TextManager TEXT = new TextManager();
     public static TimerManager TIMER = new TimerManager();
+    public static MovementManager MOVEMENT = new MovementManager();
 
     /**
      * subscribing all managers...
@@ -29,7 +30,7 @@ public final class Managers {
     public static void sub()
     {
         Infinity.LOGGER.info("starting manager subscription.");
-        subscribe(FRIENDS, CONFIG, EVENTS, ROTATIONS, COMMANDS, SERVER, MODULES, TEXT, TIMER);
+        subscribe(FRIENDS, CONFIG, EVENTS, ROTATIONS, COMMANDS, SERVER, MODULES, TEXT, TIMER, MOVEMENT);
     }
 
 

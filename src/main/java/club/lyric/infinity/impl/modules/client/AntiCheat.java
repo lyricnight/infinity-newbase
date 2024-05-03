@@ -16,6 +16,7 @@ public final class AntiCheat extends PersistentModuleBase {
     public BooleanSetting strictDirection = new BooleanSetting("StrictDirection", false,this);
     public NumberSetting bpt = new NumberSetting("BPT", this, 4, 1, 10, 1);
     public BooleanSetting swing = new BooleanSetting("Swing", false, this);
+    public BooleanSetting movementFix = new BooleanSetting("MovementFix", false, this);
 
     public AntiCheat()
     {
@@ -40,5 +41,10 @@ public final class AntiCheat extends PersistentModuleBase {
     public static boolean getSwing()
     {
         return Managers.MODULES.getModuleFromClass(AntiCheat.class).swing.value();
+    }
+
+    public static boolean getFix()
+    {
+        return Managers.MODULES.getModuleFromClass(AntiCheat.class).movementFix.value();
     }
 }
