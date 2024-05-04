@@ -115,7 +115,7 @@ public class Offhand extends ModuleBase
 
     public Item getGoldenApple()
     {
-        if (getItemSlot(Items.ENCHANTED_GOLDEN_APPLE) == -1) return Items.GOLDEN_APPLE;
+        if (getItemCount(Items.ENCHANTED_GOLDEN_APPLE) == -1) return Items.GOLDEN_APPLE;
 
         return Items.ENCHANTED_GOLDEN_APPLE;
     }
@@ -123,15 +123,32 @@ public class Offhand extends ModuleBase
     public Item getSword()
     {
         // DUMB AF LMFAO
-        if (getItemSlot(Items.NETHERITE_SWORD) == -1) return Items.DIAMOND_SWORD;
+        if (getItemCount(Items.NETHERITE_SWORD) == -1) return Items.DIAMOND_SWORD;
 
-        if (getItemSlot(Items.NETHERITE_SWORD) == -1 && getItemSlot(Items.DIAMOND_SWORD) == -1) return Items.IRON_SWORD;
+        if (getItemCount(Items.NETHERITE_SWORD) == -1 && getItemCount(Items.DIAMOND_SWORD) == -1) return Items.IRON_SWORD;
 
-        if (getItemSlot(Items.NETHERITE_SWORD) == -1 && getItemSlot(Items.DIAMOND_SWORD) == -1 && getItemSlot(Items.IRON_SWORD) == -1) return Items.STONE_SWORD;
+        if (getItemCount(Items.NETHERITE_SWORD) == -1 && getItemCount(Items.DIAMOND_SWORD) == -1 && getItemCount(Items.IRON_SWORD) == -1) return Items.STONE_SWORD;
 
-        if (getItemSlot(Items.NETHERITE_SWORD) == -1 && getItemSlot(Items.DIAMOND_SWORD) == -1 && getItemSlot(Items.IRON_SWORD) == -1 && getItemSlot(Items.STONE_SWORD) == -1) return Items.WOODEN_SWORD;
+        if (getItemCount(Items.NETHERITE_SWORD) == -1 && getItemCount(Items.DIAMOND_SWORD) == -1 && getItemCount(Items.IRON_SWORD) == -1 && getItemCount(Items.STONE_SWORD) == -1) return Items.WOODEN_SWORD;
 
         return Items.NETHERITE_SWORD;
+    }
+
+
+    public int getItemCount(Item item)
+    {
+        if (mc.player == null) return 0;
+
+        int counter = 0;
+
+        for (int i = 0; i <= 44; ++i)
+        {
+            ItemStack itemStack = mc.player.getInventory().getStack(i);
+            if (itemStack.getItem() != item) continue;
+            counter += itemStack.getCount();
+        }
+
+        return counter;
     }
 
     public int getItemSlot(Item item)
@@ -176,6 +193,6 @@ public class Offhand extends ModuleBase
     @Override
     public String moduleInformation()
     {
-        return getItemSlot(Items.TOTEM_OF_UNDYING) + "";
+        return getItemCount(Items.TOTEM_OF_UNDYING) + "";
     }
 }
