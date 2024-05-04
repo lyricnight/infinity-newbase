@@ -8,6 +8,8 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
+import club.lyric.infinity.api.util.client.render.anim.Animation;
+import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
@@ -63,11 +65,11 @@ public final class HUD extends ModuleBase
     }
 
     private final LinkedList<Long> frames = new LinkedList<>();
-    private int chatY = 0;
     private int effectY = 0;
     private final StopWatch timer = new StopWatch.Single();
     private final StopWatch packetTimer = new StopWatch.Single();
     int packets;
+    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
 
     @EventHandler
     public void onPacketSend(PacketEvent.Send event)
@@ -87,6 +89,8 @@ public final class HUD extends ModuleBase
         int offset = 0;
 
         boolean chatOpened = mc.currentScreen instanceof ChatScreen;
+
+        if (mc.getDebugHud().shouldShowDebugHud()) return;
 
         if (watermark.value()) {
             Managers.TEXT.drawString(getLabel(Infinity.CLIENT_NAME +
@@ -222,8 +226,8 @@ public final class HUD extends ModuleBase
                 int x = (int) (context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(getString(statusEffectInstance)), true)) - 2);
                 Managers.TEXT.drawString(getLabel(getString(statusEffectInstance)),
                         x,
-                        context.getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                        potionColors.is("Normal") ? statusEffectInstance.getEffectType().getColor() : hudColor(context.getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
+                        context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
+                        potionColors.is("Normal") ? statusEffectInstance.getEffectType().getColor() : hudColor((int) (context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue())).getRGB()
                 );
                 offset += (int) (Managers.TEXT.height(true) + 1);
             }
@@ -241,8 +245,8 @@ public final class HUD extends ModuleBase
 
             Managers.TEXT.drawString(getLabel(speed),
                     context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(speed), true)) - 2,
-                    context.getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
+                    context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
+                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
             offset += (int) (Managers.TEXT.height(true) + 1);
         }
@@ -252,8 +256,8 @@ public final class HUD extends ModuleBase
 
             Managers.TEXT.drawString(getLabel(packet),
                     context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(packet), true)) - 2,
-                    context.getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
+                    context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
+                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
             offset += (int) (Managers.TEXT.height(true) + 1);
         }
@@ -273,8 +277,8 @@ public final class HUD extends ModuleBase
 
             Managers.TEXT.drawString(getLabel(pingString),
                     context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(pingString), true)) - 2,
-                    context.getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
+                    context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
+                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
 
             offset += (int) (Managers.TEXT.height(true) + 1);
@@ -285,8 +289,8 @@ public final class HUD extends ModuleBase
 
             Managers.TEXT.drawString(getLabel(tps),
                     context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(tps), true)) - 2,
-                    context.getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
+                    context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
+                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
             offset += (int) (Managers.TEXT.height(true) + 1);
         }
@@ -313,8 +317,8 @@ public final class HUD extends ModuleBase
 
             Managers.TEXT.drawString(getLabel(fps),
                     context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(fps), true)) - 2,
-                    context.getScaledWindowHeight() - 9 - offset - 2 - chatY,
-                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2 - chatY).getRGB()
+                    context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
+                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
         }
 
@@ -339,7 +343,7 @@ public final class HUD extends ModuleBase
                                 Formatting.GRAY +
                                 ")"),
                         2,
-                        context.getScaledWindowHeight() - 9 - 2 - chatY,
+                        context.getScaledWindowHeight() - 9 - 2 - animation.getValue(),
                         hudColor(coordinateOffset).getRGB()
                 );
             } else {
@@ -358,8 +362,8 @@ public final class HUD extends ModuleBase
                                 getFormatting(mc.player.getPos().z / 8.0) +
                                 Formatting.GRAY +
                                 ")"),
-                        2,
-                        context.getScaledWindowHeight() - 9 - coordinateOffset - 2 - chatY,
+                        2F,
+                        context.getScaledWindowHeight() - 9 - coordinateOffset - 2 - animation.getValue(),
                         hudColor(coordinateOffset).getRGB()
                 );
             }
@@ -370,37 +374,18 @@ public final class HUD extends ModuleBase
             String direction = getDirections();
             Managers.TEXT.drawString(getLabel(direction),
                     2,
-                    context.getScaledWindowHeight() - 9 - coordinateOffset - 2 - chatY,
+                    context.getScaledWindowHeight() - 9 - coordinateOffset - 2 - animation.getValue(),
                     hudColor(coordinateOffset).getRGB()
             );
         }
 
-        if (chatOpened) {
-
-            if (chatY == 14) return;
-
-            if (chatY == 9) {
-                timer.hasBeen(100);
-                chatY++;
-                timer.reset();
-                return;
-            }
-            timer.hasBeen(50);
-            chatY++;
-            timer.reset();
-        } else {
-
-            if (chatY == 0) return;
-
-            if (chatY == 5) {
-                timer.hasBeen(100);
-                chatY--;
-                timer.reset();
-                return;
-            }
-            timer.hasBeen(50);
-            chatY--;
-            timer.reset();
+        if (chatOpened)
+        {
+            animation.run(14);
+        }
+        else
+        {
+            animation.run(0);
         }
     }
     
@@ -456,7 +441,6 @@ public final class HUD extends ModuleBase
         }
         else if (casing.is("Random"))
         {
-            // skided
             char[] array = label.toCharArray();
             int chars = 0;
 

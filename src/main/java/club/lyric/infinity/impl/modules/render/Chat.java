@@ -72,6 +72,9 @@ public final class Chat extends ModuleBase {
     {
         if (timeStamps.value()) {
             Text message = event.getMessage();
+
+            if (message.contains(Text.of("[Infinity]"))) return;
+
             message = Text.empty().append(timeStamps()).append(message);
             event.setMessage(message);
         }

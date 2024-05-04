@@ -1,26 +1,29 @@
 package club.lyric.infinity.impl.modules.combat;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.setting.settings.NumberSetting;
-import club.lyric.infinity.api.util.client.render.util.Interpolation;
-import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
-import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
-import club.lyric.infinity.impl.events.client.KeyPressEvent;
-import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
-
+import club.lyric.infinity.api.setting.settings.ModeSetting;
+import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.util.client.render.util.Interpolation;
+import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
+import club.lyric.infinity.api.util.minecraft.entity.EntityUtils;
+import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import club.lyric.infinity.api.util.minecraft.player.MovementPlayer;
 import club.lyric.infinity.api.util.minecraft.player.PlayerPosition;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
+import club.lyric.infinity.impl.events.client.KeyPressEvent;
+import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ExperienceOrbEntity;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.MovementType;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
@@ -42,17 +45,14 @@ import java.awt.*;
 @SuppressWarnings("DataFlowIssue")
 public final class Aura extends ModuleBase {
 
+    public ModeSetting priority = new ModeSetting("Priority", this, "Armor", "Armor", "Health");
     public NumberSetting range = new NumberSetting("Range", this, 6.0f, 1.0f, 7.0f, 0.1f);
     public BooleanSetting tele = new BooleanSetting("Teleport", false, this);
-
     public BooleanSetting require = new BooleanSetting("Require", true, this);
-
-    public BooleanSetting entities = new BooleanSetting("AnyEntity", false, this);
-
-    public BooleanSetting other = new BooleanSetting("Others", false, this);
-
+    public BooleanSetting players = new BooleanSetting("Players", true, this);
+    public BooleanSetting animals = new BooleanSetting("Animals", true, this);
+    public BooleanSetting mobs = new BooleanSetting("Mobs", true, this);
     public BooleanSetting cooldown = new BooleanSetting("Cooldown", false, this);
-
     public BooleanSetting sprint = new BooleanSetting("Sprint", false, this);
 
     @Nullable
@@ -140,7 +140,7 @@ public final class Aura extends ModuleBase {
         Target result = null;
         MovementPlayer teleportPlayer = null;
         for (Entity entity : level.getOtherEntities(null, PlayerUtils.getAABBOfRadius(player, range.getFValue()))) {
-            if (entity == null || entity.isRemoved() || entity.getId() == player.getId() || !entity.isAttackable() || entity instanceof EndCrystalEntity || entity instanceof ExperienceOrbEntity || entity instanceof ArrowEntity || entity instanceof ItemEntity || entity instanceof ExperienceBottleEntity || player.getPassengerList().contains(entity) || entity.getPassengerList().contains(player)  || entity instanceof LivingEntity && !(entity instanceof PlayerEntity) && !entities.value() || !(entity instanceof LivingEntity) && !other.value() || entity instanceof PlayerEntity && Managers.FRIENDS.isFriend((PlayerEntity) entity)) {
+            if (entity == null || entity.isRemoved() || entity.getId() == player.getId() || !entity.isAttackable() || entity instanceof EndCrystalEntity || entity instanceof ExperienceOrbEntity || entity instanceof ArrowEntity || entity instanceof ItemEntity || entity instanceof ExperienceBottleEntity || player.getPassengerList().contains(entity) || entity.getPassengerList().contains(player) || entity instanceof PlayerEntity && Managers.FRIENDS.isFriend((PlayerEntity) entity) || !isValid(entity)) {
                 continue;
             }
 
@@ -191,6 +191,10 @@ public final class Aura extends ModuleBase {
         return entity.getBoundingBox().squaredMagnitude(new Vec3d(position.x, position.y + yOffset, position.z)) < ServerPlayNetworkHandler.MAX_BREAK_SQUARED_DISTANCE;
     }
 
+    public ModeSetting getPriority() {
+        return priority;
+    }
+
     public record Target(Entity entity, boolean inRangeForCurrentPos, boolean inRangeForLastPos, @Nullable Vec3d teleportPos) {
         public boolean isBetterThan(@Nullable Target last, ClientPlayerEntity player, boolean recursive) {
             if (last == null || entity instanceof PlayerEntity && !(last.entity instanceof PlayerEntity) || last.teleportPos != null && teleportPos == null/* we prefer to not teleport*/) {
@@ -200,17 +204,17 @@ public final class Aura extends ModuleBase {
             if (last.entity instanceof PlayerEntity lastPlayer && entity instanceof PlayerEntity currentPlayer) {
                 float lastHealth = PlayerUtils.getHealth(lastPlayer);
                 float currentHealth = PlayerUtils.getHealth(currentPlayer);
-                if (currentHealth <= 4.0f && currentHealth < lastHealth) {
+                if (currentHealth <= 4.0f && currentHealth < lastHealth && Managers.MODULES.getModuleFromClass(Aura.class).getPriority().is("Health")) {
                     return true;
                 }
 
-                if (currentHealth < lastHealth) {
+                if (currentHealth < lastHealth && Managers.MODULES.getModuleFromClass(Aura.class).getPriority().is("Health")) {
                     return true;
                 }
 
                 float durability = getLowestDurability(lastPlayer);
                 float lastDurability = getLowestDurability(currentPlayer);
-                if (durability <= 0.3f && durability < lastDurability) {
+                if (durability <= 0.3f && durability < lastDurability && Managers.MODULES.getModuleFromClass(Aura.class).getPriority().is("Armor")) {
                     return true;
                 }
             }
@@ -235,5 +239,10 @@ public final class Aura extends ModuleBase {
 
             return lowest;
         }
+    }
+
+    private boolean isValid(Entity entity)
+    {
+        return entity instanceof PlayerEntity && players.value() || EntityUtils.isMob(entity) && mobs.value() || EntityUtils.isAnimal(entity) && animals.value();
     }
 }

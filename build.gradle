@@ -37,6 +37,9 @@ dependencies {
 	include(implementation('io.github.spair:imgui-java-natives-windows-ft:1.86.10'))
 	include(implementation('io.github.spair:imgui-java-natives-linux-ft:1.86.10'))
 	include(implementation('io.github.spair:imgui-java-natives-macos-ft:1.86.10'))
+	compileOnly 'org.projectlombok:lombok:1.18.28'
+	annotationProcessor 'org.projectlombok:lombok:1.18.28'
+
 }
 
 processResources {
