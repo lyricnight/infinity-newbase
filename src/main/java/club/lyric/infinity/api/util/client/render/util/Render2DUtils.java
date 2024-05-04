@@ -8,7 +8,7 @@ import org.joml.Matrix4f;
 
 /**
  * @author vasler, railhack
- * render util
+ * visual util
  */
 @SuppressWarnings("unused")
 

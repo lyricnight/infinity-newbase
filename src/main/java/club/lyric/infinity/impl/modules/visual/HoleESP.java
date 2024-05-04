@@ -1,4 +1,4 @@
-package club.lyric.infinity.impl.modules.render;
+package club.lyric.infinity.impl.modules.visual;
 
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
@@ -52,7 +52,7 @@ public class HoleESP extends ModuleBase {
     ExecutorService service = Executors.newCachedThreadPool();
 
     public HoleESP() {
-        super("HoleESP", "Esps holes", Category.Render);
+        super("HoleESP", "Esps holes", Category.Visual);
     }
 
     @Override

@@ -108,4 +108,10 @@ public final class PhaseWalk extends ModuleBase {
         Infinity.LOGGER.error("No position value set.");
         throw new RuntimeException("No Position Found!");
     }
+
+    @Override
+    public String moduleInformation()
+    {
+        return position.getMode();
+    }
 }

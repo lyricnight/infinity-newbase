@@ -1,4 +1,4 @@
-package club.lyric.infinity.impl.modules.render;
+package club.lyric.infinity.impl.modules.visual;
 
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
@@ -13,7 +13,7 @@ import net.minecraft.entity.effect.StatusEffects;
 public final class FakePlayer extends ModuleBase {
     public FakePlayer()
     {
-        super("FakePlayer", "Spawns an entity.", Category.Render);
+        super("FakePlayer", "Spawns an entity.", Category.Visual);
     }
 
     @Override

@@ -70,6 +70,7 @@ public final class HUD extends ModuleBase
     private final StopWatch packetTimer = new StopWatch.Single();
     int packets;
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
+    private final Animation n = new Animation(Easing.EASE_OUT_QUAD, 150);
 
     @EventHandler
     public void onPacketSend(PacketEvent.Send event)
@@ -90,9 +91,10 @@ public final class HUD extends ModuleBase
 
         boolean chatOpened = mc.currentScreen instanceof ChatScreen;
 
-        if (mc.getDebugHud().shouldShowDebugHud()) return;
+       // if (mc.getDebugHud().shouldShowDebugHud()) return;
 
         if (watermark.value()) {
+
             Managers.TEXT.drawString(getLabel(Infinity.CLIENT_NAME +
                             Infinity.VERSION +
                             Formatting.GRAY +
@@ -152,6 +154,8 @@ public final class HUD extends ModuleBase
 
                 String label = module.getName() + module.getSuffix();
 
+                long moduleCount = moduleList.size();
+
                 if (effectHud.is("Move"))
                 {
                     for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects())
@@ -174,6 +178,7 @@ public final class HUD extends ModuleBase
                 }
 
                 float x = context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(label), true)) - 2;
+
 
                 Managers.TEXT.drawString(getLabel(label),
                         x,
@@ -268,11 +273,11 @@ public final class HUD extends ModuleBase
 
             if (Managers.SERVER.getFastLatencyPing() != 0)
             {
-                pingString = "Latency: " + Formatting.WHITE + Managers.SERVER.getServerPing() + " [" + Managers.SERVER.getFastLatencyPing() + "]";
+                pingString = "Ping: " + Formatting.WHITE + Managers.SERVER.getServerPing() + " [" + Managers.SERVER.getFastLatencyPing() + "]";
             }
             else
             {
-                pingString = "Latency: " + Formatting.WHITE + Managers.SERVER.getServerPing();
+                pingString = "Ping: " + Formatting.WHITE + Managers.SERVER.getServerPing();
             }
 
             Managers.TEXT.drawString(getLabel(pingString),

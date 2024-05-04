@@ -180,6 +180,7 @@ public class ModuleBase implements IMinecraft {
 
     public String moduleInformation()
     {
+        if (nullCheck()) return "";
         return "";
     }
 
@@ -217,7 +218,7 @@ public class ModuleBase implements IMinecraft {
     }
 
     /**
-     * gui render functions
+     * gui visual functions
      */
 
     public boolean showSettings() {
@@ -238,7 +239,7 @@ public class ModuleBase implements IMinecraft {
 
     public String getSuffix()
     {
-        if (moduleInformation().length() == 0) {
+        if (moduleInformation().isEmpty()) {
             return "";
         }
         return Formatting.GRAY + " [" + Formatting.WHITE + moduleInformation() + Formatting.GRAY + "]";

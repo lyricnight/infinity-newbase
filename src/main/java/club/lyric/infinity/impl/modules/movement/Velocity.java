@@ -11,12 +11,14 @@ import club.lyric.infinity.asm.accessors.IEntityVelocityUpdateS2CPacket;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
+import net.minecraft.util.Formatting;
 
+import java.text.Normalizer;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
 
 @SuppressWarnings({"unused"})
 public class Velocity extends ModuleBase {
@@ -54,7 +56,11 @@ public class Velocity extends ModuleBase {
         else if (mode.is("Grim"))
         {
 
-            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket && stopWatch.hasBeen(100)) {
+            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
+
+                if (!stopWatch.hasBeen(100)) return;
+
+                if (event.getPacket() instanceof PlayerPositionLookS2CPacket) return;
 
                 event.setCancelled(true);
 
@@ -74,11 +80,10 @@ public class Velocity extends ModuleBase {
         }
 
     }
-        
+
     @Override
-    public void onTickPre()
-    {
-        if (mode.is("Grim") && stopWatch.hasBeen(100))
+    public void onTickPre() {
+        if (mode.is("Grim"))
         {
 
             float yaw = mc.player.getYaw();
@@ -88,6 +93,15 @@ public class Velocity extends ModuleBase {
             send(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, mc.player.getBlockPos(), mc.player.getHorizontalFacing().getOpposite()));
 
         }
+    }
 
+    @Override
+    public String moduleInformation()
+    {
+        if (mode.is("Grim") || mode.is("JumpReset"))
+        {
+            return mode.getMode();
+        }
+        return "H" + horizontal.getFValue() + "%" + Formatting.GRAY + "|" + Formatting.WHITE + "V" + vertical.getFValue() + "%";
     }
 }

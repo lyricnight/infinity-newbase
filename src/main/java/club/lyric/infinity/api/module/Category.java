@@ -11,5 +11,5 @@ public enum Category {
     Exploit,
     Player,
     Movement,
-    Render
+    Visual
 }

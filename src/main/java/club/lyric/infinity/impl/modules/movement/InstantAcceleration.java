@@ -39,4 +39,10 @@ public class InstantAcceleration extends ModuleBase {
 
         }
     }
+
+    @Override
+    public String moduleInformation()
+    {
+        return mode.getMode();
+    }
 }

@@ -172,4 +172,10 @@ public class Offhand extends ModuleBase
             return MathHelper.ceil((fallDistance - 3.0F - f) * damageMultiplier);
         }
     }
+
+    @Override
+    public String moduleInformation()
+    {
+        return getItemSlot(Items.TOTEM_OF_UNDYING) + "";
+    }
 }

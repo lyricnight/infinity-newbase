@@ -47,4 +47,9 @@ public class AntiAscii extends ModuleBase {
         }
     }
 
+    @Override
+    public String moduleInformation()
+    {
+        return offset.getFValue() + "";
+    }
 }

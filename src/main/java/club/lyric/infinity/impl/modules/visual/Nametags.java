@@ -1,4 +1,4 @@
-package club.lyric.infinity.impl.modules.render;
+package club.lyric.infinity.impl.modules.visual;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.impl.events.render.RenderWorldEvent;
@@ -31,7 +31,7 @@ public class Nametags extends ModuleBase {
     public BooleanSetting latency = new BooleanSetting("Latency", true, this);
 
     public Nametags() {
-        super("Nametags", "Fire", Category.Render);
+        super("Nametags", "Fire", Category.Visual);
     }
 
     @EventHandler

@@ -2,7 +2,7 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.impl.modules.client.HUD;
-import club.lyric.infinity.impl.modules.render.Chat;
+import club.lyric.infinity.impl.modules.visual.Chat;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;

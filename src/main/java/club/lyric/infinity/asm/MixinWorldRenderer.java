@@ -2,7 +2,7 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.render.FullBright;
+import club.lyric.infinity.impl.modules.visual.FullBright;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;

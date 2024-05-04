@@ -1,4 +1,4 @@
-package club.lyric.infinity.impl.modules.render;
+package club.lyric.infinity.impl.modules.visual;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.impl.events.mc.chat.ReceiveChatEvent;
@@ -62,7 +62,7 @@ public final class Chat extends ModuleBase {
 
     public Chat()
     {
-        super("Chat", "Handles our chat and how it looks...", Category.Render);
+        super("Chat", "Handles our chat and how it looks...", Category.Visual);
     }
 
 

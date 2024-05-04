@@ -2,7 +2,7 @@ package club.lyric.infinity.api.setting;
 
 /**
  * @author lyric
- * just for render() method.
+ * just for visual() method.
  */
 public interface Renderable {
     void render();

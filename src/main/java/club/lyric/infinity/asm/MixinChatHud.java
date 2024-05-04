@@ -4,7 +4,7 @@ import club.lyric.infinity.api.ducks.IChatHud;
 import club.lyric.infinity.api.ducks.IChatHudLine;
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.impl.events.mc.chat.ReceiveChatEvent;
-import club.lyric.infinity.impl.modules.render.Chat;
+import club.lyric.infinity.impl.modules.visual.Chat;
 import club.lyric.infinity.manager.Managers;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.gui.hud.ChatHud;

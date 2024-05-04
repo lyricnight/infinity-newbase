@@ -71,8 +71,7 @@ public class Speed extends ModuleBase {
 
     @Override
     public String moduleInformation() {
-        if (nullCheck()) return "";
-        return "Strafe";
+        return mode.getMode();
     }
 
     @Override

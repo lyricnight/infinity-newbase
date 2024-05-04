@@ -16,8 +16,6 @@ public final class ClickGui extends ModuleBase {
 
     public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(64, 64, 124)), false);
 
-    public BooleanSetting shadow = new BooleanSetting("Shadow", true,this);
-
     public ClickGui()
     {
         super("ClickGui", "Displays a graphical user interface.", Category.Client);

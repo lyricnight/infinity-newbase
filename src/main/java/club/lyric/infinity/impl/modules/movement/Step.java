@@ -96,4 +96,10 @@ public final class Step extends ModuleBase {
         }
         return null;
     }
+
+    @Override
+    public String moduleInformation()
+    {
+        return mode.getMode();
+    }
 }

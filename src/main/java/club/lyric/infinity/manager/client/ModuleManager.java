@@ -9,7 +9,7 @@ import club.lyric.infinity.impl.modules.combat.*;
 import club.lyric.infinity.impl.modules.exploit.*;
 import club.lyric.infinity.impl.modules.movement.*;
 import club.lyric.infinity.impl.modules.player.*;
-import club.lyric.infinity.impl.modules.render.*;
+import club.lyric.infinity.impl.modules.visual.*;
 
 import java.util.*;
 import java.util.stream.Collectors;

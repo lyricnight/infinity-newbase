@@ -1,6 +1,6 @@
 package club.lyric.infinity.asm;
 
-import club.lyric.infinity.impl.modules.render.Chat;
+import club.lyric.infinity.impl.modules.visual.Chat;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.util.StringHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 /**
  * @author lyric
- * @see club.lyric.infinity.impl.modules.render.Chat
+ * @see club.lyric.infinity.impl.modules.visual.Chat
  */
 @Mixin(StringHelper.class)
 public class MixinStringHelper {

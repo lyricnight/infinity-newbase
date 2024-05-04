@@ -42,4 +42,10 @@ public final class Sprint extends ModuleBase
             }
         }
     }
+
+    @Override
+    public String moduleInformation()
+    {
+        return mode.getMode();
+    }
 }
