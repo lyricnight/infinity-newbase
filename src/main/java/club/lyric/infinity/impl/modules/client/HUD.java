@@ -86,8 +86,6 @@ public final class HUD extends ModuleBase
 
         int offset = 0;
 
-        Color color = Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor(offset) : Managers.MODULES.getModuleFromClass(Colours.class).getColor();
-
         boolean chatOpened = mc.currentScreen instanceof ChatScreen;
 
         if (watermark.value()) {
@@ -342,7 +340,7 @@ public final class HUD extends ModuleBase
                                 ")"),
                         2,
                         context.getScaledWindowHeight() - 9 - 2 - chatY,
-                        color.getRGB()
+                        hudColor(coordinateOffset).getRGB()
                 );
             } else {
                 Managers.TEXT.drawString(getLabel("XYZ: " +
