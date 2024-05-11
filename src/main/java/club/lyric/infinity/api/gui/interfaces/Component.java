@@ -10,7 +10,7 @@ import net.minecraft.client.gui.DrawContext;
 public abstract class Component implements IMinecraft {
 
     // Placement
-    protected float x;
+    protected int x;
     protected float y;
 
     // Size

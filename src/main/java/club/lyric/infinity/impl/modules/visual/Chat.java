@@ -1,15 +1,16 @@
 package club.lyric.infinity.impl.modules.visual;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.impl.events.mc.chat.ReceiveChatEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.impl.events.mc.chat.ReceiveChatEvent;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
+import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -52,6 +53,13 @@ public final class Chat extends ModuleBase {
             this
     );
 
+    public BooleanSetting repetition =
+            new BooleanSetting(
+                    "Repetition",
+                    false,
+                    this
+            );
+
 
     public BooleanSetting keep = new BooleanSetting("Keep", false, this);
 
@@ -59,6 +67,8 @@ public final class Chat extends ModuleBase {
     private final SimpleDateFormat date = new SimpleDateFormat("HH:mm");
 
     public final IntList lines = new IntArrayList();
+    private String lastMessage = "";
+    private int amount = 1;
 
     public Chat()
     {
@@ -77,6 +87,35 @@ public final class Chat extends ModuleBase {
 
             message = Text.empty().append(timeStamps()).append(message);
             event.setMessage(message);
+        }
+        if (!repetition.value())
+        {
+            Text message = event.getMessage();
+            String rawMessage = message.getString();
+            ChatHud chatGui = mc.inGameHud.getChatHud();
+
+            if (lastMessage.equals(rawMessage))
+            {
+
+                amount++;
+
+                chatGui.clear(false);
+
+                MutableText text = Text.empty();
+                text.append(Formatting.WHITE + "[x" + amount + "]");
+
+                message.getSiblings().add(text);
+
+            }
+            else
+            {
+                amount = 1;
+            }
+
+            chatGui.addMessage(message);
+            lastMessage = rawMessage;
+
+            event.setCancelled(true);
         }
     }
 

@@ -16,7 +16,7 @@ public class BaseComponent extends Component {
     public BaseComponent(Setting setting, float x, float y, float width, float height) {
         this.setting = setting;
 
-        this.x = x;
+        this.x = (int) x;
         this.y = y;
 
         this.width = width;
