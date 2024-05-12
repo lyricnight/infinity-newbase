@@ -1,12 +1,15 @@
 package club.lyric.infinity.impl.events.mc.movement;
 
 import club.lyric.infinity.api.event.Event;
+import net.fabricmc.loader.impl.lib.sat4j.core.Vec;
 import net.minecraft.entity.MovementType;
 import net.minecraft.util.math.Vec3d;
 
 public class PlayerMovementEvent extends Event {
     private final MovementType type;
     private double x, y, z;
+
+    private Vec3d vec;
 
     public PlayerMovementEvent(MovementType type, Vec3d movement) {
         this.type = type;
@@ -19,8 +22,12 @@ public class PlayerMovementEvent extends Event {
         return type;
     }
 
-    public Vec3d getMovement() {
-        return new Vec3d(x, y, z);
+    public Vec3d getVec() {
+        return vec;
+    }
+
+    public void setVec(Vec3d vec) {
+        this.vec = vec;
     }
 
     public double getX() {

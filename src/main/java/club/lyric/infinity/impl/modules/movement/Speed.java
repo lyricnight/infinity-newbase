@@ -1,14 +1,13 @@
 package club.lyric.infinity.impl.modules.movement;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
-import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
-import club.lyric.infinity.api.util.minecraft.block.HoleUtils;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
+import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
+import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -28,35 +27,13 @@ public class Speed extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "Strafe", "Strafe", "Jump", "Grim");
     public BooleanSetting timer = new BooleanSetting("Timer", true, this);
     public BooleanSetting inLiquids = new BooleanSetting("InLiquids", true, this);
-    double speed;
-    int stage;
-    double distance;
-    float jumpHeight;
-    // just chane the jump height every strafe mode
-    boolean boost;
+    double speed = 0.0;
+    double distance = 0.0;
+    int stage = 0;
+    boolean boost = false;
 
     public Speed() {
         super("Speed", "Increases your speed.", Category.Movement);
-    }
-
-    @Override
-    public void onEnable() {
-        stage = 1;
-
-        if (mc.player != null)
-        {
-
-            speed = MovementUtil.getSpeed();
-            distance = MovementUtil.getDistanceXZ();
-
-        }
-
-        if (timer.value())
-        {
-            Managers.TIMER.set(1.0888f);
-        } else {
-            Managers.TIMER.reset();
-        }
     }
 
     @Override
@@ -90,7 +67,7 @@ public class Speed extends ModuleBase {
     public void onGang(PlayerMovementEvent event)
     {
 
-        if (nullCheck() || mc.player.isSpectator() || !mc.player.isOnGround() || !MovementUtil.movement()) return;
+        if (nullCheck() || mc.player.isSpectator() || !MovementUtil.movement()) return;
 
         if (inLiquids.value() && (mc.player.isInsideWaterOrBubbleColumn() || mc.player.isInLava())) return;
 
@@ -102,51 +79,71 @@ public class Speed extends ModuleBase {
         if (mode.is("Strafe"))
         {
 
-            if (stage == 1 && !(HoleUtils.isInHole(mc.player)))
+            if (mc.player.fallDistance <= 5.0 && MovementUtil.movement())
             {
 
-                speed = 1.35f * MovementUtil.calcEffects(defaultSpeed) - 0.01f;
+                double velocityY = mc.player.getVelocity().y;
 
-            }
-            if (stage == 2)
-            {
+                if (stage == 1)
+                {
 
-                float yMotion = (float) (0.3999999463558197f + MovementUtil.getJumpSpeed());
+                    speed *= 1.35f * MovementUtil.calcEffects(2873.0) - 0.01;
 
-                mc.player.setVelocity(mc.player.getVelocity().x, yMotion, mc.player.getVelocity().z);
-                event.setY(yMotion);
+                }
+                else if (stage == 2)
+                {
 
-                speed *= 1.395;
+                    velocityY = 0.3999999463558197f;
 
-            }
-            else if (stage == 3)
-            {
+                    if (boost)
+                    {
 
-                speed = distance - (0.66f * (distance - MovementUtil.calcEffects(defaultSpeed)));
+                        speed *= 1.6835;
 
-                boost = !boost;
+                    }
+                    else
+                    {
+
+                        speed *= 1.395;
+
+                    }
+
+                    boost = !boost;
+                }
+                else if (stage == 3)
+                {
+
+                    speed = distance - 0.66 * (distance - MovementUtil.calcEffects(0.2873));
+
+                }
+                else
+                {
+                    if (mc.player.verticalCollision || mc.world.getCollisions(mc.player, mc.player.getBoundingBox().offset(0.0, velocityY, 0.0)).iterator().hasNext())
+                    {
+
+                        stage = 1;
+
+                    }
+
+                    speed = distance - distance / 159.0;
+                }
+
+                speed = Math.max(speed, MovementUtil.calcEffects(0.2873));
+                stage++;
+
+                mc.player.setVelocity(0.0, velocityY, 0.0);
+
+                double[] motions = MovementUtil.directionSpeed(MovementUtil.calcEffects(0.2873));
+
+                event.setVec(new Vec3d(motions[0], velocityY, motions[1]));
+
             }
             else
             {
 
-                if ((!mc.world.isSpaceEmpty(mc.player, mc.player.getBoundingBox().offset(0, mc.player.getVelocity().getY(), 0)) || mc.player.verticalCollision) && stage > 0)
-                {
-                    stage = MovementUtil.movement() ? 1 : 0;
-                }
-
-                speed = distance - distance / 159.0f;
+                event.setVec(new Vec3d(0.0, event.getVec().y, 0.0));
 
             }
-
-            speed = Math.min(speed, MovementUtil.calcEffects(10.0));
-            speed = Math.max(speed, MovementUtil.calcEffects(defaultSpeed));
-
-            final Vec2f motion = MovementUtil.strafeSpeed((float) speed);
-
-            event.setX(motion.x);
-            event.setZ(motion.y);
-
-            stage++;
         }
     }
 
@@ -154,6 +151,12 @@ public class Speed extends ModuleBase {
     public void onTickPre()
     {
         if (nullCheck()) return;
+
+        double diffX = mc.player.getX() - mc.player.prevX;
+        double diffZ = mc.player.getZ() - mc.player.prevZ;
+
+        distance = Math.sqrt(diffX * diffX + diffZ * diffZ);
+
 
         if (mode.is("Grim"))
         {
@@ -183,19 +186,6 @@ public class Speed extends ModuleBase {
                 mc.player.setVelocity(mc.player.getVelocity().x + motion.x, mc.player.getVelocity().y, mc.player.getVelocity().z + motion.y);
 
             }
-        }
-    }
-
-
-    @EventHandler
-    public void onPacketReceive(PacketEvent.Receive event)
-    {
-        if (event.getPacket() instanceof PlayerPositionLookS2CPacket)
-        {
-            stage = 1;
-            speed = 0.0f;
-            distance = 0.0;
-            boost = false;
         }
     }
 }

@@ -88,6 +88,10 @@ public final class Chat extends ModuleBase {
             message = Text.empty().append(timeStamps()).append(message);
             event.setMessage(message);
         }
+    }
+    @EventHandler
+    public void onChat(ReceiveChatEvent event)
+    {
         if (!repetition.value())
         {
             Text message = event.getMessage();
@@ -102,7 +106,7 @@ public final class Chat extends ModuleBase {
                 chatGui.clear(false);
 
                 MutableText text = Text.empty();
-                text.append(Formatting.WHITE + "[x" + amount + "]");
+                text.append(Formatting.GRAY + " (" + amount + "x)");
 
                 message.getSiblings().add(text);
 

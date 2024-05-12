@@ -3,7 +3,9 @@ package club.lyric.infinity.asm;
 import club.lyric.infinity.api.ducks.IChatHud;
 import club.lyric.infinity.api.ducks.IChatHudLine;
 import club.lyric.infinity.api.event.bus.EventBus;
+import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.mc.chat.ReceiveChatEvent;
+import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.impl.modules.visual.Chat;
 import club.lyric.infinity.manager.Managers;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -13,6 +15,8 @@ import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,7 +35,7 @@ import java.util.List;
  * for overwrite messages
  */
 @Mixin(ChatHud.class)
-public abstract class MixinChatHud implements IChatHud {
+public abstract class MixinChatHud implements IChatHud, IMinecraft {
 
     @Shadow
     @Final

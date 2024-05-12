@@ -87,12 +87,12 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
     @Inject(method = "move", at = @At(value = "HEAD"), cancellable = true)
     private void hookMove(MovementType movementType, Vec3d movement, CallbackInfo ci)
     {
-        final PlayerMovementEvent playerMoveEvent = new PlayerMovementEvent(movementType, movement);
-        EventBus.getInstance().post(playerMoveEvent);
-        if (playerMoveEvent.isCancelled())
+        final PlayerMovementEvent event = new PlayerMovementEvent(movementType, movement);
+        EventBus.getInstance().post(event);
+        if (event.isCancelled())
         {
+            super.move(event.getType(), event.getVec());
             ci.cancel();
-            super.move(movementType, playerMoveEvent.getMovement());
         }
     }
 

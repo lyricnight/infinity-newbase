@@ -2,6 +2,7 @@ package club.lyric.infinity.manager;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventBus;
+import club.lyric.infinity.api.util.client.render.shader.Shader;
 import club.lyric.infinity.manager.client.*;
 import club.lyric.infinity.manager.fabric.EventManager;
 import club.lyric.infinity.manager.fabric.ServerManager;
@@ -45,6 +46,7 @@ public final class Managers {
         MODULES.init();
         CONFIG.loadConfig();
         COMMANDS.init();
+        Shader.init();
         Infinity.LOGGER.info("Manager initialisation complete.");
     }
 
