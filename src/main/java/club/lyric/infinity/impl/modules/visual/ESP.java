@@ -67,6 +67,8 @@ public class ESP extends ModuleBase
             )
             {
 
+                if (entity == mc.player) return;
+
                 Vec3d vec3D = Interpolation.interpolateEntity(entity);
 
                 renderBox(matrixStack, Interpolation.interpolatedBox(entity, vec3D));
@@ -110,12 +112,18 @@ public class ESP extends ModuleBase
     public void renderBox(MatrixStack matrixStack, Box bb)
     {
 
+        Render3DUtils.enable3D();
+        matrixStack.push();
+
         if (box.value())
         {
             Render3DUtils.drawBox(matrixStack, bb, new Color(color.getColor().getRed(), color.getColor().getGreen(), color.getColor().getBlue(), 76).getRGB());
         }
 
         Render3DUtils.drawOutline(matrixStack, bb, color.getColor().getRGB());
+
+        matrixStack.pop();
+        Render3DUtils.disable3D();
 
     }
 
