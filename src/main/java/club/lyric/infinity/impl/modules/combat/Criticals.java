@@ -104,4 +104,10 @@ public class Criticals extends ModuleBase {
         return buffer.readEnumConstant(PlayerInteractEntityC2SPacket.InteractType.class);
 
     }
+
+    @Override
+    public String moduleInformation()
+    {
+        return mode.getMode();
+    }
 }

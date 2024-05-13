@@ -21,6 +21,7 @@
     "accessors.IPlayerMoveC2SPacket"
   ],
   "client": [
+    "MixinBiomeColors",
     "MixinCamera",
     "MixinChatHud",
     "MixinChatHudLine",
@@ -29,11 +30,11 @@
     "MixinClientPlayerEntity",
     "MixinClientPlayerInteractionManager",
     "MixinClientPlayNetworkHandler",
+    "MixinClientWorld",
     "MixinDrawContext",
     "MixinEntityRenderer",
     "MixinGameRenderer",
     "MixinKeyboard",
-    "MixinLightmapTextureManager",
     "MixinMinecraftClient",
     "MixinMinecraftOptions",
     "MixinMouse",

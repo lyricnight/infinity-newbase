@@ -63,6 +63,12 @@ public class HoleESP extends ModuleBase {
     }
 
     @Override
+    public String moduleInformation()
+    {
+        return holes.size() + "";
+    }
+
+    @Override
     public void onRender3D(MatrixStack matrixStack) {
         if (holes.isEmpty()) return;
 

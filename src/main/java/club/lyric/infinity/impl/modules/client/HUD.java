@@ -69,7 +69,6 @@ public final class HUD extends ModuleBase
     private final StopWatch packetTimer = new StopWatch.Single();
     int packets;
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
-    private final Animation n = new Animation(Easing.EASE_OUT_QUAD, 150);
 
     @EventHandler
     public void onPacketSend(PacketEvent.Send event)

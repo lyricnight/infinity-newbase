@@ -64,7 +64,8 @@ public final class ModuleManager implements IMinecraft
                 new CameraClip(),
                 new ESP(),
                 new Criticals(),
-                new SafeWalk()
+                new SafeWalk(),
+                new Ambience()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }

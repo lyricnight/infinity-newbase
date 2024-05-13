@@ -11,7 +11,6 @@ import net.minecraft.world.LightType;
  */
 public class FullBright extends ModuleBase {
 
-    public ModeSetting mode = new ModeSetting("Mode", this, "Normal", "Normal", "Ambience");
     public BooleanSetting darkness = new BooleanSetting("Darkness", true, this);
 
     public FullBright() {
@@ -21,13 +20,22 @@ public class FullBright extends ModuleBase {
     @Override
     public void onEnable()
     {
-
         if (nullCheck()) return;
+
+        mc.worldRenderer.reload();
     }
 
-    // pasted from meteori dont care
+    @Override
+    public void onDisable()
+    {
+        if (nullCheck()) return;
+
+        mc.worldRenderer.reload();
+    }
+
+
     public int getLuminance(LightType type) {
-        if (!isOn() || !mode.is("Normal")) return 0;
+        if (!isOn()) return 0;
         return 15;
     }
 }
