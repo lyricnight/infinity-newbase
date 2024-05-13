@@ -52,7 +52,7 @@ public final class ModuleManager implements IMinecraft
                 new Nametags(),
                 new Velocity(),
                 new Speed(),
-                new InstantAcceleration(),
+                new NoAccelerate(),
                 new PingSpoof(),
                 new AntiAscii(),
                 new FastProjectile(),
@@ -65,7 +65,9 @@ public final class ModuleManager implements IMinecraft
                 new ESP(),
                 new Criticals(),
                 new SafeWalk(),
-                new Ambience()
+                new Ambience(),
+                new MultiTask(),
+                new XCarry()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }

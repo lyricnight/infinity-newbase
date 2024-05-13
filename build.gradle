@@ -40,6 +40,11 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.28'
 	annotationProcessor 'org.projectlombok:lombok:1.18.28'
 
+	implementation(platform("org.lwjgl:lwjgl-bom:$project.lwjgl_version"))
+
+	include(implementation("org.lwjgl:lwjgl-nanovg:3.3.2"))
+	include(runtimeOnly("org.lwjgl:lwjgl-nanovg::natives-windows"))
+
 }
 
 

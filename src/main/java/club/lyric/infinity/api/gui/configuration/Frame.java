@@ -3,6 +3,7 @@ package club.lyric.infinity.api.gui.configuration;
 import club.lyric.infinity.api.gui.configuration.components.ModuleComponent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.nanovg.NanoVGInitializer;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Colours;
@@ -67,8 +68,9 @@ public class Frame implements IMinecraft {
         }
 
         Color color = Managers.MODULES.getModuleFromClass(Colours.class).getColor();
-        Render2DUtils.drawRect(context.getMatrices(), x, y, width, height, new Color(color.getRed(), color.getGreen(), color.getBlue()).getRGB());
+        //Render2DUtils.drawRect(context.getMatrices(), x, y, width, height, new Color(color.getRed(), color.getGreen(), color.getBlue()).getRGB());
 
+        NanoVGInitializer.render(nvgCtx -> Render2DUtils.drawRoundedRect(nvgCtx, x, y, width, height, 2.0f, new Color(color.getRed(), color.getGreen(), color.getBlue()).getRGB()));
         Managers.TEXT.drawString(moduleCategory.name(), x + 2.0f, y + 3.0f, new Color(255, 255, 255).getRGB());
 
         off = y + height + 1.0f;

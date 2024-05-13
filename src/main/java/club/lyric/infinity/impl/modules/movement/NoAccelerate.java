@@ -11,13 +11,13 @@ import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
  * @author vasler
  */
 @SuppressWarnings({"unused"})
-public class InstantAcceleration extends ModuleBase {
+public class NoAccelerate extends ModuleBase {
 
     public ModeSetting mode = new ModeSetting("Mode", this, "Strict", "Strict", "Normal", "Grim");
 
-    public InstantAcceleration()
+    public NoAccelerate()
     {
-        super("InstantAcceleration", "Instantly accelerates to your maximum speed.", Category.Movement);
+        super("NoAccelerate", "Instantly reaches your maximum speed with no acceleration.", Category.Movement);
     }
 
     @EventHandler
