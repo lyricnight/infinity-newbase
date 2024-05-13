@@ -16,7 +16,7 @@ import net.minecraft.util.math.Vec3d;
 @SuppressWarnings({"unused", "ConstantConditions"})
 public class Criticals extends ModuleBase {
 
-    public ModeSetting mode = new ModeSetting("Mode", this, "NCP", "NCPStrict", "Jump", "LowHop", "Grim");
+    public ModeSetting mode = new ModeSetting("Mode", this, "NCP", "NCP", "NCPStrict", "Jump", "LowHop", "Grim");
 
     public Criticals()
     {
