@@ -62,7 +62,8 @@ public final class ModuleManager implements IMinecraft
                 new FullBright(),
                 new Offhand(),
                 new CameraClip(),
-                new ESP()
+                new ESP(),
+                new Criticals()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }
