@@ -60,7 +60,9 @@ public final class ModuleManager implements IMinecraft
                 new FakeBrand(),
                 new AutoReply(),
                 new FullBright(),
-                new Offhand()
+                new Offhand(),
+                new CameraClip(),
+                new ESP()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }

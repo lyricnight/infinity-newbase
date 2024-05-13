@@ -31,6 +31,6 @@ public abstract class MixinTitleScreen {
 
         Managers.TEXT.drawString(Formatting.GRAY + " build (" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + ")", Managers.TEXT.width(Infinity.CLIENT_NAME + Infinity.VERSION, true) + 2, 2, -1);
 
-        Render2DUtils.drawRoundedRect(context.getMatrices(), 2, 2, 30, 30, 6, -1);
+        //Render2DUtils.drawRoundedRect(context, 2, 2, 30, 30, 6);
     }
 }

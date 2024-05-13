@@ -66,7 +66,6 @@ public final class HUD extends ModuleBase
 
     private final LinkedList<Long> frames = new LinkedList<>();
     private int effectY = 0;
-    private final StopWatch timer = new StopWatch.Single();
     private final StopWatch packetTimer = new StopWatch.Single();
     int packets;
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
@@ -91,7 +90,7 @@ public final class HUD extends ModuleBase
 
         boolean chatOpened = mc.currentScreen instanceof ChatScreen;
 
-       // if (mc.getDebugHud().shouldShowDebugHud()) return;
+        if (mc.getDebugHud().shouldShowDebugHud()) return;
 
         if (watermark.value()) {
 

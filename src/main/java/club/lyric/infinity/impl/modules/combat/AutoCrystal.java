@@ -24,9 +24,12 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.RaycastContext;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -91,10 +94,6 @@ public class AutoCrystal extends ModuleBase {
                 .toList();
 
         breakCrystals(near, targets);
-    }
-
-    public void placeCrystals() {
-
     }
 
     public void breakCrystals(List<EndCrystalEntity> near, List<LivingEntity> targets) {
@@ -252,9 +251,13 @@ public class AutoCrystal extends ModuleBase {
         return entity instanceof PlayerEntity && players.value() || EntityUtils.isMob(entity) && mobs.value() || EntityUtils.isAnimal(entity) && animals.value();
     }
 
-    private void place(BlockHitResult result, EndCrystalEntity entity)
+    private void place(BlockPos pos, EndCrystalEntity entity)
     {
         Hand hand = null;
+
+        Direction dir = getDirection(pos);
+
+        BlockHitResult result = new BlockHitResult(pos.toCenterPos(), dir, pos, false);
 
         switch (hands.getMode()) {
             case "Main" -> hand = Hand.MAIN_HAND;
@@ -271,5 +274,27 @@ public class AutoCrystal extends ModuleBase {
         if (swingOn.is("Both") && swingOn.is("Place")) {
             swingType(hand);
         }
+    }
+
+    private Direction getDirection(BlockPos blockPos)
+    {
+
+        int x = blockPos.getX();
+        int y = blockPos.getY();
+        int z = blockPos.getZ();
+
+        if (mc.world.isInBuildLimit(blockPos))
+        {
+            return Direction.DOWN;
+        }
+
+        BlockHitResult result = mc.world.raycast(new RaycastContext(mc.player.getEyePos(), new Vec3d(x + 0.5, y + 0.5, z + 0.5), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, mc.player));
+
+        if (result != null && result.getType() == HitResult.Type.BLOCK)
+        {
+            return result.getSide();
+        }
+
+        return Direction.UP;
     }
 }

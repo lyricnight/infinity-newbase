@@ -1,7 +1,6 @@
 package club.lyric.infinity.impl.modules.visual;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.impl.events.render.RenderWorldEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -35,7 +34,7 @@ public class Nametags extends ModuleBase {
     }
 
     @EventHandler
-    public void onRender3D(RenderWorldEvent event) {
+    public void onRender3D(MatrixStack event) {
         for (Entity entity : mc.world.getEntities())
         {
             if (entity instanceof PlayerEntity player)
@@ -48,14 +47,14 @@ public class Nametags extends ModuleBase {
 
                 float width = Managers.TEXT.width(renderPlayerName(player), true) / 2.0f;
 
-                renderNametag(event.getMatrix(), player, width, (float) x, (float) y, (float) z);
+                renderNametag(event, player, width, (float) x, (float) y, (float) z);
             }
         }
         mc.getProfiler().endTick();
 
         for(Entity entity : mc.world.getEntities()) {
             if (entity instanceof PlayerEntity player) {
-                drawEntityTag(event.getMatrix(), player);
+                drawEntityTag(event, player);
             }
         }
     }

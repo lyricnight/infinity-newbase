@@ -93,8 +93,14 @@ public final class Aura extends ModuleBase {
             Vec3d vec3D = Interpolation.interpolateEntity(target.entity());
             Color color = Managers.MODULES.getModuleFromClass(Colours.class).getColor();
 
+            Render3DUtils.enable3D();
+            matrixStack.push();
+
+            Render3DUtils.drawBox(matrixStack, Interpolation.interpolatedBox(target.entity(), vec3D), new Color(color.getRed(), color.getGreen(), color.getBlue(), 76).getRGB());
             Render3DUtils.drawOutline(matrixStack, Interpolation.interpolatedBox(target.entity(), vec3D), new Color(color.getRed(), color.getGreen(), color.getBlue(), 255).getRGB());
 
+            matrixStack.pop();
+            Render3DUtils.disable3D();
         }
     }
 

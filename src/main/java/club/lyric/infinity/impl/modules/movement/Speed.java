@@ -7,11 +7,9 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
-import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
@@ -138,18 +136,15 @@ public class Speed extends ModuleBase {
                 event.setVec(new Vec3d(motions[0], velocityY, motions[1]));
 
             }
-            else
-            {
-
-                event.setVec(new Vec3d(0.0, event.getVec().y, 0.0));
-
-            }
         }
     }
 
     @Override
     public void onTickPre()
     {
+        if (timer.value()) {
+            Managers.TIMER.set(1.0888f);
+        }
         if (nullCheck()) return;
 
         double diffX = mc.player.getX() - mc.player.prevX;
