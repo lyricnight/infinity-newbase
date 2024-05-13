@@ -29,7 +29,7 @@ import java.util.concurrent.Executors;
 public class HoleESP extends ModuleBase {
 
     // Properties
-    public NumberSetting range = new NumberSetting("Range", this, 4f, 1f, 10f, 0.5f);
+    public NumberSetting range = new NumberSetting("Range", this, 4f, 1f, 30f, 1f);
     public NumberSetting size = new NumberSetting("Size", this, 1f, 0.01f, 1f, 0.5f);
 
     // Color

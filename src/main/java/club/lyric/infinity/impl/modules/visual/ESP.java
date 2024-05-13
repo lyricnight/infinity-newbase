@@ -19,7 +19,6 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
-import net.minecraft.network.packet.s2c.play.PlayerRemoveS2CPacket;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -53,7 +52,7 @@ public class ESP extends ModuleBase
         for (Entity entity : mc.world.getEntities())
         {
 
-            if (entity instanceof PlayerEntity
+            if (entity instanceof PlayerEntity && entity != mc.player
                     && players.value()
                     || entity instanceof ItemEntity
                     && items.value()
@@ -66,8 +65,6 @@ public class ESP extends ModuleBase
                     && mobs.value()
             )
             {
-
-                if (entity == mc.player) return;
 
                 Vec3d vec3D = Interpolation.interpolateEntity(entity);
 

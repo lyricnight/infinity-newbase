@@ -20,6 +20,7 @@
     "accessors.IPlayerMoveC2SPacket"
   ],
   "client": [
+    "MixinCamera",
     "MixinChatHud",
     "MixinChatHudLine",
     "MixinChatHudLineVisible",
