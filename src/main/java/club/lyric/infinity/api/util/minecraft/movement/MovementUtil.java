@@ -3,6 +3,7 @@ package club.lyric.infinity.api.util.minecraft.movement;
 
 import club.lyric.infinity.impl.events.mc.movement.EntityMovementEvent;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
 import club.lyric.infinity.impl.modules.client.AntiCheat;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.math.MathHelper;
@@ -115,7 +116,7 @@ public class MovementUtil implements IMinecraft {
         return defaultSpeed;
     }
 
-    public static void strafe(EntityMovementEvent event, double speed) {
+    public static void strafe(PlayerMovementEvent event, double speed) {
         if (movement()) {
             double[] strafe = directionSpeed(speed);
             event.setX(strafe[0]);

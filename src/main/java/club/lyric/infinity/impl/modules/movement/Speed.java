@@ -116,7 +116,7 @@ public class Speed extends ModuleBase {
                 }
                 else
                 {
-                    if (mc.player.verticalCollision || mc.world.getCollisions(mc.player, mc.player.getBoundingBox().offset(0.0, velocityY, 0.0)).iterator().hasNext())
+                    if ((!mc.world.isSpaceEmpty(mc.player, mc.player.getBoundingBox().offset(0, mc.player.getVelocity().getY(), 0)) || mc.player.verticalCollision) && stage > 0)
                     {
 
                         stage = 1;
@@ -126,19 +126,18 @@ public class Speed extends ModuleBase {
                     speed = distance - distance / 159.0;
                 }
 
-                speed = Math.max(speed, MovementUtil.calcEffects(0.2873));
-                stage++;
+                speed = Math.min(speed, MovementUtil.calcEffects(10.0));
+                speed = Math.max(speed, MovementUtil.calcEffects(0.2873F));
+
+                MovementUtil.strafe(event, speed);
 
                 mc.player.setVelocity(0.0, velocityY, 0.0);
-
-                double[] motions = MovementUtil.directionSpeed(MovementUtil.calcEffects(0.2873));
-
-                event.setVec(new Vec3d(motions[0], velocityY, motions[1]));
+                event.setY(velocityY);
+                stage++;
 
             }
         }
     }
-
     @Override
     public void onTickPre()
     {

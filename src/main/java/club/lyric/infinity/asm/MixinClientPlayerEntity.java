@@ -91,7 +91,7 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
         EventBus.getInstance().post(event);
         if (event.isCancelled())
         {
-            super.move(event.getType(), event.getVec());
+            super.move(event.getType(), event.getMovement());
             ci.cancel();
         }
     }
