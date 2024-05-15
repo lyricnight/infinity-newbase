@@ -49,15 +49,12 @@ public abstract class MixinChatHud implements IChatHud, IMinecraft {
     private boolean addText;
 
     @Shadow
-    public abstract void addMessage(Text message);
-
-    @Shadow
     protected abstract void addMessage(Text message, @Nullable MessageSignatureData messageSignatureData, int ticks, @Nullable MessageIndicator messageIndicator, boolean refresh);
 
     @Override
     public void infinity$add(Text text, int id) {
         idConcurrent = id;
-        addMessage(text);
+        addMessage(text, null, mc.inGameHud.getTicks(), new MessageIndicator(Managers.MODULES.getModuleFromClass(Colours.class).color.getColor().getRGB(), null, null, null), false);
         idConcurrent = 0;
     }
 

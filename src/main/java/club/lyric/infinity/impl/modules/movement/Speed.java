@@ -141,8 +141,13 @@ public class Speed extends ModuleBase {
     @Override
     public void onTickPre()
     {
-        if (timer.value()) {
+        if (timer.value())
+        {
             Managers.TIMER.set(1.0888f);
+        }
+        else
+        {
+            Managers.TIMER.reset();
         }
         if (nullCheck()) return;
 

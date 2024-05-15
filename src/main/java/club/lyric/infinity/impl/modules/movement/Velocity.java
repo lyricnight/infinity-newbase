@@ -102,6 +102,6 @@ public class Velocity extends ModuleBase {
         {
             return mode.getMode();
         }
-        return "H" + horizontal.getFValue() + "%" + Formatting.GRAY + "|" + Formatting.WHITE + "V" + vertical.getFValue() + "%";
+        return "H" + horizontal.getFValue() + "%" + Formatting.GRAY + "," + Formatting.WHITE + "V" + vertical.getFValue() + "%";
     }
 }

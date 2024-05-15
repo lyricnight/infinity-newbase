@@ -67,7 +67,8 @@ public final class ModuleManager implements IMinecraft
                 new SafeWalk(),
                 new Ambience(),
                 new MultiTask(),
-                new XCarry()
+                new XCarry(),
+                new RaytraceBypass()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }
