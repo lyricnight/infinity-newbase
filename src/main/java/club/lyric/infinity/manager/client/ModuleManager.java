@@ -68,7 +68,8 @@ public final class ModuleManager implements IMinecraft
                 new Ambience(),
                 new MultiTask(),
                 new XCarry(),
-                new RaytraceBypass()
+                new RaytraceBypass(),
+                new IRC()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }
