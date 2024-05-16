@@ -67,7 +67,7 @@ public class Speed extends ModuleBase {
 
         if (nullCheck() || mc.player.isSpectator() || !MovementUtil.movement()) return;
 
-        if (inLiquids.value() && (mc.player.isInsideWaterOrBubbleColumn() || mc.player.isInLava())) return;
+        if (!inLiquids.value() && (mc.player.isInsideWaterOrBubbleColumn() || mc.player.isInLava())) return;
 
         event.setCancelled(true);
 
