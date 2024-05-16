@@ -25,6 +25,7 @@ public class Infinity implements ModInitializer, ClientModInitializer, IMinecraf
 	private static final File dir = new File(tempFolderDirectory, "infinity");
 	private static long start;
 	public static boolean first = true;
+	public static boolean sound = false;
 
 	@Override
 	public void onInitialize() {

@@ -25,15 +25,13 @@ import java.util.Date;
 @Mixin(value = TitleScreen.class)
 public abstract class MixinTitleScreen {
 
-    boolean sound = false;
-
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)I", ordinal = 0))
     private void onRender(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 
-        if (!sound)
+        if (!Infinity.sound)
         {
             SoundsUtils.playSound("startup.wav", 100);
-            sound = true;
+            Infinity.sound = true;
         }
 
         Managers.TEXT.drawString(Infinity.CLIENT_NAME + Infinity.VERSION, 2, 2, (Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor(2) : Managers.MODULES.getModuleFromClass(Colours.class).getColor()).getRGB());
