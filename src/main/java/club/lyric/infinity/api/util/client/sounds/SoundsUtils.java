@@ -11,7 +11,7 @@ import java.io.InputStream;
 
 public class SoundsUtils {
 
-    public void playSound(String filename, int volume)
+    public static void playSound(String filename, int volume)
     {
         InputStream inputStream = null;
         try
