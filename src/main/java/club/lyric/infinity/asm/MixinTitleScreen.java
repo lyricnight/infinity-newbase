@@ -1,11 +1,6 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.Infinity;
-import club.lyric.infinity.api.util.client.math.StopWatch;
-import club.lyric.infinity.api.util.client.render.anim.Animation;
-import club.lyric.infinity.api.util.client.render.anim.Easing;
-import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
-import club.lyric.infinity.api.util.client.sounds.SoundsUtils;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
@@ -27,13 +22,6 @@ public abstract class MixinTitleScreen {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)I", ordinal = 0))
     private void onRender(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-
-        if (!Infinity.sound)
-        {
-            SoundsUtils.playSound("startup.wav", 100);
-            Infinity.sound = true;
-        }
-
         Managers.TEXT.drawString(Infinity.CLIENT_NAME + Infinity.VERSION, 2, 2, (Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor(2) : Managers.MODULES.getModuleFromClass(Colours.class).getColor()).getRGB());
 
         Managers.TEXT.drawString(Formatting.GRAY + " build (" + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + ")", Managers.TEXT.width(Infinity.CLIENT_NAME + Infinity.VERSION, true) + 2, 2, -1);

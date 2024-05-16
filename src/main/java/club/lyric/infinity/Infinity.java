@@ -25,7 +25,6 @@ public class Infinity implements ModInitializer, ClientModInitializer, IMinecraf
 	private static final File dir = new File(tempFolderDirectory, "infinity");
 	private static long start;
 	public static boolean first = true;
-	public static boolean sound = false;
 
 	@Override
 	public void onInitialize() {
@@ -49,6 +48,8 @@ public class Infinity implements ModInitializer, ClientModInitializer, IMinecraf
 		LOGGER.log(Level.INFO, "                             __/ |");
 		LOGGER.log(Level.INFO, "                            |___/ ");
 		Infinity.LOGGER.info("Number of modules loaded: " + Managers.MODULES.getModules().size());
+		//LOL?
+		//vasler you're actually retarded
 		new Render2DUtils();
 	}
 }

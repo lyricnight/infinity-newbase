@@ -137,8 +137,8 @@ public class Nametags extends ModuleBase {
         PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
         return playerListEntry == null ? 0 : playerListEntry.getLatency();
     }
-
+    //TODO: add exception for when gamemode = null.
     private String getGamemode(GameMode gamemode) {
-        return switch (gamemode) { case SURVIVAL -> " [S] "; case CREATIVE -> " [C] "; case SPECTATOR -> " [I] "; case ADVENTURE -> " [A] "; };
+        return switch (gamemode) { case SURVIVAL -> " [S] "; case CREATIVE -> " [C] "; case SPECTATOR -> " [I] "; case ADVENTURE -> " [A] ";};
     }
 }

@@ -135,6 +135,7 @@ public final class Chat extends ModuleBase {
 
     /**
      * gets rid of background
+     * debug -> this doesn't work?
      */
     public void clear()
     {
@@ -149,22 +150,6 @@ public final class Chat extends ModuleBase {
                 mc.options.getTextBackgroundOpacity().setValue(0.5);
             }
         }
-    }
-
-    @EventHandler
-    public void onPacketReceive(PacketEvent.Receive event)
-    {
-        /*if (event.getPacket() instanceof ChatMessageS2CPacket)
-        {
-            if (mc.player != null) {
-                String character = ((ChatMessageS2CPacket) event.getPacket()).body().content();
-                final String name = mc.player.getName().toString();
-
-                if (character.contains(name)) {
-                    SoundsUtils.playSound(sound, 100;
-                }
-            }
-        }*/
     }
 
     @Override

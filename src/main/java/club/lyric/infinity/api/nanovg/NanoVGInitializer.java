@@ -4,7 +4,6 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import lombok.Getter;
 
 import java.util.function.Consumer;
 
@@ -14,7 +13,6 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class NanoVGInitializer implements IMinecraft {
 
-    @Getter
     private static long context = 0;
 
     public static void init()
@@ -51,4 +49,8 @@ public class NanoVGInitializer implements IMinecraft {
         RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ZERO, GlStateManager.DstFactor.ONE);
     }
 
+    public static long getContext()
+    {
+        return context;
+    }
 }

@@ -3,7 +3,6 @@ package club.lyric.infinity.api.util.client.render.util;
 import club.lyric.infinity.api.nanovg.NanoVGInitializer;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import com.mojang.blaze3d.systems.RenderSystem;
-import lombok.Getter;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import org.joml.Matrix4f;
@@ -21,8 +20,6 @@ import static org.lwjgl.nanovg.NanoVG.*;
 
 public class Render2DUtils implements IMinecraft
 {
-
-    @Getter
     private static Render2DUtils instance;
     public Render2DUtils()
     {

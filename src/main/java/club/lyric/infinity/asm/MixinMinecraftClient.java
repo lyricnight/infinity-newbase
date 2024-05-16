@@ -1,9 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.Infinity;
-import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.util.client.sounds.SoundsUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.SharedConstants;
@@ -112,9 +110,8 @@ public abstract class MixinMinecraftClient implements IMinecraft {
     @Nullable
     public ServerInfo getCurrentServerEntry()
     {
-        return (ServerInfo) Nullables.map(this.getNetworkHandler(), ClientPlayNetworkHandler::getServerInfo);
+        return Nullables.map(this.getNetworkHandler(), ClientPlayNetworkHandler::getServerInfo);
     }
-
 }
 
 

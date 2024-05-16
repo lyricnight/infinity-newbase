@@ -1,8 +1,4 @@
 package club.lyric.infinity.api.util.client.render.anim;
-
-import lombok.Data;
-
-@Data
 public class Animation
 {
 
