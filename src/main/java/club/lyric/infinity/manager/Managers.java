@@ -43,7 +43,6 @@ public final class Managers {
         MODULES.init();
         CONFIG.loadConfig();
         COMMANDS.init();
-        //Shader.init();
         Infinity.LOGGER.info("Manager initialisation complete.");
     }
 
@@ -53,6 +52,7 @@ public final class Managers {
     public static void unload()
     {
         CONFIG.saveConfig();
+        OTHER.unload();
         TIMER.unload();
     }
 
