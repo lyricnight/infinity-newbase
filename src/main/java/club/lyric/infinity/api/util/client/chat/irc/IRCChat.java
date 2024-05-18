@@ -1,5 +1,6 @@
 package club.lyric.infinity.api.util.client.chat.irc;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.irc.IRCEvent;
@@ -23,16 +24,19 @@ public class IRCChat implements IMinecraft
     private static final String nick = mc.getSession().getUsername();
     private static final String channel = "infinityukclient";
 
+    public static boolean connected = false;
+
     public static void join()
     {
         try
         {
             ws = builder.buildAsync(URI.create("wss://hack.chat/chat-ws"), new Listener()).get();
             ws.sendText(gson.toJson(new JoinCommand(channel, nick)), true);
+            connected = true;
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            Infinity.LOGGER.atError();
         }
     }
 
@@ -52,10 +56,11 @@ public class IRCChat implements IMinecraft
             try
             {
                 ws.sendClose(1000, "Disconnected").get(3, TimeUnit.SECONDS);
+                connected = false;
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                Infinity.LOGGER.atError();
             }
             ws = null;
         }
@@ -83,7 +88,7 @@ public class IRCChat implements IMinecraft
         @Override
         public void onError(WebSocket webSocket, Throwable error)
         {
-            error.printStackTrace();
+            Infinity.LOGGER.atError();
             WebSocket.Listener.super.onError(webSocket, error);
         }
     }

@@ -16,7 +16,6 @@ import org.lwjgl.glfw.GLFW;
 
 @SuppressWarnings("unused")
 public final class EventManager implements IMinecraft {
-
     @EventHandler
     public void onKeyPress(KeyPressEvent event) {
         if (event.getAction() == GLFW.GLFW_RELEASE)

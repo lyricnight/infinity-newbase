@@ -1,6 +1,5 @@
 package club.lyric.infinity.api.util.client.render.util;
 
-import club.lyric.infinity.api.nanovg.NanoVGInitializer;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.*;
@@ -20,16 +19,6 @@ import static org.lwjgl.nanovg.NanoVG.*;
 
 public class Render2DUtils implements IMinecraft
 {
-    private static Render2DUtils instance;
-    public Render2DUtils()
-    {
-        instance = this;
-    }
-    public void init()
-    {
-        NanoVGInitializer.init();
-    }
-
     /**
      * @param matrices - amount of arrays used in the rectangle (context.getMatrices())
      * @param x - location of the rectangle on the x-axis

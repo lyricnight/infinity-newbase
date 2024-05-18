@@ -182,7 +182,6 @@ public class ModuleBase implements IMinecraft {
 
     public String moduleInformation()
     {
-        if (nullCheck()) return "";
         return "";
     }
 

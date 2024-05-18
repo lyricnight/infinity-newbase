@@ -9,6 +9,9 @@ import club.lyric.infinity.impl.events.irc.IRCEvent;
 import club.lyric.infinity.impl.events.mc.chat.ChatSentEvent;
 import net.minecraft.util.Formatting;
 
+/**
+ * @author vasler
+ */
 public class IRC extends ModuleBase {
 
     public IRC() {
@@ -51,5 +54,15 @@ public class IRC extends ModuleBase {
         {
             ChatUtils.sendMessagePrivateColored(event.getNick() + ": " + Formatting.GRAY + text);
         }
+    }
+
+    @Override
+    public String moduleInformation()
+    {
+        if (IRCChat.connected)
+        {
+            return Formatting.GREEN + "connected";
+        }
+        return Formatting.RED + "disconnected";
     }
 }
