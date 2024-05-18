@@ -1,11 +1,18 @@
 package club.lyric.infinity.impl.modules.client;
 
+import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.PersistentModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.impl.events.render.RenderEntityEvent;
+import club.lyric.infinity.manager.Managers;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Formatting;
 
 /**
- * @author lyric
+ * @author lyric & vasler
  */
 public class Notifications extends PersistentModuleBase
 {
@@ -15,15 +22,10 @@ public class Notifications extends PersistentModuleBase
             false,
             this
     );
-    public BooleanSetting enable =
+
+    public BooleanSetting toggled =
             new BooleanSetting(
-            "Enabled",
-            true,
-            this
-    );
-    public BooleanSetting disable =
-            new BooleanSetting(
-            "Disabled",
+            "Toggled",
             true,
             this
     );
@@ -34,9 +36,38 @@ public class Notifications extends PersistentModuleBase
             false,
             this
     );
-
     public Notifications()
     {
         super("Notifications", "Notifies in chat for stuff.", Category.Client);
+    }
+
+    @EventHandler
+    public void onRemovalEntity(RenderEntityEvent.Removal event)
+    {
+
+        if (nullCheck()) return;
+
+        if (event.getEntity() instanceof PlayerEntity player && visualRange.value())
+        {
+
+            if (player.getName().getString().equalsIgnoreCase(mc.player.getName().getString())) return;
+
+            ChatUtils.sendOverwriteMessageColored(Managers.OTHER.getAppropriateFormatting(player) + player.getDisplayName().getString() + Formatting.RESET + " has left your visual range.", player.getId());
+        }
+    }
+
+    @EventHandler
+    public void onRemovalEntity(RenderEntityEvent.Spawn event)
+    {
+
+        if (nullCheck()) return;
+
+        if (event.getEntity() instanceof PlayerEntity player && visualRange.value())
+        {
+
+            if (player.getName().getString().equalsIgnoreCase(mc.player.getName().getString())) return;
+
+            ChatUtils.sendOverwriteMessageColored(Managers.OTHER.getAppropriateFormatting(player) + player.getDisplayName().getString() + Formatting.RESET + " has entered your visual range.", player.getId());
+        }
     }
 }

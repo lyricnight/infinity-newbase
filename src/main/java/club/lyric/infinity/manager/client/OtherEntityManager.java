@@ -23,7 +23,7 @@ public final class OtherEntityManager implements IMinecraft {
         totemPopMap.put(playerEntity.getId(), amount == null ? 1 : amount + 1);
         if (Managers.MODULES.getModuleFromClass(Notifications.class).totemPops.value())
         {
-            ChatUtils.sendOverwriteMessage(getAppropriateFormatting((PlayerEntity) playerEntity) + getName((PlayerEntity) playerEntity) + Formatting.RESET + " popped " + amount + (amount < 2 ? " totem." : " totems."), playerEntity.getId());
+            ChatUtils.sendOverwriteMessageColored(getAppropriateFormatting((PlayerEntity) playerEntity) + getName((PlayerEntity) playerEntity) + Formatting.RESET + " popped " + Formatting.WHITE + amount + Formatting.RESET + (amount < 2 ? " totem." : " totems."), playerEntity.getId());
         }
     }
 
@@ -33,7 +33,7 @@ public final class OtherEntityManager implements IMinecraft {
         totemPopMap.replace(playerEntity.getId(), 0);
         if (Managers.MODULES.getModuleFromClass(Notifications.class).totemPops.value())
         {
-            ChatUtils.sendOverwriteMessage(getAppropriateFormatting(playerEntity) + getName(playerEntity) + Formatting.RESET + " died after popping " + amount + (amount < 2 ? " totem." : " totems."), playerEntity.getId());
+            ChatUtils.sendOverwriteMessageColored(getAppropriateFormatting(playerEntity) + getName(playerEntity) + Formatting.RESET + " died after popping " + Formatting.WHITE + amount + Formatting.RESET + (amount < 2 ? " totem." : " totems."), playerEntity.getId());
         }
     }
     public void unload()
@@ -41,7 +41,7 @@ public final class OtherEntityManager implements IMinecraft {
         totemPopMap.clear();
     }
 
-    private Formatting getAppropriateFormatting(PlayerEntity player)
+    public Formatting getAppropriateFormatting(PlayerEntity player)
     {
         if (player == mc.player)
         {

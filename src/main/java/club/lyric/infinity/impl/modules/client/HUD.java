@@ -46,7 +46,8 @@ public final class HUD extends ModuleBase
     public BooleanSetting tps = new BooleanSetting("TPS", true, this);
     public BooleanSetting ping = new BooleanSetting("Ping", true, this);
     public BooleanSetting potions = new BooleanSetting("Potions", true, this);
-    public BooleanSetting armorHud = new BooleanSetting("ArmorHUD", true, this);
+    public BooleanSetting armorHud = new BooleanSetting("Armor", true, this);
+    public BooleanSetting percentage = new BooleanSetting("Percentage", true, this);
     public BooleanSetting watermark = new BooleanSetting("Watermark", true, this);
     public BooleanSetting speed = new BooleanSetting("Speed", true, this);
     public BooleanSetting packet = new BooleanSetting("Packets", true, this);
@@ -203,20 +204,23 @@ public final class HUD extends ModuleBase
                         y = mc.player.isCreative() ? (mc.player.isRiding() ? 45 : 38) : 55;
                     }
                     final float percent = InventoryUtils.getPercent(stack);
-                    context.getMatrices().push();
-                    context.getMatrices().scale(0.75f, 0.75f, 0.75f);
-                    RenderSystem.disableDepthTest();
-                    context.drawTextWithShadow(mc.textRenderer,
-                            Text.of(((int) (percent)) + "%"),
-                            (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333f),
-                            (int) ((height - y - 5) * 1.333f), ColorUtils.toColor(percent / 100.0f * 120.0f,
-                                    100.0f,
-                                    50.0f,
-                                    1.0f).getRGB());
-                    RenderSystem.enableDepthTest();
-                    context.getMatrices().scale(1.0f, 1.0f, 1.0f);
-                    context.getMatrices().pop();
-                    context.getMatrices().push();
+                    if (percentage.value())
+                    {
+                        context.getMatrices().push();
+                        context.getMatrices().scale(0.75f, 0.75f, 0.75f);
+                        RenderSystem.disableDepthTest();
+                        context.drawTextWithShadow(mc.textRenderer,
+                                Text.of(((int) (percent)) + "%"),
+                                (int) (((width >> 1) + x + 1 + getFixedArmorOffset(percent)) * 1.333f),
+                                (int) ((height - y - 5) * 1.333f), ColorUtils.toColor(percent / 100.0f * 120.0f,
+                                        100.0f,
+                                        50.0f,
+                                        1.0f).getRGB());
+                        RenderSystem.enableDepthTest();
+                        context.getMatrices().scale(1.0f, 1.0f, 1.0f);
+                        context.getMatrices().pop();
+                        context.getMatrices().push();
+                    }
                     context.drawItemInSlot(mc.textRenderer, stack, width / 2 + x, height - y);
                     context.drawItem(stack, width / 2 + x, height - y);
                     context.getMatrices().pop();
