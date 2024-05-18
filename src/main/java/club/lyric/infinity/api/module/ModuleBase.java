@@ -6,6 +6,8 @@ import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.render.anim.Animation;
+import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.PendingUpdateManager;

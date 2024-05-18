@@ -68,6 +68,7 @@ public final class HUD extends ModuleBase
     private int effectY = 0;
     private final StopWatch packetTimer = new StopWatch.Single();
     int packets;
+    private final StopWatch arrayTimer = new StopWatch.Single();
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
 
     @EventHandler

@@ -114,7 +114,7 @@ public class Nametags extends ModuleBase {
 
         if (gamemode.value())
         {
-            name += getGamemode(getPlayerGamemode(player));
+            //name += getGamemode(getPlayerGamemode(player));
         }
 
         if (latency.value())
