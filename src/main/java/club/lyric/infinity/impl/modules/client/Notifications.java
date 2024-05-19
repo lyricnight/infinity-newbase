@@ -30,9 +30,9 @@ public class Notifications extends PersistentModuleBase
             this
     );
 
-    public BooleanSetting visualRange =
+    public BooleanSetting render =
             new BooleanSetting(
-            "VisualRange",
+            "Render",
             false,
             this
     );
@@ -47,12 +47,12 @@ public class Notifications extends PersistentModuleBase
 
         if (nullCheck()) return;
 
-        if (event.getEntity() instanceof PlayerEntity player && visualRange.value())
+        if (event.getEntity() instanceof PlayerEntity player && render.value())
         {
 
             if (player.getName().getString().equalsIgnoreCase(mc.player.getName().getString())) return;
 
-            ChatUtils.sendOverwriteMessageColored(Managers.OTHER.getAppropriateFormatting(player) + player.getDisplayName().getString() + Formatting.RESET + " has left your visual range.", player.getId());
+            ChatUtils.sendOverwriteMessageColored(Managers.OTHER.getAppropriateFormatting(player) + player.getDisplayName().getString() + Formatting.RESET + " has left your render.", player.getId());
         }
     }
 
@@ -62,12 +62,12 @@ public class Notifications extends PersistentModuleBase
 
         if (nullCheck()) return;
 
-        if (event.getEntity() instanceof PlayerEntity player && visualRange.value())
+        if (event.getEntity() instanceof PlayerEntity player && render.value())
         {
 
             if (player.getName().getString().equalsIgnoreCase(mc.player.getName().getString())) return;
 
-            ChatUtils.sendOverwriteMessageColored(Managers.OTHER.getAppropriateFormatting(player) + player.getDisplayName().getString() + Formatting.RESET + " has entered your visual range.", player.getId());
+            ChatUtils.sendOverwriteMessageColored(Managers.OTHER.getAppropriateFormatting(player) + player.getDisplayName().getString() + Formatting.RESET + " has entered your render.", player.getId());
         }
     }
 }

@@ -51,6 +51,8 @@ public final class HUD extends ModuleBase
     public BooleanSetting watermark = new BooleanSetting("Watermark", true, this);
     public BooleanSetting speed = new BooleanSetting("Speed", true, this);
     public BooleanSetting packet = new BooleanSetting("Packets", true, this);
+    public BooleanSetting serverBrand = new BooleanSetting("ServerBrand", true, this);
+    public BooleanSetting durability = new BooleanSetting("Durability", true, this);
     public BooleanSetting coordinates = new BooleanSetting("Coordinates", true, this);
     public BooleanSetting direction = new BooleanSetting("Direction", true, this);
     public BooleanSetting greeting = new BooleanSetting("Greeting", true, this);
@@ -140,7 +142,6 @@ public final class HUD extends ModuleBase
             Managers.MODULES.getModules().forEach(module -> {
                 if (module.isOn() && module.isDrawn()) moduleList.add(module);
             });
-
             if (sorting.is("Alphabetical"))
             {
                 moduleList.sort(Comparator.comparing(module -> getLabel(module.getName() + module.getSuffix())));
@@ -239,6 +240,49 @@ public final class HUD extends ModuleBase
                 );
                 offset += (int) (Managers.TEXT.height(true) + 1);
             }
+        }
+
+        if (serverBrand.value())
+        {
+
+            String server = "ServerBrand: " + Formatting.WHITE + (mc.isInSingleplayer() ? "Singleplayer (Integrated)" : mc.getNetworkHandler().getBrand());
+
+            Managers.TEXT.drawString(getLabel(server),
+                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(server), true)) - 2,
+                    context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
+                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
+            );
+
+            offset += (int) (Managers.TEXT.height(true) + 1);
+        }
+
+        if (durability.value() && mc.player.getMainHandStack().isDamageable())
+        {
+
+            int max = mc.player.getMainHandStack().getMaxDamage();
+            int dmg = mc.player.getMainHandStack().getDamage();
+
+            String damage = String.valueOf(max - dmg);
+
+
+            String dura = "Durability: ";
+
+            Managers.TEXT.drawString(getLabel(dura),
+                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(dura), true)) - (Managers.TEXT.width(getLabel(damage), true)) - 2,
+                    context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
+                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
+            );
+
+            Managers.TEXT.drawString(getLabel(damage),
+                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(damage), true)) - 2,
+                    context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
+                    ColorUtils.toColor((float) (max - dmg) / max * 120.0f,
+                            100.0f,
+                            50.0f,
+                            1.0f).getRGB()
+            );
+
+            offset += (int) (Managers.TEXT.height(true) + 1);
         }
 
         if (speed.value()) {

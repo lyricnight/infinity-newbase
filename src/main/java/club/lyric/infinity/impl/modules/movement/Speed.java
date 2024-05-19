@@ -127,7 +127,7 @@ public class Speed extends ModuleBase {
                 }
 
                 speed = Math.min(speed, MovementUtil.calcEffects(10.0));
-                speed = Math.max(speed, MovementUtil.calcEffects(0.2873F));
+                speed = Math.max(speed, MovementUtil.calcEffects(0.2873));
 
                 MovementUtil.strafe(event, speed);
 

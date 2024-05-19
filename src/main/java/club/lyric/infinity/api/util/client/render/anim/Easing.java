@@ -7,6 +7,7 @@ import java.util.function.Function;
 import static java.lang.Math.pow;
 import static java.lang.Math.sin;
 
+@SuppressWarnings("unused")
 public enum Easing {
     LINEAR(x -> x),
     SIGMOID(x -> 1 / (1 + Math.exp(-x))),
