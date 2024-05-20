@@ -11,6 +11,7 @@ import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.render.anim.Animation;
 import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
+import club.lyric.infinity.api.util.client.spotify.Spotify;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.impl.events.network.PacketEvent;
@@ -52,6 +53,7 @@ public final class HUD extends ModuleBase
     public BooleanSetting speed = new BooleanSetting("Speed", true, this);
     public BooleanSetting packet = new BooleanSetting("Packets", true, this);
     public BooleanSetting serverBrand = new BooleanSetting("ServerBrand", true, this);
+    public BooleanSetting spotify = new BooleanSetting("Spotify", true, this);
     public BooleanSetting durability = new BooleanSetting("Durability", true, this);
     public BooleanSetting coordinates = new BooleanSetting("Coordinates", true, this);
     public BooleanSetting direction = new BooleanSetting("Direction", true, this);
@@ -70,8 +72,8 @@ public final class HUD extends ModuleBase
     private final LinkedList<Long> frames = new LinkedList<>();
     private int effectY = 0;
     private final StopWatch packetTimer = new StopWatch.Single();
+    private final StopWatch spotifyTimer = new StopWatch.Single();
     int packets;
-    private final StopWatch arrayTimer = new StopWatch.Single();
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
 
     @EventHandler
@@ -240,6 +242,23 @@ public final class HUD extends ModuleBase
                 );
                 offset += (int) (Managers.TEXT.height(true) + 1);
             }
+        }
+
+        if (spotify.value() && Spotify.currentArtist != null)
+        {
+
+            String artist = Spotify.currentArtist;
+            String track = Spotify.currentTrack;
+
+            String spotify = artist + " - " + track;
+
+            Managers.TEXT.drawString(getLabel(spotify),
+                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(spotify), true)) - 2,
+                    context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
+                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
+            );
+
+            offset += (int) (Managers.TEXT.height(true) + 1);
         }
 
         if (serverBrand.value())
