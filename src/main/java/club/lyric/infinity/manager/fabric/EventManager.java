@@ -26,6 +26,8 @@ public final class EventManager implements IMinecraft {
 
         if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3))
             return;
+        if (mc.player == null || mc.world == null)
+            return;
 
         Managers.MODULES.getModules().stream().filter(m -> m.getBind() == event.getKey()).forEach(ModuleBase::toggle);
     }

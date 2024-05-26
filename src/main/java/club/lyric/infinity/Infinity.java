@@ -1,6 +1,5 @@
 package club.lyric.infinity;
 
-import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
 import net.fabricmc.api.ClientModInitializer;

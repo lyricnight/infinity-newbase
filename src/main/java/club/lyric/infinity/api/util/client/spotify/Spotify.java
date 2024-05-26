@@ -10,9 +10,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
-public class Spotify
+/**
+ * @author valser
+ */
+public final class Spotify
 {
-
     public static boolean isSpotifyRunning;
     public static String currentTrack;
     public static String lastTrack;

@@ -3,8 +3,10 @@ package club.lyric.infinity.asm;
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.impl.events.mc.movement.EntityMovementEvent;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.modules.client.AntiCheat;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * @author lyric
@@ -22,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinEntity implements IMinecraft {
     @Shadow
     private int id;
+
     @Unique
     private EntityMovementEvent event;
 
@@ -52,5 +56,13 @@ public abstract class MixinEntity implements IMinecraft {
     @Inject(method = "move", at = @At(value = "RETURN"))
     public void moveEntityHookPost(MovementType type, Vec3d vec3d, CallbackInfo info) {
         this.event = null;
+    }
+
+    @Inject(method = "doesNotCollide(Lnet/minecraft/util/math/Box;)Z", at = @At("RETURN"), cancellable = true)
+    private void poseNotCollide(Box box, CallbackInfoReturnable<Boolean> cir) {
+        if (AntiCheat.getProtocol())
+        {
+            cir.setReturnValue(true);
+        }
     }
 }
