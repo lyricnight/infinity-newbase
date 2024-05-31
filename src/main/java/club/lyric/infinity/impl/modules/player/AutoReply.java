@@ -22,6 +22,7 @@ public class AutoReply extends ModuleBase {
     public BooleanSetting armor = new BooleanSetting("Armor", false, this);
     public BooleanSetting coords = new BooleanSetting("Coords", true, this);
     public BooleanSetting afk = new BooleanSetting("AFK Responses",true, this);
+    public BooleanSetting debug = new BooleanSetting("d", false, this);
     public NumberSetting time = new NumberSetting("AFK Time", this, 30, 10, 100, 5);
     private final StopWatch.Single stopWatch = new StopWatch.Single();
 
@@ -47,8 +48,16 @@ public class AutoReply extends ModuleBase {
         Text message = event.getMessage();
         String string = message.getString();
         String ign = string.split(" ")[0];
+        if (debug.value())
+        {
+            ChatUtils.sendMessagePrivate("Got message:" + string);
+        }
         if (Stream.of("whispers:", "says:", "whispers to you:").anyMatch(string::contains) && !message.getString().contains(Formatting.WHITE.toString()))
         {
+            if (debug.value())
+            {
+                ChatUtils.sendMessagePrivate("Got checkandsend:" + string + ", " + ign);
+            }
             checkAndSend(string, ign);
         }
     }
@@ -72,20 +81,36 @@ public class AutoReply extends ModuleBase {
     {
         if (Stream.of("coords", "cords", "wya", "where u at", "where", "location").anyMatch(message::contains) && Managers.FRIENDS.isFriend(ign) && mc.player.getZ() < 10000 && mc.player.getX() < 10000 && coords.value())
         {
+            if (debug.value())
+            {
+                ChatUtils.sendMessagePrivate("Got COORDINATE");
+            }
             return MessageType.COORDINATE;
         }
         if (afk.value() && stopWatch.hasBeen(time.getIValue() * 1000L))
         {
+            if (debug.value())
+            {
+                ChatUtils.sendMessagePrivate("Got AFK");
+            }
             return MessageType.AFK;
         }
         else
         {
+            if (debug.value())
+            {
+                ChatUtils.sendMessagePrivate("Got NONE");
+            }
             return MessageType.NONE;
         }
     }
 
     private void send(MessageType type, String ign)
     {
+        if (debug.value())
+        {
+            ChatUtils.sendMessagePrivate("Got SEND");
+        }
         switch (type)
         {
             case COORDINATE -> mc.player.sendMessage(Text.of("/w " + ign + " [Infinity] Coordinates: " + mc.player.getX() + ", " + mc.player.getZ() + ", Dimension: " + mc.world.getDimension().toString()));

@@ -32,6 +32,7 @@ import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -108,7 +109,7 @@ public final class Aura extends ModuleBase {
     public String moduleInformation()
     {
         if (target == null) {
-            return "";
+            return Formatting.RED + "none";
         }
         return target.entity().getName().getString();
     }
@@ -251,4 +252,6 @@ public final class Aura extends ModuleBase {
     {
         return entity instanceof PlayerEntity && players.value() || EntityUtils.isMob(entity) && mobs.value() || EntityUtils.isAnimal(entity) && animals.value();
     }
+
+
 }

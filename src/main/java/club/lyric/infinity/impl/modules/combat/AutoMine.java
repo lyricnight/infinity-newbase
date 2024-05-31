@@ -15,10 +15,12 @@ import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -275,5 +277,17 @@ public final class AutoMine extends ModuleBase {
 
     private boolean isPlaceable(BlockPos pos) {
         return mc.world.getBlockState(pos).getBlock() == Blocks.OBSIDIAN || mc.world.getBlockState(pos).getBlock() == Blocks.BEDROCK;
+    }
+
+    @Override
+    public String moduleInformation() {
+        if (player != null)
+        {
+            return player.getDisplayName().getString();
+        }
+        else
+        {
+            return Formatting.RED + "none";
+        }
     }
 }

@@ -6,6 +6,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
+import net.minecraft.util.Formatting;
 
 /**
  * @author vasler
@@ -15,6 +16,8 @@ public class NoAccelerate extends ModuleBase {
 
     public ModeSetting mode = new ModeSetting("Mode", this, "Strict", "Strict", "Normal", "Grim");
 
+    public boolean pause = false;
+
     public NoAccelerate()
     {
         super("NoAccelerate", "Instantly reaches your maximum speed with no acceleration.", Category.Movement);
@@ -23,6 +26,7 @@ public class NoAccelerate extends ModuleBase {
     @EventHandler
     public void onMovement(EntityMovementEvent event)
     {
+        if (pause) return;
         if (mode.is("Strict"))
         {
 
@@ -43,6 +47,13 @@ public class NoAccelerate extends ModuleBase {
     @Override
     public String moduleInformation()
     {
-        return mode.getMode();
+        if (pause)
+        {
+            return mode.getMode() + ", " + Formatting.RED + "false";
+        }
+        else
+        {
+            return mode.getMode() + ", " + Formatting.GREEN + "true";
+        }
     }
 }
