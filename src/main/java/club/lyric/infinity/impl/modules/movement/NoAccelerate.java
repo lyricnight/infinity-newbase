@@ -6,18 +6,16 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.Formatting;
 
 /**
- * @author vasler
+ * @author lyric
  */
 @SuppressWarnings({"unused"})
 public class NoAccelerate extends ModuleBase {
-
-    public ModeSetting mode = new ModeSetting("Mode", this, "Strict", "Strict", "Normal", "Grim");
-
     public boolean pause = false;
-
     public NoAccelerate()
     {
         super("NoAccelerate", "Instantly reaches your maximum speed with no acceleration.", Category.Movement);
@@ -27,21 +25,13 @@ public class NoAccelerate extends ModuleBase {
     public void onMovement(EntityMovementEvent event)
     {
         if (pause) return;
-        if (mode.is("Strict"))
-        {
+        MovementUtil.createSpeed(MovementUtil.getSpeed(true));
+    }
 
-            if (!mc.player.isOnGround()) return;
-
-            MovementUtil.createSpeed(MovementUtil.getSpeed(true));
-
-        }
-
-        if (mode.is("Normal"))
-        {
-
-            MovementUtil.createSpeed(MovementUtil.getSpeed(true));
-
-        }
+    @Override
+    public void onUpdate()
+    {
+        pause = !mc.player.isOnGround() || mc.player.isSpectator() || mc.player.isCreative() || mc.player.isSneaking();
     }
 
     @Override
@@ -49,11 +39,11 @@ public class NoAccelerate extends ModuleBase {
     {
         if (pause)
         {
-            return mode.getMode() + ", " + Formatting.RED + "false";
+            return Formatting.RED + "false";
         }
         else
         {
-            return mode.getMode() + ", " + Formatting.GREEN + "true";
+            return Formatting.GREEN + "true";
         }
     }
 }

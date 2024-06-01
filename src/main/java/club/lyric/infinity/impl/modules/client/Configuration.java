@@ -8,6 +8,7 @@ import club.lyric.infinity.manager.Managers;
  * @author lyric
  * for gui config
  */
+//TODO: block all keystrokes while configGUI is rendered
 public final class Configuration extends PersistentModuleBase {
     public Configuration()
     {

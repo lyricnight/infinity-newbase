@@ -19,6 +19,7 @@ public final class MCF extends ModuleBase {
         super("MCF", "Add friends using middleclick", Category.Player);
     }
 
+    @SuppressWarnings("unused")
     @EventHandler
     public void onKeyPress(KeyPressEvent event)
     {

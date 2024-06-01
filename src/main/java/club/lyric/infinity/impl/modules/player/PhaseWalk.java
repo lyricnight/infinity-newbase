@@ -30,7 +30,7 @@ public final class PhaseWalk extends ModuleBase {
     public BooleanSetting down = new BooleanSetting("Down", false, this);
 
     public NumberSetting downDelay = new NumberSetting("DownDelay", this, 2, 1,10, 1);
-
+    //??
     public BooleanSetting collisions = new BooleanSetting("Collisions", true, this);
 
     private final StopWatch.Single watch = new StopWatch.Single();
