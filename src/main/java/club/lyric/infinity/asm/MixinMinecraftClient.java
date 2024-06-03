@@ -69,7 +69,7 @@ public abstract class MixinMinecraftClient implements IMinecraft {
             ServerInfo serverInfo = this.getCurrentServerEntry();
             if (this.server != null && !this.server.isRemote())
             {
-                stringBuilder.append(I18n.translate("title.singleplayer", new Object[0]));
+                stringBuilder.append(I18n.translate("Singleplayer", new Object[0]));
             }
             else if (serverInfo != null && serverInfo.isRealm())
             {

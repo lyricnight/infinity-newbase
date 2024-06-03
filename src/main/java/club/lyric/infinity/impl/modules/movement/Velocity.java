@@ -1,20 +1,21 @@
 package club.lyric.infinity.impl.modules.movement;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.asm.accessors.IEntityVelocityUpdateS2CPacket;
+import club.lyric.infinity.asm.accessors.IExplosionS2CPacket;
+import club.lyric.infinity.impl.events.network.PacketEvent;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
+import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.util.Formatting;
 
-import java.text.Normalizer;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -41,6 +42,9 @@ public class Velocity extends ModuleBase {
 
     @EventHandler
     public void onEntityVelocity(PacketEvent.Receive event) {
+
+        if (nullCheck()) return;
+
         if (mode.is("JumpReset"))
         {
 
@@ -76,27 +80,22 @@ public class Velocity extends ModuleBase {
             if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket)
             {
 
-                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityX(((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityX() * (horizontal.getIValue() / 100));
-                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityY(((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityY() * (vertical.getIValue() / 100));
-                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityZ(((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityZ() * (horizontal.getIValue() / 100));
+                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityX((int) (((double) ((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityX() / 100 - mc.player.getVelocity().x) * horizontal.getIValue() * 100 + mc.player.getVelocity().x * 100));
+                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityY((int) (((double) ((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityY() / 100 - mc.player.getVelocity().y) * vertical.getIValue() * 100 + mc.player.getVelocity().y * 100));
+                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityZ((int) (((double) ((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityZ() / 100 - mc.player.getVelocity().z) * horizontal.getIValue() * 100 + mc.player.getVelocity().z * 100));
+
+            }
+
+            if (event.getPacket() instanceof ExplosionS2CPacket)
+            {
+
+                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityX((int) (((double) ((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityX() / 100 - mc.player.getVelocity().x) * horizontal.getIValue() * 100 + mc.player.getVelocity().x * 100));
+                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityY((int) (((double) ((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityY() / 100 - mc.player.getVelocity().y) * vertical.getIValue() * 100 + mc.player.getVelocity().y * 100));
+                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityZ((int) (((double) ((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityZ() / 100 - mc.player.getVelocity().z) * horizontal.getIValue() * 100 + mc.player.getVelocity().z * 100));
 
             }
         }
 
-    }
-
-    @Override
-    public void onTickPre() {
-        if (mode.is("Grim"))
-        {
-
-            float yaw = mc.player.getYaw();
-            float pitch = mc.player.getPitch();
-
-            send(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY(), mc.player.getZ(), yaw, pitch, mc.player.isOnGround()));
-            send(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, mc.player.getBlockPos(), mc.player.getHorizontalFacing().getOpposite()));
-
-        }
     }
 
     @Override

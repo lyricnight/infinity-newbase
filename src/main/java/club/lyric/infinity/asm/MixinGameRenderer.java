@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinGameRenderer implements IMinecraft {
 
     @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", ordinal = 1))
-    private void hookRenderWorld(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo ci) {
+    private void hookRenderWorld(CallbackInfo ci) {
         if (!Infinity.first)
         {
             ChatUtils.sendMessagePrivateColored(Formatting.WHITE + "You are currently playing as: " + Formatting.GRAY + mc.player.getName().getString());

@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(InGameHud.class)
 public class MixinInGameHud {
+
     @Inject(method = "render", at = @At("RETURN"))
     public void render(DrawContext context, float tickDelta, CallbackInfo ci) {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(module -> module.onRender2D(context));

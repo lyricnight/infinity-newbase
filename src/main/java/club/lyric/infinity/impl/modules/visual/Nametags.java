@@ -1,11 +1,14 @@
 package club.lyric.infinity.impl.modules.visual;
 
-import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.util.client.math.MathUtils;
+import club.lyric.infinity.api.util.client.render.util.Interpolation;
+import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
+import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.manager.Managers;
-import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.Tessellator;
@@ -13,95 +16,95 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
+
+import java.awt.*;
 
 /**
  * @author vasler
  */
+@SuppressWarnings("ConstantConditions")
 public class Nametags extends ModuleBase {
 
     public BooleanSetting self = new BooleanSetting("Self", true, this);
 
     public BooleanSetting entityId = new BooleanSetting("EntityId", true, this);
 
-    public BooleanSetting gamemode = new BooleanSetting("Gamemode", true, this);
+    public BooleanSetting gamemode = new BooleanSetting("GameMode", true, this);
 
     public BooleanSetting latency = new BooleanSetting("Latency", true, this);
+    public BooleanSetting health = new BooleanSetting("Health", true, this);
 
     public Nametags() {
         super("Nametags", "Fire", Category.Visual);
     }
 
-    @EventHandler
+    @Override
     public void onRender3D(MatrixStack event) {
         for (Entity entity : mc.world.getEntities())
         {
+            Vec3d interpolate = Interpolation.getRenderPosition(mc.getCameraEntity(), mc.getTickDelta());
             if (entity instanceof PlayerEntity player)
             {
-                if (player == mc.player && !self.value()) continue;
 
-                double x = player.prevX + (player.getX() - player.prevX) * mc.getTickDelta();
-                double y = player.prevY + (player.getY() - player.prevY) * mc.getTickDelta();
-                double z = player.prevZ + (player.getZ() - player.prevZ) * mc.getTickDelta();
+                if (!self.value() && player == mc.player) continue;
 
-                float width = Managers.TEXT.width(renderPlayerName(player), true) / 2.0f;
-
-                renderNametag(event, player, width, (float) x, (float) y, (float) z);
+                renderNameTag(player, event, interpolate);
             }
-        }
-        mc.getProfiler().endTick();
 
-        for(Entity entity : mc.world.getEntities()) {
-            if (entity instanceof PlayerEntity player) {
-                drawEntityTag(event, player);
-            }
         }
     }
 
-    private void renderNametag(MatrixStack matrix, PlayerEntity player, float width, float x, float y, float z) {
+    private void renderNameTag(PlayerEntity entity, MatrixStack matrices, Vec3d inter)
+    {
+        Vec3d interpolate = Interpolation.getRenderPosition(entity, mc.getTickDelta());
+        Vec3d pos = getCameraPos();
 
-        Camera camera = mc.gameRenderer.getCamera();
-        matrix.push();
+        double x = entity.getX() - interpolate.getX();
+        double y = entity.getY() - interpolate.getY();
+        double z = entity.getZ() - interpolate.getZ();
 
-        matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
-        matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));
+        TextRenderer textRenderer = mc.textRenderer;
+        Render3DUtils.enable3D();
 
-        matrix.translate(x - camera.getPos().getX(), y + (double) player.getHeight() + (player.isSneaking() ? 0.3f : 0.4f) - camera.getPos().getY(), z - camera.getPos().getZ());
+        double distX = (mc.player.getX() - inter.getX()) - x;
+        double distY = (mc.player.getY() - inter.getY()) - y;
+        double distZ = (mc.player.getZ() - inter.getZ()) - z;
 
-        matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
-        matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+        double dist = MathHelper.sqrt((float) (distX * distX + distY * distY + distZ * distZ));
 
-        matrix.scale(-0.025F, -0.025F, 1.0F);
+        if (dist > 4096.0) return;
 
-        VertexConsumerProvider.Immediate vertexConsumers = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+        float scale = 0.01f * (float) dist;
 
-        Managers.TEXT.drawString(renderPlayerName(player), width, 0, -1);
+        if (dist <= 8) {
+            scale = 0.025f;
+        }
 
-        vertexConsumers.draw();
-
-        RenderSystem.disableBlend();
-
-        matrix.pop();
-    }
-
-    public void drawEntityTag(MatrixStack matrix, PlayerEntity entity) {
-        Camera camera = mc.gameRenderer.getCamera();
-        matrix.push();
-        matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
-        matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0F));
-        matrix.translate(
-                entity.getX() - camera.getPos().x,
-                entity.getY() + (double)entity.getHeight() + 0.5 - camera.getPos().y,
-                entity.getZ() - camera.getPos().z
+        matrices.push();
+        matrices.translate(
+                x - pos.getX(),
+                y + (double) entity.getHeight() + (entity.isSneaking() ? 0.5f : 0.53f) - pos.getY(),
+                z - pos.getZ()
         );
-        matrix.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-camera.getYaw()));
-        matrix.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
-        matrix.scale(-0.025F, -0.025F, 1.0F);
+        matrices.multiply(mc.getEntityRenderDispatcher().camera.getRotation());
+        matrices.scale(-scale, -scale, scale);
+
         VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
-        Managers.TEXT.drawString(renderPlayerName(entity), mc.textRenderer.getWidth(renderPlayerName(entity)) * -0.5F, 0, -1);
+        //DrawContext context = new DrawContext(mc, immediate);
+
+        Render2DUtils.drawRect(matrices, (float) -mc.textRenderer.getWidth(renderPlayerName(entity)) / 2 - 2, 0, mc.textRenderer.getWidth(renderPlayerName(entity)) + 1, mc.textRenderer.fontHeight + 2.0f, new Color(0, 4, 0, 85).getRGB());
+        Render2DUtils.drawOutlineRect(matrices, (float) -mc.textRenderer.getWidth(renderPlayerName(entity)) / 2 - 2, 0, mc.textRenderer.getWidth(renderPlayerName(entity)) + 1, mc.textRenderer.fontHeight + 2.0f, new Color(0, 0, 0, 51).getRGB());
+        textRenderer.draw(renderPlayerName(entity), (float) -mc.textRenderer.getWidth(renderPlayerName(entity)) / 2 + 1, 2, getNameColor(entity), false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
+        //context.drawTextWithShadow(textRenderer, renderPlayerName(entity), (int) ((float) -mc.textRenderer.getWidth(renderPlayerName(entity)) / 2 + 1), 2, getNameColor(entity));
+        //Managers.TEXT.drawString(renderPlayerName(entity), (float) mc.textRenderer.getWidth(renderPlayerName(entity)) / 2, 0, -1);
+
         immediate.draw();
-        matrix.pop();
+        matrices.pop();
+        Render3DUtils.disable3D();
     }
 
     private String renderPlayerName(PlayerEntity player) {
@@ -112,9 +115,11 @@ public class Nametags extends ModuleBase {
             name += " ID: " + player.getId();
         }
 
-        if (gamemode.value())
-        {
-            //name += getGamemode(getPlayerGamemode(player));
+        if (gamemode.value() && mc.getNetworkHandler() != null) {
+            PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
+            if (playerListEntry != null) {
+                name += getGamemode(getPlayerGamemode(player));
+            }
         }
 
         if (latency.value())
@@ -122,23 +127,70 @@ public class Nametags extends ModuleBase {
             name += " " + getPlayerLatency(player) + "ms ";
         }
 
+        if (health.value()) {
+            double health = Math.ceil(player.getHealth() + player.getAbsorptionAmount());
+
+            Formatting color;
+            if (health > 18) {
+                color = Formatting.GREEN;
+            } else if (health > 16) {
+                color = Formatting.DARK_GREEN;
+            } else if (health > 12) {
+                color = Formatting.YELLOW;
+            } else if (health > 8) {
+                color = Formatting.GOLD;
+            } else if (health > 4) {
+                color = Formatting.RED;
+            } else {
+                color = Formatting.DARK_RED;
+            }
+            name += color + "" + (int) health + " ";
+        }
+
         return name;
     }
 
+    protected int getNameColor(PlayerEntity player) {
+        if (Managers.FRIENDS.isFriend(player)) {
+            return 0xFF00FF;
+        }
+
+        if (player.isSneaking()) {
+            return 0xFF9900;
+        }
+
+        return -1;
+    }
     public static GameMode getPlayerGamemode(PlayerEntity player) {
         if (player == null) return null;
         PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
         return playerListEntry == null ? null : playerListEntry.getGameMode();
     }
 
-    public static int getPlayerLatency(PlayerEntity player) {
+    public static Vec3d getCameraPos()
+    {
+        Camera camera = mc.getBlockEntityRenderDispatcher().camera;
+        if (camera == null)
+        {
+            return Vec3d.ZERO;
+        }
+
+        return camera.getPos();
+    }
+
+    public static int getPlayerLatency(PlayerEntity player)
+    {
         if (player == null) return 0;
+
         if (mc.getNetworkHandler() == null) return 0;
+
         PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
         return playerListEntry == null ? 0 : playerListEntry.getLatency();
     }
-    //TODO: add exception for when gamemode = null.
+
+
+    //add exception for when gamemode = null.
     private String getGamemode(GameMode gamemode) {
-        return switch (gamemode) { case SURVIVAL -> " [S] "; case CREATIVE -> " [C] "; case SPECTATOR -> " [I] "; case ADVENTURE -> " [A] ";};
+        return switch (gamemode) { case SURVIVAL -> " [S]"; case CREATIVE -> " [C]"; case SPECTATOR -> " [I]"; case ADVENTURE -> " [A]";};
     }
 }

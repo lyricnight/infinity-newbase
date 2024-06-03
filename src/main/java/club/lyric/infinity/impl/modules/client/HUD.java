@@ -19,6 +19,7 @@ import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author vasler
@@ -75,6 +77,9 @@ public final class HUD extends ModuleBase
     private final StopWatch spotifyTimer = new StopWatch.Single();
     int packets;
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
+
+    private final StopWatch moduleAnimationTimer = new StopWatch.Single();
+    private final ConcurrentHashMap<ModuleBase, Integer> cachedModuleAnimation = new ConcurrentHashMap<>();
 
     @EventHandler
     public void onPacketSend(PacketEvent.Send event)
@@ -144,6 +149,7 @@ public final class HUD extends ModuleBase
             Managers.MODULES.getModules().forEach(module -> {
                 if (module.isOn() && module.isDrawn()) moduleList.add(module);
             });
+
             if (sorting.is("Alphabetical"))
             {
                 moduleList.sort(Comparator.comparing(module -> getLabel(module.getName() + module.getSuffix())));
@@ -155,7 +161,7 @@ public final class HUD extends ModuleBase
 
             for (ModuleBase module : moduleList) {
 
-                String label = module.getName() + module.getSuffix();
+                String text = module.getName() + module.getSuffix();
 
                 long moduleCount = moduleList.size();
 
@@ -180,14 +186,36 @@ public final class HUD extends ModuleBase
                     effectY = 0;
                 }
 
-                float x = context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(label), true)) - 2;
+                cachedModuleAnimation.putIfAbsent(module, -8);
 
+                int x = context.getScaledWindowWidth() - cachedModuleAnimation.get(module) - 2;
 
-                Managers.TEXT.drawString(getLabel(label),
+                if (module.isOn())
+                {
+                    if (cachedModuleAnimation.get(module) < Managers.TEXT.width(text, true) && moduleAnimationTimer.hasBeen((long) 10.0))
+                    {
+                        cachedModuleAnimation.put(module, (int) (cachedModuleAnimation.get(module) + Managers.TEXT.width(text, true) / 12));
+                        moduleAnimationTimer.reset();
+                    }
+                    if (cachedModuleAnimation.get(module) > Managers.TEXT.width(text, true))
+                    {
+                        cachedModuleAnimation.put(module, cachedModuleAnimation.get(module) - 1);
+                    }
+                }
+                else if (cachedModuleAnimation.get(module) > -8 && moduleAnimationTimer.hasBeen((long) 10.0))
+                {
+                    cachedModuleAnimation.put(module, (int) (cachedModuleAnimation.get(module) - Managers.TEXT.width(text, true) / 12));
+                    moduleAnimationTimer.reset();
+                }
+
+                if (!module.isOn() && cachedModuleAnimation.get(module) <= -8) continue;
+
+                Managers.TEXT.drawString(getLabel(text),
                         x,
                         2 + arrayOffset + effectY,
                         hudColor(arrayOffset).getRGB()
                 );
+
                 arrayOffset += (int) ((int) (Managers.TEXT.height(true) + 1));
             }
 
@@ -207,8 +235,7 @@ public final class HUD extends ModuleBase
                         y = mc.player.isCreative() ? (mc.player.isRiding() ? 45 : 38) : 55;
                     }
                     final float percent = InventoryUtils.getPercent(stack);
-                    if (percentage.value())
-                    {
+                    if (percentage.value()) {
                         context.getMatrices().push();
                         context.getMatrices().scale(0.75f, 0.75f, 0.75f);
                         RenderSystem.disableDepthTest();
@@ -222,8 +249,8 @@ public final class HUD extends ModuleBase
                         RenderSystem.enableDepthTest();
                         context.getMatrices().scale(1.0f, 1.0f, 1.0f);
                         context.getMatrices().pop();
-                        context.getMatrices().push();
                     }
+                    context.getMatrices().push();
                     context.drawItemInSlot(mc.textRenderer, stack, width / 2 + x, height - y);
                     context.drawItem(stack, width / 2 + x, height - y);
                     context.getMatrices().pop();
@@ -233,7 +260,14 @@ public final class HUD extends ModuleBase
         }
 
         if (potions.value()) {
-            for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
+            ArrayList<StatusEffectInstance> effectList = new ArrayList<>(mc.player.getStatusEffects());
+
+            effectList.sort(Comparator.comparing(
+                    effect -> I18n.translate(effect.getEffectType().getTranslationKey()), Comparator.reverseOrder()
+            ));
+
+            for (StatusEffectInstance statusEffectInstance : effectList)
+            {
                 int x = (int) (context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(getString(statusEffectInstance)), true)) - 2);
                 Managers.TEXT.drawString(getLabel(getString(statusEffectInstance)),
                         x,
