@@ -37,6 +37,7 @@ public class Nametags extends ModuleBase {
 
     public BooleanSetting latency = new BooleanSetting("Latency", true, this);
     public BooleanSetting health = new BooleanSetting("Health", true, this);
+    public BooleanSetting totemPops = new BooleanSetting("TotemPops", true, this);
 
     public Nametags() {
         super("Nametags", "Fire", Category.Visual);
@@ -147,7 +148,37 @@ public class Nametags extends ModuleBase {
             name += color + "" + (int) health + " ";
         }
 
+        if (totemPops.value()) {
+            double pops = Managers.OTHER.totemPopMap.get(player.getId());
+
+            Formatting color = getFormatting(pops);
+            name += color + "" + pops + " ";
+        }
+
         return name;
+    }
+
+    private static Formatting getFormatting(double pops) {
+        Formatting color = null;
+        if (pops >= 1) {
+            color = Formatting.GREEN;
+        }
+        if (pops >= 2) {
+            color = Formatting.DARK_GREEN;
+        }
+        if (pops >= 3) {
+            color = Formatting.YELLOW;
+        }
+        if (pops >= 4) {
+            color = Formatting.GOLD;
+        }
+        if (pops >= 5) {
+            color = Formatting.RED;
+        }
+        if (pops >= 6) {
+            color = Formatting.DARK_RED;
+        }
+        return color;
     }
 
     protected int getNameColor(PlayerEntity player) {

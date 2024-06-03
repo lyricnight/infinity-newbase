@@ -16,7 +16,7 @@ import java.util.Map;
  * handles other player totem pops and player deaths
  */
 public final class OtherEntityManager implements IMinecraft {
-    private final Map<Integer, Integer> totemPopMap = new HashMap<>();
+    public final Map<Integer, Integer> totemPopMap = new HashMap<>();
     public void onTotemPop(Entity playerEntity)
     {
         Integer amount = totemPopMap.get(playerEntity.getId());
