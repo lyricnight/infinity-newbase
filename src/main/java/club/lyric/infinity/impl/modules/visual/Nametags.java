@@ -312,15 +312,11 @@ public class Nametags extends ModuleBase {
 
 
     //add exception for when gamemode = null.
-    private String getGamemode(GameMode gamemode, PlayerEntity player) {
-        
-        if (mc.getNetworkHandler() == null)
+    private String getGamemode(GameMode gamemode) {
+
+        if (gamemode == null)
         {
-            PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
-            if (playerListEntry == null)
-            {
-                return " [FuckYou]";
-            }
+            return " [FuckYou]";
         }
 
         return switch (gamemode) { case SURVIVAL -> " [S]"; case CREATIVE -> " [C]"; case SPECTATOR -> " [I]"; case ADVENTURE -> " [A]";};
