@@ -9,6 +9,7 @@ import club.lyric.infinity.api.util.client.render.util.Interpolation;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
+import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.font.TextRenderer;
@@ -311,7 +312,17 @@ public class Nametags extends ModuleBase {
 
 
     //add exception for when gamemode = null.
-    private String getGamemode(GameMode gamemode) {
+    private String getGamemode(GameMode gamemode, PlayerEntity player) {
+        
+        if (mc.getNetworkHandler() == null)
+        {
+            PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
+            if (playerListEntry == null)
+            {
+                return " [FuckYou]";
+            }
+        }
+
         return switch (gamemode) { case SURVIVAL -> " [S]"; case CREATIVE -> " [C]"; case SPECTATOR -> " [I]"; case ADVENTURE -> " [A]";};
     }
 }
