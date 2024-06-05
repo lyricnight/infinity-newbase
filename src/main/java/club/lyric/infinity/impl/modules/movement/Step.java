@@ -33,11 +33,14 @@ public final class Step extends ModuleBase {
     }
 
     @Override
+    public void onUpdate() {
+        if (stopWatch.hasBeen(250)) mc.player.setStepHeight(height.getFValue());
+    }
+
+    @Override
     public void onTickPre()
     {
         if (nullCheck()) return;
-
-        mc.player.setStepHeight(height.getFValue());
 
         if (mode.is("Normal"))
         {

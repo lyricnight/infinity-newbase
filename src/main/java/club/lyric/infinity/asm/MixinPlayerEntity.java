@@ -13,7 +13,7 @@ public class MixinPlayerEntity {
 
     @Inject(method = "clipAtLedge()Z", at = @At("HEAD"), cancellable = true)
     private void clipAtLedge(CallbackInfoReturnable<Boolean> cir) {
-         if (Managers.MODULES.getModuleFromClass(SafeWalk.class).isOn())
+         if (Managers.MODULES.getModuleFromClass(SafeWalk.class).isOn() && Managers.MODULES.getModuleFromClass(SafeWalk.class).mode.is("Normal"))
          {
              cir.setReturnValue(true);
          }

@@ -70,7 +70,8 @@ public final class ModuleManager implements IMinecraft
                 new XCarry(),
                 new RaytraceBypass(),
                 new IRC(),
-                new Freelook()
+                new Freelook(),
+                new ReverseStep()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }

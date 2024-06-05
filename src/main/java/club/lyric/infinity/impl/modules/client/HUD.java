@@ -192,7 +192,7 @@ public final class HUD extends ModuleBase
 
                 if (module.isOn())
                 {
-                    if (cachedModuleAnimation.get(module) < Managers.TEXT.width(text, true) && moduleAnimationTimer.hasBeen((long) 10.0))
+                    if (cachedModuleAnimation.get(module) < Managers.TEXT.width(text, true) && moduleAnimationTimer.hasBeen(1))
                     {
                         cachedModuleAnimation.put(module, (int) (cachedModuleAnimation.get(module) + Managers.TEXT.width(text, true) / 12));
                         moduleAnimationTimer.reset();
@@ -200,15 +200,19 @@ public final class HUD extends ModuleBase
                     if (cachedModuleAnimation.get(module) > Managers.TEXT.width(text, true))
                     {
                         cachedModuleAnimation.put(module, cachedModuleAnimation.get(module) - 1);
+                        moduleAnimationTimer.reset();
                     }
                 }
-                else if (cachedModuleAnimation.get(module) > -8 && moduleAnimationTimer.hasBeen((long) 10.0))
+                else if (cachedModuleAnimation.get(module) > -8 && moduleAnimationTimer.hasBeen(1))
                 {
                     cachedModuleAnimation.put(module, (int) (cachedModuleAnimation.get(module) - Managers.TEXT.width(text, true) / 12));
                     moduleAnimationTimer.reset();
                 }
 
-                if (!module.isOn() && cachedModuleAnimation.get(module) <= -8) continue;
+                if (!module.isOn() && cachedModuleAnimation.get(module) <= -8) {
+                    moduleAnimationTimer.reset();
+                    continue;
+                }
 
                 Managers.TEXT.drawString(getLabel(text),
                         x,

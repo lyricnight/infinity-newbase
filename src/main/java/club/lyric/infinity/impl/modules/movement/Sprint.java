@@ -19,15 +19,9 @@ public final class Sprint extends ModuleBase
     @Override
     public void onUpdate()
     {
-        if (nullCheck())
-        {
-            return;
-        }
+        if (nullCheck()) return;
 
-        if (mc.player.getHungerManager().getFoodLevel() <= 6.0F || mc.player == null || mc.player.isSneaking())
-        {
-            return;
-        }
+        if (mc.player.getHungerManager().getFoodLevel() <= 6.0F || mc.player == null || mc.player.isSneaking()) return;
 
         if (mode.is("Rage")) {
             if (mc.options.forwardKey.isPressed() || mc.options.leftKey.isPressed() || mc.options.rightKey.isPressed() || mc.options.backKey.isPressed()) {
@@ -36,7 +30,7 @@ public final class Sprint extends ModuleBase
         } else if (mode.is("Legit")) {
             try {
                 Robot robot = new Robot();
-                robot.keyPress(mc.options.sprintKey.hashCode());
+                robot.keyPress(mc.options.sprintKey.getDefaultKey().getCode());
             } catch (AWTException e) {
                 Infinity.LOGGER.atError();
             }

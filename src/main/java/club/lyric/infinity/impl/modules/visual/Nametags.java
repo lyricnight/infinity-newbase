@@ -9,7 +9,6 @@ import club.lyric.infinity.api.util.client.render.util.Interpolation;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
-import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.font.TextRenderer;
@@ -89,7 +88,7 @@ public class Nametags extends ModuleBase {
 
         if (dist > 4096.0) return;
 
-        float scale = size.getFValue() / 100 * (float) dist;
+        float scale = size.getFValue() / 50 * (float) dist;
 
         if (dist <= 7) {
             scale = size.getFValue() / 10;
@@ -162,7 +161,7 @@ public class Nametags extends ModuleBase {
 
         int percent = (int) InventoryUtils.getPercent(stack);
 
-        textRenderer.draw(percent + "%", x * 2, y, ColorUtils.toColor(percent / 100.0f * 120.0f, 100.0f, 50.0f, 1.0f).getRGB(), false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
+        textRenderer.draw(percent + "%", x, y, ColorUtils.toColor(percent / 100.0f * 120.0f, 100.0f, 50.0f, 1.0f).getRGB(), false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
 
         RenderSystem.enableDepthTest();
         matrices.pop();
