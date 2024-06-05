@@ -71,7 +71,9 @@ public final class ModuleManager implements IMinecraft
                 new RaytraceBypass(),
                 new IRC(),
                 new Freelook(),
-                new ReverseStep()
+                new ReverseStep(),
+                new BlockHighlight(),
+                new NoRotate()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }
