@@ -3,12 +3,16 @@ package club.lyric.infinity.impl.modules.visual;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
+import club.lyric.infinity.api.util.client.render.colors.JColor;
 import club.lyric.infinity.api.util.client.render.util.Interpolation;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
+import club.lyric.infinity.api.util.minecraft.player.UUIDConverter;
+import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.font.TextRenderer;
@@ -16,9 +20,6 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,9 +28,9 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
-import net.minecraft.world.World;
 
 import java.awt.*;
+import java.util.regex.Pattern;
 
 /**
  * @author vasler
@@ -46,8 +47,12 @@ public class Nametags extends ModuleBase {
     public BooleanSetting latency = new BooleanSetting("Latency", true, this);
     public BooleanSetting health = new BooleanSetting("Health", true, this);
     public BooleanSetting totemPops = new BooleanSetting("TotemPops", true, this);
+    public BooleanSetting rect = new BooleanSetting("Rectangle", true, this);
     public NumberSetting size = new NumberSetting("Size", this, 0.2f, 0.1f, 1.0f, 0.1f);
-
+    public ColorSetting rectColor = new ColorSetting("RectColor", this, new JColor(new Color(64, 64, 124)), false);
+    public ColorSetting lineColor = new ColorSetting("LineColor", this, new JColor(new Color(64, 64, 124)), false);
+    public NumberSetting range = new NumberSetting("Range", this, 300.0f, 10.0f, 300.0f, 1.0f);
+    protected static final Pattern PATTERN = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
     public Nametags() {
         super("Nametags", "Fire", Category.Visual);
     }
@@ -68,8 +73,7 @@ public class Nametags extends ModuleBase {
         }
     }
 
-    private void renderNameTag(PlayerEntity entity, MatrixStack matrices, Vec3d inter)
-    {
+    private void renderNameTag(PlayerEntity entity, MatrixStack matrices, Vec3d inter) {
         Vec3d interpolate = Interpolation.getRenderPosition(entity, mc.getTickDelta());
         Vec3d pos = getCameraPos();
 
@@ -86,7 +90,7 @@ public class Nametags extends ModuleBase {
 
         double dist = MathHelper.sqrt((float) (distX * distX + distY * distY + distZ * distZ));
 
-        if (dist > 4096.0) return;
+        if (dist > range.getIValue()) return;
 
         float scale = size.getFValue() / 50 * (float) dist;
 
@@ -107,27 +111,28 @@ public class Nametags extends ModuleBase {
 
         float height = Managers.TEXT.height(true) + 2.0f;
 
-        Render2DUtils.drawRect(matrices, -Managers.TEXT.width(renderPlayerName(entity), true) / 2 - 2, 0, Managers.TEXT.width(renderPlayerName(entity), true) + 1, height, new Color(0, 4, 0, 85).getRGB());
-        Render2DUtils.drawOutlineRect(matrices, -Managers.TEXT.width(renderPlayerName(entity), true) / 2 - 2, 0, Managers.TEXT.width(renderPlayerName(entity), true) + 1, height, new Color(0, 0, 0, 255).getRGB());
+        if (rect.value()) {
+            Render2DUtils.drawRect(matrices, -Managers.TEXT.width(renderPlayerName(entity), true) / 2 - 2, 0, Managers.TEXT.width(renderPlayerName(entity), true) + 1, height, new Color(rectColor.getColor().getRed(), rectColor.getColor().getGreen(), rectColor.getColor().getBlue(), 85).getRGB());
+            Render2DUtils.drawOutlineRect(matrices, -Managers.TEXT.width(renderPlayerName(entity), true) / 2 - 2, 0, Managers.TEXT.width(renderPlayerName(entity), true) + 1, height, new Color(lineColor.getColor().getRed(), lineColor.getColor().getGreen(), lineColor.getColor().getBlue(), 255).getRGB());
+        }
 
         textRenderer.draw(renderPlayerName(entity), -Managers.TEXT.width(renderPlayerName(entity), true) / 2 + 1, 2, getNameColor(entity), false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
 
-        if (!entity.getMainHandStack().isEmpty())
-        {
+        if (!entity.getMainHandStack().isEmpty()) {
             renderStackName(entity.getMainHandStack(), -height - Managers.TEXT.height(true), matrices, immediate, textRenderer);
         }
 
         int slotIndex = 3;
-        float xPos = 7.5f;
+        float xPos = 0.0f;
 
         while (slotIndex >= 0) {
             ItemStack stack = entity.getInventory().getArmorStack(slotIndex);
             if (!stack.isEmpty()) {
 
                 if (stack.isDamageable()) {
-                    renderDurability(stack, -Managers.TEXT.width(renderPlayerName(entity), true) / 2.0f + xPos, -height, matrices, immediate, textRenderer);
+                    renderDurability(stack, xPos, -height, matrices, immediate, textRenderer);
                 }
-                xPos += 17.0f;
+                xPos += 16.0f;
             }
             slotIndex--;
         }
@@ -161,38 +166,29 @@ public class Nametags extends ModuleBase {
 
         int percent = (int) InventoryUtils.getPercent(stack);
 
-        textRenderer.draw(percent + "%", x, y, ColorUtils.toColor(percent / 100.0f * 120.0f, 100.0f, 50.0f, 1.0f).getRGB(), false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
+        textRenderer.draw(percent + "%", x * 2, y, ColorUtils.toColor(percent / 100.0f * 120.0f, 100.0f, 50.0f, 1.0f).getRGB(), false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
 
         RenderSystem.enableDepthTest();
         matrices.pop();
     }
 
-    private void renderStack(ItemStack stack, ModelTransformationMode renderMode, float x, float y, MatrixStack matrices, VertexConsumerProvider immediate, World world, int seed) {
-        BakedModel bakedModel = mc.getItemRenderer().getModel(stack, world, null, seed);
-        ItemRenderer itemRenderer = mc.getItemRenderer();
-
-        matrices.push();
-        matrices.translate(x, y, 0);
-        matrices.scale(1.0f, 1.0f, 1.0f);
-
-
-        bakedModel.getTransformation().getTransformation(renderMode).apply(false, matrices);
-
-        matrices.push();
-        itemRenderer.renderItem(stack, renderMode, true, matrices, immediate, 0, 0, bakedModel);
-        matrices.pop();
-    }
-
     private String renderPlayerName(PlayerEntity player) {
-        String name = player.getName().getString();
+        String name = player.getName().getString() + " ";
 
         if (name.contains(mc.player.getName().getString())) {
-            name = "You";
+            name = "You ";
+        }
+
+        if (PATTERN.matcher(name).matches())
+        {
+            String playerName = UUIDConverter.getPlayerName(name);
+            if (playerName != null)
+                name = playerName + " ";
         }
 
         if (entityId.value())
         {
-            name += " ID: " + player.getId();
+            name += "ID: " + player.getId();
         }
 
         if (gamemode.value() && mc.getNetworkHandler() != null)
@@ -209,7 +205,7 @@ public class Nametags extends ModuleBase {
             PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
             if (playerListEntry != null)
             {
-                name += " " + getPlayerLatency(player) + "ms";
+                name += getPlayerLatency(player) + "ms ";
             }
         }
 
@@ -230,13 +226,19 @@ public class Nametags extends ModuleBase {
             } else {
                 color = Formatting.DARK_RED;
             }
-            name += " " + color + (int) health + " ";
+            name += color + "" + (int) health + " ";
+        }
+
+        if (totemPops.value())
+        {
+            int pops = Managers.OTHER.getTotemPops(player);
+            name += pops != 0 ? getFormatting(pops) + "-" + pops + " " : "";
         }
 
         return name;
     }
 
-    private static Formatting getFormatting(double pops) {
+    private static Formatting getFormatting(int pops) {
         Formatting color = null;
         if (pops >= 1) {
             color = Formatting.GREEN;
@@ -261,7 +263,7 @@ public class Nametags extends ModuleBase {
 
     protected int getNameColor(PlayerEntity player) {
         if (Managers.FRIENDS.isFriend(player)) {
-            return 0xFF00FF;
+            return Managers.MODULES.getModuleFromClass(Colours.class).friendColor.getColor().getRGB();
         }
 
         if (mc.getNetworkHandler() == null)
@@ -277,11 +279,12 @@ public class Nametags extends ModuleBase {
         }
 
         if (player.isSneaking()) {
-            return 0xFF9900;
+            return Managers.MODULES.getModuleFromClass(Colours.class).sneakColor.getColor().getRGB();
         }
 
         return -1;
     }
+
     public static GameMode getPlayerGamemode(PlayerEntity player) {
         if (player == null) return null;
         PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
@@ -310,14 +313,13 @@ public class Nametags extends ModuleBase {
     }
 
 
-    //add exception for when gamemode = null.
     private String getGamemode(GameMode gamemode) {
 
         if (gamemode == null)
         {
-            return " [FuckYou]";
+            return "[FuckYou] ";
         }
 
-        return switch (gamemode) { case SURVIVAL -> " [S]"; case CREATIVE -> " [C]"; case SPECTATOR -> " [I]"; case ADVENTURE -> " [A]";};
+        return switch (gamemode) { case SURVIVAL -> "[S] "; case CREATIVE -> "[C] "; case SPECTATOR -> "[I] "; case ADVENTURE -> "[A] ";};
     }
 }

@@ -4,6 +4,7 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
+import net.minecraft.client.option.KeyBinding;
 
 import java.awt.*;
 
@@ -28,12 +29,7 @@ public final class Sprint extends ModuleBase
                 mc.player.setSprinting(true);
             }
         } else if (mode.is("Legit")) {
-            try {
-                Robot robot = new Robot();
-                robot.keyPress(mc.options.sprintKey.getDefaultKey().getCode());
-            } catch (AWTException e) {
-                Infinity.LOGGER.atError();
-            }
+            KeyBinding.setKeyPressed(mc.options.sprintKey.getDefaultKey(), true);
         }
     }
 

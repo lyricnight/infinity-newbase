@@ -11,7 +11,6 @@ import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
 
-@Deprecated
 public class Colours extends PersistentModuleBase {
 
     public ModeSetting colorMode = new ModeSetting("Mode", this, "Single", "Single", "Gradient");
@@ -21,6 +20,8 @@ public class Colours extends PersistentModuleBase {
     public ColorSetting color = new ColorSetting("Start", this, new JColor(new Color(104, 71, 141)), false);
     public ColorSetting secondColor = new ColorSetting("End", this, new JColor(new Color(230, 230, 230)), true);
 
+    public ColorSetting friendColor = new ColorSetting("FriendColor", this, new JColor(new Color(180, 180, 255)), true);
+    public ColorSetting sneakColor = new ColorSetting("SneakColor", this, new JColor(new Color(255, 180, 255)), true);
     public Colours() {
         super("Colours", "Colours", Category.Client);
     }

@@ -1,6 +1,7 @@
 package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.Version;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
@@ -27,11 +28,9 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -108,7 +107,7 @@ public final class HUD extends ModuleBase
                             Infinity.VERSION +
                             Formatting.GRAY +
                             " build (" +
-                            new SimpleDateFormat("dd/MM/yyyy").format(new Date()) +
+                            Version.DATE +
                             ")"),
                     2,
                     2,
@@ -233,7 +232,7 @@ public final class HUD extends ModuleBase
                 ItemStack stack = mc.player.getInventory().armor.get(i);
                 if (!stack.isEmpty()) {
                     int y;
-                    if (mc.player.isInsideWaterOrBubbleColumn() && mc.player.getAir() > 0 && !mc.player.isCreative()) {
+                    if (mc.player.isSubmergedInWater() && !mc.player.isCreative()) {
                         y = 65;
                     } else {
                         y = mc.player.isCreative() ? (mc.player.isRiding() ? 45 : 38) : 55;
@@ -241,7 +240,7 @@ public final class HUD extends ModuleBase
                     final float percent = InventoryUtils.getPercent(stack);
                     if (percentage.value()) {
                         context.getMatrices().push();
-                        context.getMatrices().scale(0.75f, 0.75f, 0.75f);
+                        context.getMatrices().scale(0.75f, 0.75f, 1.0f);
                         RenderSystem.disableDepthTest();
                         context.drawTextWithShadow(mc.textRenderer,
                                 Text.of(((int) (percent)) + "%"),
@@ -255,8 +254,8 @@ public final class HUD extends ModuleBase
                         context.getMatrices().pop();
                     }
                     context.getMatrices().push();
-                    context.drawItemInSlot(mc.textRenderer, stack, width / 2 + x, height - y);
                     context.drawItem(stack, width / 2 + x, height - y);
+                    context.drawItemInSlot(mc.textRenderer, stack, width / 2 + x, height - y);
                     context.getMatrices().pop();
                     x += 18;
                 }

@@ -5,11 +5,18 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ColorSetting;
+import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
 import club.lyric.infinity.api.util.client.render.util.Interpolation;
+import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.impl.events.network.PacketEvent;
+import club.lyric.infinity.manager.Managers;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.render.Camera;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -18,10 +25,12 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
@@ -36,6 +45,7 @@ public class ESP extends ModuleBase
     public BooleanSetting pearls = new BooleanSetting("Pearls", true, this);
     public BooleanSetting box = new BooleanSetting("Box", true, this);
     public BooleanSetting chorus = new BooleanSetting("Chorus", true, this);
+    public NumberSetting size = new NumberSetting("Size", this, 0.2f, 0.1f, 1.0f, 0.1f);
 
     public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)), false);
     BlockPos chorusPos;
@@ -70,6 +80,16 @@ public class ESP extends ModuleBase
 
                 renderBox(matrixStack, Interpolation.interpolatedBox(entity, vec3D));
 
+            }
+
+            if (entity instanceof ItemEntity)
+            {
+                Vec3d vec = Interpolation.interpolateEntity(entity);
+
+                ItemStack itemStack = ((ItemEntity) entity).getStack();
+
+
+                //renderNameTag(itemStack.getItem().getName().getString() + " x" + itemStack.getCount(), matrixStack, vec, vec.x, vec.y, vec.z);
             }
 
         }
@@ -122,6 +142,55 @@ public class ESP extends ModuleBase
         matrixStack.pop();
         Render3DUtils.disable3D();
 
+    }
+
+    private void renderNameTag(String name, MatrixStack matrices, Vec3d inter, double x, double y, double z) {
+        Vec3d pos = getCameraPos();
+
+        TextRenderer textRenderer = mc.textRenderer;
+        Render3DUtils.enable3D();
+
+        double distX = (mc.player.getX() - inter.getX()) - x;
+        double distY = (mc.player.getY() - inter.getY()) - y;
+        double distZ = (mc.player.getZ() - inter.getZ()) - z;
+
+        double dist = MathHelper.sqrt((float) (distX * distX + distY * distY + distZ * distZ));
+
+        if (dist > 4096.0) return;
+
+        float scale = size.getFValue() / 50 * (float) dist;
+
+        if (dist <= 7) {
+            scale = size.getFValue() / 10;
+        }
+
+        matrices.push();
+        matrices.translate(
+                x - pos.getX(),
+                y + 0.5f - pos.getY(),
+                z - pos.getZ()
+        );
+        matrices.multiply(mc.getEntityRenderDispatcher().camera.getRotation());
+        matrices.scale(-scale, -scale, scale);
+
+        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+
+        textRenderer.draw(name, -Managers.TEXT.width(name, true) / 2 + 1, 2, -1, false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
+
+        immediate.draw();
+        matrices.pop();
+        Render3DUtils.disable3D();
+    }
+
+    public static Vec3d getCameraPos()
+    {
+        Camera camera = mc.getBlockEntityRenderDispatcher().camera;
+        if (camera == null)
+        {
+            return Vec3d.ZERO;
+        }
+
+        return camera.getPos();
     }
 
 

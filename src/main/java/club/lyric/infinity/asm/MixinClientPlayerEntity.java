@@ -10,6 +10,7 @@ import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
 import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.impl.modules.movement.Sprint;
 import club.lyric.infinity.manager.Managers;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -76,10 +77,11 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
         }
     }
 
-    @Redirect(method = {"tickMovement"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/input/Input;hasForwardMovement()Z"))
-    private boolean rageSprinting(Input put)
-    {
-        return !Managers.MODULES.getModuleFromClass(Sprint.class).isOn() || !Managers.MODULES.getModuleFromClass(Sprint.class).mode.is("Rage") || mc.player.forwardSpeed == 0.0f && mc.player.sidewaysSpeed == 0.0f ? this.input.hasForwardMovement() : true;
+    @ModifyExpressionValue(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/input/Input;hasForwardMovement()Z"))
+    private boolean modifyMovement(boolean original) {
+        return Managers.MODULES.getModuleFromClass(Sprint.class).isOn()
+                && Managers.MODULES.getModuleFromClass(Sprint.class).mode.is("Rage")
+                && (mc.player.forwardSpeed != 0.0f || mc.player.sidewaysSpeed != 0.0f) || input.hasForwardMovement();
     }
 
     @Inject(method = "sendMovementPackets", at = @At(value = "HEAD"), cancellable = true)

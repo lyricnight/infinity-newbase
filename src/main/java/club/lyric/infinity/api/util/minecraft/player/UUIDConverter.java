@@ -1,0 +1,38 @@
+package club.lyric.infinity.api.util.minecraft.player;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
+
+import club.lyric.infinity.Infinity;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+public class UUIDConverter {
+
+    public static String getPlayerName(String uuid)
+    {
+        String url = "https://api.mojang.com/user/profiles/" + uuid.replace("-", "") + "/names";
+
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+
+            Scanner scanner = new Scanner(connection.getInputStream());
+            String response = scanner.useDelimiter("\\A").next();
+            scanner.close();
+
+            JsonObject jsonObject = JsonParser.parseString(response).getAsJsonArray().get(0).getAsJsonObject();
+            String name = jsonObject.get("name").getAsString();
+
+            return name;
+
+        } catch (IOException e) {
+            Infinity.LOGGER.error(e);
+        }
+
+        return null;
+    }
+}

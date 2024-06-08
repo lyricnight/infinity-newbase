@@ -18,7 +18,7 @@ import java.io.File;
 
 public class Infinity implements ModInitializer, ClientModInitializer, IMinecraft {
 	public static final String CLIENT_NAME = "Infinity";
-	public static final String VERSION = " v1.0.2";
+	public static final String VERSION = " v" + Version.VERSION;
     public static final Logger LOGGER = LogManager.getLogger("Infinity");
 	private static final String tempFolderDirectory = System.getProperty("java.io.tmpdir");
 	private static final File dir = new File(tempFolderDirectory, "infinity");

@@ -74,6 +74,7 @@ public class Render2DUtils implements IMinecraft
         setup();
         RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
+        bufferBuilder.vertex(matrix, x, y, 0.0F).color(r, g, b, a).next();
         bufferBuilder.vertex(matrix, x, y + height, 0.0F).color(r, g, b, a).next();
         bufferBuilder.vertex(matrix, x + width, y + height, 0.0F).color(r, g, b, a).next();
         bufferBuilder.vertex(matrix, x + width, y, 0.0F).color(r, g, b, a).next();

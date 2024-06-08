@@ -4,7 +4,10 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
 
+import imgui.ImDrawList;
 import imgui.ImGui;
+import imgui.ImVec2;
+import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiDataType;
 import imgui.type.ImDouble;
 import imgui.type.ImInt;
@@ -47,6 +50,7 @@ public class NumberSetting extends Setting implements Renderable {
     public double getValue() {
         return this.value;
     }
+
     public float getFValue() {
         return (float) this.value;
     }
@@ -96,7 +100,15 @@ public class NumberSetting extends Setting implements Renderable {
     public void render() {
         ImGui.pushID(moduleBase.getName() + "/" + name);
 
-        ImGui.text(name);
+        ImGui.text(name + ": ");
+
+        ImGui.sameLine();
+        if (decimal) {
+            ImGui.text(String.format("%.2f", value));
+        } else {
+            ImGui.text(String.format("%d", (int) value));
+        }
+
         boolean changed;
 
         if (decimal) {
@@ -106,7 +118,7 @@ public class NumberSetting extends Setting implements Renderable {
             changed = ImGui.sliderScalar("", ImGuiDataType.Double, val, minimum, maximum, "%.2f");
             ImGui.popItemWidth();
 
-            if (changed) value = val.doubleValue();
+            if (changed) value = val.get();
         } else {
             ImInt val = new ImInt((int) value);
 
@@ -114,8 +126,9 @@ public class NumberSetting extends Setting implements Renderable {
             changed = ImGui.sliderScalar("", ImGuiDataType.S32, val, (int) minimum, (int) maximum);
             ImGui.popItemWidth();
 
-            if (changed) this.value = val.doubleValue();
+            if (changed) this.value = val.get();
         }
+
         ImGui.popID();
     }
 }

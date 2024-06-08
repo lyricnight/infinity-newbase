@@ -1,5 +1,6 @@
 package club.lyric.infinity.asm;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.screen.SplashTextRenderer;
@@ -24,7 +25,7 @@ public class MixinSplashTextResourceSupplier implements IMinecraft {
     private void onApply(CallbackInfoReturnable<SplashTextRenderer> cir) {
         if (Managers.CONFIG == null || Managers.MODULES == null) return;
 
-        if (applied) cir.setReturnValue(new SplashTextRenderer(Formatting.BOLD + "" + Formatting.DARK_PURPLE + "Welcome to Infinity v1.0.2."));
+        if (applied) cir.setReturnValue(new SplashTextRenderer(Formatting.BOLD + "" + Formatting.DARK_PURPLE + "Welcome to Infinity " + Infinity.VERSION));
         applied = !applied;
     }
 }

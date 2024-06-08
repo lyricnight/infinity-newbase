@@ -41,6 +41,12 @@ public final class OtherEntityManager implements IMinecraft {
         totemPopMap.clear();
     }
 
+
+    public int getTotemPops(PlayerEntity playerEntity)
+    {
+        return totemPopMap.getOrDefault(playerEntity.getId(), 0);
+    }
+
     public Formatting getAppropriateFormatting(PlayerEntity player)
     {
         if (player == mc.player)

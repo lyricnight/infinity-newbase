@@ -57,13 +57,12 @@ public class Offhand extends ModuleBase
 
         int slot = getItemSlot(item);
 
-        if (slot != -1) return;
+        if (slot == -1) return;
 
         // drags a new item to the offhand slot
         send(new ClickSlotC2SPacket(0, screenHandler.getRevision(), slot, 0, SlotActionType.PICKUP, screenHandler.getCursorStack().copy(), int2ObjectMap));
         send(new ClickSlotC2SPacket(0, screenHandler.getRevision(), 45, 0, SlotActionType.PICKUP, screenHandler.getCursorStack().copy(), int2ObjectMap));
         send(new ClickSlotC2SPacket(0, screenHandler.getRevision(), slot, 0, SlotActionType.PICKUP, screenHandler.getCursorStack().copy(), int2ObjectMap));
-
 
     }
 

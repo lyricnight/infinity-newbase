@@ -12,7 +12,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
 
 /**
  * @author vasler, zenov
@@ -22,13 +21,14 @@ import net.minecraft.util.math.Vec3d;
 @SuppressWarnings({"unused"})
 public class Speed extends ModuleBase {
 
-    public ModeSetting mode = new ModeSetting("Mode", this, "Strafe", "Strafe", "Jump", "Grim");
+    public ModeSetting mode = new ModeSetting("Mode", this, "Strafe", "Strafe", "Jump", "Grim", "StrictFast");
     public BooleanSetting timer = new BooleanSetting("Timer", true, this);
     public BooleanSetting inLiquids = new BooleanSetting("InLiquids", true, this);
     double speed = 0.0;
     double distance = 0.0;
     int stage = 0;
     boolean boost = false;
+    double strictTicks;
 
     public Speed() {
         super("Speed", "Increases your speed.", Category.Movement);
@@ -128,6 +128,77 @@ public class Speed extends ModuleBase {
 
                 speed = Math.min(speed, MovementUtil.calcEffects(10.0));
                 speed = Math.max(speed, MovementUtil.calcEffects(0.2873));
+
+                MovementUtil.strafe(event, speed);
+
+                mc.player.setVelocity(0.0, velocityY, 0.0);
+                event.setY(velocityY);
+                stage++;
+
+            }
+        }
+        else if (mode.is("StrictFast"))
+        {
+            if (mc.player.fallDistance <= 5.0 && MovementUtil.movement())
+            {
+
+                double velocityY = mc.player.getVelocity().y;
+
+                if (stage == 1)
+                {
+
+                    speed *= 1.35f * MovementUtil.calcEffects(2873.0) - 0.01;
+
+                }
+                else if (stage == 2)
+                {
+
+                    velocityY = 0.3999999463558197f;
+
+                    if (boost)
+                    {
+
+                        speed *= 1.6835;
+
+                    }
+                    else
+                    {
+
+                        speed *= 1.395;
+
+                    }
+
+                    boost = !boost;
+                }
+                else if (stage == 3)
+                {
+
+                    speed = distance - 0.66 * (distance - MovementUtil.calcEffects(0.2873));
+
+                }
+                else
+                {
+                    if ((!mc.world.isSpaceEmpty(mc.player, mc.player.getBoundingBox().offset(0, mc.player.getVelocity().getY(), 0)) || mc.player.verticalCollision) && stage > 0)
+                    {
+
+                        stage = 1;
+
+                    }
+
+                    speed = distance - distance / 159.0;
+                }
+
+                strictTicks++;
+
+                speed = Math.min(speed, MovementUtil.calcEffects(10.0));
+                speed = Math.max(speed, MovementUtil.calcEffects(0.2873));
+
+                speed = Math.min(speed, strictTicks > 25 ? 0.465 : 0.44);
+
+                if (strictTicks > 50)
+                {
+                    strictTicks = 0;
+                }
 
                 MovementUtil.strafe(event, speed);
 

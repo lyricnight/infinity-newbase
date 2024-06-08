@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 plugins {
 	id 'fabric-loom' version '1.4-SNAPSHOT'
 	id 'maven-publish'
@@ -21,9 +23,25 @@ repositories {
 	}
 }
 
+def currentDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date())
+
 compileJava {
 	// unicode fixer
 	options.encoding 'UTF-8'
+
+	doLast {
+		def versionFile = new File(project.projectDir, 'src/main/java/club/lyric/infinity/Version.java')
+		versionFile.parentFile.mkdirs()
+		versionFile.text = "package club.lyric.infinity;\n" +
+				"\npublic class Version {\n" +
+				"    public static final String VERSION = \"${project.mod_version}\";\n" +
+				"    public static final String DATE = \"${currentDate}\";\n" +
+				"}\n"
+	}
+}
+
+ext {
+	currentDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date())
 }
 
 dependencies {

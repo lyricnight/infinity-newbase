@@ -61,10 +61,12 @@ public class BooleanSetting extends Setting implements Renderable {
     {
         ImGui.pushID(moduleBase.getName() + "/" + name);
 
-        ImGui.text(name);
-        if (ImGui.checkbox("", value)) {
+        if (ImGui.checkbox("", value))
+        {
             setValue(!value);
         }
+        ImGui.sameLine();
+        ImGui.text(name);
 
         ImGui.popID();
     }

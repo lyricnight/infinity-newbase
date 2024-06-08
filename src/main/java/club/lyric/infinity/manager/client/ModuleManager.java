@@ -73,7 +73,9 @@ public final class ModuleManager implements IMinecraft
                 new Freelook(),
                 new ReverseStep(),
                 new BlockHighlight(),
-                new NoRotate()
+                new NoRotate(),
+                new AntiLevitation(),
+                new Particles()
         );
         Infinity.LOGGER.info("Initialising modules.");
     }
