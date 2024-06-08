@@ -2,6 +2,8 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.util.client.gui.IMLoader;
 import club.lyric.infinity.api.util.client.gui.InfinityGUI;
+import club.lyric.infinity.api.util.client.gui.Menu;
+import club.lyric.infinity.api.util.client.gui.Tabs;
 import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.Mouse;
@@ -26,11 +28,17 @@ public class MixinMouse {
     @Inject(method = "onMouseScroll", at = @At("HEAD"), cancellable = true)
     private void onMouseScroll(long window, double horizontal, double vertical, CallbackInfo ci) {
         if (Managers.MODULES.getModuleFromClass(ClickGui.class).isOn()) {
-            double scrollY = vertical * 30;
-            if (IMLoader.isRendered(InfinityGUI.getInstance())) {
-                InfinityGUI.getInstance().locY -= (float) scrollY;
+            double scrollPos = vertical * 30;
+            if (IMLoader.isRendered(Menu.getInstance()))
+            {
+                for (Tabs tabsVar : Menu.getInstance().tabs)
+                {
+                    if (tabsVar.isFocused())
+                    {
+                        tabsVar.scrollPos -= (float) scrollPos;
+                    }
+                }
             }
-            ci.cancel();
         }
     }
 }

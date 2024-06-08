@@ -1,12 +1,11 @@
 package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
+import club.lyric.infinity.api.util.client.gui.Menu;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ColorSetting;
-import club.lyric.infinity.api.util.client.gui.InfinityGUI;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
 import org.lwjgl.glfw.GLFW;
 
@@ -32,7 +31,7 @@ public final class ClickGui extends ModuleBase {
             disable();
             return;
         }
-        InfinityGUI.getInstance().toggle();
+        Menu.getInstance().toggle();
         mc.mouse.unlockCursor();
     }
 
@@ -42,7 +41,7 @@ public final class ClickGui extends ModuleBase {
             return;
         }
         mc.setScreenAndRender(null);
-        InfinityGUI.getInstance().toggle();
+        Menu.getInstance().toggle();
         if (mc.currentScreen == null) mc.mouse.lockCursor();
     }
 

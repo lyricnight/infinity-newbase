@@ -11,7 +11,7 @@ import club.lyric.infinity.api.util.client.render.util.Interpolation;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
-import club.lyric.infinity.api.util.minecraft.player.UUIDConverter;
+import club.lyric.infinity.api.util.client.web.UUIDConverter;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;

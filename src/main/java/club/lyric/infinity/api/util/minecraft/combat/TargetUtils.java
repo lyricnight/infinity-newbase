@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.util.client.combat;
+package club.lyric.infinity.api.util.minecraft.combat;
 
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;

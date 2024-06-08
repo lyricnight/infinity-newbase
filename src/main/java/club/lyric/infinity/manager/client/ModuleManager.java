@@ -47,7 +47,6 @@ public final class ModuleManager implements IMinecraft
                 new AutoCrystal(),
                 new Resolver(),
                 new Delays(),
-                new GuiRewrite(),
                 new Colours(),
                 new Nametags(),
                 new Velocity(),

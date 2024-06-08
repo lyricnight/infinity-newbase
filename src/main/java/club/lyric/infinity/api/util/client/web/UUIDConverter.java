@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.util.minecraft.player;
+package club.lyric.infinity.api.util.client.web;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
