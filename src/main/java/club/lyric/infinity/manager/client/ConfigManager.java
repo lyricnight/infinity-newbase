@@ -1,10 +1,12 @@
 package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.*;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
+import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.manager.Managers;
 import com.google.gson.*;
 import imgui.ImGui;
@@ -17,7 +19,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,8 @@ public final class ConfigManager {
     public final Map<Path, ConfigProfile> profiles = new HashMap<>();
     private final Map<String, ConfigProfile> profilesByName = new HashMap<>();
     private String[] namesArray;
+
+    private boolean rendering = false;
 
     public ConfigManager() {
         String tempFolderDirectory = System.getProperty("java.io.tmpdir");
@@ -119,6 +122,7 @@ public final class ConfigManager {
     private final ImString currentString = new ImString();
 
     public void renderGui() {
+        rendering = true;
         ImGui.pushID("ConfigGUI/ConfigSelector");
 
         ImGui.text("Config");
@@ -303,6 +307,19 @@ public final class ConfigManager {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    /**
+     * prevents mc from messing things up ig
+     * @param event - keypressevent
+     */
+    @EventHandler
+    public void onKeyPress(KeyPressEvent event)
+    {
+        if (rendering)
+        {
+            event.setCancelled(true);
         }
     }
 }
