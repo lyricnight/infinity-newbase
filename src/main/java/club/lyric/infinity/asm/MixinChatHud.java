@@ -3,15 +3,19 @@ package club.lyric.infinity.asm;
 import club.lyric.infinity.api.ducks.IChatHud;
 import club.lyric.infinity.api.ducks.IChatHudLine;
 import club.lyric.infinity.api.event.bus.EventBus;
+import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.mc.chat.ReceiveChatEvent;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.impl.modules.visual.Chat;
 import club.lyric.infinity.manager.Managers;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -47,6 +51,9 @@ public abstract class MixinChatHud implements IChatHud, IMinecraft {
     private int idConcurrent;
     @Unique
     private boolean addText;
+
+    @Unique
+    private TextFieldWidget chatField;
 
     @Shadow
     protected abstract void addMessage(Text message, @Nullable MessageSignatureData messageSignatureData, int ticks, @Nullable MessageIndicator messageIndicator, boolean refresh);
@@ -96,6 +103,7 @@ public abstract class MixinChatHud implements IChatHud, IMinecraft {
             }
         }
     }
+
 
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;isChatFocused()Z"), locals = LocalCapture.CAPTURE_FAILSOFT)
     private void onBreakChatMessageLines(Text message, MessageSignatureData signature, int ticks, MessageIndicator indicator, boolean refresh, CallbackInfo ci, int i, List<OrderedText> list) {

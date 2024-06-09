@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinBiomeColors {
 
 
-    @Inject(method = "getColor", at = @At("HEAD"), cancellable = true)
+    /**@Inject(method = "getColor", at = @At("HEAD"), cancellable = true)
     private static void getColor(BlockRenderView world, BlockPos pos, ColorResolver resolver, CallbackInfoReturnable<Integer> cir)
     {
         if (Managers.MODULES.getModuleFromClass(Ambience.class).isOn())
@@ -48,5 +48,5 @@ public class MixinBiomeColors {
         {
             cir.setReturnValue(Managers.MODULES.getModuleFromClass(Ambience.class).color.getColor().getRGB());
         }
-    }
+    }*/
 }

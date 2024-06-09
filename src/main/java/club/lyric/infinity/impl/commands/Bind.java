@@ -2,51 +2,75 @@ package club.lyric.infinity.impl.commands;
 
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.command.CommandState;
+import club.lyric.infinity.api.event.bus.EventBus;
+import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.math.StopWatch;
+import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.manager.Managers;
+import net.minecraft.util.Formatting;
 import org.lwjgl.glfw.GLFW;
 
+import java.io.FileOutputStream;
+
 public class Bind extends Command {
+
+    protected ModuleBase moduleBase;
+    protected boolean keyPressEnable;
+    //protected StopWatch stopWatch = new StopWatch.Single();
+
     public Bind()
     {
         super("bind");
+        EventBus.getInstance().register(this);
     }
 
     @Override
     public String theCommand()
     {
-        return "bind <module> <key>";
+        return "bind <module>";
     }
 
     @Override
     public void onCommand(String[] args) {
-        if (args.length > 3 || args.length < 1)
+        if (args.length > 2 || args.length < 1)
         {
             state(CommandState.ERROR);
             return;
         }
 
-        ModuleBase module = Managers.MODULES.getModuleByName(args[1]);
+        moduleBase = Managers.MODULES.getModuleByName(args[1]);
 
-        if (module == null)
+        if (moduleBase == null)
         {
             state(CommandState.ERROR);
             return;
         }
 
-        int bind = getKey(args[2]);
+        ChatUtils.sendOverwriteMessageColored("Press any " + Formatting.WHITE + "key" + Formatting.RESET + " on your keyboard.", 8948);
 
-        module.setBind(bind);
-    }
-
-    public int getKey(String bind) {
-        for (int key = 39; key < 97; key++)
-        {
-            if (bind.equalsIgnoreCase(GLFW.glfwGetKeyName(key, GLFW.glfwGetKeyScancode(key))))
-            {
-                return key;
+        // stopwatch doesnt work here so
+        new Thread(() -> {
+            try {
+                Thread.sleep(500);
+                keyPressEnable = true;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }
-        return GLFW.GLFW_KEY_UNKNOWN;
+        }).start();
+
     }
+
+    @EventHandler
+    public void onKeyPress(KeyPressEvent event) {
+
+        if (!keyPressEnable) return;
+
+        keyPressEnable = false;
+
+        moduleBase.setBind(event.getKey());
+        ChatUtils.sendOverwriteMessageColored("The bind for " + moduleBase.getName() + " has changed to " + Formatting.WHITE + event.getKey() + Formatting.RESET + ".", 8948);
+    }
+
 }

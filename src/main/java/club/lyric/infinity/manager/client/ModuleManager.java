@@ -76,6 +76,7 @@ public final class ModuleManager implements IMinecraft
                 new AntiLevitation(),
                 new Particles()
         );
+        modules.sort(Comparator.comparing(ModuleBase::getName));
         Infinity.LOGGER.info("Initialising modules.");
     }
 

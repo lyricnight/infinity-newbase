@@ -28,7 +28,8 @@ public class Command {
         return command;
     }
 
-    public String theCommand() {
+    public String theCommand()
+    {
         return "";
     }
 

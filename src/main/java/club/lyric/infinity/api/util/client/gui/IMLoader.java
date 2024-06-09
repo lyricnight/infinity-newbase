@@ -22,16 +22,7 @@ public class IMLoader implements IMinecraft {
     private static final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
     private static final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
     private static ImFont customFont;
-    private static ImFont bigCustomFont;
-    private static ImFont biggerCustomFont;
-    private static ImFont normalDosisFont;
-    private static ImFont dosisFont;
-    private static ImFont bigDosisFont;
-    private static ImFont biggerDosisFont;
-    private static ImFont fontAwesome;
-    private static ImFont normalFontAwesome;
-    private static ImFont bigFontAwesome;
-    private static ImFont biggerFontAwesome;
+    private static ImFont customFontSemiBold;
 
     public static void onGlfwInit(long handle) {
         initializeImGui();
@@ -86,56 +77,32 @@ public class IMLoader implements IMinecraft {
         iconsConfig.setOversampleV(3);
 
         final ImFontAtlas fontAtlas = io.getFonts();
-        final ImFontConfig fontConfig = new ImFontConfig(); // Natively allocated object, should be explicitly destroyed
+        final ImFontConfig fontConfig = new ImFontConfig();
 
         fontAtlas.addFontDefault();
         fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesCyrillic());
-        byte[] fontAwesomeData = null;
-        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/FontAwesome6-Solid.otf")) {
+
+        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/PublicSans-SemiBold.ttf")) {
             if (is != null) {
-                fontAwesomeData = is.readAllBytes();
+                byte[] fontData = is.readAllBytes();
+
+                customFontSemiBold = fontAtlas.addFontFromMemoryTTF(fontData, 20);
             }
         } catch (IOException ignored) {
             Infinity.LOGGER.atError();
         }
 
-        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/museo-sans-rounded-500.ttf")) {
+        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/PublicSans-Regular.ttf")) {
             if (is != null) {
                 byte[] fontData = is.readAllBytes();
 
                 customFont = fontAtlas.addFontFromMemoryTTF(fontData, 18);
-                bigCustomFont = fontAtlas.addFontFromMemoryTTF(fontData, 21);
-                biggerCustomFont = fontAtlas.addFontFromMemoryTTF(fontData, 32);
             }
         } catch (IOException ignored) {
             Infinity.LOGGER.atError();
         }
-
-        byte[] dosisFontData = null;
-        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/Museo-Sans-Cyrl-900.ttf")) {
-            if (is != null) {
-                dosisFontData = is.readAllBytes();
-
-                normalDosisFont = fontAtlas.addFontFromMemoryTTF(dosisFontData, 20);
-                bigDosisFont = fontAtlas.addFontFromMemoryTTF(dosisFontData, 24);
-                biggerDosisFont = fontAtlas.addFontFromMemoryTTF(dosisFontData, 32);
-                dosisFont = fontAtlas.addFontFromMemoryTTF(dosisFontData, 18);
-            }
-        } catch (IOException ignored) {
-            Infinity.LOGGER.atError();
-        }
-        fontAwesome = fontAtlas.addFontFromMemoryTTF(fontAwesomeData, 20, iconsConfig, iconRange);
-
 
         fontConfig.setMergeMode(true); // When enabled, all fonts added with this config would be merged with the previously added font
-        dosisFont = fontAtlas.addFontFromMemoryTTF(dosisFontData, 18);
-        fontAwesome = fontAtlas.addFontFromMemoryTTF(fontAwesomeData, 18, iconsConfig, iconRange);
-        bigDosisFont = fontAtlas.addFontFromMemoryTTF(dosisFontData, 24);
-        bigFontAwesome = fontAtlas.addFontFromMemoryTTF(fontAwesomeData, 24, iconsConfig, iconRange);
-        biggerDosisFont = fontAtlas.addFontFromMemoryTTF(dosisFontData, 32);
-        biggerFontAwesome = fontAtlas.addFontFromMemoryTTF(fontAwesomeData, 32, iconsConfig, iconRange);
-        normalDosisFont = fontAtlas.addFontFromMemoryTTF(dosisFontData, 20);
-        normalFontAwesome = fontAtlas.addFontFromMemoryTTF(fontAwesomeData, 20, iconsConfig, iconRange);
         fontConfig.destroy();
         fontAtlas.build();
 
@@ -176,48 +143,13 @@ public class IMLoader implements IMinecraft {
         return renderstack.contains(renderable);
     }
 
-    public static ImFont getBigCustomFont() {
-        return bigCustomFont;
-    }
-
-    public static ImFont getBigDosisFont() {
-        return bigDosisFont;
-    }
-
-    public static ImFont getBigFontAwesome() {
-        return bigFontAwesome;
-    }
-
-    public static ImFont getBiggerCustomFont() {
-        return biggerCustomFont;
-    }
-
-    public static ImFont getBiggerDosisFont() {
-        return biggerDosisFont;
-    }
-
-    public static ImFont getBiggerFontAwesome() {
-        return biggerFontAwesome;
-    }
-
     public static ImFont getCustomFont() {
         return customFont;
     }
 
-    public static ImFont getDosisFont() {
-        return dosisFont;
+    public static ImFont getCustomFontSemiBold() {
+        return customFontSemiBold;
     }
 
-    public static ImFont getFontAwesome() {
-        return fontAwesome;
-    }
-
-    public static ImFont getNormalDosisFont() {
-        return normalDosisFont;
-    }
-
-    public static ImFont getNormalFontAwesome() {
-        return normalFontAwesome;
-    }
     private IMLoader() {}
 }

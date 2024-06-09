@@ -1,7 +1,6 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.util.client.gui.IMLoader;
-import club.lyric.infinity.api.util.client.gui.InfinityGUI;
 import club.lyric.infinity.api.util.client.gui.Menu;
 import club.lyric.infinity.api.util.client.gui.Tabs;
 import club.lyric.infinity.impl.modules.client.ClickGui;

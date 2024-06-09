@@ -25,7 +25,9 @@ public final class CommandManager implements IMinecraft {
                 new Friend(),
                 new List(),
                 new Identifier(),
-                new Toggle()
+                new Toggle(),
+                new Watermark(),
+                new Bind()
         );
     }
 

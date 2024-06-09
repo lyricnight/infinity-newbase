@@ -25,7 +25,7 @@ public final class Menu implements RenderableElement {
             for (Category category : Category.values())
             {
                 INSTANCE.tabs.add(new Tabs(category, x, 10f));
-                x += 200f;
+                x += 240f;
             }
         }
         return INSTANCE;
@@ -67,19 +67,17 @@ public final class Menu implements RenderableElement {
                 float[] bColor = JColor.getGuiColor().jBrighter().getFloatColor();
                 float[] dColor = JColor.getGuiColor().jDarker().getFloatColor();
 
-                colors[ImGuiCol.Text] = new float[]{0.80f, 0.84f, 0.96f, 1.00f};
-                colors[ImGuiCol.TextDisabled] = new float[]{0.42f, 0.44f, 0.53f, 1.00f};
-                colors[ImGuiCol.WindowBg] = new float[]{0.07f, 0.07f, 0.11f, 1.00f};
+                colors[ImGuiCol.Text] = new float[]{1.00f, 1.00f, 1.00f, 1.00f};
+                colors[ImGuiCol.TextDisabled] = new float[]{0.41f, 0.41f, 0.41f, 1.00f};
+                colors[ImGuiCol.WindowBg] = new float[]{0.0392f, 0.0392f, 0.0392f, 1.00f};
                 colors[ImGuiCol.ChildBg] = new float[]{0.09f, 0.09f, 0.15f, 0.00f};
                 colors[ImGuiCol.PopupBg] = new float[]{0.09f, 0.09f, 0.15f, 0.94f};
-                colors[ImGuiCol.Border] = new float[]{0.42f, 0.44f, 0.53f, 0.50f};
-                colors[ImGuiCol.BorderShadow] = new float[]{0.07f, 0.07f, 0.11f, 0.00f};
                 colors[ImGuiCol.FrameBg] = new float[]{color[0], color[1], color[2], 0.54f};
                 colors[ImGuiCol.FrameBgHovered] = new float[]{color[0], color[1], color[2], 0.40f};
                 colors[ImGuiCol.FrameBgActive] = new float[]{color[0], color[1], color[2], 0.67f};
-                colors[ImGuiCol.TitleBg] = new float[]{0.09f, 0.09f, 0.15f, 1.00f};
-                colors[ImGuiCol.TitleBgActive] = new float[]{0.12f, 0.12f, 0.18f, 1.00f};
-                colors[ImGuiCol.TitleBgCollapsed] = new float[]{0.09f, 0.09f, 0.15f, 0.75f};
+                colors[ImGuiCol.TitleBg] = new float[]{0.0392f, 0.0392f, 0.0392f, 1.00f};
+                colors[ImGuiCol.TitleBgActive] = new float[]{0.0392f, 0.0392f, 0.0392f, 1.00f};
+                colors[ImGuiCol.TitleBgCollapsed] = new float[]{0.0392f, 0.0392f, 0.0392f, 1.00f};
                 colors[ImGuiCol.MenuBarBg] = new float[]{0.16f, 0.17f, 0.24f, 1.00f};
                 colors[ImGuiCol.ScrollbarBg] = new float[]{0.14f, 0.15f, 0.20f, 0.53f};
                 colors[ImGuiCol.ScrollbarGrab] = new float[]{0.25f, 0.27f, 0.35f, 1.00f};
@@ -91,8 +89,8 @@ public final class Menu implements RenderableElement {
                 colors[ImGuiCol.Button] = new float[]{color[0], color[1], color[2], 0.59f};
                 colors[ImGuiCol.ButtonHovered] = new float[]{color[0], color[1], color[2], 0.9f};
                 colors[ImGuiCol.ButtonActive] = new float[]{color[0], color[1], color[2], 1.00f};
-                colors[ImGuiCol.Header] = new float[]{color[0], color[1], color[2], 0.9f};
-                colors[ImGuiCol.HeaderHovered] = new float[]{color[0], color[1], color[2], 0.95f};
+                colors[ImGuiCol.Header] = new float[]{0.0392f, 0.0392f, 0.0392f, 1.00f};
+                colors[ImGuiCol.HeaderHovered] = new float[]{color[0], color[1], color[2], 0.00f};
                 colors[ImGuiCol.HeaderActive] = new float[]{bColor[0], bColor[1], bColor[2], 1.00f};
                 colors[ImGuiCol.Separator] = new float[]{0.45f, 0.47f, 0.58f, 0.50f};
                 colors[ImGuiCol.SeparatorHovered] = new float[]{0.76f, 0.17f, 0.30f, 0.78f};
@@ -124,16 +122,15 @@ public final class Menu implements RenderableElement {
                 colors[ImGuiCol.ModalWindowDimBg] = new float[]{0.80f, 0.80f, 0.80f, 0.35f};
                 ImGui.getStyle().setColors(colors);
 
-                ImGui.getStyle().setWindowRounding(8);
-                ImGui.getStyle().setFrameRounding(4);
-                ImGui.getStyle().setGrabRounding(4);
-                ImGui.getStyle().setPopupRounding(4);
+                ImGui.getStyle().setWindowRounding(6);
+                ImGui.getStyle().setFrameRounding(2);
+                ImGui.getStyle().setGrabRounding(2);
+                ImGui.getStyle().setPopupRounding(2);
                 ImGui.getStyle().setScrollbarSize(10);
                 ImGui.getStyle().setScrollbarRounding(4);
-                ImGui.getStyle().setTabRounding(4);
-                ImGui.getStyle().setWindowTitleAlign(0.5f, 0.5f);
-                if (IMLoader.getNormalFontAwesome() != null) {
-                    ImGui.pushFont(IMLoader.getNormalFontAwesome());
+                ImGui.getStyle().setTabRounding(2);
+                if (IMLoader.getCustomFont() != null) {
+                    ImGui.pushFont(IMLoader.getCustomFont());
                 }
 
             }

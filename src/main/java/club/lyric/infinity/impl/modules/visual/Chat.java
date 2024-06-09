@@ -4,7 +4,9 @@ import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.util.client.render.anim.Animation;
+import club.lyric.infinity.api.util.client.render.colors.JColor;
 import club.lyric.infinity.impl.events.mc.chat.ReceiveChatEvent;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.impl.modules.client.Colours;
@@ -17,6 +19,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -64,7 +67,6 @@ public final class Chat extends ModuleBase {
                     this
             );
 
-
     public BooleanSetting keep = new BooleanSetting("Keep", false, this);
 
     // for timestamps
@@ -96,6 +98,8 @@ public final class Chat extends ModuleBase {
     @EventHandler
     public void onChat(ReceiveChatEvent event)
     {
+        if (nullCheck()) return;
+
         if (!repetition.value())
         {
             Text message = event.getMessage();

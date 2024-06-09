@@ -1,5 +1,6 @@
 package club.lyric.infinity.asm;
 
+import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.visual.Chat;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.screen.ChatScreen;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @see club.lyric.infinity.impl.modules.visual.Chat
  */
 @Mixin(value = ChatScreen.class)
-public abstract class MixinChatScreen {
+public abstract class MixinChatScreen implements IMinecraft {
     @Shadow
     protected TextFieldWidget chatField;
 
@@ -24,4 +25,5 @@ public abstract class MixinChatScreen {
     private void onInit(CallbackInfo info) {
         if (Managers.MODULES.getModuleFromClass(Chat.class).infiniteMessages.value()) chatField.setMaxLength(Integer.MAX_VALUE);
     }
+
 }

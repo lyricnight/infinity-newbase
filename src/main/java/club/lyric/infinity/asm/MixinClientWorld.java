@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ClientWorld.class)
 public abstract class MixinClientWorld implements IMinecraft {
 
-    @Inject(method = "getSkyColor", at = @At("HEAD"), cancellable = true)
+    /**@Inject(method = "getSkyColor", at = @At("HEAD"), cancellable = true)
     private void getSkyColor(Vec3d cameraPos, float tickDelta, CallbackInfoReturnable<Vec3d> cir) {
         if (Managers.MODULES.getModuleFromClass(Ambience.class).isOn())
         {
@@ -68,7 +68,7 @@ public abstract class MixinClientWorld implements IMinecraft {
         RenderEntityEvent.Removal event = new RenderEntityEvent.Removal(mc.world.getEntityById(entityId));
 
         EventBus.getInstance().post(event);
-    }
+    }*/
 
 
 }
