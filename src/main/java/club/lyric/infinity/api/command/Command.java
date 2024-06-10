@@ -9,7 +9,7 @@ import net.minecraft.util.Formatting;
  * command global that can be extended.
  */
 
-public class Command {
+public abstract class Command {
 
     /**
      * string we look for / name of the command
@@ -58,4 +58,6 @@ public class Command {
 
     public void onCommand(String[] args) {
     }
+
+    public abstract String[] syntax(String string);
 }

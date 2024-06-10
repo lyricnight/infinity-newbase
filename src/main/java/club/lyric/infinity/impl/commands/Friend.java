@@ -52,4 +52,17 @@ public final class Friend extends Command {
             state(CommandState.PERFORMED);
         }
     }
+
+    @Override
+    public String[] syntax(String string)
+    {
+        return switch (string)
+        {
+            case "add" -> new String[]{"<username>"};
+
+            case "del" -> new String[]{"<username"};
+
+            default -> new String[]{"<add/del>"};
+        };
+    }
 }

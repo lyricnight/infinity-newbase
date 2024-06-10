@@ -40,4 +40,10 @@ public final class Identifier extends Command {
 
         ChatUtils.sendMessagePrivate("Module ID:" + Managers.MODULES.getModuleByName(module).hashCode());
     }
+
+    @Override
+    public String[] syntax(String string)
+    {
+        return new String[]{"<module>"};
+    }
 }

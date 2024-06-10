@@ -1,12 +1,15 @@
 package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
+import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.gui.Menu;
+import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
+import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
@@ -17,6 +20,7 @@ import java.awt.*;
 public final class ClickGui extends ModuleBase {
 
     public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(64, 64, 124)), false);
+    public BooleanSetting resizing = new BooleanSetting("Resizing", false, this);
 
     public ClickGui()
     {
@@ -51,5 +55,10 @@ public final class ClickGui extends ModuleBase {
         {
             setEnabled(false);
         }
+    }
+
+    @Override
+    public void onRender2D(DrawContext context) {
+        Render2DUtils.drawRect(context.getMatrices(), 0, 0, context.getScaledWindowWidth(), context.getScaledWindowHeight(), new Color(color.getColor().getRed(), color.getColor().getGreen(), color.getColor().getBlue(), 40).getRGB());
     }
 }

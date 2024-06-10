@@ -23,6 +23,7 @@ public class IMLoader implements IMinecraft {
     private static final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
     private static ImFont customFont;
     private static ImFont customFontSemiBold;
+    private static ImFont customFontSmaller;
 
     public static void onGlfwInit(long handle) {
         initializeImGui();
@@ -82,17 +83,17 @@ public class IMLoader implements IMinecraft {
         fontAtlas.addFontDefault();
         fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesCyrillic());
 
-        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/PublicSans-SemiBold.ttf")) {
+        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/Roboto-Bold.ttf")) {
             if (is != null) {
                 byte[] fontData = is.readAllBytes();
 
-                customFontSemiBold = fontAtlas.addFontFromMemoryTTF(fontData, 20);
+                customFontSemiBold = fontAtlas.addFontFromMemoryTTF(fontData, 18);
             }
         } catch (IOException ignored) {
             Infinity.LOGGER.atError();
         }
 
-        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/PublicSans-Regular.ttf")) {
+        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/Roboto-Regular.ttf")) {
             if (is != null) {
                 byte[] fontData = is.readAllBytes();
 
@@ -101,6 +102,17 @@ public class IMLoader implements IMinecraft {
         } catch (IOException ignored) {
             Infinity.LOGGER.atError();
         }
+
+        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/Roboto-Regular.ttf")) {
+            if (is != null) {
+                byte[] fontData = is.readAllBytes();
+
+                customFontSmaller = fontAtlas.addFontFromMemoryTTF(fontData, 14);
+            }
+        } catch (IOException ignored) {
+            Infinity.LOGGER.atError();
+        }
+
 
         fontConfig.setMergeMode(true); // When enabled, all fonts added with this config would be merged with the previously added font
         fontConfig.destroy();
@@ -149,6 +161,10 @@ public class IMLoader implements IMinecraft {
 
     public static ImFont getCustomFontSemiBold() {
         return customFontSemiBold;
+    }
+
+    public static ImFont getCustomFontSmaller() {
+        return customFontSmaller;
     }
 
     private IMLoader() {}

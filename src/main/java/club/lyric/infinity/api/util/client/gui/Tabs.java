@@ -3,6 +3,7 @@ package club.lyric.infinity.api.util.client.gui;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
+import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.manager.Managers;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
@@ -45,11 +46,16 @@ public class Tabs implements RenderableElement {
 
     @Override
     public void render() {
+        ImGui.getStyle().setFrameBorderSize(1.0f);
         int imGuiWindowFlags = 0;
-        imGuiWindowFlags |= ImGuiWindowFlags.AlwaysAutoResize;
+        if (!Managers.MODULES.getModuleFromClass(ClickGui.class).resizing.value())
+        {
+            imGuiWindowFlags |= ImGuiWindowFlags.AlwaysAutoResize;
+        }
         imGuiWindowFlags |= ImGuiWindowFlags.NoDocking;
-        ImGui.getStyle().setFramePadding(0, 5);
-        ImGui.getStyle().setButtonTextAlign(0, 0.5f);
+        imGuiWindowFlags |= ImGuiWindowFlags.NoCollapse;
+        ImGui.getStyle().setFramePadding(2, 5);
+
         ImGui.begin(get(), imGuiWindowFlags);
 
         isFocused = ImGui.isWindowHovered() || ImGui.isWindowFocused();
@@ -62,9 +68,11 @@ public class Tabs implements RenderableElement {
             ImGui.setWindowPos(posX, posY);
             first = false;
         }
-
         for (ModuleBase module : Managers.MODULES.getModulesInCategory(category)) {
             ImGui.pushID(module.getName());
+            ImGui.getStyle().setFrameBorderSize(0.0f);
+            ImGui.getStyle().setButtonTextAlign(0.5f, 0.5f);
+
 
             if (module.isOn()) {
                 float[] color = JColor.getGuiColor().getFloatColor();
@@ -75,9 +83,9 @@ public class Tabs implements RenderableElement {
                 ImGui.pushStyleColor(ImGuiCol.ButtonActive, color[0], color[1], color[2], 1.00f);
             } else {
                 ImGui.pushStyleColor(ImGuiCol.Text, 0.41f, 0.41f, 0.41f, 1.00f);
-                ImGui.pushStyleColor(ImGuiCol.Button, 0.0941f, 0.0941f, 0.0941f, 1.0f);
+                ImGui.pushStyleColor(ImGuiCol.Button, 0.0666666667f, 0.0666666667f, 0.0666666667f, 1.0f);
                 ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.101f, 0.101f, 0.101f, 1.0f);
-                ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.0941f, 0.0941f, 0.0941f, 1.0f);
+                ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.0274509804f, 0.0274509804f, 0.0274509804f, 1.0f);
             }
 
             boolean isToggled = ImGui.button(module.getName(), 220f, 30f);
@@ -96,7 +104,7 @@ public class Tabs implements RenderableElement {
 
             if (module.showSettings()) {
                 ImGui.indent(4f);
-                ImGui.pushFont(IMLoader.getCustomFont());
+                ImGui.pushFont(IMLoader.getCustomFontSmaller());
                 ImGui.getStyle().setFramePadding(2, 3);
                 ImGui.getStyle().setButtonTextAlign(0.5f, 0.5f);
                 module.renderSettings();

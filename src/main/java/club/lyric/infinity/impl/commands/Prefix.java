@@ -42,4 +42,9 @@ public final class Prefix extends Command {
 
         state(CommandState.PERFORMED);
     }
+
+    @Override
+    public String[] syntax(String string) {
+        return new String[]{"<char>"};
+    }
 }

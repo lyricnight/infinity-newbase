@@ -31,8 +31,11 @@ public class MixinClientPlayNetworkHandler {
 
             boolean isCommand = false;
 
-            for (Command commands : Managers.COMMANDS.getCommands()) {
-                if (commands.getCommand().equals(arguments[0])) {
+            for (Command commands : Managers.COMMANDS.getCommands())
+            {
+
+                if (commands.getCommand().equals(arguments[0]))
+                {
                     commands.onCommand(arguments);
 
                     isCommand = true;
@@ -40,7 +43,8 @@ public class MixinClientPlayNetworkHandler {
                     break;
                 }
             }
-            if (!isCommand) {
+            if (!isCommand)
+            {
                 ChatUtils.sendMessagePrivate(Formatting.RED + "Unknown command. Try " + Managers.COMMANDS.getPrefix() + "commands for a list of available commands.");
             }
             ci.cancel();

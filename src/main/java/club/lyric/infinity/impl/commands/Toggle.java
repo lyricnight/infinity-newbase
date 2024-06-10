@@ -45,5 +45,10 @@ public final class Toggle extends Command {
         }
         state(CommandState.ERROR);
     }
+
+    @Override
+    public String[] syntax(String string) {
+        return new String[]{"<module>"};
+    }
 }
 

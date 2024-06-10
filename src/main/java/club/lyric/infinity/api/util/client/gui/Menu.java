@@ -4,6 +4,7 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
 import imgui.ImGui;
+import imgui.ImVec4;
 import imgui.flag.ImGuiCol;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public final class Menu implements RenderableElement {
 
                 colors[ImGuiCol.Text] = new float[]{1.00f, 1.00f, 1.00f, 1.00f};
                 colors[ImGuiCol.TextDisabled] = new float[]{0.41f, 0.41f, 0.41f, 1.00f};
-                colors[ImGuiCol.WindowBg] = new float[]{0.0392f, 0.0392f, 0.0392f, 1.00f};
+                colors[ImGuiCol.WindowBg] = new float[]{0.0352941176f, 0.0352941176f, 0.0352941176f, 1.00f};
                 colors[ImGuiCol.ChildBg] = new float[]{0.09f, 0.09f, 0.15f, 0.00f};
                 colors[ImGuiCol.PopupBg] = new float[]{0.09f, 0.09f, 0.15f, 0.94f};
                 colors[ImGuiCol.FrameBg] = new float[]{color[0], color[1], color[2], 0.54f};
@@ -83,13 +84,13 @@ public final class Menu implements RenderableElement {
                 colors[ImGuiCol.ScrollbarGrab] = new float[]{0.25f, 0.27f, 0.35f, 1.00f};
                 colors[ImGuiCol.ScrollbarGrabHovered] = new float[]{0.32f, 0.34f, 0.43f, 1.00f};
                 colors[ImGuiCol.ScrollbarGrabActive] = new float[]{0.38f, 0.41f, 0.50f, 1.00f};
-                colors[ImGuiCol.CheckMark] = new float[]{bColor[0], bColor[1], bColor[2], 1.00f};
-                colors[ImGuiCol.SliderGrab] = new float[]{color[0], color[1], color[2], 0.9f};
-                colors[ImGuiCol.SliderGrabActive] = new float[]{color[0], color[1], color[2], 0.95f};
-                colors[ImGuiCol.Button] = new float[]{color[0], color[1], color[2], 0.59f};
+                colors[ImGuiCol.CheckMark] = new float[]{1.00f, 1.00f, 1.00f, 1.00f};
+                colors[ImGuiCol.SliderGrab] = new float[]{0.0470588235f, 0.0470588235f, 0.0470588235f, 1.00f};
+                colors[ImGuiCol.SliderGrabActive] = new float[]{color[0], color[1], color[2], 1.00f};
+                colors[ImGuiCol.Button] = new float[]{0.0470588235f, 0.0470588235f, 0.0470588235f, 0.59f};
                 colors[ImGuiCol.ButtonHovered] = new float[]{color[0], color[1], color[2], 0.9f};
                 colors[ImGuiCol.ButtonActive] = new float[]{color[0], color[1], color[2], 1.00f};
-                colors[ImGuiCol.Header] = new float[]{0.0392f, 0.0392f, 0.0392f, 1.00f};
+                colors[ImGuiCol.Header] = new float[]{0.0549019608f, 0.0549019608f, 0.0549019608f, 1.00f};
                 colors[ImGuiCol.HeaderHovered] = new float[]{color[0], color[1], color[2], 0.00f};
                 colors[ImGuiCol.HeaderActive] = new float[]{bColor[0], bColor[1], bColor[2], 1.00f};
                 colors[ImGuiCol.Separator] = new float[]{0.45f, 0.47f, 0.58f, 0.50f};
@@ -122,15 +123,20 @@ public final class Menu implements RenderableElement {
                 colors[ImGuiCol.ModalWindowDimBg] = new float[]{0.80f, 0.80f, 0.80f, 0.35f};
                 ImGui.getStyle().setColors(colors);
 
-                ImGui.getStyle().setWindowRounding(6);
+                ImGui.getStyle().setWindowRounding(4);
                 ImGui.getStyle().setFrameRounding(2);
                 ImGui.getStyle().setGrabRounding(2);
                 ImGui.getStyle().setPopupRounding(2);
+
                 ImGui.getStyle().setScrollbarSize(10);
-                ImGui.getStyle().setScrollbarRounding(4);
+                ImGui.getStyle().setScrollbarRounding(2);
+
                 ImGui.getStyle().setTabRounding(2);
+
+                ImGui.getStyle().setAntiAliasedFill(true);
+                ImGui.getStyle().setAntiAliasedLines(true);
                 if (IMLoader.getCustomFont() != null) {
-                    ImGui.pushFont(IMLoader.getCustomFont());
+                    ImGui.pushFont(IMLoader.getCustomFontSemiBold());
                 }
 
             }

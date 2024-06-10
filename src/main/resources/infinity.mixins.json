@@ -45,6 +45,7 @@
     "MixinSplashTextResourceSupplier",
     "MixinWindow",
     "MixinWorldRenderer",
+    "MixinChatInputSuggestor",
     "accessors.IChatHudLine",
     "accessors.IMinecraft"
   ],

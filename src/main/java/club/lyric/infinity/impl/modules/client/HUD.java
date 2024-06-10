@@ -99,7 +99,7 @@ public final class HUD extends ModuleBase
 
         boolean chatOpened = mc.currentScreen instanceof ChatScreen;
 
-        if (mc.getDebugHud().shouldShowDebugHud()) return;
+        if (mc.getDebugHud().shouldShowDebugHud() || Managers.MODULES.getModuleFromClass(ClickGui.class).isOn()) return;
 
         if (watermark.value()) {
 

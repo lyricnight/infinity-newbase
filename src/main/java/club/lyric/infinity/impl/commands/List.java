@@ -35,4 +35,10 @@ public final class List extends Command {
         ChatUtils.sendMessagePrivate(Formatting.WHITE + String.format("Commands: (%s) ", Managers.COMMANDS.getCommandAmount()) + Managers.COMMANDS.getCommandsAsString());
         state(CommandState.PERFORMED);
     }
+
+    @Override
+    public String[] syntax(String string)
+    {
+        return new String[0];
+    }
 }

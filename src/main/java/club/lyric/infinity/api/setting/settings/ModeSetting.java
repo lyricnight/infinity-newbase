@@ -53,7 +53,7 @@ public class ModeSetting extends Setting implements Renderable {
 
         ImInt currentItem = new ImInt(index);
 
-        ImGui.pushItemWidth(170f);
+        ImGui.pushItemWidth(210f);
         ImGui.combo("", currentItem, modes);
         ImGui.popItemWidth();
 

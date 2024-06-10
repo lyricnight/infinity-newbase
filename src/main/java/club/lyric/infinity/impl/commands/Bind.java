@@ -6,6 +6,7 @@ import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.keyboard.KeyUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.manager.Managers;
@@ -62,6 +63,12 @@ public class Bind extends Command {
 
     }
 
+    @Override
+    public String[] syntax(String string)
+    {
+        return new String[]{"<module>"};
+    }
+
     @EventHandler
     public void onKeyPress(KeyPressEvent event) {
 
@@ -70,7 +77,7 @@ public class Bind extends Command {
         keyPressEnable = false;
 
         moduleBase.setBind(event.getKey());
-        ChatUtils.sendOverwriteMessageColored("The bind for " + moduleBase.getName() + " has changed to " + Formatting.WHITE + event.getKey() + Formatting.RESET + ".", 8948);
+        ChatUtils.sendOverwriteMessageColored("The bind for " + moduleBase.getName() + " has changed to " + Formatting.WHITE + KeyUtils.getKeyName(event.getKey()) + Formatting.RESET + ".", 8948);
     }
 
 }

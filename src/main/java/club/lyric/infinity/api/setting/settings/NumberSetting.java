@@ -114,7 +114,7 @@ public class NumberSetting extends Setting implements Renderable {
         if (decimal) {
             ImDouble val = new ImDouble(value);
 
-            ImGui.pushItemWidth(170f);
+            ImGui.pushItemWidth(210f);
             changed = ImGui.sliderScalar("", ImGuiDataType.Double, val, minimum, maximum, "%.2f");
             ImGui.popItemWidth();
 
@@ -122,7 +122,7 @@ public class NumberSetting extends Setting implements Renderable {
         } else {
             ImInt val = new ImInt((int) value);
 
-            ImGui.pushItemWidth(170f);
+            ImGui.pushItemWidth(210f);
             changed = ImGui.sliderScalar("", ImGuiDataType.S32, val, (int) minimum, (int) maximum);
             ImGui.popItemWidth();
 

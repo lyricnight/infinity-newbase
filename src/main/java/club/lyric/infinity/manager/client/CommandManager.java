@@ -1,6 +1,7 @@
 package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.api.command.Command;
+import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.commands.*;
 
@@ -52,6 +53,15 @@ public final class CommandManager implements IMinecraft {
 
     public Set<Command> getCommands() {
         return commands;
+    }
+
+    public Command getCommandByName(String name) {
+        for (Command command : commands) {
+            if (!command.getCommand().equalsIgnoreCase(name)) continue;
+            return command;
+        }
+
+        return null;
     }
 
     /**

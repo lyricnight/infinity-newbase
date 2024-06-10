@@ -35,4 +35,9 @@ public class Watermark extends Command
 
         ChatUtils.sendMessagePrivate("Watermark has been set to " + result);
     }
+
+    @Override
+    public String[] syntax(String string) {
+        return new String[]{"<name>"};
+    }
 }
