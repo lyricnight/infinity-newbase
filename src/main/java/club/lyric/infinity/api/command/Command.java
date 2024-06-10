@@ -39,14 +39,11 @@ public abstract class Command {
      */
     public void state(CommandState state) {
         switch (state) {
-            case ERROR: {
+            case ERROR -> {
                 ChatUtils.sendMessagePrivate(Formatting.RED + "Command failed. Correct syntax: " + theCommand());
-                break;
             }
-
-            case PERFORMED: {
+            case PERFORMED -> {
                 Infinity.LOGGER.info("Command success registered. Command: " + theCommand());
-                break;
             }
         }
     }

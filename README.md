@@ -6,7 +6,7 @@ Infinity is a 1.20.4 client
 
 ## `Modules`
 
-Modules allow certain classes to be used as features inside of the client. 
+Modules allow certain classes to be used as features inside the client. 
 
 Example module:
 ``` java

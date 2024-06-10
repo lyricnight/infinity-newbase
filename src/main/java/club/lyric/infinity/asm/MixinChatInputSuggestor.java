@@ -6,10 +6,11 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.text.OrderedText;
 import org.apache.commons.lang3.StringUtils;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -23,8 +24,9 @@ import java.util.regex.Pattern;
 @Mixin(ChatInputSuggestor.class)
 public abstract class MixinChatInputSuggestor {
 
+    @Final
     @Shadow
-    private TextFieldWidget textField;
+    TextFieldWidget textField;
 
     @Shadow
     private CompletableFuture<Suggestions> pendingSuggestions;
@@ -32,7 +34,7 @@ public abstract class MixinChatInputSuggestor {
     @Shadow
     public abstract void show(boolean suggestion);
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/TextFieldWidget;getCursor()I", ordinal = 0), method = "refresh()V", cancellable = true)
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/TextFieldWidget;getCursor()I", ordinal = 0), method = "refresh()V")
     private void onRefresh(CallbackInfo ci)
     {
 
@@ -58,6 +60,7 @@ public abstract class MixinChatInputSuggestor {
         }
     }
 
+    @Unique
     private int getLastWhitespacePosition(String text)
     {
 
@@ -72,6 +75,7 @@ public abstract class MixinChatInputSuggestor {
         return lastPosition;
     }
 
+    @Unique
     private void handleCommandSuggestions(SuggestionsBuilder builder, String text)
     {
         int spaceCount = StringUtils.countMatches(text, " ");
@@ -79,7 +83,7 @@ public abstract class MixinChatInputSuggestor {
 
         if (spaceCount == 0)
         {
-            Managers.COMMANDS.getCommands().forEach(command -> builder.suggest(command + " "));
+            Managers.COMMANDS.getCommands().forEach(command -> builder.suggest(command.getCommand() + " "));
         }
         else
         {
@@ -87,6 +91,7 @@ public abstract class MixinChatInputSuggestor {
         }
     }
 
+    @Unique
     private void suggestCommandArguments(SuggestionsBuilder builder, List<String> separatedText)
     {
         if (separatedText.isEmpty()) return;
