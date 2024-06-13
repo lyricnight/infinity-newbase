@@ -30,14 +30,14 @@ public class RotationManager implements IMinecraft {
      */
     private boolean hasRotated;
 
-    @EventHandler
+    @EventHandler(priority = Integer.MAX_VALUE - 3)
     public void onLocationPre(LocationEvent.Pre event)
     {
         yaw = mc.player.getYaw();
         pitch = mc.player.getPitch();
     }
 
-    @EventHandler
+    @EventHandler(priority = Integer.MAX_VALUE - 4)
     public void onLocationPost(LocationEvent.Post event)
     {
         ticksSinceRotation++;

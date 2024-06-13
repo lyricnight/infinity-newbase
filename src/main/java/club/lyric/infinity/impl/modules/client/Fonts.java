@@ -15,11 +15,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+/**
+ * @author vasler
+ */
 public class Fonts extends ModuleBase
 {
-
-    String fontName = "Verdana";
-    String lastName;
+    private String fontName = "Verdana";
+    private String lastName;
 
     public NumberSetting size = new NumberSetting("Size", this, 19.0f, 14.0f, 22.0f, 1.0f);
     public Fonts()
