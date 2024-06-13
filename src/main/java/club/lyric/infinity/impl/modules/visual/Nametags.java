@@ -1,5 +1,6 @@
 package club.lyric.infinity.impl.modules.visual;
 
+import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -12,6 +13,7 @@ import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.client.web.UUIDConverter;
+import club.lyric.infinity.impl.events.render.Render3DEvent;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -57,8 +59,8 @@ public class Nametags extends ModuleBase {
         super("Nametags", "Fire", Category.Visual);
     }
 
-    @Override
-    public void onRender3D(MatrixStack event) {
+    @EventHandler
+    public void onRenderWorld(Render3DEvent event) {
         for (Entity entity : mc.world.getEntities())
         {
             Vec3d interpolate = Interpolation.getRenderPosition(mc.getCameraEntity(), mc.getTickDelta());
@@ -67,7 +69,7 @@ public class Nametags extends ModuleBase {
 
                 if (!self.value() && player == mc.player) continue;
 
-                renderNameTag(player, event, interpolate);
+                renderNameTag(player, event.getMatrices(), interpolate);
             }
 
         }

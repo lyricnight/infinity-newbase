@@ -1,12 +1,11 @@
-package club.lyric.infinity.impl.modules.player;
+package club.lyric.infinity.impl.modules.misc;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
-import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
+import club.lyric.infinity.impl.events.network.PacketEvent;
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
 import net.minecraft.util.Formatting;
 
@@ -24,7 +23,7 @@ public class AntiAscii extends ModuleBase {
 
     public AntiAscii()
     {
-        super("AntiAscii", "Removes ascii from chat to prevent freezes.", Category.Player);
+        super("AntiAscii", "Removes ascii from chat to prevent freezes.", Category.Misc);
     }
 
     @EventHandler

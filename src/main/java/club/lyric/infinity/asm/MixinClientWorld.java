@@ -11,6 +11,8 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,6 +31,7 @@ public abstract class MixinClientWorld implements IMinecraft {
             cir.setReturnValue(Vec3d.unpackRgb(Managers.MODULES.getModuleFromClass(Ambience.class).color.getColor().getRGB()));
         }
     }
+     z
 
     @Inject(method = "getCloudsColor", at = @At("HEAD"), cancellable = true)
     private void getCloudsColor(float tickDelta, CallbackInfoReturnable<Vec3d> cir) {

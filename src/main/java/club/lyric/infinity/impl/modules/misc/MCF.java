@@ -1,4 +1,4 @@
-package club.lyric.infinity.impl.modules.player;
+package club.lyric.infinity.impl.modules.misc;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
@@ -16,7 +16,7 @@ import net.minecraft.util.hit.HitResult;
 public final class MCF extends ModuleBase {
     public MCF()
     {
-        super("MCF", "Add friends using middleclick", Category.Player);
+        super("MCF", "Add friends using middleclick", Category.Misc);
     }
 
     @SuppressWarnings("unused")

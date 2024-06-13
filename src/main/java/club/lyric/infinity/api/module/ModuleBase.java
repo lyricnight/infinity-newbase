@@ -12,9 +12,11 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Notifications;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.PendingUpdateManager;
 import net.minecraft.client.network.SequencedPacketCreator;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.Formatting;
 
@@ -193,6 +195,17 @@ public class ModuleBase implements IMinecraft {
     protected void sendUnsafe(Packet<?> packet)
     {
         mc.getNetworkHandler().sendPacket(packet);
+    }
+
+    // this is not threadsafe but it sends instaly
+    public static void sendPacketInstantly(Packet<?> packet)
+    {
+        if (mc.getNetworkHandler() == null) return;
+
+        ClientPlayNetworkHandler networkHandler = mc.getNetworkHandler();
+        ClientConnection connection = networkHandler.getConnection();
+
+        connection.send(packet);
     }
 
     public String moduleInformation()

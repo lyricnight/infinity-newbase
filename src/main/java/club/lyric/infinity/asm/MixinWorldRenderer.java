@@ -1,7 +1,9 @@
 package club.lyric.infinity.asm;
 
+import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.events.render.Render3DEvent;
 import club.lyric.infinity.impl.modules.visual.FullBright;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -24,12 +26,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @author vasler
  */
 @Mixin(WorldRenderer.class)
-public class MixinWorldRenderer implements IMinecraft {
+public class MixinWorldRenderer implements IMinecraft
+{
     @Inject(method = "render", at = @At("RETURN"))
     private void render(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f positionMatrix, CallbackInfo ci) {
         mc.getProfiler().push("infinity-rendering-3d");
         RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(module -> module.onRender3D(matrices));
+        Render3DEvent event = new Render3DEvent(matrices);
+        EventBus.getInstance().post(event);
         mc.getProfiler().pop();
     }
 

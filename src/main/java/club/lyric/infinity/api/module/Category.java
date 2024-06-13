@@ -6,10 +6,11 @@ package club.lyric.infinity.api.module;
  */
 
 public enum Category {
-    Client,
     Combat,
     Exploit,
     Player,
+    Misc,
     Movement,
-    Visual
+    Visual,
+    Client
 }

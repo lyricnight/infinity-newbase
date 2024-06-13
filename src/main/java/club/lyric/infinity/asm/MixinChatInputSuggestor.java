@@ -29,7 +29,7 @@ public abstract class MixinChatInputSuggestor {
     TextFieldWidget textField;
 
     @Shadow
-    private CompletableFuture<Suggestions> pendingSuggestions;
+    CompletableFuture<Suggestions> pendingSuggestions;
 
     @Shadow
     public abstract void show(boolean suggestion);
@@ -52,7 +52,7 @@ public abstract class MixinChatInputSuggestor {
             int whitespaceEndPosition = getLastWhitespacePosition(textUpToCursor);
             SuggestionsBuilder suggestionsBuilder = new SuggestionsBuilder(textUpToCursor, whitespaceEndPosition);
 
-            handleCommandSuggestions(suggestionsBuilder, textUpToCursor.substring(prefix.length()));
+            handleCommandSuggestions(prefix, suggestionsBuilder, textUpToCursor.substring(prefix.length()));
 
             pendingSuggestions = suggestionsBuilder.buildFuture();
 
@@ -76,14 +76,14 @@ public abstract class MixinChatInputSuggestor {
     }
 
     @Unique
-    private void handleCommandSuggestions(SuggestionsBuilder builder, String text)
+    private void handleCommandSuggestions(String prefix, SuggestionsBuilder builder, String text)
     {
         int spaceCount = StringUtils.countMatches(text, " ");
         List<String> separatedText = Arrays.asList(text.split(" "));
 
         if (spaceCount == 0)
         {
-            Managers.COMMANDS.getCommands().forEach(command -> builder.suggest(command.getCommand() + " "));
+            Managers.COMMANDS.getCommands().forEach(command -> builder.suggest(prefix + command.getCommand() + " "));
         }
         else
         {
@@ -107,7 +107,8 @@ public abstract class MixinChatInputSuggestor {
 
         if (suggestions == null) return;
 
-        for (String suggestion : suggestions) {
+        for (String suggestion : suggestions)
+        {
             builder.suggest(suggestion + " ");
         }
     }

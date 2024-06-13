@@ -3,6 +3,7 @@ package club.lyric.infinity.api.util.client.gui;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
+import club.lyric.infinity.api.util.client.sounds.SoundsUtils;
 import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.manager.Managers;
 import imgui.ImGui;
@@ -22,6 +23,7 @@ public class Tabs implements RenderableElement {
     private float posY;
 
     public float scrollPos;
+    boolean on;
 
     public Tabs(Category category, float posX, float posY)
     {
@@ -81,11 +83,13 @@ public class Tabs implements RenderableElement {
                 ImGui.pushStyleColor(ImGuiCol.Button, color[0], color[1], color[2], 1.00f);
                 ImGui.pushStyleColor(ImGuiCol.ButtonHovered, color[0], color[1], color[2], 0.65f);
                 ImGui.pushStyleColor(ImGuiCol.ButtonActive, color[0], color[1], color[2], 1.00f);
+                on = true;
             } else {
                 ImGui.pushStyleColor(ImGuiCol.Text, 0.41f, 0.41f, 0.41f, 1.00f);
                 ImGui.pushStyleColor(ImGuiCol.Button, 0.0666666667f, 0.0666666667f, 0.0666666667f, 1.0f);
                 ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.101f, 0.101f, 0.101f, 1.0f);
                 ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.0274509804f, 0.0274509804f, 0.0274509804f, 1.0f);
+                on = false;
             }
 
             boolean isToggled = ImGui.button(module.getName(), 220f, 30f);
@@ -93,6 +97,14 @@ public class Tabs implements RenderableElement {
             ImGui.popStyleColor(4);
 
             if (isToggled) {
+                /**if (on)
+                {
+                    SoundsUtils.playSound("off.mp3", 100);
+                }
+                else
+                {
+                    SoundsUtils.playSound("on.mp3", 100);
+                }*/
                 module.toggle();
             }
 

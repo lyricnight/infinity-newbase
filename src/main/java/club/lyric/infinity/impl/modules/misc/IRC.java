@@ -1,4 +1,4 @@
-package club.lyric.infinity.impl.modules.client;
+package club.lyric.infinity.impl.modules.misc;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
@@ -15,7 +15,7 @@ import net.minecraft.util.Formatting;
 public class IRC extends ModuleBase {
 
     public IRC() {
-        super("IRC", "Allows you to chat to other Infinity users.", Category.Client);
+        super("IRC", "Allows you to chat to other Infinity users.", Category.Misc);
     }
 
     @Override
