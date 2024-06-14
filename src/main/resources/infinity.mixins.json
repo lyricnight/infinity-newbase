@@ -12,6 +12,7 @@
     "MixinEntity",
     "MixinInGameHud",
     "MixinLivingEntity",
+    "MixinPacketByteBuf",
     "MixinPlayerEntity",
     "MixinSharedConstants",
     "MixinStringHelper",

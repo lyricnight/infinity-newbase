@@ -9,13 +9,18 @@ import club.lyric.infinity.manager.Managers;
  * for gui config
  */
 public final class Configuration extends PersistentModuleBase {
-    public Configuration()
-    {
+    public Configuration() {
         super("Configuration", "Manages configs.", Category.Client);
     }
+
     @Override
-    public void renderSettings()
-    {
+    public void renderSettings() {
         Managers.CONFIG.renderGui();
+    }
+
+    @Override
+    public String moduleInformation()
+    {
+        return Managers.CONFIG.currentProfile.getName();
     }
 }

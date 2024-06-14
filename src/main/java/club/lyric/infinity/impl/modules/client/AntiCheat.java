@@ -14,7 +14,7 @@ import club.lyric.infinity.manager.Managers;
 public final class AntiCheat extends PersistentModuleBase {
     public BooleanSetting rotate = new BooleanSetting("Rotate", false, this);
     public BooleanSetting strictDirection = new BooleanSetting("StrictDirection", false,this);
-    public NumberSetting bpt = new NumberSetting("BPT", this, 4, 1, 10, 1);
+    public NumberSetting bpt = new NumberSetting("BPT", this, 4, 1, 20, 1);
     public BooleanSetting swing = new BooleanSetting("Swing", false, this);
     public BooleanSetting movementFix = new BooleanSetting("MovementFix", false, this);
     public BooleanSetting lower = new BooleanSetting("1.12 Mode", false, this);

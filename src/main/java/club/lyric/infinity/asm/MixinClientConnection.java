@@ -2,21 +2,27 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventBus;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.impl.events.network.PacketEvent;
+import club.lyric.infinity.impl.modules.exploit.KickPrevent;
 import club.lyric.infinity.manager.Managers;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.NetworkSide;
 import net.minecraft.network.PacketCallbacks;
+import net.minecraft.network.handler.PacketEncoderException;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.CommandSuggestionsS2CPacket;
+import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.concurrent.TimeoutException;
 
 /**
  * @author lyric
@@ -64,6 +70,14 @@ public class MixinClientConnection {
             }
         } catch (Exception e) {
             Infinity.LOGGER.atError();
+        }
+    }
+
+    @Inject(method = "exceptionCaught", at = @At("HEAD"), cancellable = true)
+    private void exceptionCaught(ChannelHandlerContext context, Throwable throwable, CallbackInfo ci) {
+        if (!(throwable instanceof TimeoutException) && !(throwable instanceof PacketEncoderException) && Managers.MODULES.getModuleFromClass(KickPrevent.class).isOn()) {
+            ChatUtils.sendMessagePrivateColored(Formatting.RED + "[KickPrevent] Infinity caught an exception in the network stack: " + throwable.getMessage());
+            ci.cancel();
         }
     }
 }

@@ -2,6 +2,9 @@ package club.lyric.infinity.impl.events.irc;
 
 import club.lyric.infinity.api.event.Event;
 
+/**
+ * @author vasler
+ */
 public class IRCEvent extends Event {
     private final String nick;
     private final String text;

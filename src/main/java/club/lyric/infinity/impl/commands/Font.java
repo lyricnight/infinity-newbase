@@ -1,12 +1,12 @@
 package club.lyric.infinity.impl.commands;
 
-import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.command.CommandState;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.impl.modules.client.Fonts;
 import club.lyric.infinity.manager.Managers;
 
+//TODO: check if the font is valid before attempting to set it @vasler
 public class Font extends Command
 {
 

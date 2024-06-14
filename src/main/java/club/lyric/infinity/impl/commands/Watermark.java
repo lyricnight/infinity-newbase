@@ -5,6 +5,9 @@ import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.command.CommandState;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 
+/**
+ * @author vasler
+ */
 public class Watermark extends Command
 {
 

@@ -7,6 +7,7 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.*;
 import club.lyric.infinity.impl.modules.combat.*;
 import club.lyric.infinity.impl.modules.exploit.*;
+import club.lyric.infinity.impl.modules.exploit.KickPrevent;
 import club.lyric.infinity.impl.modules.misc.AntiAscii;
 import club.lyric.infinity.impl.modules.misc.IRC;
 import club.lyric.infinity.impl.modules.misc.MCF;
@@ -80,6 +81,7 @@ public final class ModuleManager implements IMinecraft
                 new AntiLevitation(),
                 new Particles(),
                 new Translate(),
+                new KickPrevent(),
                 new Fonts()
         );
         modules.sort(Comparator.comparing(ModuleBase::getName));

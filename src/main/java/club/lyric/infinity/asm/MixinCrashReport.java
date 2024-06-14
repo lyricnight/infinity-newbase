@@ -1,6 +1,7 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.Version;
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.ModuleBase;
@@ -44,7 +45,8 @@ public final class MixinCrashReport {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(moduleBase -> module.add(moduleBase.getName()));
 
         section.add("Name", Infinity.CLIENT_NAME);
-        section.add("Version", Infinity.VERSION);
+        section.add("Version", Version.VERSION);
+        section.add("Nightly", Version.NIGHTLY);
         section.add("Enabled Modules", module);
         section.add("EventBus", EventBus.getInstance().hashCode());
         section.add("Listeners", EventBus.getInstance().getInvokers());
