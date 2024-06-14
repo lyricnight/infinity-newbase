@@ -32,8 +32,8 @@ jobs:
       - uses: "shxrklol/action-auto-releases-n20@v1.1"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          automatic_release_tag: "latest-1.0.4-nightly"
           prerelease: true
-          title: "1.0.4-pre"
+          title: "1.0.4-nightly"
           files: |
             ./build/libs/*.jar
