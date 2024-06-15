@@ -71,7 +71,7 @@ public final class TextManager implements IMinecraft {
         return mc.textRenderer.getWidth(value) + (shadow ? 1 : 0);
     }
 
-    public float height(boolean shadow)
+    public int height(boolean shadow)
     {
         if(!ready)
         {
@@ -80,7 +80,7 @@ public final class TextManager implements IMinecraft {
 
         if (nvgRenderer.isInitialized() && Managers.MODULES.getModuleFromClass(Fonts.class).isOn())
         {
-            return nvgRenderer.getFontHeight();
+            return (int) nvgRenderer.getFontHeight();
         }
         else if (Managers.MODULES.getModuleFromClass(Fonts.class).isOn())
         {

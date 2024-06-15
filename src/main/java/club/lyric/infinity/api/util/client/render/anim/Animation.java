@@ -59,6 +59,11 @@ public class Animation
         return (float) value;
     }
 
+    public void setValue(float val)
+    {
+        value = val;
+    }
+
     public void reset()
     {
         this.startTime = System.currentTimeMillis();

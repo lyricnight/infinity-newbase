@@ -96,6 +96,11 @@ public class ColorUtils implements IMinecraft {
         return new Color(red, green, blue, color.getAlpha());
     }
 
+    public static Color alpha(Color color, int amount)
+    {
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), amount);
+    }
+
     public static Color hslToColor(float hue, float sat, float light, float alpha)
     {
         if (sat < 0.0f || sat > 100.0f)

@@ -74,6 +74,11 @@ public class ModuleBase implements IMinecraft {
      */
     public BooleanSetting drawn;
 
+    public float animPos = -1;
+
+    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
+
+
 
     public ModuleBase(String name, String description, Category category)
     {
@@ -216,6 +221,11 @@ public class ModuleBase implements IMinecraft {
     public void addSettings(Setting... settings) {
         this.settingList.addAll(Arrays.asList(settings));
         this.settingList.sort(Comparator.comparingInt(s -> s == bind ? 1 : 0));
+    }
+
+    public Animation getAnimation()
+    {
+        return animation;
     }
 
     /**

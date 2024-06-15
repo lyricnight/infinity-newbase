@@ -1,0 +1,227 @@
+package club.lyric.infinity.api.gui;
+
+import club.lyric.infinity.api.gui.components.ModuleComponent;
+import club.lyric.infinity.api.module.Category;
+import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.util.client.keyboard.KeyUtils;
+import club.lyric.infinity.api.util.client.render.anim.Animation;
+import club.lyric.infinity.api.util.client.render.anim.Easing;
+import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
+import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
+import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.modules.client.GuiRewrite;
+import club.lyric.infinity.manager.Managers;
+import net.minecraft.client.gui.DrawContext;
+import org.lwjgl.glfw.GLFW;
+
+import java.awt.*;
+import java.util.ArrayList;
+
+@SuppressWarnings("ConstantConditions")
+public class Panel implements IMinecraft {
+    private int x;
+    private int y;
+    private int x2;
+    private int y2;
+    private final int width;
+    private final int height;
+    private boolean open;
+    public boolean drag;
+    private final Category category;
+    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
+    private final Animation alpha = new Animation(Easing.EASE_OUT_QUAD, 250);
+    private final Animation opening = new Animation(Easing.EASE_OUT_QUAD, 250);
+    float currY;
+    boolean search = false;
+    boolean capsLock = false;
+    public ModuleBase moduleBase;
+
+    public String searchText = "c";
+
+    private final ArrayList<ModuleComponent> moduleComponents = new ArrayList<>();
+
+
+    public Panel(Category category, int x, int y, boolean open) {
+
+        this.category = category;
+        this.x = x;
+        this.y = y;
+
+        width = 100;
+        height = Managers.MODULES.getModuleFromClass(GuiRewrite.class).height.getIValue();
+        this.open = open;
+
+        for (ModuleBase modules : Managers.MODULES.getModulesInCategory(category))
+        {
+            this.moduleBase = modules;
+
+            if (!modules.getCategory().equals(category)) continue;
+
+            ModuleComponent moduleComponent = new ModuleComponent(modules, this);
+
+            moduleComponents.add(moduleComponent);
+        }
+    }
+
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        drag(mouseX, mouseY);
+
+        alpha.run(255);
+        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(GuiRewrite.class).color.getColor(), (int) alpha.getValue());
+
+        //if (open)
+        //{
+            //Render2DUtils.drawRect(context.getMatrices(), x, y, width, getHeightTotal(), new Color(10, 10, 10, 50).getRGB());
+        //}
+
+        Render2DUtils.drawRect(context.getMatrices(), x, y - 1, width, height, color.getRGB());
+
+        if (isHovering(mouseX, mouseY))
+        {
+            animation.run(2);
+        }
+        else
+        {
+            animation.run(0);
+        }
+
+        currY = height;
+
+        context.getMatrices().push();
+        Managers.TEXT.drawString(category.name(), (int) (x + 2.0f), y + (float) height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), -1);
+        context.getMatrices().pop();
+
+        if (!open) return;
+
+        //if (search && !moduleBase.getName().contains(searchText)) return;
+
+        for (ModuleComponent component : moduleComponents)
+        {
+            component.setY(y + currY);
+            currY += component.getHeight() + 1.0f;
+
+            component.render(context, mouseX, mouseY, delta);
+        }
+    }
+
+    private void drag(int mouseX, int mouseY) {
+        if (!drag) {
+            return;
+        }
+        x = x2 + mouseX;
+        y = y2 + mouseY;
+    }
+
+    public void mouseClicked(double mouseX, double mouseY, int button)
+    {
+
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && isHovering(mouseX, mouseY))
+        {
+            x2 = (int) (x - mouseX);
+            y2 = (int) (y - mouseY);
+
+            Gui.getPanels().forEach(panel -> panel.drag = false);
+            drag = true;
+        }
+
+        if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && isHovering(mouseX, mouseY))
+        {
+            open = !open;
+            return;
+        }
+
+        if (!open)
+        {
+            return;
+        }
+
+        for (ModuleComponent component : moduleComponents)
+        {
+            component.mouseClicked((int) mouseX, (int) mouseY, button);
+        }
+    }
+
+    public void mouseReleased(double mouseX, double mouseY, int button)
+    {
+
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT)
+        {
+            drag = false;
+        }
+
+        if (!open)
+        {
+            return;
+        }
+
+        for (ModuleComponent component : moduleComponents)
+        {
+            component.mouseReleased((int) mouseX, (int) mouseY, button);
+        }
+    }
+
+    public void keyPressed(int keyCode, int scanCode, int modifiers)
+    {
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+            alpha.reset();
+            opening.reset();
+            animation.reset();
+        }
+
+        if (keyCode == GLFW.GLFW_KEY_F)
+        {
+            search = !search;
+        }
+
+        if (keyCode == GLFW.GLFW_KEY_CAPS_LOCK)
+        {
+            capsLock = !capsLock;
+        }
+
+        if (search)
+        {
+            if (keyCode == GLFW.GLFW_KEY_BACKSPACE)
+                setString(backspace(getString()));
+
+            if (capsLock)
+                setString(getString() + KeyUtils.getKeyName(keyCode));
+            else
+                setString(getString() + KeyUtils.getKeyName(keyCode).toLowerCase());
+
+        }
+
+
+        for (ModuleComponent component : moduleComponents)
+        {
+            component.keyPressed(keyCode, scanCode, modifiers);
+        }
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    protected int getY() {
+        return y;
+    }
+
+    protected boolean isHovering(double mouseX, double mouseY)
+    {
+        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
+    }
+
+    public String getString()
+    {
+        return searchText;
+    }
+
+    public void setString(String string)
+    {
+        searchText = string;
+    }
+
+    public static String backspace(String string)
+    {
+        return (string != null && !string.isEmpty()) ? string.substring(0, string.length() - 1) : string;
+    }
+}

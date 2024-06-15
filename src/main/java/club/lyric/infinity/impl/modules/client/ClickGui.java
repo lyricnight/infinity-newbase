@@ -2,6 +2,7 @@ package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.gui.Menu;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
@@ -20,6 +21,8 @@ import java.awt.*;
 public final class ClickGui extends ModuleBase {
 
     public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(64, 64, 124)), false);
+    public NumberSetting enemyRange = new NumberSetting("FAJJNOFJLMKAJMOFGSG", this, 6.0f, 1.0f, 7.0f, 0.1f);
+
     public BooleanSetting resizing = new BooleanSetting("Resizing", false, this);
 
     public ClickGui()

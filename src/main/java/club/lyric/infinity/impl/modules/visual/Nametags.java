@@ -118,7 +118,9 @@ public class Nametags extends ModuleBase {
             Render2DUtils.drawOutlineRect(matrices, -Managers.TEXT.width(renderPlayerName(entity), true) / 2 - 2, 0, Managers.TEXT.width(renderPlayerName(entity), true) + 1, height, new Color(lineColor.getColor().getRed(), lineColor.getColor().getGreen(), lineColor.getColor().getBlue(), 255).getRGB());
         }
 
-        textRenderer.draw(renderPlayerName(entity), -Managers.TEXT.width(renderPlayerName(entity), true) / 2 + 1, 2, getNameColor(entity), false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
+        //textRenderer.draw(renderPlayerName(entity), -Managers.TEXT.width(renderPlayerName(entity), true) / 2 + 1, 2, getNameColor(entity), false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
+        Managers.TEXT.drawString(
+                renderPlayerName(entity), -Managers.TEXT.width(renderPlayerName(entity), true) / 2 + 1, 2, getNameColor(entity));
 
         if (!entity.getMainHandStack().isEmpty()) {
             renderStackName(entity.getMainHandStack(), -height - Managers.TEXT.height(true), matrices, immediate, textRenderer);

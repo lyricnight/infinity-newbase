@@ -82,7 +82,8 @@ public final class ModuleManager implements IMinecraft
                 new Particles(),
                 new Translate(),
                 new KickPrevent(),
-                new Fonts()
+                new Fonts(),
+                new GuiRewrite()
         );
         modules.sort(Comparator.comparing(ModuleBase::getName));
         Infinity.LOGGER.info("Initialising modules.");

@@ -1,6 +1,7 @@
 package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
+import club.lyric.infinity.api.gui.Gui;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
@@ -21,7 +22,7 @@ public final class EventManager implements IMinecraft {
         if (event.getAction() == GLFW.GLFW_RELEASE)
             return;
 
-        if (mc.currentScreen instanceof ChatScreen)
+        if (mc.currentScreen instanceof ChatScreen || mc.currentScreen instanceof Gui)
             return;
 
         if (InputUtil.isKeyPressed(mc.getWindow().getHandle(), GLFW.GLFW_KEY_F3))
