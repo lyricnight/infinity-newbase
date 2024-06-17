@@ -60,21 +60,14 @@ public final class Chat extends ModuleBase {
             this
     );
 
-    public BooleanSetting repetition =
-            new BooleanSetting(
-                    "Repetition",
-                    false,
-                    this
-            );
-
     public BooleanSetting keep = new BooleanSetting("Keep", false, this);
 
     // for timestamps
     private final SimpleDateFormat date = new SimpleDateFormat("HH:mm");
 
     public final IntList lines = new IntArrayList();
-    private String lastMessage = "";
-    private int amount = 1;
+    private final String lastMessage = "";
+    private final int amount = 1;
 
     public Chat()
     {
@@ -95,41 +88,6 @@ public final class Chat extends ModuleBase {
             event.setMessage(message);
         }
     }
-    @EventHandler
-    public void onChat(ReceiveChatEvent event)
-    {
-        if (nullCheck()) return;
-
-        if (!repetition.value())
-        {
-            Text message = event.getMessage();
-            String rawMessage = message.getString();
-            ChatHud chatGui = mc.inGameHud.getChatHud();
-
-            if (lastMessage.equals(rawMessage))
-            {
-
-                amount++;
-
-                chatGui.clear(false);
-
-                MutableText text = Text.empty();
-                text.append(Formatting.GRAY + " (" + amount + "x)");
-
-                message.getSiblings().add(text);
-
-            }
-            else
-            {
-                amount = 1;
-            }
-
-            chatGui.addMessage(message);
-            lastMessage = rawMessage;
-
-            event.setCancelled(true);
-        }
-    }
 
     public Text timeStamps()
     {
@@ -139,7 +97,6 @@ public final class Chat extends ModuleBase {
 
     /**
      * gets rid of background
-     * debug -> this doesn't work?
      */
     public void clear()
     {
@@ -154,6 +111,12 @@ public final class Chat extends ModuleBase {
                 mc.options.getTextBackgroundOpacity().setValue(0.5);
             }
         }
+    }
+
+    @Override
+    public void onEnable()
+    {
+        clear();
     }
 
     @Override

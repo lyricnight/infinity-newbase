@@ -265,7 +265,10 @@ public final class AutoMine extends ModuleBase {
 
     private void breakEnderChests() {
         if (ender.value()) {
-            ChatUtils.sendMessagePrivate("EChests." + count.addAndGet(1));
+            if (dev.value())
+            {
+                ChatUtils.sendMessagePrivate("EChests." + count.addAndGet(1));
+            }
             for (BlockPos pos : BlockUtils.getSphere(mc.player, range.getFValue(), true)) {
                 if (mc.world.getBlockState(pos).getBlock() == Blocks.ENDER_CHEST) {
                     attack(pos);

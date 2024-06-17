@@ -18,7 +18,6 @@ public final class GuiRewrite extends ModuleBase {
     public GuiRewrite()
     {
         super("ClickGui2", "Displays a graphical user interface.", Category.Client);
-        setBind(GLFW.GLFW_KEY_RIGHT_SHIFT);
     }
 
     @Override

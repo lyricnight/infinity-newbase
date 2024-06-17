@@ -13,6 +13,7 @@ import club.lyric.infinity.manager.Managers;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
+import java.text.DecimalFormat;
 import java.util.stream.Stream;
 
 /**
@@ -25,6 +26,8 @@ public class AutoReply extends ModuleBase {
     public BooleanSetting debug = new BooleanSetting("d", false, this);
     public NumberSetting time = new NumberSetting("AFK Time", this, 30, 10, 100, 5);
     private final StopWatch.Single stopWatch = new StopWatch.Single();
+
+    private final DecimalFormat format = new DecimalFormat("0.##");
 
     public AutoReply()
     {
@@ -113,8 +116,8 @@ public class AutoReply extends ModuleBase {
         }
         switch (type)
         {
-            case COORDINATE -> mc.player.sendMessage(Text.of("/w " + ign + " [Infinity] Coordinates: " + mc.player.getX() + ", " + mc.player.getZ() + ", Dimension: " + mc.world.getDimension().toString()));
-            case AFK -> mc.player.sendMessage(Text.of("/w " + ign  + " [Infinity] I'm AFK. Wait a bit."));
+            case COORDINATE -> mc.getNetworkHandler().sendChatMessage("/w " + ign + " [Infinity] Coordinates: " + format.format(mc.player.getX()) + ", " + format.format(mc.player.getZ()));
+            case AFK -> mc.getNetworkHandler().sendChatMessage("/w " + ign  + " [Infinity] I'm AFK. Wait a bit.");
         }
     }
 

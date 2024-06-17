@@ -56,6 +56,8 @@ public final class Aura extends ModuleBase {
     public BooleanSetting cooldown = new BooleanSetting("Cooldown", false, this);
     public BooleanSetting sprint = new BooleanSetting("Sprint", false, this);
 
+    public BooleanSetting render = new BooleanSetting("Render", false, this);
+
     @Nullable
     private Target target;
 
@@ -88,7 +90,7 @@ public final class Aura extends ModuleBase {
     @Override
     public void onRender3D(MatrixStack matrixStack)
     {
-        if (target != null)
+        if (target != null && render.value())
         {
 
             Vec3d vec3D = Interpolation.interpolateEntity(target.entity());
