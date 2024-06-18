@@ -1,22 +1,13 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.ducks.IChatHudLine;
-import club.lyric.infinity.api.util.client.render.anim.Animation;
-import club.lyric.infinity.api.util.client.render.anim.Easing;
-import club.lyric.infinity.impl.modules.visual.Chat;
-import club.lyric.infinity.manager.Managers;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.gui.hud.ChatHudLine;
-import net.minecraft.client.gui.hud.MessageIndicator;
-import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * @author lyric

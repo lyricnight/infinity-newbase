@@ -1,8 +1,8 @@
 package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
 
 /**
  * @author lyric

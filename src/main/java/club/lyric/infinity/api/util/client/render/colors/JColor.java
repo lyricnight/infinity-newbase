@@ -71,6 +71,13 @@ public class JColor extends Color {
         return RGBtoHSB(getRed(), getGreen(), getBlue(), null)[2];
     }
 
+    public float[] getHsb()
+    {
+        float[] hsb = RGBtoHSB(getRed(), getGreen(), getBlue(), null);
+
+        return new float[]{hsb[0], hsb[1], hsb[2]};
+    }
+
     public JColor jDarker() {
         return new JColor(this.darker());
     }

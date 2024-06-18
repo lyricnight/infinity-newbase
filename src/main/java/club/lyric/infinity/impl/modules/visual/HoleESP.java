@@ -30,7 +30,7 @@ public class HoleESP extends ModuleBase {
 
     // Properties
     public NumberSetting range = new NumberSetting("Range", this, 4f, 1f, 30f, 1f);
-    public NumberSetting size = new NumberSetting("Size", this, 1f, 0.01f, 1f, 0.5f);
+    public NumberSetting size = new NumberSetting("Size", this, 1f, 0.01f, 1f, 0.1f);
 
     // Color
     public ColorSetting bedrock = new ColorSetting("Bedrock", this, new JColor(new Color(50, 255, 50)), false);
@@ -43,7 +43,6 @@ public class HoleESP extends ModuleBase {
     public BooleanSetting box = new BooleanSetting("Box", true, this);
 
     // Misc
-    public BooleanSetting onlyOut = new BooleanSetting("OnlyOut", false, this);
     public BooleanSetting fade = new BooleanSetting("Fade", false, this);
 
 
@@ -71,8 +70,6 @@ public class HoleESP extends ModuleBase {
     @Override
     public void onRender3D(MatrixStack matrixStack) {
         if (holes.isEmpty()) return;
-
-        if (onlyOut.value() && HoleUtils.isInHole(mc.player)) return;
 
         for (Hole hole : holes)
         {

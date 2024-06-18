@@ -1,7 +1,6 @@
 package club.lyric.infinity.api.util.minecraft.movement;
 
 
-import club.lyric.infinity.impl.events.mc.movement.EntityMovementEvent;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
 import club.lyric.infinity.impl.modules.client.AntiCheat;

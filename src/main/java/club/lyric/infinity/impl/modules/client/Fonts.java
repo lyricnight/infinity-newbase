@@ -2,10 +2,8 @@ package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
-import club.lyric.infinity.manager.Managers;
 import club.lyric.infinity.manager.client.TextManager;
 import net.minecraft.util.Formatting;
 

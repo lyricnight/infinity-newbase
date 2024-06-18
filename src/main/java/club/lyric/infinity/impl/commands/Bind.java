@@ -7,13 +7,9 @@ import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.keyboard.KeyUtils;
-import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.util.Formatting;
-import org.lwjgl.glfw.GLFW;
-
-import java.io.FileOutputStream;
 
 public class Bind extends Command {
 

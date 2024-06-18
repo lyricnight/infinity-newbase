@@ -1,7 +1,6 @@
 package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.api.command.Command;
-import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.commands.*;
 

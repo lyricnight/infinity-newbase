@@ -1,7 +1,6 @@
 package club.lyric.infinity.api.util.client.render.util;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import net.minecraft.block.Block;
 import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;

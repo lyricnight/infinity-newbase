@@ -1,8 +1,8 @@
 package club.lyric.infinity.impl.events.mc.item;
 
 import club.lyric.infinity.api.event.Event;
-import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 
 /**
  * lowkey just recoded sexmasters one

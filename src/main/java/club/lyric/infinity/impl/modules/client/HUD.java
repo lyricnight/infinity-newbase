@@ -74,6 +74,17 @@ public final class HUD extends ModuleBase
     private final StopWatch spotifyTimer = new StopWatch.Single();
     int packets;
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
+    private final Animation alpha = new Animation(Easing.EASE_OUT_QUAD, 150);
+
+    // width anims. (try to fix idk)
+
+    // Info
+    private final Animation fpsWidth = new Animation(Easing.EASE_OUT_QUAD, 150);
+    private final Animation packetWidth = new Animation(Easing.EASE_OUT_QUAD, 150);
+    private final Animation speedWidth = new Animation(Easing.EASE_OUT_QUAD, 150);
+    private final Animation tpsWidth = new Animation(Easing.EASE_OUT_QUAD, 150);
+    private final Animation pingWidth = new Animation(Easing.EASE_OUT_QUAD, 150);
+    private final Animation duraWidth = new Animation(Easing.EASE_OUT_QUAD, 150);
 
     @EventHandler
     public void onPacketSend(PacketEvent.Send event)
@@ -96,14 +107,9 @@ public final class HUD extends ModuleBase
 
         if (mc.getDebugHud().shouldShowDebugHud() || Managers.MODULES.getModuleFromClass(ClickGui.class).isOn()) return;
 
-        if (watermark.value()) {
-
-            Managers.TEXT.drawString(getLabel(
-                            Infinity.CLIENT_NAME +
-                            Infinity.VERSION +
-                            Formatting.GRAY +
-                            " build " +
-                            Version.DATE),
+        if (watermark.value())
+        {
+            Managers.TEXT.drawString(getLabel(Infinity.CLIENT_NAME + Infinity.VERSION + Formatting.GRAY + " build " + Version.DATE),
                     2,
                     2,
                     hudColor(2).getRGB()
@@ -241,6 +247,7 @@ public final class HUD extends ModuleBase
             for (StatusEffectInstance statusEffectInstance : effectList)
             {
                 int x = (int) (context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(getString(statusEffectInstance)), true)) - 2);
+
                 Managers.TEXT.drawString(getLabel(getString(statusEffectInstance)),
                         x,
                         context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
@@ -270,10 +277,10 @@ public final class HUD extends ModuleBase
         if (serverBrand.value())
         {
 
-            String server = "ServerBrand: " + Formatting.WHITE + (mc.isInSingleplayer() ? "Singleplayer (Integrated)" : mc.getNetworkHandler().getBrand());
+            String server = "ServerBrand " + Formatting.WHITE + (mc.isInSingleplayer() ? "Singleplayer (Integrated)" : mc.getNetworkHandler().getBrand());
 
             Managers.TEXT.drawString(getLabel(server),
-                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(server), true)) - 2,
+                    context.getScaledWindowWidth() - Managers.TEXT.width(getLabel(server), true) - 2,
                     context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
@@ -290,10 +297,12 @@ public final class HUD extends ModuleBase
             String damage = String.valueOf(max - dmg);
 
 
-            String dura = "Durability:";
+            String dura = "Durability";
+
+            duraWidth.run(Managers.TEXT.width(getLabel(dura), true));
 
             Managers.TEXT.drawString(getLabel(dura),
-                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(dura), true)) - 4 - (Managers.TEXT.width(getLabel(damage), true)) - 2,
+                    context.getScaledWindowWidth() - duraWidth.getValue() - 4 - (Managers.TEXT.width(getLabel(damage), true)) - 2,
                     context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
@@ -314,14 +323,17 @@ public final class HUD extends ModuleBase
             double distanceX = mc.player.getX() - mc.player.prevX;
             double distanceZ = mc.player.getZ() - mc.player.prevZ;
 
-            String speed = "Speed: " +
+            String speed = "Speed " +
                     Formatting.WHITE +
-                    MathUtils.roundFloat((MathHelper.sqrt((float) (Math.pow(distanceX, 2) +
-                            Math.pow(distanceZ, 2))) / 1000) / (0.05F / 3600), 2) +
+                    // changed formatting cause it fucks with width schanging
+                    String.format("%.2f", (MathHelper.sqrt((float) (Math.pow(distanceX, 2) +
+                            Math.pow(distanceZ, 2))) / 1000) / (0.05F / 3600)) +
                     " km/h";
 
+            speedWidth.run((Managers.TEXT.width(getLabel(speed), true)));
+
             Managers.TEXT.drawString(getLabel(speed),
-                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(speed), true)) - 2,
+                    context.getScaledWindowWidth() - speedWidth.getValue() - 2,
                     context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
@@ -329,10 +341,12 @@ public final class HUD extends ModuleBase
         }
 
         if (packet.value()) {
-            String packet = "Packets: " + Formatting.GRAY + "[" + Formatting.WHITE + packets + Formatting.GRAY + "]";
+            String packet = "Packets " + Formatting.GRAY + "[" + Formatting.WHITE + packets + Formatting.GRAY + "]";
+
+            packetWidth.run((Managers.TEXT.width(getLabel(packet), true)));
 
             Managers.TEXT.drawString(getLabel(packet),
-                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(packet), true)) - 2,
+                    context.getScaledWindowWidth() - packetWidth.getValue() - 2,
                     context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
@@ -345,15 +359,17 @@ public final class HUD extends ModuleBase
 
             if (Managers.SERVER.getFastLatencyPing() != 0)
             {
-                pingString = "Ping: " + Formatting.WHITE + Managers.SERVER.getServerPing() + " [" + Managers.SERVER.getFastLatencyPing() + "]";
+                pingString = "Ping " + Formatting.WHITE + Managers.SERVER.getServerPing() + " [" + Managers.SERVER.getFastLatencyPing() + "]";
             }
             else
             {
-                pingString = "Ping: " + Formatting.WHITE + Managers.SERVER.getServerPing();
+                pingString = "Ping " + Formatting.WHITE + Managers.SERVER.getServerPing();
             }
 
+            pingWidth.run((Managers.TEXT.width(getLabel(pingString), true)));
+
             Managers.TEXT.drawString(getLabel(pingString),
-                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(pingString), true)) - 2,
+                    context.getScaledWindowWidth() - pingWidth.getValue() - 2,
                     context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
@@ -361,11 +377,14 @@ public final class HUD extends ModuleBase
             offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
         }
 
-        if (tps.value() && !mc.isInSingleplayer()) {
-            String tps = "TPS: " + Formatting.WHITE + Managers.SERVER.getOurTPS();
+        if (tps.value() && !mc.isInSingleplayer())
+        {
+            String tps = "TPS " + Formatting.WHITE + Managers.SERVER.getOurTPS();
+
+            tpsWidth.run((Managers.TEXT.width(getLabel(tps), true)));
 
             Managers.TEXT.drawString(getLabel(tps),
-                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(tps), true)) - 2,
+                    context.getScaledWindowWidth() - tpsWidth.getValue() - 2,
                     context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
@@ -390,10 +409,12 @@ public final class HUD extends ModuleBase
 
             int fpsCount = frames.size();
 
-            String fps = "FPS: " + Formatting.WHITE + fpsCount;
+            String fps = "FPS " + Formatting.WHITE + fpsCount;
+
+            fpsWidth.run(Managers.TEXT.width(getLabel(fps), true));
 
             Managers.TEXT.drawString(getLabel(fps),
-                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(fps), true)) - 2,
+                    context.getScaledWindowWidth() - fpsWidth.getValue() - 2,
                     context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
@@ -404,7 +425,7 @@ public final class HUD extends ModuleBase
         if (coordinates.value()) {
             boolean inHell = mc.world.getRegistryKey().getValue().getPath().equals("nether");
             if (inHell) {
-                Managers.TEXT.drawString(getLabel("XYZ: " +
+                Managers.TEXT.drawString(getLabel("XYZ " +
                                 Formatting.WHITE +
                                 getFormatting(mc.player.getPos().x) +
                                 ", " +
@@ -412,19 +433,30 @@ public final class HUD extends ModuleBase
                                 ", " +
                                 getFormatting(mc.player.getPos().z) +
                                 Formatting.GRAY +
-                                " (" +
+                                " [" +
                                 Formatting.WHITE +
                                 getFormatting(mc.player.getPos().x * 8.0) +
                                 ", " +
                                 getFormatting(mc.player.getPos().z * 8.0) +
                                 Formatting.GRAY +
-                                ")"),
+                                "] " +
+                                Formatting.GRAY +
+                                "[" +
+                                Formatting.WHITE +
+                                getFormatting(MathHelper.wrapDegrees(mc.player.getYaw())) +
+                                Formatting.GRAY +
+                                ", " +
+                                Formatting.WHITE +
+                                getFormatting(mc.player.getPitch()) +
+                                Formatting.GRAY +
+                                "]"
+                        ),
                         2,
                         context.getScaledWindowHeight() - 9 - 2 - animation.getValue(),
                         hudColor(coordinateOffset).getRGB()
                 );
             } else {
-                Managers.TEXT.drawString(getLabel("XYZ: " +
+                Managers.TEXT.drawString(getLabel("XYZ " +
                                 Formatting.WHITE +
                                 getFormatting(mc.player.getPos().x) +
                                 ", " +
@@ -432,13 +464,24 @@ public final class HUD extends ModuleBase
                                 ", " +
                                 getFormatting(mc.player.getPos().z) +
                                 Formatting.GRAY +
-                                " (" +
+                                " [" +
                                 Formatting.WHITE +
                                 getFormatting(mc.player.getPos().x / 8.0) +
                                 ", " +
                                 getFormatting(mc.player.getPos().z / 8.0) +
                                 Formatting.GRAY +
-                                ")"),
+                                "] " +
+                                Formatting.GRAY +
+                                "(" +
+                                Formatting.WHITE +
+                                getFormatting(MathHelper.wrapDegrees(mc.player.getYaw())) +
+                                Formatting.GRAY +
+                                ", " +
+                                Formatting.WHITE +
+                                getFormatting(mc.player.getPitch()) +
+                                Formatting.GRAY +
+                                ")"
+                        ),
                         2F,
                         context.getScaledWindowHeight() - 9 - coordinateOffset - 2 - animation.getValue(),
                         hudColor(coordinateOffset).getRGB()
@@ -473,7 +516,7 @@ public final class HUD extends ModuleBase
         String gang = axis[MathUtils.angleDirection(MathHelper.wrapDegrees(mc.player.getYaw()), axis.length)];
         String cool = directions[MathUtils.angleDirection(MathHelper.wrapDegrees(mc.player.getYaw()), directions.length)];
 
-        return cool + Formatting.GRAY + "(" + Formatting.WHITE + getFormatting(MathHelper.wrapDegrees(mc.player.getYaw())) + Formatting.GRAY + ", " + Formatting.WHITE + getFormatting(mc.player.getPitch()) + Formatting.GRAY + ") [" + Formatting.WHITE + gang + Formatting.GRAY + "]";
+        return cool + Formatting.GRAY + "[" + Formatting.WHITE + gang + Formatting.GRAY + "]";
     }
 
     public float getFixedArmorOffset(float percent)
@@ -498,7 +541,7 @@ public final class HUD extends ModuleBase
         Text name = statusEffectInstance.getEffectType().getName();
         return name.getString() +
                 (amplifier > 0 ? (" " + (amplifier + 1) + ": ") : ": ") +
-                Formatting.WHITE +
+                Formatting.GRAY +
                 PlayerUtils.getPotionDurationString(statusEffectInstance);
     }
 

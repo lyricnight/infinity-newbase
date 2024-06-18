@@ -3,7 +3,6 @@ package club.lyric.infinity.asm;
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.Version;
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.util.crash.CrashReport;

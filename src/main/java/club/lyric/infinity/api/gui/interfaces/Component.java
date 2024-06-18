@@ -15,7 +15,7 @@ public abstract class Component implements IMinecraft {
     protected float y;
 
     // Size
-    protected float width = 100;
+    protected float width = 98;
     protected float height;
     protected Panel panel;
 

@@ -1,7 +1,6 @@
 package club.lyric.infinity.impl.modules.combat;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -9,6 +8,7 @@ import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.entity.EntityUtils;
+import club.lyric.infinity.impl.events.network.PacketEvent;
 import com.google.common.collect.Streams;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

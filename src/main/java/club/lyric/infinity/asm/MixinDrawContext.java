@@ -1,7 +1,6 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.ducks.IDrawContext;
-import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -10,8 +9,6 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-
-import java.awt.*;
 
 /**
  * @author lyric

@@ -1,11 +1,7 @@
 package club.lyric.infinity.impl.modules.misc;
 
-import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.impl.events.mc.chat.ReceiveChatEvent;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
 public class Translate extends ModuleBase
 {

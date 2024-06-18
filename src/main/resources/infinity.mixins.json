@@ -24,7 +24,6 @@
     "accessors.IPlayerMoveC2SPacket"
   ],
   "client": [
-    "MixinBiomeColors",
     "MixinCamera",
     "MixinChatHud",
     "MixinChatHudLine",

@@ -5,7 +5,10 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 
@@ -28,10 +31,9 @@ public class Ambience extends ModuleBase {
     }
 
     @Override
-    public void onRender2D(DrawContext context)
+    public void onUpdate()
     {
-        // boze method
-        Render2DUtils.drawRect(context.getMatrices(), 0, 0, context.getScaledWindowWidth(), context.getScaledWindowHeight(), new Color(color.getColor().getRed(), color.getColor().getGreen(), color.getColor().getBlue(), 40).getRGB());
+        mc.world.getDimensionEffects().adjustFogColor(Vec3d.unpackRgb(color.getColor().getRGB()), 0);
     }
 
     @Override

@@ -67,8 +67,11 @@ public class SliderComponent extends Component implements IMinecraft
             double difference = setting.getMaximum() - setting.getMinimum();
             double value = ((mouseX - (panel.getX() + 2)) * difference / (width - 2) + setting.getMinimum());
 
-            setting.setValue(value);
+            setting.setValue(setting.getIncrement() * Math.round(value * (1 / setting.getIncrement())));
         }
+
+        animation.reset();
+        rect.reset();
     }
 
     @Override

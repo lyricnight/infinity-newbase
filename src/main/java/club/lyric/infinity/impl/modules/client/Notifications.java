@@ -7,7 +7,6 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.impl.events.render.RenderEntityEvent;
 import club.lyric.infinity.manager.Managers;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Formatting;
 

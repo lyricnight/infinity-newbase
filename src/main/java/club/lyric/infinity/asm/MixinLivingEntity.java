@@ -1,8 +1,8 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.impl.events.render.InterpolationEvent;
 import club.lyric.infinity.api.util.client.math.Time;
+import club.lyric.infinity.impl.events.render.InterpolationEvent;
 import club.lyric.infinity.impl.modules.player.AntiLevitation;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.entity.LivingEntity;

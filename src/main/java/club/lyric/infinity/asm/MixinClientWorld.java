@@ -11,8 +11,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,14 +22,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ClientWorld.class)
 public abstract class MixinClientWorld implements IMinecraft {
 
-    /**@Inject(method = "getSkyColor", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getSkyColor", at = @At("HEAD"), cancellable = true)
     private void getSkyColor(Vec3d cameraPos, float tickDelta, CallbackInfoReturnable<Vec3d> cir) {
         if (Managers.MODULES.getModuleFromClass(Ambience.class).isOn())
         {
             cir.setReturnValue(Vec3d.unpackRgb(Managers.MODULES.getModuleFromClass(Ambience.class).color.getColor().getRGB()));
         }
     }
-     z
 
     @Inject(method = "getCloudsColor", at = @At("HEAD"), cancellable = true)
     private void getCloudsColor(float tickDelta, CallbackInfoReturnable<Vec3d> cir) {
@@ -71,7 +68,7 @@ public abstract class MixinClientWorld implements IMinecraft {
         RenderEntityEvent.Removal event = new RenderEntityEvent.Removal(mc.world.getEntityById(entityId));
 
         EventBus.getInstance().post(event);
-    }*/
+    }
 
 
 }

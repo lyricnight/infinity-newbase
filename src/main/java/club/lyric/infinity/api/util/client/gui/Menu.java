@@ -4,7 +4,6 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
 import imgui.ImGui;
-import imgui.ImVec4;
 import imgui.flag.ImGuiCol;
 
 import java.util.ArrayList;

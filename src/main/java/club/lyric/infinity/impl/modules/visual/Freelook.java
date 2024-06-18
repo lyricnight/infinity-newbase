@@ -3,7 +3,6 @@ package club.lyric.infinity.impl.modules.visual;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import net.minecraft.client.option.Perspective;
-import net.minecraft.client.util.InputUtil;
 
 public final class Freelook extends ModuleBase {
 

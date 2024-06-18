@@ -60,6 +60,8 @@ public class BooleanComponent extends Component implements IMinecraft
         context.getMatrices().push();
         Managers.TEXT.drawString(setting.getName(), (int) (panel.getX() + 4.0f), y + height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), -1);
         context.getMatrices().pop();
+        animation.reset();
+        rect.reset();
     }
 
     @Override

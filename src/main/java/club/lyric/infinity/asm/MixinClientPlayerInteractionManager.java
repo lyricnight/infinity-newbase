@@ -2,8 +2,8 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.ducks.IClientPlayerInteractionManager;
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.impl.events.mc.mine.MineBlockEvent;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.events.mc.mine.MineBlockEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.util.math.BlockPos;

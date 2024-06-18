@@ -11,11 +11,16 @@ import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
 import club.lyric.infinity.manager.Managers;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.*;
+import net.minecraft.client.util.math.MatrixStack;
+import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 @SuppressWarnings("ConstantConditions")
 public class Panel implements IMinecraft {
@@ -66,13 +71,13 @@ public class Panel implements IMinecraft {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         drag(mouseX, mouseY);
 
-        alpha.run(255);
+        alpha.run(200);
         Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(GuiRewrite.class).color.getColor(), (int) alpha.getValue());
 
-        //if (open)
-        //{
-            //Render2DUtils.drawRect(context.getMatrices(), x, y, width, getHeightTotal(), new Color(10, 10, 10, 50).getRGB());
-        //}
+        if (open)
+        {
+            drawOutlineRect(context.getMatrices(), x + 0.1f, y + height - 1.0F, width - 0.1f, getHeightTotal() - height + 0.5f, color.getRGB());
+        }
 
         Render2DUtils.drawRect(context.getMatrices(), x, y - 1, width, height, color.getRGB());
 
@@ -205,6 +210,11 @@ public class Panel implements IMinecraft {
         return y;
     }
 
+    public float getHeightTotal()
+    {
+        return currY;
+    }
+
     protected boolean isHovering(double mouseX, double mouseY)
     {
         return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
@@ -223,5 +233,30 @@ public class Panel implements IMinecraft {
     public static String backspace(String string)
     {
         return (string != null && !string.isEmpty()) ? string.substring(0, string.length() - 1) : string;
+    }
+
+    public static void drawOutlineRect(MatrixStack matrices, float x, float y, float width, float height, int color)
+    {
+        Matrix4f matrix = matrices.peek().getPositionMatrix();
+
+        // Colors
+        float r = (float) (color >> 16 & 255) / 255.0F;
+        float g = (float) (color >> 8 & 255) / 255.0F;
+        float b = (float) (color & 255) / 255.0F;
+        float a = (float) (color >> 24 & 255) / 255.0F;
+
+        // Rect starts here
+        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+        Render2DUtils.setup();
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+        bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
+        bufferBuilder.vertex(matrix, x, y, 0.0F).color(r, g, b, a).next();
+        bufferBuilder.vertex(matrix, x, y + height, 0.0F).color(r, g, b, a).next();
+        bufferBuilder.vertex(matrix, x + width, y + height, 0.0F).color(r, g, b, a).next();
+        bufferBuilder.vertex(matrix, x + width, y, 0.0F).color(r, g, b, a).next();
+        bufferBuilder.vertex(matrix, x, y, 0.0F).color(r, g, b, a).next();
+        Tessellator.getInstance().draw();
+        Render2DUtils.end();
+        // Rect ends here
     }
 }

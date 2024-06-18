@@ -5,9 +5,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
 
 public class Particles extends ModuleBase {
 

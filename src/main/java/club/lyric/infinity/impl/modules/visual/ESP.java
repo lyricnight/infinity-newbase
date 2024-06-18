@@ -9,7 +9,6 @@ import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
 import club.lyric.infinity.api.util.client.render.util.Interpolation;
-import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.manager.Managers;

@@ -1,13 +1,13 @@
 package club.lyric.infinity.api.util.client.web;
 
+import club.lyric.infinity.Infinity;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-
-import club.lyric.infinity.Infinity;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 public class UUIDConverter {
 

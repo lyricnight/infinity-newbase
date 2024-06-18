@@ -3,7 +3,6 @@ package club.lyric.infinity.api.util.client.gui;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
-import club.lyric.infinity.api.util.client.sounds.SoundsUtils;
 import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.manager.Managers;
 import imgui.ImGui;

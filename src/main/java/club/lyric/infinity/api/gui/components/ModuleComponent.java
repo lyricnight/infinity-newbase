@@ -2,12 +2,14 @@ package club.lyric.infinity.api.gui.components;
 
 import club.lyric.infinity.api.gui.Panel;
 import club.lyric.infinity.api.gui.components.settings.BooleanComponent;
+import club.lyric.infinity.api.gui.components.settings.ColorComponent;
 import club.lyric.infinity.api.gui.components.settings.KeybindComponent;
 import club.lyric.infinity.api.gui.components.settings.SliderComponent;
 import club.lyric.infinity.api.gui.interfaces.Component;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.render.anim.Animation;
 import club.lyric.infinity.api.util.client.render.anim.Easing;
@@ -44,6 +46,10 @@ public class ModuleComponent extends Component implements IMinecraft
 
         if (!moduleBase.getSettings().isEmpty())
         {
+            // bind
+            moduleBase.getSettings().stream()
+                    .filter(setting -> setting instanceof BindSetting)
+                    .forEach(setting -> components.add(new KeybindComponent((BindSetting) setting, panel)));
 
             // boolean
             moduleBase.getSettings().stream()
@@ -55,10 +61,10 @@ public class ModuleComponent extends Component implements IMinecraft
                     .filter(setting -> setting instanceof NumberSetting)
                     .forEach(setting -> components.add(new SliderComponent((NumberSetting) setting, panel)));
 
-            // bind
+            // colo
             moduleBase.getSettings().stream()
-                    .filter(setting -> setting instanceof BindSetting)
-                    .forEach(setting -> components.add(new KeybindComponent((BindSetting) setting, panel)));
+                    .filter(setting -> setting instanceof ColorSetting)
+                    .forEach(setting -> components.add(new ColorComponent((ColorSetting) setting, panel)));
         }
     }
 
@@ -67,6 +73,7 @@ public class ModuleComponent extends Component implements IMinecraft
     {
 
         alpha.run(200);
+
         Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(GuiRewrite.class).color.getColor(), (int) alpha.getValue());
 
         if (moduleBase.isOn())
@@ -78,7 +85,7 @@ public class ModuleComponent extends Component implements IMinecraft
             rect.run(0);
         }
 
-        Render2DUtils.drawRect(context.getMatrices(), panel.getX(), y, rect.getValue(), height, color.getRGB());
+        Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 1.0f, y, rect.getValue(), height, color.getRGB());
 
         if (isHovering(mouseX, mouseY))
         {
@@ -183,6 +190,11 @@ public class ModuleComponent extends Component implements IMinecraft
         }
 
         return 14.0f;
+    }
+
+    public String getName()
+    {
+        return moduleBase.getName();
     }
 
     protected boolean isHovering(double mouseX, double mouseY)

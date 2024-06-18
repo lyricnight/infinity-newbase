@@ -3,11 +3,7 @@ package club.lyric.infinity.api.setting.settings;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
-
-import imgui.ImDrawList;
 import imgui.ImGui;
-import imgui.ImVec2;
-import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiDataType;
 import imgui.type.ImDouble;
 import imgui.type.ImInt;

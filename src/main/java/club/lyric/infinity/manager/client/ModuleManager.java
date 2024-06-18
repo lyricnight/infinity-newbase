@@ -7,7 +7,6 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.*;
 import club.lyric.infinity.impl.modules.combat.*;
 import club.lyric.infinity.impl.modules.exploit.*;
-import club.lyric.infinity.impl.modules.exploit.KickPrevent;
 import club.lyric.infinity.impl.modules.misc.AntiAscii;
 import club.lyric.infinity.impl.modules.misc.IRC;
 import club.lyric.infinity.impl.modules.misc.MCF;
@@ -16,7 +15,10 @@ import club.lyric.infinity.impl.modules.movement.*;
 import club.lyric.infinity.impl.modules.player.*;
 import club.lyric.infinity.impl.modules.visual.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
