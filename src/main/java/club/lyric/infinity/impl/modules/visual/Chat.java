@@ -79,6 +79,7 @@ public final class Chat extends ModuleBase {
     @EventHandler(priority = 800)
     public void onChatReceive(ReceiveChatEvent event)
     {
+        clear();
         if (timeStamps.value()) {
             Text message = event.getMessage();
 

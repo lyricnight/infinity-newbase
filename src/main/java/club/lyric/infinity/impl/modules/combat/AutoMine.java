@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author lyric
  * this is getting redone
  */
-
+//TODO: delete this and make it actually good?
 public final class AutoMine extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "Vanilla", "Vanilla", "Packet", "Both");
     public NumberSetting range = new NumberSetting("Range", this, 5.0, 0.0, 6.0, 0.1);
@@ -152,15 +152,12 @@ public final class AutoMine extends ModuleBase {
             ChatUtils.sendMessagePrivate("Attacking: " + pos);
         }
         if (BlockUtils.getDistanceSq(pos) > MathUtils.square(this.range.getFValue())) {
-            ChatUtils.sendMessagePrivate("Attack failed: range");
             return;
         }
         if ((mc.world.getBlockState(pos).getBlock()) == Blocks.AIR) {
-            ChatUtils.sendMessagePrivate("Attack failed: air");
             return;
         }
         if (!BlockUtils.canBreak(pos)) {
-            ChatUtils.sendMessagePrivate("Attack failed: break");
             return;
         }
         if (first)

@@ -23,6 +23,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.math.MathHelper;
 
+//TODO: make a service for this
 @SuppressWarnings("ConstantConditions")
 public class Offhand extends ModuleBase
 {

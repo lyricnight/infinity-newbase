@@ -11,6 +11,7 @@ import net.minecraft.util.Formatting;
 /**
  * @author vasler
  */
+//TODO: make detection better and readd pause functionality so that modules don't conflict
 @SuppressWarnings({"unused"})
 public class NoAccelerate extends ModuleBase {
 

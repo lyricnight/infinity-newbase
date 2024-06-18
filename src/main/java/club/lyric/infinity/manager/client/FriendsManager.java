@@ -2,14 +2,8 @@ package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.entity.player.PlayerEntity;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-
 
 /**
  * @author lyric
@@ -18,12 +12,12 @@ public final class FriendsManager  {
     private JsonObject friends = new JsonObject();
 
     public boolean isFriend(PlayerEntity player) {
-        return friends.get(player.getUuidAsString()) != null;
+        return friends.get(String.valueOf(player.hashCode())) != null;
     }
 
     public boolean isFriend(String name)
     {
-        return friends.get(getUUID(name)) != null;
+        return friends.get(getUniqueIdentifier(name)) != null;
     }
 
     public void addFriend(String name)
@@ -33,7 +27,7 @@ public final class FriendsManager  {
             ChatUtils.sendOverwriteMessage(name + " is already on your friends list!", 9349);
             return;
         }
-        this.friends.add(getUUID(name), new JsonPrimitive(name));
+        this.friends.add(getUniqueIdentifier(name), new JsonPrimitive(name));
         ChatUtils.sendOverwriteMessage("Added " + name + " to your friends list.", 9349);
     }
 
@@ -41,7 +35,7 @@ public final class FriendsManager  {
     {
         if (isFriend(name))
         {
-            this.friends.remove(getUUID(name));
+            this.friends.remove(getUniqueIdentifier(name));
             ChatUtils.sendOverwriteMessage("Removed " + name + " from your friends list.", 9349);
         }
         else
@@ -59,19 +53,8 @@ public final class FriendsManager  {
         this.friends = friends;
     }
 
-    @SuppressWarnings("deprecated")
-    public static String getUUID(String name) {
-        String uuid;
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openStream()));
-            uuid = ((JsonObject)new JsonParser().parse(bufferedReader)).get("id").toString().replaceAll("\"", "");
-            uuid = uuid.replaceAll("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5");
-            bufferedReader.close();
-        } catch (Exception e) {
-            throw new RuntimeException("UUID Error -> couldn't get the uuid of:" + name);
-        }
-        return uuid;
+    private String getUniqueIdentifier(String name)
+    {
+        return String.valueOf(name.hashCode());
     }
-
-
 }

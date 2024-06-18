@@ -6,7 +6,8 @@ import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
-
+//pretty sure this doesn't work
+//TODO: add timer
 public final class Step extends ModuleBase {
 
     public ModeSetting mode = new ModeSetting("Mode", this, "Vanilla", "Vanilla", "Normal");
