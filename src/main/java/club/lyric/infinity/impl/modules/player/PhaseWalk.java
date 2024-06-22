@@ -12,6 +12,8 @@ import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.impl.events.mc.movement.EntityMovementEvent;
 import club.lyric.infinity.impl.events.mc.movement.MotionEvent;
+import club.lyric.infinity.impl.modules.movement.NoAccelerate;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
 /**
@@ -30,8 +32,6 @@ public final class PhaseWalk extends ModuleBase {
     public BooleanSetting down = new BooleanSetting("Down", false, this);
 
     public NumberSetting downDelay = new NumberSetting("DownDelay", this, 2, 1,10, 1);
-    //??
-    public BooleanSetting collisions = new BooleanSetting("Collisions", true, this);
 
     private final StopWatch.Single watch = new StopWatch.Single();
 
@@ -41,6 +41,19 @@ public final class PhaseWalk extends ModuleBase {
     {
         super("PhaseWalk", "For phasing.", Category.Player);
     }
+
+    @Override
+    public void onEnable()
+    {
+        Managers.MODULES.getModuleFromClass(NoAccelerate.class).pause = true;
+    }
+
+    @Override
+    public void onDisable()
+    {
+        Managers.MODULES.getModuleFromClass(NoAccelerate.class).pause = false;
+    }
+
 
     @SuppressWarnings("unused")
     @EventHandler

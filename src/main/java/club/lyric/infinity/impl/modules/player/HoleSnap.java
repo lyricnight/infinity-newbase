@@ -142,7 +142,7 @@ public final class HoleSnap extends ModuleBase {
         Vec3d playerPos = mc.player.getPos();
         Vec3d holePos = HoleUtils.getCenter(hole);
         Vec3d targetPos = new Vec3d(holePos.x, mc.player.getY(), holePos.z);
-        double yawRad = Math.toRadians(RotationUtils.getRotationTo(playerPos, targetPos).x);
+        double yawRad = Math.toRadians(RotationUtils.getRotationAsVec2f(playerPos, targetPos).x);
         double dist = playerPos.distanceTo(targetPos);
         double d = speed = mc.player.isOnGround() ? -Math.min(0.2805, dist / 2.0) : -PlayerUtils.getSpeed(mc.player) + 0.02;
         if (dist < 0.1) {

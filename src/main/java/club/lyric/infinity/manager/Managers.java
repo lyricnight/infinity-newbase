@@ -4,9 +4,7 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.util.client.spotify.Spotify;
 import club.lyric.infinity.manager.client.*;
-import club.lyric.infinity.manager.fabric.EventManager;
-import club.lyric.infinity.manager.fabric.ServerManager;
-import club.lyric.infinity.manager.fabric.TimerManager;
+import club.lyric.infinity.manager.fabric.*;
 
 /**
  * @author lyric
@@ -24,6 +22,7 @@ public final class Managers {
     public static TextManager TEXT = new TextManager();
     public static TimerManager TIMER = new TimerManager();
     public static OtherEntityManager OTHER = new OtherEntityManager();
+    public static InventoryManager INVENTORY = new InventoryManager();
 
     /**
      * subscribing all managers...

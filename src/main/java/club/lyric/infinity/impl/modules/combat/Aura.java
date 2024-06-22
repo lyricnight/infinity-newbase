@@ -16,6 +16,7 @@ import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.impl.modules.client.Colours;
+import club.lyric.infinity.impl.modules.movement.NoAccelerate;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
@@ -67,11 +68,10 @@ public final class Aura extends ModuleBase {
         super("Aura", "Hits people", Category.Combat);
     }
 
-    @EventHandler
-    public void onInput(KeyPressEvent event)
+    @EventHandler()
+    public void onInput(KeyPressEvent ignored)
     {
-        if (target != null)
-            MovementUtil.movementFix();
+        if (target != null) MovementUtil.movementFix();
     }
 
     @EventHandler
@@ -136,10 +136,10 @@ public final class Aura extends ModuleBase {
         }
 
         if (cooldown.value() && !(mc.player.getAttackCooldownProgress(0) >= 1.0f)) return;
-
+        Managers.MODULES.getModuleFromClass(NoAccelerate.class).pause = true;
         mc.interactionManager.attackEntity(mc.player, target.entity());
         mc.player.swingHand(Hand.MAIN_HAND);
-
+        Managers.MODULES.getModuleFromClass(NoAccelerate.class).pause = false;
         if (sprint.value()) {
             mc.player.setSprinting(true);
         }
@@ -255,6 +255,4 @@ public final class Aura extends ModuleBase {
     {
         return entity instanceof PlayerEntity && players.value() || EntityUtils.isMob(entity) && mobs.value() || EntityUtils.isAnimal(entity) && animals.value();
     }
-
-
 }

@@ -1,4 +1,4 @@
-package club.lyric.infinity.manager.client;
+package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;

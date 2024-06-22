@@ -10,7 +10,6 @@ import club.lyric.infinity.impl.modules.exploit.*;
 import club.lyric.infinity.impl.modules.misc.AntiAscii;
 import club.lyric.infinity.impl.modules.misc.IRC;
 import club.lyric.infinity.impl.modules.misc.MCF;
-import club.lyric.infinity.impl.modules.misc.Translate;
 import club.lyric.infinity.impl.modules.movement.*;
 import club.lyric.infinity.impl.modules.player.*;
 import club.lyric.infinity.impl.modules.visual.*;
@@ -70,19 +69,16 @@ public final class ModuleManager implements IMinecraft
                 new CameraClip(),
                 new ESP(),
                 new Criticals(),
-                new SafeWalk(),
                 new Ambience(),
                 new MultiTask(),
                 new XCarry(),
                 new RaytraceBypass(),
                 new IRC(),
                 new Freelook(),
-                new ReverseStep(),
                 new BlockHighlight(),
                 new NoRotate(),
                 new AntiLevitation(),
                 new Particles(),
-                new Translate(),
                 new KickPrevent(),
                 new Fonts(),
                 new GuiRewrite()

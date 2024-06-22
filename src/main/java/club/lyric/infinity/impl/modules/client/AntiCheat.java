@@ -13,6 +13,7 @@ import club.lyric.infinity.manager.Managers;
  */
 public final class AntiCheat extends PersistentModuleBase {
     public BooleanSetting rotate = new BooleanSetting("Rotate", false, this);
+    public NumberSetting holdingTime = new NumberSetting("HoldingTime", this, 0f, 5f, 20f, 0.5f);
     public BooleanSetting strictDirection = new BooleanSetting("StrictDirection", false,this);
     public NumberSetting bpt = new NumberSetting("BPT", this, 4, 1, 20, 1);
     public BooleanSetting swing = new BooleanSetting("Swing", false, this);
@@ -27,6 +28,11 @@ public final class AntiCheat extends PersistentModuleBase {
     public static boolean getRotation()
     {
         return Managers.MODULES.getModuleFromClass(AntiCheat.class).rotate.value();
+    }
+
+    public static float getHoldingTime()
+    {
+        return Managers.MODULES.getModuleFromClass(AntiCheat.class).holdingTime.getFValue();
     }
 
     public static boolean getStrictDirection()

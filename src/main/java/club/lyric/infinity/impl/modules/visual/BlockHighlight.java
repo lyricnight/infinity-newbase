@@ -17,6 +17,9 @@ import net.minecraft.util.math.Box;
 
 import java.awt.*;
 
+/**
+ * @author vasler
+ */
 public class BlockHighlight extends ModuleBase
 {
     public ColorSetting lineColor = new ColorSetting("LineColor", this, new JColor(new Color(50, 255, 50, 255)), true);

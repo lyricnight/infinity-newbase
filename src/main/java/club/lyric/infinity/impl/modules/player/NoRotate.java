@@ -6,9 +6,12 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 
+/**
+ * @author valser
+ */
+//this is way too simple lmao
 public class NoRotate extends ModuleBase
 {
-
     public NoRotate()
     {
         super("NoRotate", "hhh", Category.Player);

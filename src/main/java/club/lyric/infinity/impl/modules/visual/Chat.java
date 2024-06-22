@@ -58,8 +58,6 @@ public final class Chat extends ModuleBase {
     private final SimpleDateFormat date = new SimpleDateFormat("HH:mm");
 
     public final IntList lines = new IntArrayList();
-    private final String lastMessage = "";
-    private final int amount = 1;
 
     public Chat()
     {

@@ -11,11 +11,7 @@ import net.minecraft.util.Formatting;
 /**
  * @author vasler
  */
-//TODO: make detection better and readd pause functionality so that modules don't conflict
-@SuppressWarnings({"unused"})
 public class NoAccelerate extends ModuleBase {
-
-    public ModeSetting mode = new ModeSetting("Mode", this, "Strict", "Strict", "Normal", "Grim");
 
     public boolean pause = false;
 
@@ -28,21 +24,12 @@ public class NoAccelerate extends ModuleBase {
     public void onMovement(EntityMovementEvent event)
     {
         if (pause) return;
-        if (mode.is("Strict"))
-        {
-
-            if (!mc.player.isOnGround()) return;
-
-            MovementUtil.createSpeed(MovementUtil.getSpeed(true));
-
-        }
-
-        if (mode.is("Normal"))
-        {
-
-            MovementUtil.createSpeed(MovementUtil.getSpeed(true));
-
-        }
+        MovementUtil.createSpeed(MovementUtil.getSpeed(true));
+    }
+    @Override
+    public void onUpdate()
+    {
+        pause = !mc.player.isOnGround() || mc.player.isSpectator() || mc.player.isSneaking();
     }
 
     @Override
@@ -50,11 +37,11 @@ public class NoAccelerate extends ModuleBase {
     {
         if (pause)
         {
-            return mode.getMode() + ", " + Formatting.RED + "false";
+            return Formatting.RED + "false";
         }
         else
         {
-            return mode.getMode() + ", " + Formatting.GREEN + "true";
+            return Formatting.GREEN + "true";
         }
     }
 }

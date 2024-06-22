@@ -31,20 +31,6 @@ public class LocationEvent extends Event {
         this.onGround = onGround;
     }
 
-    public static class Pre extends LocationEvent {
-        public Pre(double x, double y, double z, float yaw, float pitch, boolean onGround)
-        {
-            super(x, y, z, yaw, pitch, onGround);
-        }
-    }
-
-    public static class Post extends LocationEvent {
-        public Post(double x, double y, double z, float yaw, float pitch, boolean onGround)
-        {
-            super(x, y, z, yaw, pitch, onGround);
-        }
-    }
-
     public float getYaw() {
         return yaw;
     }
@@ -82,5 +68,10 @@ public class LocationEvent extends Event {
     public void setOnGround(boolean onGround) {
         modified = true;
         this.onGround = onGround;
+    }
+
+    public boolean isModified()
+    {
+        return modified;
     }
 }
