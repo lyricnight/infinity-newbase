@@ -153,7 +153,7 @@ public class Speed extends ModuleBase {
                 else if (stage == 2)
                 {
 
-                    velocityY = 0.3999999463558197f;
+                    velocityY = 0.4000000054314141413434141341431f;
 
                     if (boost)
                     {
@@ -164,7 +164,7 @@ public class Speed extends ModuleBase {
                     else
                     {
 
-                        speed *= 1.395;
+                        speed *= 1.408;
 
                     }
 

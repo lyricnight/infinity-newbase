@@ -338,6 +338,7 @@ public final class HUD extends ModuleBase
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
             offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
+            speedWidth.reset();
         }
 
         if (packet.value()) {

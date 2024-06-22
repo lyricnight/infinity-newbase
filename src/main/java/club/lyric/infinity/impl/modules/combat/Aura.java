@@ -13,7 +13,10 @@ import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import club.lyric.infinity.api.util.minecraft.player.MovementPlayer;
 import club.lyric.infinity.api.util.minecraft.player.PlayerPosition;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
+import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;
+import club.lyric.infinity.api.util.minecraft.rotation.RotationUtils;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
+import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
 import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.impl.modules.movement.NoAccelerate;
@@ -84,6 +87,14 @@ public final class Aura extends ModuleBase {
         else if (event.getStage() == 1)
         {
             attack(target, mc.player, false);
+        }
+        if (target != null)
+        {
+            Vec3d playerPos = mc.player.getPos();
+
+            float[] rotations = RotationUtils.getRotationsTo(playerPos, target.entity.getPos());
+
+            Managers.ROTATIONS.setRotationPoint(new RotationPoint(rotations[0], rotations[1], 9, false));
         }
     }
 
@@ -250,6 +261,8 @@ public final class Aura extends ModuleBase {
             return lowest;
         }
     }
+
+
 
     private boolean isValid(Entity entity)
     {

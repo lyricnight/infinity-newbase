@@ -76,6 +76,8 @@ public class ModuleComponent extends Component implements IMinecraft
 
         Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(GuiRewrite.class).color.getColor(), (int) alpha.getValue());
 
+        Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 1.0f, y, width, height, ColorUtils.alpha(color, 70).getRGB());
+
         if (moduleBase.isOn())
         {
             rect.run(width);

@@ -96,6 +96,7 @@ public class NVGRenderer implements IMinecraft
         if (shadow)
         {
             Color shadowColor = new Color(ColorUtils.darken(color, 200).getRGB());
+
             NanoVG.nvgFontBlur(context, blur + 0.5f);
             NanoVG.nvgFillColor(context, getColorNVG(shadowColor));
             NanoVG.nvgText(context, x + 0.5f, y + 0.5f, text);

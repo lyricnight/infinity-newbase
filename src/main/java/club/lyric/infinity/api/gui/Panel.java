@@ -93,7 +93,7 @@ public class Panel implements IMinecraft {
         currY = height;
 
         context.getMatrices().push();
-        Managers.TEXT.drawString(category.name(), (int) (x + 2.0f), y + (float) height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), -1);
+        Managers.TEXT.drawString(category.name(), (int) (x + (float) width / 2 - ((int) Managers.TEXT.width(category.name(), true) >> 1)), y + (float) height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), -1);
         context.getMatrices().pop();
 
         if (!open) return;

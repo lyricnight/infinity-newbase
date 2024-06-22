@@ -50,9 +50,6 @@ public class Offhand extends ModuleBase
         // if the item is in their offhand it doesn't switch.
         if (mc.player.getOffHandStack().getItem() == item) return;
 
-        // closes the inventory gui if its in it
-        if (mc.currentScreen instanceof InventoryScreen) mc.player.closeScreen();
-
         // xtra check, not rlly needed
         if (mc.currentScreen != null) return;
 

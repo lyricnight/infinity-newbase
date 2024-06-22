@@ -173,7 +173,6 @@ public final class HoleSnap extends ModuleBase {
         return !(hole.getFirst().getY() >= mc.player.getY()) || step.value();
     }
 
-
     private Hole getTarget(float range) {
         return HoleUtils.getHoles(range, true, false, false, terrain.value()).stream().filter(this::isReachable).filter(hole -> mc.player.getPos().distanceTo(new Vec3d(hole.getFirst().getX() + 0.5, mc.player.getY(), hole.getFirst().getZ() + 0.5)) <= range).min(Comparator.comparingDouble(hole -> mc.player.getPos().distanceTo(new Vec3d(hole.getFirst().getX() + 0.5, mc.player.getY(), hole.getFirst().getZ() + 0.5)))).orElse(null);
     }

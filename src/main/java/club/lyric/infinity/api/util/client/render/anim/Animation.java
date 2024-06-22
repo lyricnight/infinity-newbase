@@ -2,9 +2,8 @@ package club.lyric.infinity.api.util.client.render.anim;
 public class Animation
 {
 
-    private Easing easing;
-    private long duration;
-    private long millis;
+    private final Easing easing;
+    private final long duration;
     private long startTime;
 
     private double startValue;
@@ -21,7 +20,7 @@ public class Animation
 
     public void run(final double destinationValue)
     {
-        this.millis = System.currentTimeMillis();
+        long millis = System.currentTimeMillis();
         if (this.destinationValue != destinationValue)
         {
             this.destinationValue = destinationValue;
@@ -29,7 +28,7 @@ public class Animation
         }
         else
         {
-            this.finished = this.millis - this.duration > this.startTime;
+            this.finished = millis - this.duration > this.startTime;
             if (this.finished)
             {
                 this.value = destinationValue;
