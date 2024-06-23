@@ -28,11 +28,10 @@ public class HudEditor extends Screen implements IMinecraft
         for (Category category : Category.values())
         {
 
-            if (category != Category.Hud) return;
-
-            panels.add(new Panel(category, x, 3, true));
-
-            x += 102;
+            if (category == Category.Hud)
+            {
+                panels.add(new Panel(category, x, 3, true));
+            }
         }
     }
 

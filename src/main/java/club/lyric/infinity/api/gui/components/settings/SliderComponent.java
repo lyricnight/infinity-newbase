@@ -39,6 +39,8 @@ public class SliderComponent extends Component implements IMinecraft
     public void render(DrawContext context, int mouseX, int mouseY, float delta)
     {
 
+        if (setting.getName().equals("hudX") || setting.getName().equals("hudY")) return;
+
         Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(GuiRewrite.class).color.getColor(), 200);
 
         float length = MathUtils.round(((setting.getFValue() - setting.getMinimum()) / (setting.getMaximum() - setting.getMinimum())) * (width - 2));
