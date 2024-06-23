@@ -5,6 +5,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ColorSetting;
+import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.gui.Menu;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
@@ -20,6 +21,7 @@ import java.awt.*;
 public final class ClickGui extends ModuleBase {
 
     public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(64, 64, 124)), false);
+    public NumberSetting speed = new NumberSetting("Speed", this, 250, 0, 1000, 1, "ms");
 
     public BooleanSetting resizing = new BooleanSetting("Resizing", false, this);
 

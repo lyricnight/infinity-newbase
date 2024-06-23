@@ -44,20 +44,20 @@ public class AutoCrystal extends ModuleBase {
     public BooleanSetting players = new BooleanSetting("Players", true, this);
     public BooleanSetting animals = new BooleanSetting("Animals", true, this);
     public BooleanSetting mobs = new BooleanSetting("Mobs", true, this);
-    public NumberSetting enemyRange = new NumberSetting("EnemyRange", this, 6.0f, 1.0f, 7.0f, 0.1f);
+    public NumberSetting enemyRange = new NumberSetting("EnemyRange", this, 6.0f, 1.0f, 7.0f, 0.1f, "m");
     // Breaking
     public ModeSetting breaking = new ModeSetting("Breaking", this, "All", "Calculated", "All");
     public ModeSetting breaks = new ModeSetting("Break", this, "Vanilla", "Vanilla", "Packet");
-    public NumberSetting hitRange = new NumberSetting("HitRange", this, 6.0f, 1.0f, 7.0f, 0.1f);
-    public NumberSetting hitDelay = new NumberSetting("HitDelay", this, 15.0f, 0.0f, 600.0f, 0.1f);
+    public NumberSetting hitRange = new NumberSetting("HitRange", this, 6.0f, 1.0f, 7.0f, 0.1f, "m");
+    public NumberSetting hitDelay = new NumberSetting("HitDelay", this, 15.0f, 0.0f, 600.0f, 0.1f, "ms");
     public ModeSetting swing = new ModeSetting("Swing", this, "Vanilla", "Vanilla", "Packet", "None");
     public ModeSetting swingOn = new ModeSetting("SwingOn", this, "Both", "Both", "Place", "Break");
     public ModeSetting hands = new ModeSetting("SwingHand", this, "Main", "Main", "Off", "None");
     public BooleanSetting explosion = new BooleanSetting("Explosion", true, this);
     public BooleanSetting sound = new BooleanSetting("Sound", true, this);
-    public NumberSetting tickExisted = new NumberSetting("TickExisted", this, 0.0f, 0.0f, 20.0f, 1.0f);
+    public NumberSetting tickExisted = new NumberSetting("TickExisted", this, 0.0f, 0.0f, 20.0f, 1.0f, " ticks");
     public BooleanSetting inhibit = new BooleanSetting("Inhibit", true, this);
-    public NumberSetting timeout = new NumberSetting("Timeout", this, 500.0f, 0.0f, 2000.0f, 1.0f);
+    public NumberSetting timeout = new NumberSetting("Timeout", this, 500.0f, 0.0f, 2000.0f, 1.0f, "ms");
     private final StopWatch.Single breakTimer = new StopWatch.Single();
     private final Map<BlockPos, Long> ownCrystals = new HashMap<>();
     private final Map<Integer, StopWatch.Single> hitCrystals = new HashMap<>();

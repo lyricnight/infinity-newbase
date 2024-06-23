@@ -18,6 +18,7 @@ import club.lyric.infinity.api.util.minecraft.rotation.RotationUtils;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
 import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
+import club.lyric.infinity.impl.modules.client.AntiCheat;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.impl.modules.movement.NoAccelerate;
 import club.lyric.infinity.manager.Managers;
@@ -52,7 +53,7 @@ import java.awt.*;
 public final class Aura extends ModuleBase {
 
     public ModeSetting priority = new ModeSetting("Priority", this, "Armor", "Armor", "Health");
-    public NumberSetting range = new NumberSetting("Range", this, 6.0f, 1.0f, 7.0f, 0.1f);
+    public NumberSetting range = new NumberSetting("Range", this, 6.0f, 1.0f, 7.0f, 0.1f, "m");
     public BooleanSetting tele = new BooleanSetting("Teleport", false, this);
     public BooleanSetting require = new BooleanSetting("Require", true, this);
     public BooleanSetting players = new BooleanSetting("Players", true, this);
@@ -88,7 +89,8 @@ public final class Aura extends ModuleBase {
         {
             attack(target, mc.player, false);
         }
-        if (target != null)
+
+        if (target != null && AntiCheat.getRotation())
         {
             Vec3d playerPos = mc.player.getPos();
 

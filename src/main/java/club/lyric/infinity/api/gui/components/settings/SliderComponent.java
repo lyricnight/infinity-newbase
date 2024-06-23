@@ -10,6 +10,7 @@ import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
@@ -22,8 +23,8 @@ public class SliderComponent extends Component implements IMinecraft
 {
 
     public NumberSetting  setting;
-    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
-    private final Animation rect = new Animation(Easing.EASE_OUT_QUAD, 150);
+    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGui.class).speed.getLValue());
+    private final Animation rect = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGui.class).speed.getLValue());
     protected StopWatch stopWatch = new StopWatch.Single();
     public boolean drag;
 
@@ -55,7 +56,7 @@ public class SliderComponent extends Component implements IMinecraft
             animation.run(0);
         }
 
-        String name = setting.getName() + ": " + String.format("%.2f", setting.getValue());
+        String name = setting.getName() + ": " + String.format("%.2f", setting.getValue()) + (setting.getAppend() != null ? setting.getAppend() : "");
         float textY = y + height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue();
 
         context.getMatrices().push();

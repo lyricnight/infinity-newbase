@@ -28,7 +28,7 @@ import net.minecraft.util.math.MathHelper;
 public class Offhand extends ModuleBase
 {
     public ModeSetting mode = new ModeSetting("Mode", this, "Totem", "Totem", "Crystal", "Gapple", "Sword");
-    public NumberSetting health = new NumberSetting("Health", this, 16.0f, 1.0f, 36.0f, 0.1f);
+    public NumberSetting health = new NumberSetting("Health", this, 16.0f, 1.0f, 36.0f, 0.1f, "hp");
     public BooleanSetting swordGap = new BooleanSetting("SwordGap", true, this);
     public BooleanSetting smart = new BooleanSetting("Smart", true, this);
 

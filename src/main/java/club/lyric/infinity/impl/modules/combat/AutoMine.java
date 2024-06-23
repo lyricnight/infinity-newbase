@@ -29,8 +29,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 //TODO: delete this and make it actually good?
 public final class AutoMine extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "Vanilla", "Vanilla", "Packet", "Both");
-    public NumberSetting range = new NumberSetting("Range", this, 5.0, 0.0, 6.0, 0.1);
-    public NumberSetting enemyRange = new NumberSetting("EnemyRange", this, 5.0, 1.0, 10.0, 0.5);
+    public NumberSetting range = new NumberSetting("Range", this, 5.0, 0.0, 6.0, 0.1, "m");
+    public NumberSetting enemyRange = new NumberSetting("EnemyRange", this, 5.0, 1.0, 10.0, 0.5, "m");
     public BooleanSetting protocol = new BooleanSetting("Protocol", true, this);
     public BooleanSetting feet = new BooleanSetting("Feet", true, this);
     public BooleanSetting semi = new BooleanSetting("Semi", false, this);

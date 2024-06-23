@@ -17,6 +17,7 @@ public class NumberSetting extends Setting implements Renderable {
     private double maximum;
     private double increment;
     private final boolean decimal;
+    private String append;
 
     public NumberSetting(String name, ModuleBase moduleBase, double value, double minimum, double maximum, double increment) {
         this.name = name;
@@ -30,7 +31,7 @@ public class NumberSetting extends Setting implements Renderable {
         if (moduleBase != null) moduleBase.addSettings(this);
     }
 
-    public NumberSetting(String name, ModuleBase moduleBase, double value, double minimum, double maximum, double increment, boolean visibility) {
+    public NumberSetting(String name, ModuleBase moduleBase, double value, double minimum, double maximum, double increment, String append) {
         this.name = name;
         this.moduleBase = moduleBase;
         this.value = value;
@@ -38,13 +39,18 @@ public class NumberSetting extends Setting implements Renderable {
         this.maximum = maximum;
         this.increment = 1.0f;
         this.decimal = !(Math.floor(increment) == increment);
-        this.visibility = visibility;
+        this.append = append;
 
         if (moduleBase != null) moduleBase.addSettings(this);
     }
 
     public double getValue() {
         return this.value;
+    }
+
+
+    public String getAppend() {
+        return append;
     }
 
     public float getFValue() {

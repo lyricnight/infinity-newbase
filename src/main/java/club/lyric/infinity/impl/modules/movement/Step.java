@@ -19,7 +19,8 @@ public final class Step extends ModuleBase {
                     1.0f,
                     0.0f,
                     2.0f,
-                    0.1f
+                    0.1f,
+                    "b"
             );
 
     StopWatch.Single stopWatch = new StopWatch.Single();

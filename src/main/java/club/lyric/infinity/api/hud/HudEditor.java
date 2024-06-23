@@ -1,5 +1,6 @@
-package club.lyric.infinity.api.gui;
+package club.lyric.infinity.api.hud;
 
+import club.lyric.infinity.api.gui.Panel;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
@@ -12,10 +13,11 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
-public class Gui extends Screen implements IMinecraft {
+public class HudEditor extends Screen implements IMinecraft
+{
     private static ArrayList<Panel> panels = null;
 
-    public Gui()
+    public HudEditor()
     {
         super(Text.of("Infinity"));
 
@@ -26,7 +28,7 @@ public class Gui extends Screen implements IMinecraft {
         for (Category category : Category.values())
         {
 
-            if (category == Category.Hud) return;
+            if (category != Category.Hud) return;
 
             panels.add(new Panel(category, x, 3, true));
 

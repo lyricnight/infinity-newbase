@@ -24,7 +24,7 @@ import java.util.Comparator;
  */
 @SuppressWarnings({"DataFlowIssue", "unused"})
 public final class HoleSnap extends ModuleBase {
-    public NumberSetting range = new NumberSetting("Range", this, 4f, 1f, 10f, 0.5f);
+    public NumberSetting range = new NumberSetting("Range", this, 4f, 1f, 10f, 0.5f, "m");
     public BooleanSetting step = new BooleanSetting("Step", false, this);
     public BooleanSetting remove = new BooleanSetting("Remove", false, this);
     public NumberSetting timerLength = new NumberSetting("Length", this, 20, 1, 100, 5);

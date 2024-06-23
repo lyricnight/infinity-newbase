@@ -9,6 +9,7 @@ import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.client.sounds.SoundsUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
@@ -21,8 +22,8 @@ public class BooleanComponent extends Component implements IMinecraft
 {
 
     public BooleanSetting setting;
-    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
-    private final Animation rect = new Animation(Easing.EASE_OUT_QUAD, 250);
+    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGui.class).speed.getLValue());
+    private final Animation rect = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGui.class).speed.getLValue());
 
     public BooleanComponent(BooleanSetting setting, Panel panel)
     {
