@@ -14,6 +14,7 @@ public final class GuiRewrite extends ModuleBase {
 
     public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(64, 64, 124)), false);
     public NumberSetting height = new NumberSetting("Height", this, 16f, 10f, 20f, 1f);
+    public NumberSetting speed = new NumberSetting("Speed", this, 250, 0, 1000, 1, "ms");
 
     public GuiRewrite()
     {
