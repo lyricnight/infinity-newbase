@@ -19,13 +19,13 @@ public class Editor {
 
     public void mouseClicked(double mouseX, double mouseY, int button)
     {
-        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && isHovering(mouseX, mouseY))
-        {
+        //if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && isHovering(mouseX, mouseY))
+        //{
             x2 = (int) (x - mouseX);
             y2 = (int) (y - mouseY);
-            
+
             drag = true;
-        }
+        //}
     }
 
     private void drag(int mouseX, int mouseY)

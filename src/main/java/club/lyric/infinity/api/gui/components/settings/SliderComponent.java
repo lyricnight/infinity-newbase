@@ -10,7 +10,6 @@ import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
@@ -91,6 +90,14 @@ public class SliderComponent extends Component implements IMinecraft
     public void mouseReleased(int mouseX, int mouseY, int button)
     {
         drag = false;
+    }
+
+    @Override
+    public float getHeight()
+    {
+        if (setting.getName().equals("hudX") || setting.getName().equals("hudY")) return 0;
+
+        return 14;
     }
 
     @Override
