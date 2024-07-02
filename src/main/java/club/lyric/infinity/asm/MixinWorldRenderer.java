@@ -26,8 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @author vasler
  */
 @Mixin(WorldRenderer.class)
-public class MixinWorldRenderer implements IMinecraft
-{
+public class MixinWorldRenderer implements IMinecraft {
     @Inject(method = "render", at = @At("RETURN"))
     private void render(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f positionMatrix, CallbackInfo ci) {
         mc.getProfiler().push("infinity-rendering-3d");

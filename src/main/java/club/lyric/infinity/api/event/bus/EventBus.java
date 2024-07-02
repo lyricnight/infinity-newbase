@@ -93,8 +93,7 @@ public final class EventBus {
         return instance;
     }
 
-    public int getInvokers()
-    {
+    public int getInvokers() {
         return registeredMethodInvokers.size();
     }
 }

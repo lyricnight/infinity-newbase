@@ -10,20 +10,16 @@ import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
  * @author valser
  */
 //this is way too simple lmao
-public class NoRotate extends ModuleBase
-{
-    public NoRotate()
-    {
+public class NoRotate extends ModuleBase {
+    public NoRotate() {
         super("NoRotate", "hhh", Category.Player);
     }
 
     @EventHandler
-    public void onPacketSend(PacketEvent.Receive event)
-    {
+    public void onPacketSend(PacketEvent.Receive event) {
         if (nullCheck()) return;
 
-        if (event.getPacket() instanceof PlayerPositionLookS2CPacket)
-        {
+        if (event.getPacket() instanceof PlayerPositionLookS2CPacket) {
             event.setCancelled(true);
         }
     }

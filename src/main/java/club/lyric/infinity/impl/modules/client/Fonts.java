@@ -16,38 +16,32 @@ import java.util.Objects;
 /**
  * @author vasler
  */
-public class Fonts extends ModuleBase
-{
+public class Fonts extends ModuleBase {
     private String fontName = "Verdana";
     private String lastName;
 
     public NumberSetting size = new NumberSetting("Size", this, 19.0f, 14.0f, 22.0f, 1.0f);
-    public Fonts()
-    {
+
+    public Fonts() {
         super("Fonts", "ggg", Category.Client);
     }
 
-    public String setFont(String string)
-    {
+    public String setFont(String string) {
         return fontName = string;
     }
 
-    public String getFontName()
-    {
+    public String getFontName() {
         return fontName;
     }
 
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
         lastName = fontName;
     }
 
     @Override
-    public void onUpdate()
-    {
-        if (hasChanged())
-        {
+    public void onUpdate() {
+        if (hasChanged()) {
             TextManager.nvgRenderer.reInit();
         }
     }
@@ -63,8 +57,7 @@ public class Fonts extends ModuleBase
         return new byte[0];
     }
 
-    public boolean hasChanged()
-    {
+    public boolean hasChanged() {
         return !Objects.equals(lastName, fontName);
     }
 }

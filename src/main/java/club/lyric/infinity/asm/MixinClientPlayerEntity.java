@@ -54,17 +54,24 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
     @Shadow
     public Input input;
 
-    @Shadow protected abstract void sendSprintingPacket();
+    @Shadow
+    protected abstract void sendSprintingPacket();
 
-    @Shadow public abstract boolean isSneaking();
+    @Shadow
+    public abstract boolean isSneaking();
 
-    @Shadow private boolean lastSneaking;
+    @Shadow
+    private boolean lastSneaking;
 
-    @Shadow @Final public ClientPlayNetworkHandler networkHandler;
+    @Shadow
+    @Final
+    public ClientPlayNetworkHandler networkHandler;
 
-    @Shadow protected abstract boolean isCamera();
+    @Shadow
+    protected abstract boolean isCamera();
 
-    @Shadow public int ticksSinceLastPositionPacketSent;
+    @Shadow
+    public int ticksSinceLastPositionPacketSent;
 
     @Shadow
     private boolean autoJumpEnabled;
@@ -97,12 +104,10 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
     }
 
     @Inject(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;move(Lnet/minecraft/entity/MovementType;Lnet/minecraft/util/math/Vec3d;)V"), cancellable = true)
-    public void tickMovement(MovementType movementType, Vec3d movement, CallbackInfo callbackInfo)
-    {
+    public void tickMovement(MovementType movementType, Vec3d movement, CallbackInfo callbackInfo) {
         MotionEvent event = new MotionEvent(movement.x, movement.y, movement.z, 0);
         EventBus.getInstance().post(event);
-        if (event.isCancelled())
-        {
+        if (event.isCancelled()) {
             super.move(movementType, new Vec3d(event.getX(), event.getY(), event.getZ()));
             callbackInfo.cancel();
         }
@@ -129,14 +134,12 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
             info.cancel();
             sendSprintingPacket();
             boolean sneak = isSneaking();
-            if (sneak != lastSneaking)
-            {
+            if (sneak != lastSneaking) {
                 ClientCommandC2SPacket.Mode packet = sneak ? ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY : ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY;
                 networkHandler.sendPacket(new ClientCommandC2SPacket(this, packet));
                 lastSneaking = sneak;
             }
-            if (isCamera())
-            {
+            if (isCamera()) {
                 double d = x - lastX;
                 double e = y - lastBaseY;
                 double f = z - lastZ;
@@ -175,12 +178,10 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
     }
 
     @Inject(method = "move", at = @At(value = "HEAD"), cancellable = true)
-    private void hookMove(MovementType movementType, Vec3d movement, CallbackInfo ci)
-    {
+    private void hookMove(MovementType movementType, Vec3d movement, CallbackInfo ci) {
         PlayerMovementEvent event = new PlayerMovementEvent(movementType, movement);
         EventBus.getInstance().post(event);
-        if (event.isCancelled())
-        {
+        if (event.isCancelled()) {
             super.move(event.getType(), event.getMovement());
             ci.cancel();
         }

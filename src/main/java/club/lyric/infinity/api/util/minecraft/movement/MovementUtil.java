@@ -17,6 +17,7 @@ public class MovementUtil implements IMinecraft {
 
     /**
      * speed
+     *
      * @param speed - speed of player
      * @return directional speed
      */
@@ -73,8 +74,7 @@ public class MovementUtil implements IMinecraft {
         return new Vec2f((float) posX, (float) posZ);
     }
 
-    public static void createSpeed(double speed)
-    {
+    public static void createSpeed(double speed) {
         double[] directionSpeed = MovementUtil.directionSpeed(speed);
 
         mc.player.setVelocity(directionSpeed[0], mc.player.getVelocity().getY(), directionSpeed[1]);
@@ -82,35 +82,33 @@ public class MovementUtil implements IMinecraft {
 
     /**
      * check if movement keys are down
+     *
      * @return above
      */
-    public static boolean movement()
-    {
+    public static boolean movement() {
         //noinspection DataFlowIssue
         return mc.player.input.pressingLeft || mc.player.input.pressingRight || mc.player.input.pressingBack || mc.player.input.pressingForward || mc.player.input.sneaking;
     }
 
-    public static double calcEffects(double speed)
-    {
+    public static double calcEffects(double speed) {
         int amplifier;
         double i = speed;
         if (mc.player.hasStatusEffect(StatusEffects.SPEED)) {
             amplifier = mc.player.getStatusEffect(StatusEffects.SPEED).getAmplifier();
-            i *= 1.0 + 0.2 * (double)(amplifier + 1);
+            i *= 1.0 + 0.2 * (double) (amplifier + 1);
         }
         if (mc.player.hasStatusEffect(StatusEffects.SLOWNESS)) {
             amplifier = mc.player.getStatusEffect(StatusEffects.SLOWNESS).getAmplifier();
-            i /= 1.0 + 0.2 * (double)(amplifier + 1);
+            i /= 1.0 + 0.2 * (double) (amplifier + 1);
         }
         return i;
     }
 
-    public static double getJumpSpeed()
-    {
+    public static double getJumpSpeed() {
         double defaultSpeed = 0.0;
         if (mc.player.hasStatusEffect(StatusEffects.JUMP_BOOST)) {
             int amplifier = mc.player.getStatusEffect(StatusEffects.JUMP_BOOST).getAmplifier();
-            defaultSpeed += (double)(amplifier + 1) * 0.1;
+            defaultSpeed += (double) (amplifier + 1) * 0.1;
         }
         return defaultSpeed;
     }
@@ -135,11 +133,11 @@ public class MovementUtil implements IMinecraft {
         double defaultSpeed = 0.2873;
         if (mc.player.hasStatusEffect(StatusEffects.SPEED)) {
             amplifier = mc.player.getStatusEffect(StatusEffects.SPEED).getAmplifier();
-            defaultSpeed *= 1.0 + 0.2 * (double)(amplifier + 1);
+            defaultSpeed *= 1.0 + 0.2 * (double) (amplifier + 1);
         }
         if (slowness && mc.player.hasStatusEffect(StatusEffects.SLOWNESS)) {
             amplifier = mc.player.getStatusEffect(StatusEffects.SLOWNESS).getAmplifier();
-            defaultSpeed /= 1.0 + 0.2 * (double)(amplifier + 1);
+            defaultSpeed /= 1.0 + 0.2 * (double) (amplifier + 1);
         }
         return defaultSpeed;
     }
@@ -150,8 +148,7 @@ public class MovementUtil implements IMinecraft {
         return Math.sqrt(xDist * xDist + zDist * zDist);
     }
 
-    public static void movementFix()
-    {
+    public static void movementFix() {
 
         if (!AntiCheat.getFix()) return;
 
@@ -184,8 +181,7 @@ public class MovementUtil implements IMinecraft {
         mc.player.input.movementSideways = closestStrafe;
     }
 
-    public static double direction(float rotationYaw, final double moveForward, final double moveStrafing)
-    {
+    public static double direction(float rotationYaw, final double moveForward, final double moveStrafing) {
         if (moveForward < 0F) rotationYaw += 180F;
 
         float forward = 1F;

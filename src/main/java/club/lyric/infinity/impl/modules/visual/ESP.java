@@ -34,8 +34,7 @@ import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 
-public class ESP extends ModuleBase
-{
+public class ESP extends ModuleBase {
 
     public BooleanSetting players = new BooleanSetting("Players", true, this);
     public BooleanSetting passive = new BooleanSetting("Passive", true, this);
@@ -50,16 +49,14 @@ public class ESP extends ModuleBase
     BlockPos chorusPos;
     StopWatch.Single stopWatch = new StopWatch.Single();
 
-    public ESP()
-    {
+    public ESP() {
         super("ESP", "Communication outside of normal sensory capability, as in telepathy and clairvoyance.", Category.Visual);
     }
 
     @Override
     public void onRender3D(MatrixStack matrixStack) {
 
-        for (Entity entity : mc.world.getEntities())
-        {
+        for (Entity entity : mc.world.getEntities()) {
 
             if (entity instanceof PlayerEntity && entity != mc.player
                     && players.value()
@@ -72,8 +69,7 @@ public class ESP extends ModuleBase
                     && passive.value()
                     || entity instanceof MobEntity
                     && mobs.value()
-            )
-            {
+            ) {
 
                 Vec3d vec3D = Interpolation.interpolateEntity(entity);
 
@@ -81,8 +77,7 @@ public class ESP extends ModuleBase
 
             }
 
-            if (entity instanceof ItemEntity)
-            {
+            if (entity instanceof ItemEntity) {
                 Vec3d vec = Interpolation.interpolateEntity(entity);
 
                 ItemStack itemStack = ((ItemEntity) entity).getStack();
@@ -93,10 +88,8 @@ public class ESP extends ModuleBase
 
         }
 
-        if (chorus.value() && chorusPos != null)
-        {
-            if (stopWatch.hasBeen(2500))
-            {
+        if (chorus.value() && chorusPos != null) {
+            if (stopWatch.hasBeen(2500)) {
                 chorusPos = null;
                 return;
             }
@@ -107,14 +100,11 @@ public class ESP extends ModuleBase
     }
 
     @EventHandler
-    public void onPacketReceive(PacketEvent.Receive event)
-    {
+    public void onPacketReceive(PacketEvent.Receive event) {
 
-        if (event.getPacket() instanceof PlaySoundS2CPacket sound)
-        {
+        if (event.getPacket() instanceof PlaySoundS2CPacket sound) {
 
-            if (sound.getSound() == SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT || sound.getSound() == SoundEvents.ENTITY_ENDERMAN_TELEPORT)
-            {
+            if (sound.getSound() == SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT || sound.getSound() == SoundEvents.ENTITY_ENDERMAN_TELEPORT) {
 
                 chorusPos = new BlockPos((int) sound.getX(), (int) sound.getY(), (int) sound.getZ());
                 stopWatch.reset();
@@ -125,14 +115,12 @@ public class ESP extends ModuleBase
 
     }
 
-    public void renderBox(MatrixStack matrixStack, Box bb)
-    {
+    public void renderBox(MatrixStack matrixStack, Box bb) {
 
         Render3DUtils.enable3D();
         matrixStack.push();
 
-        if (box.value())
-        {
+        if (box.value()) {
             Render3DUtils.drawBox(matrixStack, bb, new Color(color.getColor().getRed(), color.getColor().getGreen(), color.getColor().getBlue(), 76).getRGB());
         }
 
@@ -181,11 +169,9 @@ public class ESP extends ModuleBase
         Render3DUtils.disable3D();
     }
 
-    public static Vec3d getCameraPos()
-    {
+    public static Vec3d getCameraPos() {
         Camera camera = mc.getBlockEntityRenderDispatcher().camera;
-        if (camera == null)
-        {
+        if (camera == null) {
             return Vec3d.ZERO;
         }
 

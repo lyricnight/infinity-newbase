@@ -35,8 +35,7 @@ public class Speed extends ModuleBase {
     }
 
     @Override
-    public void onDisable()
-    {
+    public void onDisable() {
         Managers.TIMER.reset();
         stage = 1;
         speed = 0.0f;
@@ -50,10 +49,8 @@ public class Speed extends ModuleBase {
     }
 
     @Override
-    public void onUpdate()
-    {
-        if (mode.is("Jump"))
-        {
+    public void onUpdate() {
+        if (mode.is("Jump")) {
             if (!mc.player.isOnGround() || !MovementUtil.movement()) return;
 
             mc.player.jump();
@@ -62,8 +59,7 @@ public class Speed extends ModuleBase {
     }
 
     @EventHandler
-    public void onGang(PlayerMovementEvent event)
-    {
+    public void onGang(PlayerMovementEvent event) {
 
         if (nullCheck() || mc.player.isSpectator() || !MovementUtil.movement()) return;
 
@@ -74,50 +70,37 @@ public class Speed extends ModuleBase {
 
         float defaultSpeed = 0.2873f;
 
-        if (mode.is("Strafe"))
-        {
+        if (mode.is("Strafe")) {
 
-            if (mc.player.fallDistance <= 5.0 && MovementUtil.movement())
-            {
+            if (mc.player.fallDistance <= 5.0 && MovementUtil.movement()) {
 
                 double velocityY = mc.player.getVelocity().y;
 
-                if (stage == 1)
-                {
+                if (stage == 1) {
 
                     speed *= 1.35f * MovementUtil.calcEffects(2873.0) - 0.01;
 
-                }
-                else if (stage == 2)
-                {
+                } else if (stage == 2) {
 
                     velocityY = 0.3999999463558197f;
 
-                    if (boost)
-                    {
+                    if (boost) {
 
                         speed *= 1.6835;
 
-                    }
-                    else
-                    {
+                    } else {
 
                         speed *= 1.395;
 
                     }
 
                     boost = !boost;
-                }
-                else if (stage == 3)
-                {
+                } else if (stage == 3) {
 
                     speed = distance - 0.66 * (distance - MovementUtil.calcEffects(0.2873));
 
-                }
-                else
-                {
-                    if ((!mc.world.isSpaceEmpty(mc.player, mc.player.getBoundingBox().offset(0, mc.player.getVelocity().getY(), 0)) || mc.player.verticalCollision) && stage > 0)
-                    {
+                } else {
+                    if ((!mc.world.isSpaceEmpty(mc.player, mc.player.getBoundingBox().offset(0, mc.player.getVelocity().getY(), 0)) || mc.player.verticalCollision) && stage > 0) {
 
                         stage = 1;
 
@@ -136,50 +119,36 @@ public class Speed extends ModuleBase {
                 stage++;
 
             }
-        }
-        else if (mode.is("StrictFast"))
-        {
-            if (mc.player.fallDistance <= 5.0 && MovementUtil.movement())
-            {
+        } else if (mode.is("StrictFast")) {
+            if (mc.player.fallDistance <= 5.0 && MovementUtil.movement()) {
 
                 double velocityY = mc.player.getVelocity().y;
 
-                if (stage == 1)
-                {
+                if (stage == 1) {
 
                     speed *= 1.35f * MovementUtil.calcEffects(2873.0) - 0.01;
 
-                }
-                else if (stage == 2)
-                {
+                } else if (stage == 2) {
 
                     velocityY = 0.4000000054314141413434141341431f;
 
-                    if (boost)
-                    {
+                    if (boost) {
 
                         speed *= 1.6835;
 
-                    }
-                    else
-                    {
+                    } else {
 
                         speed *= 1.408;
 
                     }
 
                     boost = !boost;
-                }
-                else if (stage == 3)
-                {
+                } else if (stage == 3) {
 
                     speed = distance - 0.66 * (distance - MovementUtil.calcEffects(0.2873));
 
-                }
-                else
-                {
-                    if ((!mc.world.isSpaceEmpty(mc.player, mc.player.getBoundingBox().offset(0, mc.player.getVelocity().getY(), 0)) || mc.player.verticalCollision) && stage > 0)
-                    {
+                } else {
+                    if ((!mc.world.isSpaceEmpty(mc.player, mc.player.getBoundingBox().offset(0, mc.player.getVelocity().getY(), 0)) || mc.player.verticalCollision) && stage > 0) {
 
                         stage = 1;
 
@@ -195,8 +164,7 @@ public class Speed extends ModuleBase {
 
                 speed = Math.min(speed, strictTicks > 25 ? 0.465 : 0.44);
 
-                if (strictTicks > 50)
-                {
+                if (strictTicks > 50) {
                     strictTicks = 0;
                 }
 
@@ -209,15 +177,12 @@ public class Speed extends ModuleBase {
             }
         }
     }
+
     @Override
-    public void onTickPre()
-    {
-        if (timer.value())
-        {
+    public void onTickPre() {
+        if (timer.value()) {
             Managers.TIMER.set(1.0888f);
-        }
-        else
-        {
+        } else {
             Managers.TIMER.reset();
         }
         if (nullCheck()) return;
@@ -228,18 +193,15 @@ public class Speed extends ModuleBase {
         distance = Math.sqrt(diffX * diffX + diffZ * diffZ);
 
 
-        if (mode.is("Grim"))
-        {
+        if (mode.is("Grim")) {
 
             if (MovementUtil.movement()) return;
 
             int grimCollide = 0;
 
-            for (Entity entity : mc.world.getEntities())
-            {
+            for (Entity entity : mc.world.getEntities()) {
 
-                if (entity != mc.player && entity instanceof LivingEntity && MathHelper.sqrt((float) mc.player.squaredDistanceTo(entity)) <= 2.0f)
-                {
+                if (entity != mc.player && entity instanceof LivingEntity && MathHelper.sqrt((float) mc.player.squaredDistanceTo(entity)) <= 2.0f) {
 
                     grimCollide++;
 
@@ -247,8 +209,7 @@ public class Speed extends ModuleBase {
 
             }
 
-            if (grimCollide > 0)
-            {
+            if (grimCollide > 0) {
 
                 double speed = 0.088888 * grimCollide;
                 final Vec2f motion = MovementUtil.strafeSpeed((float) speed);

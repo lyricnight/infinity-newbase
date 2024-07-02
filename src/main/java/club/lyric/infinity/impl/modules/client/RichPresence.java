@@ -18,6 +18,7 @@ public final class RichPresence extends ModuleBase {
     public RichPresence() {
         super("RichPresence", "Toggles the Discord Presence", Category.Client);
     }
+
     public BooleanSetting ip = new BooleanSetting("ShowIP", false, this);
     public BooleanSetting ign = new BooleanSetting("ShowIGN", false, this);
     private static final DiscordRPC rpc = DiscordRPC.INSTANCE;
@@ -26,24 +27,20 @@ public final class RichPresence extends ModuleBase {
     private static Thread thread;
 
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
         start();
     }
 
     @Override
-    public void onDisable()
-    {
+    public void onDisable() {
         started = false;
-        if (thread != null && !thread.isInterrupted())
-        {
+        if (thread != null && !thread.isInterrupted()) {
             thread.interrupt();
         }
         rpc.Discord_Shutdown();
     }
 
-    private void start()
-    {
+    private void start() {
         if (!started) {
             started = true;
             DiscordEventHandlers handlers = new DiscordEventHandlers();
@@ -72,43 +69,29 @@ public final class RichPresence extends ModuleBase {
         }
     }
 
-    private String getStatus()
-    {
-        if (mc.currentScreen instanceof TitleScreen)
-        {
+    private String getStatus() {
+        if (mc.currentScreen instanceof TitleScreen) {
             return "In the main menu.";
         }
-        if (mc.currentScreen instanceof MultiplayerScreen || mc.currentScreen instanceof AddServerScreen)
-        {
+        if (mc.currentScreen instanceof MultiplayerScreen || mc.currentScreen instanceof AddServerScreen) {
             return "Choosing a server.";
         }
-        if (mc.getCurrentServerEntry() != null)
-        {
-            if (ip.value())
-            {
-                if (ign.value())
-                {
+        if (mc.getCurrentServerEntry() != null) {
+            if (ip.value()) {
+                if (ign.value()) {
                     return "Playing on " + mc.getCurrentServerEntry().address + " as " + mc.player.getDisplayName().getString();
-                }
-                else
-                {
+                } else {
                     return "Playing on " + mc.getCurrentServerEntry().address;
                 }
-            }
-            else
-            {
-                if (ign.value())
-                {
+            } else {
+                if (ign.value()) {
                     return "Playing as " + mc.player.getDisplayName().getString();
-                }
-                else
-                {
+                } else {
                     return "Playing on a server.";
                 }
             }
         }
-        if (mc.isInSingleplayer())
-        {
+        if (mc.isInSingleplayer()) {
             return "Playing singleplayer.";
         }
         return "???";

@@ -16,19 +16,16 @@ public class Particles extends ModuleBase {
     }
 
     @Override
-    public void onUpdate()
-    {
+    public void onUpdate() {
         spawnParticles();
     }
 
-    private void spawnParticles()
-    {
+    private void spawnParticles() {
 
         ClientWorld world = mc.world;
         Vec3d playerPos = mc.player.getPos();
 
-        for (int i = 0; i < 10; i++)
-        {
+        for (int i = 0; i < 10; i++) {
 
             double posX = playerPos.x + (mc.player.getRandom().nextDouble() - 0.5) * 2 * radius.getIValue();
             double posY = playerPos.y + (mc.player.getRandom().nextDouble() - 0.5) * 2 * radius.getIValue();

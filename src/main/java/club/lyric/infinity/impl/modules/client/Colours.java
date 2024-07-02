@@ -22,12 +22,12 @@ public class Colours extends PersistentModuleBase {
 
     public ColorSetting friendColor = new ColorSetting("FriendColor", this, new JColor(new Color(180, 180, 255)), true);
     public ColorSetting sneakColor = new ColorSetting("SneakColor", this, new JColor(new Color(255, 180, 255)), true);
+
     public Colours() {
         super("Colours", "Colours", Category.Client);
     }
 
-    public Color getColor()
-    {
+    public Color getColor() {
         return color.getColor();
     }
 

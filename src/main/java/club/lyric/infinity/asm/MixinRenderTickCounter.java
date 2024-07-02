@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MixinRenderTickCounter {
     @Shadow
     public float lastFrameDuration;
+
     @Inject(method = "beginRenderTick", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/RenderTickCounter;prevTimeMillis:J", opcode = Opcodes.PUTFIELD))
     private void beginRenderTick(long a, CallbackInfoReturnable<Integer> info) {
         lastFrameDuration *= Managers.TIMER.getTimer();

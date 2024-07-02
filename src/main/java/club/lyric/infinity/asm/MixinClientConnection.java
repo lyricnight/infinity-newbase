@@ -42,14 +42,12 @@ public class MixinClientConnection {
     public void channelRead0(ChannelHandlerContext channelHandlerContext, Packet<?> packet, CallbackInfo ci) {
         if (channel.isOpen() && packet != null) {
             try {
-                if (packet instanceof CommandSuggestionsS2CPacket commandSuggestionsS2CPacket && commandSuggestionsS2CPacket.getCompletionId() == 1337)
-                {
+                if (packet instanceof CommandSuggestionsS2CPacket commandSuggestionsS2CPacket && commandSuggestionsS2CPacket.getCompletionId() == 1337) {
                     Managers.SERVER.ping = (int) (System.currentTimeMillis() - Managers.SERVER.responseTime);
                 }
                 PacketEvent.Receive event = new PacketEvent.Receive(packet);
                 EventBus.getInstance().post(event);
-                if (event.isCancelled())
-                {
+                if (event.isCancelled()) {
                     ci.cancel();
                 }
             } catch (Exception e) {
@@ -64,8 +62,7 @@ public class MixinClientConnection {
         try {
             PacketEvent.Send event = new PacketEvent.Send(packet);
             EventBus.getInstance().post(event);
-            if (event.isCancelled())
-            {
+            if (event.isCancelled()) {
                 ci.cancel();
             }
         } catch (Exception e) {

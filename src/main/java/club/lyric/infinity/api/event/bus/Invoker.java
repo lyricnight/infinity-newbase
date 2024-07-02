@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 @FunctionalInterface
 public interface Invoker {
     void invoke(Event event);
+
     final class MethodInvoker {
         private final Method method;
         private final Invoker invoker;

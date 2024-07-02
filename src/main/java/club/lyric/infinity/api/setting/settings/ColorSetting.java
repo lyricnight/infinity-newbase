@@ -35,13 +35,15 @@ public class ColorSetting extends Setting implements Renderable {
                 new ColorSliderSetting("Green", moduleBase.getName() + "/" + this.getName() + "/Green", color.getGreen()),
                 new ColorSliderSetting("Blue", moduleBase.getName() + "/" + this.getName() + "/Blue", color.getBlue())));
 
-        if (alpha) renderableSettings.add(new ColorSliderSetting("Alpha", moduleBase.getName() + "/" + this.getName() + "/Alpha", color.getAlpha()));
+        if (alpha)
+            renderableSettings.add(new ColorSliderSetting("Alpha", moduleBase.getName() + "/" + this.getName() + "/Alpha", color.getAlpha()));
 
         moduleBase.addSettings(this);
     }
 
     private static class ColorSliderSetting extends NumberSetting {
         private final String imGuiID;
+
         public ColorSliderSetting(String name, String imGuiID, int value) {
             super(name, null, value, 0, 255, 1);
             this.imGuiID = imGuiID;
@@ -100,7 +102,7 @@ public class ColorSetting extends Setting implements Renderable {
     }
 
     public static JColor getRainbow(int incr, int alpha) {
-        JColor color =  JColor.fromHSB(((System.currentTimeMillis() + incr * 200) % (360 * 20)) / (360f * 20),0.5f,1f);
+        JColor color = JColor.fromHSB(((System.currentTimeMillis() + incr * 200) % (360 * 20)) / (360f * 20), 0.5f, 1f);
         return new JColor(color.getRed(), color.getBlue(), color.getGreen(), alpha);
     }
 

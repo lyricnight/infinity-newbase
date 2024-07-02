@@ -47,5 +47,6 @@ public class Fake extends AbstractClientPlayerEntity {
      * prevents pushing
      */
     @Override
-    protected void pushOutOfBlocks(double x, double y, double z) {}
+    protected void pushOutOfBlocks(double x, double y, double z) {
+    }
 }

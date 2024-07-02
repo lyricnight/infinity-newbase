@@ -20,6 +20,7 @@ public class MixinWindow {
     @Final
     @Shadow
     private long handle;
+
     @Inject(at = @At("TAIL"), method = "<init>", remap = false)
     private void onGLFWInit(WindowEventHandler eventHandler, MonitorTracker monitorTracker, WindowSettings settings, String videoMode, String title, CallbackInfo ci) {
         IMLoader.onGlfwInit(handle);

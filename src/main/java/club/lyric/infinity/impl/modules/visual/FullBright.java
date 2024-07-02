@@ -17,16 +17,14 @@ public class FullBright extends ModuleBase {
     }
 
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
         if (nullCheck()) return;
 
         mc.worldRenderer.reload();
     }
 
     @Override
-    public void onDisable()
-    {
+    public void onDisable() {
         if (nullCheck()) return;
 
         mc.worldRenderer.reload();

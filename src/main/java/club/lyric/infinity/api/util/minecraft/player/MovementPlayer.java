@@ -113,7 +113,7 @@ public class MovementPlayer extends Fake {
                 frictionY -= gravity;
             }
         } else {
-            frictionY = this.getY() > (double)this.getWorld().getBottomY() ? -0.1 : 0.0;
+            frictionY = this.getY() > (double) this.getWorld().getBottomY() ? -0.1 : 0.0;
         }
 
         if (this.hasNoDrag()) {

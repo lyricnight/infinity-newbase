@@ -13,8 +13,7 @@ public class TotemPopEvent extends Event {
 
     private final int id;
 
-    public TotemPopEvent(PlayerEntity playerEntity, int id)
-    {
+    public TotemPopEvent(PlayerEntity playerEntity, int id) {
         this.playerEntity = playerEntity;
         this.id = id;
     }

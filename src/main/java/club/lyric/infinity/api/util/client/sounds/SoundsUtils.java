@@ -11,11 +11,9 @@ import java.io.InputStream;
 
 public class SoundsUtils {
 
-    public static void playSound(String filename, int volume)
-    {
+    public static void playSound(String filename, int volume) {
         InputStream inputStream = null;
-        try
-        {
+        try {
             inputStream = SoundsUtils.class.getResourceAsStream("/assets/infinity/sounds/" + filename);
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputStream);
             Clip audioClip = AudioSystem.getClip();
@@ -26,13 +24,9 @@ public class SoundsUtils {
 
             gainControl.setValue((((float) volume) * 40f / 100f) - 35f);
             audioClip.start();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Infinity.LOGGER.atError();
-        }
-        finally
-        {
+        } finally {
             IOUtils.closeQuietly(inputStream);
         }
     }

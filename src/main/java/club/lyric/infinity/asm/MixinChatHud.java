@@ -69,10 +69,10 @@ public abstract class MixinChatHud implements IChatHud, IMinecraft {
     private void onAddMessageAfterNewChatHudLine(Text message, MessageSignatureData messageSignatureData, int ticks, MessageIndicator messageIndicator, boolean refresh, CallbackInfo callbackInfo) {
         ((IChatHudLine) (Object) messages.get(0)).infinity$setId(idConcurrent);
     }
+
     @Inject(at = @At("HEAD"), method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V", cancellable = true)
     private void onAddMessage(Text message, @Nullable MessageSignatureData signature, int ticks, @Nullable MessageIndicator indicator, boolean refresh, CallbackInfo info) {
-        if (addText)
-        {
+        if (addText) {
             return;
         }
 

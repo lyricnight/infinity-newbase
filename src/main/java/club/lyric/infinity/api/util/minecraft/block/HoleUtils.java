@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 public class HoleUtils implements IMinecraft {
-    public final static BlockPos[] holeOffsets = new BlockPos[] {
+    public final static BlockPos[] holeOffsets = new BlockPos[]{
             new BlockPos(1, 0, 0),
             new BlockPos(-1, 0, 0),
             new BlockPos(0, 0, 1),
@@ -110,7 +110,8 @@ public class HoleUtils implements IMinecraft {
         }
         for (BlockPos off : HOLE_OFFSETS) {
             Block block = mc.world.getBlockState(pos.add(off)).getBlock();
-            if (block == Blocks.STONE || block == Blocks.DIRT || block == Blocks.GRASS_BLOCK || block == Blocks.SHORT_GRASS || block == Blocks.TALL_GRASS || block == Blocks.NETHERRACK || block == Blocks.COBBLESTONE || block == Blocks.GRAVEL || block == Blocks.END_STONE || BlockUtils.isSafe(pos.add(off))) continue;
+            if (block == Blocks.STONE || block == Blocks.DIRT || block == Blocks.GRASS_BLOCK || block == Blocks.SHORT_GRASS || block == Blocks.TALL_GRASS || block == Blocks.NETHERRACK || block == Blocks.COBBLESTONE || block == Blocks.GRAVEL || block == Blocks.END_STONE || BlockUtils.isSafe(pos.add(off)))
+                continue;
             return false;
         }
         return true;
@@ -147,13 +148,13 @@ public class HoleUtils implements IMinecraft {
     }
 
     public static Vec3d getCenter(Hole hole) {
-        double x = (double)hole.getFirst().getX() + 0.5;
-        double z = (double)hole.getFirst().getZ() + 0.5;
+        double x = (double) hole.getFirst().getX() + 0.5;
+        double z = (double) hole.getFirst().getZ() + 0.5;
         if (hole.getSecond() != null) {
-            x = (x + (double)hole.getSecond().getX() + 0.5) / 2.0;
-            z = (z + (double)hole.getSecond().getZ() + 0.5) / 2.0;
+            x = (x + (double) hole.getSecond().getX() + 0.5) / 2.0;
+            z = (z + (double) hole.getSecond().getZ() + 0.5) / 2.0;
         }
-        return new Vec3d(x, (double)hole.getFirst().getY(), z);
+        return new Vec3d(x, hole.getFirst().getY(), z);
     }
 
     public static boolean isObby(BlockPos pos, int offX, int offZ) {

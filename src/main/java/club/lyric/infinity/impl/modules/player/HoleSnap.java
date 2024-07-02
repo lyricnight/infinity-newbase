@@ -39,49 +39,40 @@ public final class HoleSnap extends ModuleBase {
     private int stuck;
     private int boosted;
 
-    public HoleSnap()
-    {
+    public HoleSnap() {
         super("HoleSnap", "Snaps into holes.", Category.Player);
     }
 
     @Override
-    public void onEnable()
-    {
-        if(local == 0)
-        {
+    public void onEnable() {
+        if (local == 0) {
             boostWatch.reset();
         }
         local += 5;
-        if (step.value())
-        {
+        if (step.value()) {
             Managers.MODULES.getModuleFromClass(Step.class).setEnabled(true);
         }
         hole = getTarget(range.getFValue());
-        if (hole == null)
-        {
+        if (hole == null) {
             ChatUtils.sendMessagePrivate("HoleSnap failed to find a hole. Disabling.");
             setEnabled(false);
         }
-        if (hole.getFirst().getY() >= mc.player.getY() && !step.value())
-        {
+        if (hole.getFirst().getY() >= mc.player.getY() && !step.value()) {
             ChatUtils.sendMessagePrivate("HoleSnap failed to find a hole below your Y-Level. Disabling.");
             setEnabled(false);
         }
     }
 
     @Override
-    public void onDisable()
-    {
-        if (step.value())
-        {
+    public void onDisable() {
+        if (step.value()) {
             Managers.MODULES.getModuleFromClass(Step.class).setEnabled(false);
         }
         Managers.TIMER.reset();
     }
 
     @Override
-    public void onTickPre()
-    {
+    public void onTickPre() {
         if (nullCheck()) {
             setEnabled(false);
             return;
@@ -107,10 +98,9 @@ public final class HoleSnap extends ModuleBase {
             Managers.TIMER.reset();
         }
     }
-    
+
     @EventHandler
-    public void onMove(EntityMovementEvent event)
-    {
+    public void onMove(EntityMovementEvent event) {
         if (nullCheck()) {
             return;
         }

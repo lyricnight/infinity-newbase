@@ -55,17 +55,16 @@ public class Nametags extends ModuleBase {
     public ColorSetting lineColor = new ColorSetting("LineColor", this, new JColor(new Color(64, 64, 124)), false);
     public NumberSetting range = new NumberSetting("Range", this, 300.0f, 10.0f, 300.0f, 1.0f, "m");
     protected static final Pattern PATTERN = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
+
     public Nametags() {
         super("Nametags", "Fire", Category.Visual);
     }
 
     @EventHandler
     public void onRenderWorld(Render3DEvent event) {
-        for (Entity entity : mc.world.getEntities())
-        {
+        for (Entity entity : mc.world.getEntities()) {
             Vec3d interpolate = Interpolation.getRenderPosition(mc.getCameraEntity(), mc.getTickDelta());
-            if (entity instanceof PlayerEntity player)
-            {
+            if (entity instanceof PlayerEntity player) {
 
                 if (!self.value() && player == mc.player) continue;
 
@@ -146,8 +145,7 @@ public class Nametags extends ModuleBase {
         Render3DUtils.disable3D();
     }
 
-    private void renderStackName(ItemStack stack, float y, MatrixStack matrices, VertexConsumerProvider immediate, TextRenderer textRenderer)
-    {
+    private void renderStackName(ItemStack stack, float y, MatrixStack matrices, VertexConsumerProvider immediate, TextRenderer textRenderer) {
         matrices.push();
         matrices.scale(0.5f, 0.5f, 0.5f);
 
@@ -161,8 +159,7 @@ public class Nametags extends ModuleBase {
         matrices.pop();
     }
 
-    private void renderDurability(ItemStack stack, float x, float y, MatrixStack matrices, VertexConsumerProvider immediate, TextRenderer textRenderer)
-    {
+    private void renderDurability(ItemStack stack, float x, float y, MatrixStack matrices, VertexConsumerProvider immediate, TextRenderer textRenderer) {
         matrices.push();
         matrices.scale(0.5f, 0.5f, 0.5f);
 
@@ -183,32 +180,26 @@ public class Nametags extends ModuleBase {
             name = "You ";
         }
 
-        if (PATTERN.matcher(name).matches())
-        {
+        if (PATTERN.matcher(name).matches()) {
             String playerName = UUIDConverter.getPlayerName(name);
             if (playerName != null)
                 name = playerName + " ";
         }
 
-        if (entityId.value())
-        {
+        if (entityId.value()) {
             name += "ID: " + player.getId();
         }
 
-        if (gamemode.value() && mc.getNetworkHandler() != null)
-        {
+        if (gamemode.value() && mc.getNetworkHandler() != null) {
             PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
-            if (playerListEntry != null)
-            {
+            if (playerListEntry != null) {
                 name += getGamemode(getPlayerGamemode(player));
             }
         }
 
-        if (latency.value() && (mc.getNetworkHandler() != null || !(player == mc.player) && !mc.isInSingleplayer()))
-        {
+        if (latency.value() && (mc.getNetworkHandler() != null || !(player == mc.player) && !mc.isInSingleplayer())) {
             PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
-            if (playerListEntry != null)
-            {
+            if (playerListEntry != null) {
                 name += getPlayerLatency(player) + "ms ";
             }
         }
@@ -233,8 +224,7 @@ public class Nametags extends ModuleBase {
             name += color + "" + (int) health + " ";
         }
 
-        if (totemPops.value())
-        {
+        if (totemPops.value()) {
             int pops = Managers.OTHER.getTotemPops(player);
             name += pops != 0 ? getFormatting(pops) + "-" + pops + " " : "";
         }
@@ -270,8 +260,7 @@ public class Nametags extends ModuleBase {
             return Managers.MODULES.getModuleFromClass(Colours.class).friendColor.getColor().getRGB();
         }
 
-        if (mc.getNetworkHandler() == null)
-        {
+        if (mc.getNetworkHandler() == null) {
             PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
             if (playerListEntry == null) {
                 return 0xF63E3E;
@@ -295,19 +284,16 @@ public class Nametags extends ModuleBase {
         return playerListEntry == null ? null : playerListEntry.getGameMode();
     }
 
-    public static Vec3d getCameraPos()
-    {
+    public static Vec3d getCameraPos() {
         Camera camera = mc.getBlockEntityRenderDispatcher().camera;
-        if (camera == null)
-        {
+        if (camera == null) {
             return Vec3d.ZERO;
         }
 
         return camera.getPos();
     }
 
-    public static int getPlayerLatency(PlayerEntity player)
-    {
+    public static int getPlayerLatency(PlayerEntity player) {
         if (player == null) return 0;
 
         if (mc.getNetworkHandler() == null) return 0;
@@ -319,11 +305,15 @@ public class Nametags extends ModuleBase {
 
     private String getGamemode(GameMode gamemode) {
 
-        if (gamemode == null)
-        {
+        if (gamemode == null) {
             return "[FuckYou] ";
         }
 
-        return switch (gamemode) { case SURVIVAL -> "[S] "; case CREATIVE -> "[C] "; case SPECTATOR -> "[I] "; case ADVENTURE -> "[A] ";};
+        return switch (gamemode) {
+            case SURVIVAL -> "[S] ";
+            case CREATIVE -> "[C] ";
+            case SPECTATOR -> "[I] ";
+            case ADVENTURE -> "[A] ";
+        };
     }
 }

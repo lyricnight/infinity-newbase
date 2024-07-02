@@ -9,7 +9,6 @@ import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -21,7 +20,6 @@ import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 @SuppressWarnings("ConstantConditions")
 public class Panel implements IMinecraft {
@@ -57,8 +55,7 @@ public class Panel implements IMinecraft {
         height = Managers.MODULES.getModuleFromClass(GuiRewrite.class).height.getIValue();
         this.open = open;
 
-        for (ModuleBase modules : Managers.MODULES.getModulesInCategory(category))
-        {
+        for (ModuleBase modules : Managers.MODULES.getModulesInCategory(category)) {
             this.moduleBase = modules;
 
             if (!modules.getCategory().equals(category)) continue;
@@ -75,19 +72,16 @@ public class Panel implements IMinecraft {
         alpha.run(200);
         Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(GuiRewrite.class).color.getColor(), (int) alpha.getValue());
 
-        if (open)
-        {
+        Render2DUtils.drawRect(context.getMatrices(), x, y - 1, width, height, color.getRGB());
+
+
+        if (open) {
             drawOutlineRect(context.getMatrices(), x + 0.1f, y + height - 1.0F, width - 0.1f, getHeightTotal() - height + 0.5f, color.getRGB());
         }
 
-        Render2DUtils.drawRect(context.getMatrices(), x, y - 1, width, height, color.getRGB());
-
-        if (isHovering(mouseX, mouseY))
-        {
+        if (isHovering(mouseX, mouseY)) {
             animation.run(2);
-        }
-        else
-        {
+        } else {
             animation.run(0);
         }
 
@@ -101,8 +95,7 @@ public class Panel implements IMinecraft {
 
         //if (search && !moduleBase.getName().contains(searchText)) return;
 
-        for (ModuleComponent component : moduleComponents)
-        {
+        for (ModuleComponent component : moduleComponents) {
             component.setY(y + currY);
             currY += component.getHeight() + 1.0f;
 
@@ -118,11 +111,9 @@ public class Panel implements IMinecraft {
         y = y2 + mouseY;
     }
 
-    public void mouseClicked(double mouseX, double mouseY, int button)
-    {
+    public void mouseClicked(double mouseX, double mouseY, int button) {
 
-        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && isHovering(mouseX, mouseY))
-        {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && isHovering(mouseX, mouseY)) {
             x2 = (int) (x - mouseX);
             y2 = (int) (y - mouseY);
 
@@ -130,62 +121,51 @@ public class Panel implements IMinecraft {
             drag = true;
         }
 
-        if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && isHovering(mouseX, mouseY))
-        {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && isHovering(mouseX, mouseY)) {
             open = !open;
             return;
         }
 
-        if (!open)
-        {
+        if (!open) {
             return;
         }
 
-        for (ModuleComponent component : moduleComponents)
-        {
+        for (ModuleComponent component : moduleComponents) {
             component.mouseClicked((int) mouseX, (int) mouseY, button);
         }
     }
 
-    public void mouseReleased(double mouseX, double mouseY, int button)
-    {
+    public void mouseReleased(double mouseX, double mouseY, int button) {
 
-        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT)
-        {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
             drag = false;
         }
 
-        if (!open)
-        {
+        if (!open) {
             return;
         }
 
-        for (ModuleComponent component : moduleComponents)
-        {
+        for (ModuleComponent component : moduleComponents) {
             component.mouseReleased((int) mouseX, (int) mouseY, button);
         }
     }
 
-    public void keyPressed(int keyCode, int scanCode, int modifiers)
-    {
+    public void keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
             alpha.reset();
             opening.reset();
             animation.reset();
         }
 
-        if (keyCode == GLFW.GLFW_KEY_F)
-        {
+        if (keyCode == GLFW.GLFW_KEY_F) {
             search = !search;
         }
 
-        if (keyCode == GLFW.GLFW_KEY_CAPS_LOCK)
-        {
+        if (keyCode == GLFW.GLFW_KEY_CAPS_LOCK) {
             capsLock = !capsLock;
         }
 
-        if (search)
-        {
+        if (search) {
             if (keyCode == GLFW.GLFW_KEY_BACKSPACE)
                 setString(backspace(getString()));
 
@@ -197,8 +177,7 @@ public class Panel implements IMinecraft {
         }
 
 
-        for (ModuleComponent component : moduleComponents)
-        {
+        for (ModuleComponent component : moduleComponents) {
             component.keyPressed(keyCode, scanCode, modifiers);
         }
     }
@@ -211,33 +190,27 @@ public class Panel implements IMinecraft {
         return y;
     }
 
-    public float getHeightTotal()
-    {
+    public float getHeightTotal() {
         return currY;
     }
 
-    protected boolean isHovering(double mouseX, double mouseY)
-    {
+    protected boolean isHovering(double mouseX, double mouseY) {
         return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
     }
 
-    public String getString()
-    {
+    public String getString() {
         return searchText;
     }
 
-    public void setString(String string)
-    {
+    public void setString(String string) {
         searchText = string;
     }
 
-    public static String backspace(String string)
-    {
+    public static String backspace(String string) {
         return (string != null && !string.isEmpty()) ? string.substring(0, string.length() - 1) : string;
     }
 
-    public static void drawOutlineRect(MatrixStack matrices, float x, float y, float width, float height, int color)
-    {
+    public static void drawOutlineRect(MatrixStack matrices, float x, float y, float width, float height, int color) {
         Matrix4f matrix = matrices.peek().getPositionMatrix();
 
         // Colors

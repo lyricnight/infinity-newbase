@@ -1,8 +1,6 @@
 package club.lyric.infinity.api.hud;
 
-import club.lyric.infinity.api.gui.Gui;
 import net.minecraft.client.gui.DrawContext;
-import org.lwjgl.glfw.GLFW;
 
 public class Editor {
 
@@ -17,19 +15,17 @@ public class Editor {
     }
 
 
-    public void mouseClicked(double mouseX, double mouseY, int button)
-    {
+    public void mouseClicked(double mouseX, double mouseY, int button) {
         //if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && isHovering(mouseX, mouseY))
         //{
-            x2 = (int) (x - mouseX);
-            y2 = (int) (y - mouseY);
+        x2 = (int) (x - mouseX);
+        y2 = (int) (y - mouseY);
 
-            drag = true;
+        drag = true;
         //}
     }
 
-    private void drag(int mouseX, int mouseY)
-    {
+    private void drag(int mouseX, int mouseY) {
         if (!drag) return;
 
         x = x2 + mouseX;

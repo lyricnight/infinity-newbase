@@ -15,8 +15,7 @@ public class Delays extends ModuleBase {
 
     public NumberSetting placing = new NumberSetting("Placing", this, 0, 0, 5, 1);
 
-    public Delays()
-    {
+    public Delays() {
         super("Delays", "Manages delays", Category.Player);
     }
 
@@ -29,11 +28,9 @@ public class Delays extends ModuleBase {
     }
 
     @Override
-    public void onTickPost()
-    {
-        if (mc.options.useKey.isPressed() && placing.getIValue() < ((IMinecraft)mc).getItemUseCooldown())
-        {
-            ((IMinecraft)mc).setItemUseCooldown(placing.getIValue());
+    public void onTickPost() {
+        if (mc.options.useKey.isPressed() && placing.getIValue() < ((IMinecraft) mc).getItemUseCooldown()) {
+            ((IMinecraft) mc).setItemUseCooldown(placing.getIValue());
         }
     }
 }

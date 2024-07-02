@@ -11,8 +11,7 @@ import java.util.Scanner;
 
 public class UUIDConverter {
 
-    public static String getPlayerName(String uuid)
-    {
+    public static String getPlayerName(String uuid) {
         String url = "https://api.mojang.com/user/profiles/" + uuid.replace("-", "") + "/names";
 
         try {

@@ -21,16 +21,13 @@ public class AntiAscii extends ModuleBase {
     public NumberSetting offset = new NumberSetting("Offset", this, 15f, 1.0f, 256.0f, 1f);
     private static final ThreadLocal<CharsetEncoder> asciiEncoder = ThreadLocal.withInitial(StandardCharsets.US_ASCII::newEncoder);
 
-    public AntiAscii()
-    {
+    public AntiAscii() {
         super("AntiAscii", "Removes ascii from chat to prevent freezes.", Category.Misc);
     }
 
     @EventHandler
-    public void onPacketReceive(PacketEvent.Receive event)
-    {
-        if (event.getPacket() instanceof ChatMessageS2CPacket)
-        {
+    public void onPacketReceive(PacketEvent.Receive event) {
+        if (event.getPacket() instanceof ChatMessageS2CPacket) {
             String character = ((ChatMessageS2CPacket) event.getPacket()).body().content();
             int counter = 0;
             for (char characters : character.toCharArray()) {
@@ -47,8 +44,7 @@ public class AntiAscii extends ModuleBase {
     }
 
     @Override
-    public String moduleInformation()
-    {
+    public String moduleInformation() {
         return offset.getFValue() + "";
     }
 }

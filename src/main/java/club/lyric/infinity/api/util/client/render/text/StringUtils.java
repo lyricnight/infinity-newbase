@@ -21,8 +21,7 @@ public class StringUtils {
         return coloredString;
     }
 
-    public Text clientName()
-    {
+    public Text clientName() {
         MutableText clientText = Text.literal("[" + Formatting.WHITE + "Infinity" + "]");
         return clientText.setStyle(clientText.getStyle().withColor(Managers.MODULES.getModuleFromClass(Colours.class).getColor().getRGB()));
     }
@@ -43,12 +42,12 @@ public class StringUtils {
 
     /**
      * method returns color code from setting.
+     *
      * @param value - string setting value
      * @return color.
      */
 
-    public static String getCodeFromSettingString(String value)
-    {
+    public static String getCodeFromSettingString(String value) {
         switch (value) {
             case "None" -> {
                 return "";
@@ -104,8 +103,7 @@ public class StringUtils {
     }
 
 
-    public static Formatting getCodeFromSetting(String value)
-    {
+    public static Formatting getCodeFromSetting(String value) {
         switch (value) {
             case "None" -> {
                 return Formatting.WHITE;

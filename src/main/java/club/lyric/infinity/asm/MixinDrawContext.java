@@ -38,8 +38,7 @@ public abstract class MixinDrawContext implements IDrawContext {
             return 0f;
         } else {
 
-            if (!shadow)
-            {
+            if (!shadow) {
                 renderer.draw(text, x + 0.5f, y + 0.5f, color, false, this.matrices.peek().getPositionMatrix(), this.vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, 0, renderer.isRightToLeft());
             }
 

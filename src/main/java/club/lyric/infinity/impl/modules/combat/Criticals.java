@@ -18,24 +18,21 @@ public class Criticals extends ModuleBase {
 
     public ModeSetting mode = new ModeSetting("Mode", this, "NCP", "NCP", "NCPStrict", "Jump", "LowHop", "Grim");
 
-    public Criticals()
-    {
+    public Criticals() {
         super("Criticals", "Gives you a critical hit everytime you hit something.", Category.Combat);
     }
 
     @EventHandler(priority = Integer.MIN_VALUE + 2)
-    public void onPacketSend(PacketEvent.Send event)
-    {
-        if ((event.getPacket() instanceof PlayerInteractEntityC2SPacket packet && parseInteractType(packet) == PlayerInteractEntityC2SPacket.InteractType.ATTACK) && !(fetchEntityFromPacket(event.getPacket()) instanceof EndCrystalEntity) && mc.player.isOnGround())
-        {
+    public void onPacketSend(PacketEvent.Send event) {
+        if ((event.getPacket() instanceof PlayerInteractEntityC2SPacket packet && parseInteractType(packet) == PlayerInteractEntityC2SPacket.InteractType.ATTACK) && !(fetchEntityFromPacket(event.getPacket()) instanceof EndCrystalEntity) && mc.player.isOnGround()) {
             double x = mc.player.getX();
             double y = mc.player.getY();
             double z = mc.player.getZ();
 
-            switch (mode.getMode())
-            {
+            switch (mode.getMode()) {
                 case "Grim" -> {
-                    if (!mc.player.isOnGround()) send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y -0.000001, z, false));
+                    if (!mc.player.isOnGround())
+                        send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y - 0.000001, z, false));
                 }
                 case "NCP" -> {
                     send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y + 0.05, z, false));
@@ -58,8 +55,7 @@ public class Criticals extends ModuleBase {
         }
     }
 
-    public static Entity fetchEntityFromPacket(PlayerInteractEntityC2SPacket packet)
-    {
+    public static Entity fetchEntityFromPacket(PlayerInteractEntityC2SPacket packet) {
 
         PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
         packet.write(buffer);
@@ -69,8 +65,7 @@ public class Criticals extends ModuleBase {
 
     }
 
-    public static PlayerInteractEntityC2SPacket.InteractType parseInteractType(PlayerInteractEntityC2SPacket packet)
-    {
+    public static PlayerInteractEntityC2SPacket.InteractType parseInteractType(PlayerInteractEntityC2SPacket packet) {
         PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
         packet.write(buffer);
         buffer.readVarInt();
@@ -80,8 +75,7 @@ public class Criticals extends ModuleBase {
     }
 
     @Override
-    public String moduleInformation()
-    {
+    public String moduleInformation() {
         return mode.getMode();
     }
 }

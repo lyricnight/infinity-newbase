@@ -22,47 +22,42 @@ import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
  */
 
 public final class PhaseWalk extends ModuleBase {
-    public ModeSetting position = new ModeSetting("Position",this, "Standard", "Standard", "Low", "Zero", "Negative");
+    public ModeSetting position = new ModeSetting("Position", this, "Standard", "Standard", "Low", "Zero", "Negative");
 
-    public NumberSetting speed = new NumberSetting("Speed", this, 2, 1, 15,1);
+    public NumberSetting speed = new NumberSetting("Speed", this, 2, 1, 15, 1);
 
-    public NumberSetting delay = new NumberSetting("Delay", this, 2, 0,20, 1);
+    public NumberSetting delay = new NumberSetting("Delay", this, 2, 0, 20, 1);
 
     //credit lithium for the idea
     public BooleanSetting down = new BooleanSetting("Down", false, this);
 
-    public NumberSetting downDelay = new NumberSetting("DownDelay", this, 2, 1,10, 1);
+    public NumberSetting downDelay = new NumberSetting("DownDelay", this, 2, 1, 10, 1);
 
     private final StopWatch.Single watch = new StopWatch.Single();
 
     private final StopWatch.Single downWatch = new StopWatch.Single();
 
-    public PhaseWalk()
-    {
+    public PhaseWalk() {
         super("PhaseWalk", "For phasing.", Category.Player);
     }
 
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
         Managers.MODULES.getModuleFromClass(NoAccelerate.class).pause = true;
     }
 
     @Override
-    public void onDisable()
-    {
+    public void onDisable() {
         Managers.MODULES.getModuleFromClass(NoAccelerate.class).pause = false;
     }
 
 
     @SuppressWarnings("unused")
     @EventHandler
-    public void onMotion(MotionEvent event)
-    {
-        if (down.value() && mc.options.sneakKey.isPressed() && PlayerUtils.isPhasing() && mc.player.verticalCollision && downWatch.hasBeen(downDelay.getIValue() * 100L))
-        {
+    public void onMotion(MotionEvent event) {
+        if (down.value() && mc.options.sneakKey.isPressed() && PlayerUtils.isPhasing() && mc.player.verticalCollision && downWatch.hasBeen(downDelay.getIValue() * 100L)) {
             //prevents falling out of the world
-            if(mc.player.getY() <= 1) return;
+            if (mc.player.getY() <= 1) return;
 
             double mod = mc.player.getY() - 0.003D;
 
@@ -86,11 +81,9 @@ public final class PhaseWalk extends ModuleBase {
 
     @SuppressWarnings("unused")
     @EventHandler
-    public void onMove(EntityMovementEvent event)
-    {
-        if(nullCheck()) return;
-        if (mc.player.horizontalCollision && watch.hasBeen(delay.getIValue() * 100L) && PlayerUtils.isPhasing() && !mc.player.isHoldingOntoLadder())
-        {
+    public void onMove(EntityMovementEvent event) {
+        if (nullCheck()) return;
+        if (mc.player.horizontalCollision && watch.hasBeen(delay.getIValue() * 100L) && PlayerUtils.isPhasing() && !mc.player.isHoldingOntoLadder()) {
             final double[] movementArray = MovementUtil.directionSpeed(speed.getValue() / 100.0);
             double x = mc.player.getX() + movementArray[0];
             double z = mc.player.getZ() + movementArray[1];
@@ -112,8 +105,7 @@ public final class PhaseWalk extends ModuleBase {
         }
     }
 
-    private double getPosition(String mode)
-    {
+    private double getPosition(String mode) {
         if (mode.equals("Standard")) return 1337.0D;
         if (mode.equals("Low")) return 777.0D;
         if (mode.equals("Zero")) return 0.0D;
@@ -123,8 +115,7 @@ public final class PhaseWalk extends ModuleBase {
     }
 
     @Override
-    public String moduleInformation()
-    {
+    public String moduleInformation() {
         return position.getMode();
     }
 }

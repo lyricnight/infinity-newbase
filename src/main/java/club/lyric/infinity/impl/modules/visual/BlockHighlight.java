@@ -20,21 +20,18 @@ import java.awt.*;
 /**
  * @author vasler
  */
-public class BlockHighlight extends ModuleBase
-{
+public class BlockHighlight extends ModuleBase {
     public ColorSetting lineColor = new ColorSetting("LineColor", this, new JColor(new Color(50, 255, 50, 255)), true);
     public ColorSetting boxColor = new ColorSetting("BoxColor", this, new JColor(new Color(50, 255, 50, 255)), true);
     public BooleanSetting outline = new BooleanSetting("Outline", true, this);
     public BooleanSetting box = new BooleanSetting("Box", true, this);
 
-    public BlockHighlight()
-    {
+    public BlockHighlight() {
         super("BlockHighlight", "hhh", Category.Visual);
     }
 
     @Override
-    public void onRender3D(MatrixStack matrixStack)
-    {
+    public void onRender3D(MatrixStack matrixStack) {
 
         if (mc.crosshairTarget == null || !(mc.crosshairTarget instanceof BlockHitResult blockHitResult)) return;
 
@@ -49,10 +46,10 @@ public class BlockHighlight extends ModuleBase
         matrixStack.push();
 
         if (box.value())
-            Render3DUtils.drawBox(matrixStack, inter, new Color(boxColor.getColor().getRed(), boxColor.getColor().getGreen(), boxColor.getColor().getBlue(), (int) boxColor.getColor().getAlpha()).getRGB());
+            Render3DUtils.drawBox(matrixStack, inter, new Color(boxColor.getColor().getRed(), boxColor.getColor().getGreen(), boxColor.getColor().getBlue(), boxColor.getColor().getAlpha()).getRGB());
 
         if (outline.value())
-            Render3DUtils.drawOutline(matrixStack, inter, new Color(lineColor.getColor().getRed(), lineColor.getColor().getGreen(), lineColor.getColor().getBlue(), (int) lineColor.getColor().getAlpha()).getRGB());
+            Render3DUtils.drawOutline(matrixStack, inter, new Color(lineColor.getColor().getRed(), lineColor.getColor().getGreen(), lineColor.getColor().getBlue(), lineColor.getColor().getAlpha()).getRGB());
 
         matrixStack.pop();
         Render3DUtils.disable3D();

@@ -13,41 +13,38 @@ import net.minecraft.util.Formatting;
 /**
  * @author lyric & vasler
  */
-public class Notifications extends PersistentModuleBase
-{
+public class Notifications extends PersistentModuleBase {
     public BooleanSetting totemPops =
             new BooleanSetting(
-            "TotemPops",
-            false,
-            this
-    );
+                    "TotemPops",
+                    false,
+                    this
+            );
 
     public BooleanSetting toggled =
             new BooleanSetting(
-            "Toggled",
-            true,
-            this
-    );
+                    "Toggled",
+                    true,
+                    this
+            );
 
     public BooleanSetting render =
             new BooleanSetting(
-            "Render",
-            false,
-            this
-    );
-    public Notifications()
-    {
+                    "Render",
+                    false,
+                    this
+            );
+
+    public Notifications() {
         super("Notifications", "Notifies in chat for stuff.", Category.Client);
     }
 
     @EventHandler
-    public void onRemovalEntity(RenderEntityEvent.Removal event)
-    {
+    public void onRemovalEntity(RenderEntityEvent.Removal event) {
 
         if (nullCheck()) return;
 
-        if (event.getEntity() instanceof PlayerEntity player && render.value())
-        {
+        if (event.getEntity() instanceof PlayerEntity player && render.value()) {
 
             if (player.getName().getString().equalsIgnoreCase(mc.player.getName().getString())) return;
 
@@ -56,13 +53,11 @@ public class Notifications extends PersistentModuleBase
     }
 
     @EventHandler
-    public void onRemovalEntity(RenderEntityEvent.Spawn event)
-    {
+    public void onRemovalEntity(RenderEntityEvent.Spawn event) {
 
         if (nullCheck()) return;
 
-        if (event.getEntity() instanceof PlayerEntity player && render.value())
-        {
+        if (event.getEntity() instanceof PlayerEntity player && render.value()) {
 
             if (player.getName().getString().equalsIgnoreCase(mc.player.getName().getString())) return;
 

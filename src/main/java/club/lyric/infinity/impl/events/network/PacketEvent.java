@@ -20,6 +20,7 @@ public class PacketEvent extends Event {
     public <T extends Packet<?>> T getPacket() {
         return (T) this.packet;
     }
+
     public static class Send extends PacketEvent {
         public Send(Packet<?> packet) {
             super(packet);

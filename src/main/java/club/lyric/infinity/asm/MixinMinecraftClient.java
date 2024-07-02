@@ -29,32 +29,27 @@ public abstract class MixinMinecraftClient implements IMinecraft {
     private IntegratedServer server;
 
     @Inject(method = "tick", at = @At(value = "HEAD"))
-    private void tick(CallbackInfo callbackInfo)
-    {
+    private void tick(CallbackInfo callbackInfo) {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTickPre);
     }
 
     @Inject(method = "tick", at = @At(value = "TAIL"))
-    private void tickPost(CallbackInfo callbackInfo)
-    {
+    private void tickPost(CallbackInfo callbackInfo) {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTickPost);
         Managers.TIMER.update();
     }
 
     @Inject(method = "<init>", at = @At(value = "TAIL"))
-    private void initTail(CallbackInfo callbackInfo)
-    {
+    private void initTail(CallbackInfo callbackInfo) {
         Managers.TEXT.init();
     }
 
     @ModifyArg(method = "updateWindowTitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setTitle(Ljava/lang/String;)V"))
-    public String modifyUpdateWindowTitle(String title)
-    {
+    public String modifyUpdateWindowTitle(String title) {
 
         StringBuilder stringBuilder = new StringBuilder(Infinity.CLIENT_NAME);
 
-        if (MinecraftClient.getModStatus().isModded())
-        {
+        if (MinecraftClient.getModStatus().isModded()) {
             stringBuilder.append("*");
         }
 
@@ -63,25 +58,17 @@ public abstract class MixinMinecraftClient implements IMinecraft {
 
         ClientPlayNetworkHandler clientPlayNetworkHandler = this.getNetworkHandler();
 
-        if (clientPlayNetworkHandler != null && clientPlayNetworkHandler.getConnection().isOpen())
-        {
+        if (clientPlayNetworkHandler != null && clientPlayNetworkHandler.getConnection().isOpen()) {
             stringBuilder.append(" - ");
             ServerInfo serverInfo = this.getCurrentServerEntry();
-            if (this.server != null && !this.server.isRemote())
-            {
-                stringBuilder.append(I18n.translate("Singleplayer", new Object[0]));
-            }
-            else if (serverInfo != null && serverInfo.isRealm())
-            {
-                stringBuilder.append(I18n.translate("title.multiplayer.realms", new Object[0]));
-            }
-            else if (server == null && (serverInfo == null || !serverInfo.isLocal()))
-            {
-                stringBuilder.append(I18n.translate("title.multiplayer.other", new Object[0]));
-            }
-            else
-            {
-                stringBuilder.append(I18n.translate("title.multiplayer.lan", new Object[0]));
+            if (this.server != null && !this.server.isRemote()) {
+                stringBuilder.append(I18n.translate("Singleplayer"));
+            } else if (serverInfo != null && serverInfo.isRealm()) {
+                stringBuilder.append(I18n.translate("title.multiplayer.realms"));
+            } else if (server == null && (serverInfo == null || !serverInfo.isLocal())) {
+                stringBuilder.append(I18n.translate("title.multiplayer.other"));
+            } else {
+                stringBuilder.append(I18n.translate("title.multiplayer.lan"));
             }
 
         }
@@ -90,28 +77,24 @@ public abstract class MixinMinecraftClient implements IMinecraft {
     }
 
     @Inject(method = "close", at = @At(value = "HEAD"))
-    private void close(CallbackInfo callbackInfo)
-    {
+    private void close(CallbackInfo callbackInfo) {
         Managers.unload();
     }
 
     @Inject(method = "cleanUpAfterCrash", at = @At(value = "HEAD"))
-    public void cleanUpAfterCrash(CallbackInfo ci)
-    {
+    public void cleanUpAfterCrash(CallbackInfo ci) {
         Managers.unload();
     }
 
     @Unique
     @Nullable
-    public ClientPlayNetworkHandler getNetworkHandler()
-    {
+    public ClientPlayNetworkHandler getNetworkHandler() {
         return mc.player == null ? null : mc.player.networkHandler;
     }
 
     @Unique
     @Nullable
-    public ServerInfo getCurrentServerEntry()
-    {
+    public ServerInfo getCurrentServerEntry() {
         return Nullables.map(this.getNetworkHandler(), ClientPlayNetworkHandler::getServerInfo);
     }
 }

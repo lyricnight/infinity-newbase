@@ -13,17 +13,13 @@ public final class Menu implements RenderableElement {
     private static Menu INSTANCE;
     public final List<Tabs> tabs = new ArrayList<>();
 
-    public static Menu getInstance()
-    {
-        if (INSTANCE == null)
-        {
+    public static Menu getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new Menu();
         }
-        if (INSTANCE.tabs.isEmpty())
-        {
+        if (INSTANCE.tabs.isEmpty()) {
             float x = 10f;
-            for (Category category : Category.values())
-            {
+            for (Category category : Category.values()) {
                 INSTANCE.tabs.add(new Tabs(category, x, 10f));
                 x += 240f;
             }
@@ -31,14 +27,10 @@ public final class Menu implements RenderableElement {
         return INSTANCE;
     }
 
-    public void toggle()
-    {
-        if (IMLoader.isRendered(getInstance()))
-        {
+    public void toggle() {
+        if (IMLoader.isRendered(getInstance())) {
             IMLoader.queueRemove(getInstance());
-        }
-        else
-        {
+        } else {
             IMLoader.addRenderable(getInstance());
         }
     }
@@ -50,8 +42,7 @@ public final class Menu implements RenderableElement {
 
     @Override
     public void render() {
-        for (Tabs tabsVar : tabs)
-        {
+        for (Tabs tabsVar : tabs) {
             tabsVar.render();
         }
     }

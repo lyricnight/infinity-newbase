@@ -31,9 +31,8 @@ public abstract class MixinEntity implements IMinecraft {
 
     @Inject(method = "move", at = @At(value = "HEAD"), cancellable = true)
     public void moveEntityHookPre(MovementType type, Vec3d vec3d, CallbackInfo callbackInfo) {
-        if(mc.player == null) return;
-        if (this.id == mc.player.getId())
-        {
+        if (mc.player == null) return;
+        if (this.id == mc.player.getId()) {
             event = new EntityMovementEvent(type, vec3d.x, vec3d.y, vec3d.z);
             EventBus.getInstance().post(event);
             if (event.isCancelled()) {
@@ -43,10 +42,8 @@ public abstract class MixinEntity implements IMinecraft {
     }
 
     @ModifyVariable(method = "move", at = @At(value = "HEAD"), argsOnly = true, ordinal = 0)
-    private Vec3d modifyVec(Vec3d vec3d)
-    {
-        if(event != null)
-        {
+    private Vec3d modifyVec(Vec3d vec3d) {
+        if (event != null) {
             vec3d = new Vec3d(event.getX(), event.getY(), event.getZ());
             return vec3d;
         }
@@ -60,8 +57,7 @@ public abstract class MixinEntity implements IMinecraft {
 
     @Inject(method = "doesNotCollide(Lnet/minecraft/util/math/Box;)Z", at = @At("RETURN"), cancellable = true)
     private void poseNotCollide(Box box, CallbackInfoReturnable<Boolean> cir) {
-        if (AntiCheat.getProtocol())
-        {
+        if (AntiCheat.getProtocol()) {
             cir.setReturnValue(true);
         }
     }

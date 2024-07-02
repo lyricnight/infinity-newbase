@@ -15,8 +15,7 @@ public class JColor extends Color {
     private static final long serialVersionUID = 1L;
 
     public static JColor getGuiColor() {
-        if (Managers.MODULES.getModuleFromClass(ClickGui.class) == null)
-        {
+        if (Managers.MODULES.getModuleFromClass(ClickGui.class) == null) {
             Infinity.LOGGER.error("Null check! ClickGui is null. Color defaulting...");
             return new JColor(Color.GRAY);
         }
@@ -55,7 +54,7 @@ public class JColor extends Color {
         super(color.getRed(), color.getGreen(), color.getBlue(), a);
     }
 
-    public static JColor fromHSB (float hue, float saturation, float brightness) {
+    public static JColor fromHSB(float hue, float saturation, float brightness) {
         return new JColor(Color.getHSBColor(hue, saturation, brightness));
     }
 
@@ -71,8 +70,7 @@ public class JColor extends Color {
         return RGBtoHSB(getRed(), getGreen(), getBlue(), null)[2];
     }
 
-    public float[] getHsb()
-    {
+    public float[] getHsb() {
         float[] hsb = RGBtoHSB(getRed(), getGreen(), getBlue(), null);
 
         return new float[]{hsb[0], hsb[1], hsb[2]};
@@ -87,10 +85,10 @@ public class JColor extends Color {
     }
 
     public float[] getFloatColorWAlpha() {
-        return new float[] { getRed() / 255.0f, getGreen() / 255.0f, getBlue() / 255.0f, getAlpha() / 255.0f };
+        return new float[]{getRed() / 255.0f, getGreen() / 255.0f, getBlue() / 255.0f, getAlpha() / 255.0f};
     }
 
     public float[] getFloatColor() {
-        return new float[] { getRed() / 255.0f, getGreen() / 255.0f, getBlue() / 255.0f, getAlpha() / 255.0f };
+        return new float[]{getRed() / 255.0f, getGreen() / 255.0f, getBlue() / 255.0f, getAlpha() / 255.0f};
     }
 }

@@ -46,7 +46,6 @@ public class HoleESP extends ModuleBase {
     public BooleanSetting fade = new BooleanSetting("Fade", false, this);
 
 
-
     protected List<Hole> holes = new ArrayList<>();
     ExecutorService service = Executors.newCachedThreadPool();
 
@@ -62,8 +61,7 @@ public class HoleESP extends ModuleBase {
     }
 
     @Override
-    public String moduleInformation()
-    {
+    public String moduleInformation() {
         return holes.size() + "";
     }
 
@@ -71,13 +69,11 @@ public class HoleESP extends ModuleBase {
     public void onRender3D(MatrixStack matrixStack) {
         if (holes.isEmpty()) return;
 
-        for (Hole hole : holes)
-        {
+        for (Hole hole : holes) {
             double alpha = 1.0;
             double outlineAlpha = 1.0;
 
-            if (fade.value())
-            {
+            if (fade.value()) {
                 double fadeRange = range.getValue() - 1.0;
                 double fadeRangeSq = fadeRange * fadeRange;
                 alpha = (fadeRangeSq + 9.0 - mc.player.squaredDistanceTo(hole.getFirst().getX(), hole.getFirst().getY(), hole.getFirst().getZ())) / fadeRangeSq;
@@ -112,19 +108,16 @@ public class HoleESP extends ModuleBase {
         }
     }
 
-    public static Vec3d getCameraPos()
-    {
+    public static Vec3d getCameraPos() {
         Camera camera = mc.getBlockEntityRenderDispatcher().camera;
-        if (camera == null)
-        {
+        if (camera == null) {
             return Vec3d.ZERO;
         }
 
         return camera.getPos();
     }
 
-    public static Box interpolatePos(BlockPos pos, float size)
-    {
+    public static Box interpolatePos(BlockPos pos, float size) {
         return new Box(pos.getX() - getCameraPos().x, pos.getY() - getCameraPos().y, pos.getZ() - getCameraPos().z, pos.getX() - getCameraPos().x + 1, pos.getY() - getCameraPos().y + size, pos.getZ() - getCameraPos().z + 1);
     }
 

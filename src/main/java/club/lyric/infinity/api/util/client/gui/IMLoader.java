@@ -27,7 +27,7 @@ public class IMLoader implements IMinecraft {
 
     public static void onGlfwInit(long handle) {
         initializeImGui();
-        imGuiGlfw.init(handle,true);
+        imGuiGlfw.init(handle, true);
         imGuiGl3.init();
     }
 
@@ -167,5 +167,6 @@ public class IMLoader implements IMinecraft {
         return customFontSmaller;
     }
 
-    private IMLoader() {}
+    private IMLoader() {
+    }
 }

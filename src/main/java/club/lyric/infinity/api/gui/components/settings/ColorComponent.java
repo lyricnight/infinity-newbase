@@ -10,22 +10,16 @@ import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
 import club.lyric.infinity.manager.Managers;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
-import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
 @SuppressWarnings("ConstantConditions")
-public class ColorComponent extends Component implements IMinecraft
-{
+public class ColorComponent extends Component implements IMinecraft {
 
     public ColorSetting setting;
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
@@ -42,25 +36,20 @@ public class ColorComponent extends Component implements IMinecraft
     float cursorX;
     float cursorY;
 
-    public ColorComponent(ColorSetting setting, Panel panel)
-    {
+    public ColorComponent(ColorSetting setting, Panel panel) {
         this.panel = panel;
         this.setting = setting;
         this.height = 14;
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta)
-    {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 
         rect.run(10);
 
-        if (isHovering(mouseX, mouseY))
-        {
+        if (isHovering(mouseX, mouseY)) {
             animation.run(2);
-        }
-        else
-        {
+        } else {
             animation.run(0);
         }
 
@@ -71,13 +60,10 @@ public class ColorComponent extends Component implements IMinecraft
         Managers.TEXT.drawString(setting.getName(), (int) (panel.getX() + width - Managers.TEXT.width(setting.getName(), true)), y + height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), setting.getColor().getRGB());
         context.getMatrices().pop();
 
-        if (!opened)
-        {
+        if (!opened) {
             heightPicker.run(0);
             alpha.run(0);
-        }
-        else
-        {
+        } else {
             heightPicker.run(86);
             alpha.run(255);
         }
@@ -86,24 +72,21 @@ public class ColorComponent extends Component implements IMinecraft
 
         getPicker(context);
 
-        if (opened)
-        {
+        if (opened) {
 
-            for (float i = 0.0f; i < width - 6.0f; i += 0.1f)
-            {
+            for (float i = 0.0f; i < width - 6.0f; i += 0.1f) {
                 float hue = i / (width - 6.0f);
 
                 Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 4.0f + i, y + height + 86 + 2.0f, 0.1f, 3.0f, ColorUtils.alpha(new Color(Color.getHSBColor(hue, 1.0f, 1.0f).getRGB()), (int) alpha.getValue()).getRGB());
             }
 
-            Render2DUtils.drawOutlineRect(context.getMatrices(), panel.getX() + 4.0f, y + height + 86 + 2.0f, width - 4.0f, 3, new Color(10, 10, 10).getRGB());
+            Render2DUtils.drawOutlineRect(context.getMatrices(), panel.getX() + 4.0f, y + height + 86 + 2.0f, width - 6.0f, 3, new Color(10, 10, 10).getRGB());
 
             if (mouseX >= panel.getX() + 4.0f &&
                     mouseX <= panel.getX() + 4.0f + width - 2.0f &&
                     mouseY >= y + height + 86 + 2.0f &&
                     mouseY <= y + height + 86 + 2.0f + 3.0f &&
-                    held)
-            {
+                    held) {
                 clampX = MathHelper.clamp(mouseX, panel.getX() + 4.0f, panel.getX() + 4.0f + width - 2.0f);
 
                 float normalX = (float) normalize(clampX, panel.getX() + 4.0f, panel.getX() + 4.0f + width - 2.0f);
@@ -145,47 +128,39 @@ public class ColorComponent extends Component implements IMinecraft
     }
 
     @Override
-    public void mouseClicked(int mouseX, int mouseY, int button)
-    {
+    public void mouseClicked(int mouseX, int mouseY, int button) {
 
-        if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && isHovering(mouseX, mouseY))
-        {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && isHovering(mouseX, mouseY)) {
             opened = !opened;
             heightPicker.reset();
             alpha.reset();
         }
-        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT)
-        {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
             held = true;
         }
     }
 
     @Override
-    public void mouseReleased(int mouseX, int mouseY, int button)
-    {
-        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT)
-        {
+    public void mouseReleased(int mouseX, int mouseY, int button) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
             held = false;
         }
     }
 
     @Override
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE)
-        {
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
             animation.reset();
             rect.reset();
         }
     }
 
-    protected boolean isHovering(double mouseX, double mouseY)
-    {
+    protected boolean isHovering(double mouseX, double mouseY) {
         return mouseX >= panel.getX() && mouseX <= panel.getX() + width && mouseY >= y && mouseY <= y + height;
     }
 
     @Override
-    public float getHeight()
-    {
+    public float getHeight() {
         if (opened)
             heightButton.run(110);
         else
@@ -194,68 +169,20 @@ public class ColorComponent extends Component implements IMinecraft
         return heightButton.getValue();
     }
 
-    protected void gradient(MatrixStack matrixStack, float x, float y, float x2, float y2, int startColor, int endColor, boolean sideways)
-    {
-
-        float[] startRGBA = {
-
-                (startColor >> 16 & 255) / 255.0F,
-                (startColor >> 8 & 255) / 255.0F,
-                (startColor & 255) / 255.0F,
-
-                (startColor >> 24 & 255) / 255.0F
-        };
-        float[] endRGBA = {
-
-                (endColor >> 16 & 255) / 255.0F,
-                (endColor >> 8 & 255) / 255.0F,
-                (endColor & 255) / 255.0F,
-
-                (endColor >> 24 & 255) / 255.0F
-        };
-
-        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-        Matrix4f posMatrix = matrixStack.peek().getPositionMatrix();
-
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-
-        if (sideways)
-        {
-            bufferBuilder.vertex(posMatrix, x, y, 0.0F).color(startRGBA[0], startRGBA[1], startRGBA[2], startRGBA[3]).next();
-            bufferBuilder.vertex(posMatrix, x, y2, 0.0F).color(startRGBA[0], startRGBA[1], startRGBA[2], startRGBA[3]).next();
-            bufferBuilder.vertex(posMatrix, x2, y2, 0.0F).color(endRGBA[0], endRGBA[1], endRGBA[2], endRGBA[3]).next();
-            bufferBuilder.vertex(posMatrix, x2, y, 0.0F).color(endRGBA[0], endRGBA[1], endRGBA[2], endRGBA[3]).next();
-        }
-        else
-        {
-            bufferBuilder.vertex(posMatrix, x2, y, 0.0F).color(startRGBA[0], startRGBA[1], startRGBA[2], startRGBA[3]).next();
-            bufferBuilder.vertex(posMatrix, x, y, 0.0F).color(startRGBA[0], startRGBA[1], startRGBA[2], startRGBA[3]).next();
-            bufferBuilder.vertex(posMatrix, x, y2, 0.0F).color(endRGBA[0], endRGBA[1], endRGBA[2], endRGBA[3]).next();
-            bufferBuilder.vertex(posMatrix, x2, y2, 0.0F).color(endRGBA[0], endRGBA[1], endRGBA[2], endRGBA[3]).next();
-        }
-
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-
-        RenderSystem.disableBlend();
-    }
-
-    protected double normalize(double value, double min, double max)
-    {
+    protected double normalize(double value, double min, double max) {
         return (value - min) / (max - min);
     }
 
-    protected void getPicker(DrawContext context)
-    {
+    protected void getPicker(DrawContext context) {
         float[] hsb = setting.getColor().getHsb();
         int color = Color.HSBtoRGB(hsb[0], 1.0f, 1.0f);
 
         float offset = opened ? 2.0f : 0;
-        gradient(context.getMatrices(), panel.getX() + 4.0f, y + height + offset, panel.getX() + width - 2.0f, y + height + heightPicker.getValue(), 0xffffffff, color, true);
-        gradient(context.getMatrices(), panel.getX() + 4.0f, y + height + offset, panel.getX() + width - 2.0f, y + height + heightPicker.getValue(), 0, 0xff000000, false);
+        Render2DUtils.drawGradient(context.getMatrices(), panel.getX() + 4.0f, y + height + offset, panel.getX() + width - 2.0f, y + height + heightPicker.getValue(), 0xffffffff, color, true);
+        Render2DUtils.drawGradient(context.getMatrices(), panel.getX() + 4.0f, y + height + offset, panel.getX() + width - 2.0f, y + height + heightPicker.getValue(), 0, 0xff000000, false);
+
+        if (opened)
+            Render2DUtils.drawOutlineRect(context.getMatrices(), panel.getX() + 4.0f, y + height + offset - 0.5f, 92, heightPicker.getValue() - 2, ColorUtils.alpha(setting.getColor(), (int) alpha.getValue()).getRGB());
     }
 
 }

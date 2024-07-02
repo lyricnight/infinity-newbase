@@ -25,17 +25,14 @@ public class MixinClientPlayNetworkHandler {
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     private void sendChatMessageHook(String message, CallbackInfo ci) {
 
-        if (message.startsWith(Managers.COMMANDS.getPrefix()))
-        {
+        if (message.startsWith(Managers.COMMANDS.getPrefix())) {
             String[] arguments = message.replaceFirst(Managers.COMMANDS.getPrefix(), "").split(" ");
 
             boolean isCommand = false;
 
-            for (Command commands : Managers.COMMANDS.getCommands())
-            {
+            for (Command commands : Managers.COMMANDS.getCommands()) {
 
-                if (commands.getCommand().equals(arguments[0]))
-                {
+                if (commands.getCommand().equals(arguments[0])) {
                     commands.onCommand(arguments);
 
                     isCommand = true;
@@ -43,8 +40,7 @@ public class MixinClientPlayNetworkHandler {
                     break;
                 }
             }
-            if (!isCommand)
-            {
+            if (!isCommand) {
                 ChatUtils.sendMessagePrivate(Formatting.RED + "Unknown command. Try " + Managers.COMMANDS.getPrefix() + "commands for a list of available commands.");
             }
             ci.cancel();
@@ -58,8 +54,7 @@ public class MixinClientPlayNetworkHandler {
     }
 
     @Inject(method = "onEntityStatus", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleManager;addEmitter(Lnet/minecraft/entity/Entity;Lnet/minecraft/particle/ParticleEffect;I)V"), locals = LocalCapture.CAPTURE_FAILHARD)
-    public void onEntityStatusHook(EntityStatusS2CPacket packet, CallbackInfo ci, Entity entity, int i)
-    {
+    public void onEntityStatusHook(EntityStatusS2CPacket packet, CallbackInfo ci, Entity entity, int i) {
         Managers.OTHER.onTotemPop(entity);
     }
 }

@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinPlayerEntityRenderer implements IMinecraft {
     @Unique
     private float yaw, prevYaw, bodyYaw, prevBodyYaw, headYaw, prevHeadYaw, pitch, prevPitch;
+
     @Inject(method = "render(Lnet/minecraft/client/network/" + "AbstractClientPlayerEntity;FFLnet/minecraft/client/util/" + "math/MatrixStack;Lnet/minecraft/client/render " + "/VertexConsumerProvider;I)V", at = @At(value = "HEAD"))
     private void onRenderHead(AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
         RenderPlayerModelEvent renderPlayerModelEvent = new RenderPlayerModelEvent(abstractClientPlayerEntity);
@@ -44,7 +45,7 @@ public class MixinPlayerEntityRenderer implements IMinecraft {
         }
     }
 
-    @Inject(method = "render(Lnet/minecraft/client/network/" + "AbstractClientPlayerEntity;FFLnet/minecraft/client/util/" + "math/MatrixStack;Lnet/minecraft/client/render " +"/VertexConsumerProvider;I)V", at = @At(value = "TAIL"))
+    @Inject(method = "render(Lnet/minecraft/client/network/" + "AbstractClientPlayerEntity;FFLnet/minecraft/client/util/" + "math/MatrixStack;Lnet/minecraft/client/render " + "/VertexConsumerProvider;I)V", at = @At(value = "TAIL"))
     private void onRenderTail(AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
         abstractClientPlayerEntity.setYaw(yaw);
         abstractClientPlayerEntity.prevYaw = prevYaw;

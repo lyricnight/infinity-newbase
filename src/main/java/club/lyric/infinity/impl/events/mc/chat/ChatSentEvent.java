@@ -14,6 +14,7 @@ public class ChatSentEvent extends Event {
     public ChatSentEvent(String message) {
         this.message = message;
     }
+
     public String getMessage() {
         return message;
     }

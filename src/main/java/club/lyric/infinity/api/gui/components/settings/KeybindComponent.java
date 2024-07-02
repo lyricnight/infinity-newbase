@@ -8,15 +8,13 @@ import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.render.anim.Animation;
 import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 
 @SuppressWarnings("ConstantConditions")
-public class KeybindComponent extends Component implements IMinecraft
-{
+public class KeybindComponent extends Component implements IMinecraft {
 
     public BindSetting setting;
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
@@ -25,23 +23,18 @@ public class KeybindComponent extends Component implements IMinecraft
     boolean binding = false;
     String commas = "";
 
-    public KeybindComponent(BindSetting setting, Panel panel)
-    {
+    public KeybindComponent(BindSetting setting, Panel panel) {
         this.panel = panel;
         this.setting = setting;
         this.height = 14;
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta)
-    {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 
-        if (isHovering(mouseX, mouseY))
-        {
+        if (isHovering(mouseX, mouseY)) {
             animation.run(2);
-        }
-        else
-        {
+        } else {
             animation.run(0);
         }
 
@@ -54,11 +47,9 @@ public class KeybindComponent extends Component implements IMinecraft
     }
 
     @Override
-    public void mouseClicked(int mouseX, int mouseY, int button)
-    {
+    public void mouseClicked(int mouseX, int mouseY, int button) {
 
-        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && isHovering(mouseX, mouseY))
-        {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && isHovering(mouseX, mouseY)) {
             binding = true;
         }
     }
@@ -70,16 +61,13 @@ public class KeybindComponent extends Component implements IMinecraft
 
     @Override
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE)
-        {
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
             animation.reset();
             rect.reset();
         }
 
-        if (binding)
-        {
-            if (keyCode == GLFW.GLFW_KEY_DELETE || keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_BACKSPACE)
-            {
+        if (binding) {
+            if (keyCode == GLFW.GLFW_KEY_DELETE || keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_BACKSPACE) {
                 keyCode = GLFW.GLFW_RELEASE;
             }
 
@@ -89,11 +77,9 @@ public class KeybindComponent extends Component implements IMinecraft
     }
 
     // stole idea from sexymaster
-    public String listening()
-    {
+    public String listening() {
 
-        if (stopWatch.hasBeen(250))
-        {
+        if (stopWatch.hasBeen(250)) {
             commas = commas.length() >= 3 ? "" : commas + ".";
 
             stopWatch.reset();
@@ -101,9 +87,8 @@ public class KeybindComponent extends Component implements IMinecraft
 
         return commas;
     }
-    
-    protected boolean isHovering(double mouseX, double mouseY)
-    {
+
+    protected boolean isHovering(double mouseX, double mouseY) {
         return mouseX >= panel.getX() && mouseX <= panel.getX() + width && mouseY >= y && mouseY <= y + height;
     }
 }

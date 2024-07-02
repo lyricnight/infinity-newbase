@@ -39,8 +39,7 @@ import java.util.LinkedList;
  */
 
 @SuppressWarnings({"unused", "ConstantConditions"})
-public final class HUD extends ModuleBase
-{
+public final class HUD extends ModuleBase {
     public BooleanSetting arraylist = new BooleanSetting("Arraylist", true, this);
     public BooleanSetting fps = new BooleanSetting("FPS", true, this);
     public BooleanSetting tps = new BooleanSetting("TPS", true, this);
@@ -63,8 +62,7 @@ public final class HUD extends ModuleBase
     public ModeSetting effectHud = new ModeSetting("EffectHud", this, "Move", "Remove", "Keep", "Move");
     public ModeSetting potionColors = new ModeSetting("PotionColors", this, "Normal", "Normal", "Global");
 
-    public HUD()
-    {
+    public HUD() {
         super("HUD", "Displays HUD elements on the screen.", Category.Client);
     }
 
@@ -87,8 +85,7 @@ public final class HUD extends ModuleBase
     private final Animation duraWidth = new Animation(Easing.EASE_OUT_QUAD, 150);
 
     @EventHandler
-    public void onPacketSend(PacketEvent.Send event)
-    {
+    public void onPacketSend(PacketEvent.Send event) {
         packets++;
     }
 
@@ -107,8 +104,7 @@ public final class HUD extends ModuleBase
 
         if (mc.getDebugHud().shouldShowDebugHud() || Managers.MODULES.getModuleFromClass(ClickGui.class).isOn()) return;
 
-        if (watermark.value())
-        {
+        if (watermark.value()) {
             Managers.TEXT.drawString(getLabel(Infinity.CLIENT_NAME + Infinity.VERSION + Formatting.GRAY + " build " + Version.DATE),
                     2,
                     2,
@@ -116,8 +112,7 @@ public final class HUD extends ModuleBase
             );
         }
 
-        if (greeting.value())
-        {
+        if (greeting.value()) {
 
             String text = "Hello, " + mc.player.getName().getString() + " :^)";
 
@@ -125,8 +120,7 @@ public final class HUD extends ModuleBase
 
             boolean christmas = currentDate.getMonthValue() == 12 && currentDate.getDayOfMonth() == 25;
 
-            if (christmas)
-            {
+            if (christmas) {
                 text = "Merry Christmas, " + mc.player.getName().getString() + " :^)";
             }
 
@@ -150,12 +144,9 @@ public final class HUD extends ModuleBase
                 if (module.isOn() && module.isDrawn()) moduleList.add(module);
             });
 
-            if (sorting.is("Alphabetical"))
-            {
+            if (sorting.is("Alphabetical")) {
                 moduleList.sort(Comparator.comparing(module -> getLabel(module.getName() + module.getSuffix())));
-            }
-            else
-            {
+            } else {
                 moduleList.sort(Comparator.comparingInt(module -> (int) -Managers.TEXT.width(getLabel(module.getName() + module.getSuffix()), true)));
             }
 
@@ -165,24 +156,18 @@ public final class HUD extends ModuleBase
 
                 long moduleCount = moduleList.size();
 
-                if (effectHud.is("Move"))
-                {
-                    for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects())
-                    {
+                if (effectHud.is("Move")) {
+                    for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
                         effectY = 27;
-                        if (!statusEffectInstance.getEffectType().isBeneficial())
-                        {
+                        if (!statusEffectInstance.getEffectType().isBeneficial()) {
                             effectY = 53;
                             break;
                         }
                     }
-                    if (mc.player.getStatusEffects().isEmpty())
-                    {
+                    if (mc.player.getStatusEffects().isEmpty()) {
                         effectY = 0;
                     }
-                }
-                else
-                {
+                } else {
                     effectY = 0;
                 }
 
@@ -204,18 +189,14 @@ public final class HUD extends ModuleBase
             int height = context.getScaledWindowHeight();
 
             int x = 15;
-            for (int i = 3; i >= 0; i--)
-            {
+            for (int i = 3; i >= 0; i--) {
 
                 ItemStack stack = mc.player.getInventory().armor.get(i);
-                if (!stack.isEmpty())
-                {
+                if (!stack.isEmpty()) {
                     int y;
                     if (mc.player.isSubmergedInWater() && !mc.player.isCreative()) {
                         y = 65;
-                    }
-                    else
-                    {
+                    } else {
                         y = mc.player.isCreative() ? (mc.player.isRiding() ? 45 : 38) : 55;
                     }
                     float percent = InventoryUtils.getPercent(stack);
@@ -244,8 +225,7 @@ public final class HUD extends ModuleBase
                     effect -> I18n.translate(effect.getEffectType().getTranslationKey()), Comparator.reverseOrder()
             ));
 
-            for (StatusEffectInstance statusEffectInstance : effectList)
-            {
+            for (StatusEffectInstance statusEffectInstance : effectList) {
                 int x = (int) (context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(getString(statusEffectInstance)), true)) - 2);
 
                 Managers.TEXT.drawString(getLabel(getString(statusEffectInstance)),
@@ -257,8 +237,7 @@ public final class HUD extends ModuleBase
             }
         }
 
-        if (spotify.value() && Spotify.currentArtist != null)
-        {
+        if (spotify.value() && Spotify.currentArtist != null) {
 
             String artist = Spotify.currentArtist;
             String track = Spotify.currentTrack;
@@ -274,8 +253,7 @@ public final class HUD extends ModuleBase
             offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
         }
 
-        if (serverBrand.value())
-        {
+        if (serverBrand.value()) {
 
             String server = "ServerBrand " + Formatting.WHITE + (mc.isInSingleplayer() ? "Singleplayer (Integrated)" : mc.getNetworkHandler().getBrand());
 
@@ -288,8 +266,7 @@ public final class HUD extends ModuleBase
             offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
         }
 
-        if (durability.value() && mc.player.getMainHandStack().isDamageable())
-        {
+        if (durability.value() && mc.player.getMainHandStack().isDamageable()) {
 
             int max = mc.player.getMainHandStack().getMaxDamage();
             int dmg = mc.player.getMainHandStack().getDamage();
@@ -358,12 +335,9 @@ public final class HUD extends ModuleBase
 
             String pingString;
 
-            if (Managers.SERVER.getFastLatencyPing() != 0)
-            {
+            if (Managers.SERVER.getFastLatencyPing() != 0) {
                 pingString = "Ping " + Formatting.WHITE + Managers.SERVER.getServerPing() + " [" + Managers.SERVER.getFastLatencyPing() + "]";
-            }
-            else
-            {
+            } else {
                 pingString = "Ping " + Formatting.WHITE + Managers.SERVER.getServerPing();
             }
 
@@ -378,8 +352,7 @@ public final class HUD extends ModuleBase
             offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
         }
 
-        if (tps.value() && !mc.isInSingleplayer())
-        {
+        if (tps.value() && !mc.isInSingleplayer()) {
             String tps = "TPS " + Formatting.WHITE + Managers.SERVER.getOurTPS();
 
             tpsWidth.run((Managers.TEXT.width(getLabel(tps), true)));
@@ -500,16 +473,13 @@ public final class HUD extends ModuleBase
             );
         }
 
-        if (chatOpened)
-        {
+        if (chatOpened) {
             animation.run(14);
-        }
-        else
-        {
+        } else {
             animation.run(0);
         }
     }
-    
+
     private String getDirections() {
         String[] directions = new String[]{"South ", "South West ", "West ", "North West ", "North ", "North East ", "East ", "South East "};
         String[] axis = new String[]{"+Z", "+Z -X", "-X", "-Z -X", "-Z", "-Z +X", "+X", "+Z +X"};
@@ -520,8 +490,7 @@ public final class HUD extends ModuleBase
         return cool + Formatting.GRAY + "[" + Formatting.WHITE + gang + Formatting.GRAY + "]";
     }
 
-    public float getFixedArmorOffset(float percent)
-    {
+    public float getFixedArmorOffset(float percent) {
         if (percent == 100F) {
             return -0.5F;
         } else if (percent < 10F) {
@@ -530,14 +499,13 @@ public final class HUD extends ModuleBase
             return 1.5F;
         }
     }
-    
+
     public String getFormatting(double number) {
         return String.format("%.1f", number);
     }
 
 
-    private String getString(StatusEffectInstance statusEffectInstance)
-    {
+    private String getString(StatusEffectInstance statusEffectInstance) {
         int amplifier = statusEffectInstance.getAmplifier();
         Text name = statusEffectInstance.getEffectType().getName();
         return name.getString() +
@@ -550,32 +518,22 @@ public final class HUD extends ModuleBase
         return Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor(y) : Managers.MODULES.getModuleFromClass(Colours.class).getColor();
     }
 
-    public String getLabel(String label)
-    {
-        if (casing.is("Lowercase"))
-        {
+    public String getLabel(String label) {
+        if (casing.is("Lowercase")) {
             return label.toLowerCase();
-        }
-        else if (casing.is("Uppercase"))
-        {
+        } else if (casing.is("Uppercase")) {
             return label.toUpperCase();
-        }
-        else if (casing.is("Random"))
-        {
+        } else if (casing.is("Random")) {
             char[] array = label.toCharArray();
             int chars = 0;
 
-            while (chars < label.length())
-            {
+            while (chars < label.length()) {
 
                 final char character;
 
-                if (Character.isUpperCase(array[chars]))
-                {
+                if (Character.isUpperCase(array[chars])) {
                     character = Character.toLowerCase(array[chars]);
-                }
-                else
-                {
+                } else {
                     character = Character.toUpperCase(array[chars]);
                 }
 

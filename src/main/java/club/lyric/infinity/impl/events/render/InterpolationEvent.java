@@ -16,8 +16,7 @@ public final class InterpolationEvent extends Event {
     private final float xRot;
     private final long lastInterp;
 
-    public InterpolationEvent(LivingEntity entity, double x, double y, double z, float yRot, float xRot, long lastInterp)
-    {
+    public InterpolationEvent(LivingEntity entity, double x, double y, double z, float yRot, float xRot, long lastInterp) {
         this.entity = entity;
         this.x = x;
         this.y = y;

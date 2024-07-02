@@ -19,23 +19,19 @@ public class IRC extends ModuleBase {
     }
 
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
         IRCChat.join();
         ChatUtils.sendMessagePrivate(Formatting.GRAY + "You can chat in the IRC by using the % prefix.");
     }
 
     @Override
-    public void onDisable()
-    {
+    public void onDisable() {
         IRCChat.disconnect();
     }
 
     @EventHandler(priority = 800)
-    public void onChatSent(ChatSentEvent event)
-    {
-        if (event.getMessage().startsWith("% "))
-        {
+    public void onChatSent(ChatSentEvent event) {
+        if (event.getMessage().startsWith("% ")) {
             event.setCancelled(true);
             String sub = event.getMessage().substring("% ".length());
             if (sub.length() < 150) {
@@ -47,20 +43,16 @@ public class IRC extends ModuleBase {
     }
 
     @EventHandler
-    public void onReceived(IRCEvent event)
-    {
+    public void onReceived(IRCEvent event) {
         String text = event.getText().length() < 150 ? event.getText() : Formatting.RED + "Messages cannot be above 150 characters.";
-        if (mc.player != null)
-        {
+        if (mc.player != null) {
             ChatUtils.sendMessagePrivateColored(event.getNick() + ": " + Formatting.GRAY + text);
         }
     }
 
     @Override
-    public String moduleInformation()
-    {
-        if (IRCChat.connected)
-        {
+    public String moduleInformation() {
+        if (IRCChat.connected) {
             return Formatting.GREEN + "connected";
         }
         return Formatting.RED + "disconnected";

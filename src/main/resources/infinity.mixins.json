@@ -46,6 +46,7 @@
     "MixinSplashTextResourceSupplier",
     "MixinWindow",
     "MixinWorldRenderer",
+    "MixinParticleManager",
     "accessors.IChatHudLine",
     "accessors.IMinecraft"
   ],

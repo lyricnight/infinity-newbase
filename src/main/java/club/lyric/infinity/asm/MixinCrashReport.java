@@ -29,14 +29,12 @@ public final class MixinCrashReport {
     private List<CrashReportSection> otherSections;
 
     @Inject(method = "writeToFile", at = @At("HEAD"))
-    public void writeToFile(File file, CallbackInfoReturnable<Boolean> cir)
-    {
+    public void writeToFile(File file, CallbackInfoReturnable<Boolean> cir) {
         otherSections.add(getInfinityCrashReport());
     }
 
     @Unique
-    private CrashReportSection getInfinityCrashReport()
-    {
+    private CrashReportSection getInfinityCrashReport() {
         CrashReportSection section = new CrashReportSection("Infinity Debug (lyric was here)");
 
         ArrayList<String> module = new ArrayList<>();

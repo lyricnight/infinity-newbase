@@ -16,25 +16,23 @@ public abstract class Command {
      */
     private final String command;
 
-    public Command(String command)
-    {
+    public Command(String command) {
         this.command = command;
     }
 
     //overridden methods
 
-    public String getCommand()
-    {
+    public String getCommand() {
         return command;
     }
 
-    public String theCommand()
-    {
+    public String theCommand() {
         return "";
     }
 
     /**
      * success or failure
+     *
      * @param state - state of command to throw
      */
     public void state(CommandState state) {
@@ -50,6 +48,7 @@ public abstract class Command {
 
     /**
      * override
+     *
      * @param args the arguments in chat
      */
 

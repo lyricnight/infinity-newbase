@@ -17,26 +17,23 @@ public final class Clip extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "Normal", "Normal", "NoCheck");
     public NumberSetting delay = new NumberSetting("Delay", this, 3, 0, 20, 1);
     public BooleanSetting disable = new BooleanSetting("Disable", true, this);
-    public NumberSetting updates = new NumberSetting("Updates", this, 10, 1, 30,1);
+    public NumberSetting updates = new NumberSetting("Updates", this, 10, 1, 30, 1);
     int time;
-    public Clip()
-    {
+
+    public Clip() {
         super("Clip", "Clips into blocks.", Category.Player);
     }
 
     @Override
-    public void onUpdate()
-    {
+    public void onUpdate() {
         if (nullCheck()) return;
         if (MovementUtil.movement()) return;
 
-        if(time >= updates.getValue() && disable.value())
-        {
+        if (time >= updates.getValue() && disable.value()) {
             setEnabled(false);
         }
 
-        switch (mode.getMode())
-        {
+        switch (mode.getMode()) {
             case "Normal" -> {
                 if (mc.world.getEntityCollisions(mc.player, mc.player.getBoundingBox().expand(0.01, 0, 0.01)).size() < 2) {
                     mc.player.setPosition(MathUtils.roundToClosest(mc.player.getX(), Math.floor(mc.player.getX()) + 0.301, Math.floor(mc.player.getX()) + 0.699), mc.player.getY(), MathUtils.roundToClosest(mc.player.getZ(), Math.floor(mc.player.getZ()) + 0.301, Math.floor(mc.player.getZ())));
@@ -49,18 +46,17 @@ public final class Clip extends ModuleBase {
                 }
             }
             case "NoCheck" -> {
-                send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(),mc.player.getY() - 0.0042123, mc.player.getZ(), mc.player.isOnGround()));
-                send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(),mc.player.getY() - 0.02141, mc.player.getZ(), mc.player.isOnGround()));
+                send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() - 0.0042123, mc.player.getZ(), mc.player.isOnGround()));
+                send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() - 0.02141, mc.player.getZ(), mc.player.isOnGround()));
                 //illegal / overflow angles because some servers don't bother checking for them.
-                send(new PlayerMoveC2SPacket.Full(mc.player.getX(),mc.player.getY() - 0.097421, mc.player.getZ(),500,500, mc.player.isOnGround()));
+                send(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY() - 0.097421, mc.player.getZ(), 500, 500, mc.player.isOnGround()));
             }
         }
         time++;
     }
 
     @Override
-    public void onDisable()
-    {
+    public void onDisable() {
         time = 0;
     }
 }

@@ -1,23 +1,16 @@
 package club.lyric.infinity.api.gui.components;
 
 import club.lyric.infinity.api.gui.Panel;
-import club.lyric.infinity.api.gui.components.settings.BooleanComponent;
-import club.lyric.infinity.api.gui.components.settings.ColorComponent;
-import club.lyric.infinity.api.gui.components.settings.KeybindComponent;
-import club.lyric.infinity.api.gui.components.settings.SliderComponent;
+import club.lyric.infinity.api.gui.components.settings.*;
 import club.lyric.infinity.api.gui.interfaces.Component;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.setting.settings.BindSetting;
-import club.lyric.infinity.api.setting.settings.BooleanSetting;
-import club.lyric.infinity.api.setting.settings.ColorSetting;
-import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.setting.settings.*;
 import club.lyric.infinity.api.util.client.render.anim.Animation;
 import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.client.sounds.SoundsUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.ClickGui;
 import club.lyric.infinity.impl.modules.client.GuiRewrite;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
@@ -27,8 +20,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
-public class ModuleComponent extends Component implements IMinecraft
-{
+public class ModuleComponent extends Component implements IMinecraft {
 
     private final ArrayList<Component> components = new ArrayList<>();
     private final ModuleBase moduleBase;
@@ -38,15 +30,13 @@ public class ModuleComponent extends Component implements IMinecraft
     float currY;
     boolean open;
 
-    public ModuleComponent(ModuleBase moduleBase, Panel panel)
-    {
+    public ModuleComponent(ModuleBase moduleBase, Panel panel) {
         this.moduleBase = moduleBase;
         this.panel = panel;
 
         this.height = 14;
 
-        if (!moduleBase.getSettings().isEmpty())
-        {
+        if (!moduleBase.getSettings().isEmpty()) {
             // bind
             moduleBase.getSettings().stream()
                     .filter(setting -> setting instanceof BindSetting)
@@ -56,6 +46,11 @@ public class ModuleComponent extends Component implements IMinecraft
             moduleBase.getSettings().stream()
                     .filter(setting -> setting instanceof BooleanSetting)
                     .forEach(setting -> components.add(new BooleanComponent((BooleanSetting) setting, panel)));
+
+            // mode
+            moduleBase.getSettings().stream()
+                    .filter(setting -> setting instanceof ModeSetting)
+                    .forEach(setting -> components.add(new ModeComponent((ModeSetting) setting, panel)));
 
             // number
             moduleBase.getSettings().stream()
@@ -70,8 +65,7 @@ public class ModuleComponent extends Component implements IMinecraft
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta)
-    {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 
         alpha.run(200);
 
@@ -79,23 +73,17 @@ public class ModuleComponent extends Component implements IMinecraft
 
         Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 1.0f, y, width, height, ColorUtils.alpha(color, 70).getRGB());
 
-        if (moduleBase.isOn())
-        {
+        if (moduleBase.isOn()) {
             rect.run(width);
-        }
-        else if (moduleBase.isOff())
-        {
+        } else if (moduleBase.isOff()) {
             rect.run(0);
         }
 
         Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 1.0f, y, rect.getValue(), height, color.getRGB());
 
-        if (isHovering(mouseX, mouseY))
-        {
+        if (isHovering(mouseX, mouseY)) {
             animation.run(2);
-        }
-        else
-        {
+        } else {
             animation.run(0);
         }
 
@@ -107,8 +95,7 @@ public class ModuleComponent extends Component implements IMinecraft
 
         if (!open) return;
 
-        for (Component component : components)
-        {
+        for (Component component : components) {
             component.setY(y + currY + 1.0f);
             currY += component.getHeight() + 1.0f;
 
@@ -117,11 +104,9 @@ public class ModuleComponent extends Component implements IMinecraft
     }
 
     @Override
-    public void keyPressed(int keyCode, int scanCode, int modifiers)
-    {
+    public void keyPressed(int keyCode, int scanCode, int modifiers) {
 
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE)
-        {
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
             alpha.reset();
             animation.reset();
             rect.reset();
@@ -129,62 +114,50 @@ public class ModuleComponent extends Component implements IMinecraft
 
         if (!open) return;
 
-        for (Component component : components)
-        {
+        for (Component component : components) {
             component.keyPressed(keyCode, scanCode, modifiers);
         }
 
     }
 
     @Override
-    public void mouseClicked(int mouseX, int mouseY, int button)
-    {
-        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && isHovering(mouseX, mouseY))
-        {
+    public void mouseClicked(int mouseX, int mouseY, int button) {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && isHovering(mouseX, mouseY)) {
 
-            if (moduleBase.isOn())
-            {
+            if (moduleBase.isOn()) {
                 SoundsUtils.playSound("disabled.wav", 100);
-            }
-            else if (moduleBase.isOff())
-            {
+            } else if (moduleBase.isOff()) {
                 SoundsUtils.playSound("enabled.wav", 100);
             }
 
             moduleBase.toggle();
         }
 
-        if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && isHovering(mouseX, mouseY))
-        {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && isHovering(mouseX, mouseY)) {
             open = !open;
             return;
         }
 
         if (!open) return;
 
-        for (Component component : components)
-        {
+        for (Component component : components) {
             component.mouseClicked(mouseX, mouseY, button);
         }
     }
 
     @Override
-    public void mouseReleased(int mouseX, int mouseY, int button)
-    {
+    public void mouseReleased(int mouseX, int mouseY, int button) {
         if (!open) return;
 
-        for (Component component : components)
-        {
+        for (Component component : components) {
             component.mouseReleased(mouseX, mouseY, button);
         }
     }
 
     @Override
-    public float getHeight()
-    {
+    public float getHeight() {
 
-        if (open)
-        {
+        if (open) {
             float totalHeight = (float) components.stream()
                     .mapToDouble(Component::getHeight)
                     .sum();
@@ -195,13 +168,11 @@ public class ModuleComponent extends Component implements IMinecraft
         return 14.0f;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return moduleBase.getName();
     }
 
-    protected boolean isHovering(double mouseX, double mouseY)
-    {
+    protected boolean isHovering(double mouseX, double mouseY) {
         return mouseX >= panel.getX() && mouseX <= panel.getX() + width && mouseY >= y && mouseY <= y + height;
     }
 }

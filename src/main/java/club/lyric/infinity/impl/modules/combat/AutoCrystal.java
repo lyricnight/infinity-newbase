@@ -1,18 +1,38 @@
 package club.lyric.infinity.impl.modules.combat;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.StopWatch;
+import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
+import club.lyric.infinity.api.util.client.render.colors.JColor;
+import club.lyric.infinity.api.util.client.render.util.Interpolation;
+import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
+import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
 import club.lyric.infinity.api.util.minecraft.entity.EntityUtils;
+import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
+import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;
+import club.lyric.infinity.api.util.minecraft.rotation.RotationUtils;
+import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.impl.events.network.PacketEvent;
+import club.lyric.infinity.impl.modules.client.AntiCheat;
+import club.lyric.infinity.manager.Managers;
 import com.google.common.collect.Streams;
+import net.minecraft.block.Blocks;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.DamageUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.decoration.EndCrystalEntity;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
@@ -30,7 +50,11 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
+import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 
+import java.awt.*;
+import java.util.List;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -45,6 +69,7 @@ public class AutoCrystal extends ModuleBase {
     public BooleanSetting animals = new BooleanSetting("Animals", true, this);
     public BooleanSetting mobs = new BooleanSetting("Mobs", true, this);
     public NumberSetting enemyRange = new NumberSetting("EnemyRange", this, 6.0f, 1.0f, 7.0f, 0.1f, "m");
+
     // Breaking
     public ModeSetting breaking = new ModeSetting("Breaking", this, "All", "Calculated", "All");
     public ModeSetting breaks = new ModeSetting("Break", this, "Vanilla", "Vanilla", "Packet");
@@ -58,10 +83,24 @@ public class AutoCrystal extends ModuleBase {
     public NumberSetting tickExisted = new NumberSetting("TickExisted", this, 0.0f, 0.0f, 20.0f, 1.0f, " ticks");
     public BooleanSetting inhibit = new BooleanSetting("Inhibit", true, this);
     public NumberSetting timeout = new NumberSetting("Timeout", this, 500.0f, 0.0f, 2000.0f, 1.0f, "ms");
+
+    // Placing
+    public BooleanSetting place = new BooleanSetting("Place", false, this);
+    public NumberSetting placeRange = new NumberSetting("PlaceRange", this, 6.0f, 1.0f, 7.0f, 0.1f, "m");
+    public ModeSetting protocol = new ModeSetting("Protocol", this, "Current", "Current", "Past");
+    public NumberSetting faceplaceHealth = new NumberSetting("FaceplaceHealth", this, 8.0f, 1.0f, 36.0f, 0.1f, "hp");
+    public NumberSetting minimumDamage = new NumberSetting("MinimumDamage", this, 4.0f, 1.0f, 36.0f, 0.1f, "hp");
+    public NumberSetting maxSelfDamage = new NumberSetting("MaxSelfDamage", this, 7.0f, 1.0f, 36.0f, 0.1f, "hp");
+    public ModeSetting places = new ModeSetting("Placing", this, "Vanilla", "Vanilla", "Packet");
+
+    // Render
+    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(50, 50, 255)), false);
     private final StopWatch.Single breakTimer = new StopWatch.Single();
     private final Map<BlockPos, Long> ownCrystals = new HashMap<>();
     private final Map<Integer, StopWatch.Single> hitCrystals = new HashMap<>();
+    private BlockPos renderPosition;
     ExecutorService service = Executors.newCachedThreadPool();
+    private BlockPos placePositions;
 
     public AutoCrystal() {
         super("AutoCrystal", "automatically crystal", Category.Combat);
@@ -94,7 +133,23 @@ public class AutoCrystal extends ModuleBase {
                 .toList();
 
         breakCrystals(near, targets);
+
+        if (place.value()) placeCrystals(targets);
+
+        if (placePositions != null && AntiCheat.getRotation()) {
+            Vec3d playerPos = mc.player.getPos();
+
+            float[] rotations = RotationUtils.getRotationsTo(playerPos, placePositions.toCenterPos());
+
+            Managers.ROTATIONS.setRotationPoint(new RotationPoint(rotations[0], rotations[1], 9, false));
+        }
     }
+
+    @EventHandler
+    public void onInput(KeyPressEvent ignored) {
+        if (placePositions != null) MovementUtil.movementFix();
+    }
+
 
     public void breakCrystals(List<EndCrystalEntity> near, List<LivingEntity> targets) {
         // breaking
@@ -150,6 +205,42 @@ public class AutoCrystal extends ModuleBase {
             }
         }
     }
+
+    public void placeCrystals(List<LivingEntity> targets) {
+        if (mc.player != null) {
+
+            for (LivingEntity crystal : targets) {
+
+                float maxDamage = Math.ceil(crystal.getHealth() + crystal.getAbsorptionAmount()) > faceplaceHealth.getFValue() ? minimumDamage.getFValue() : 2.0f;
+
+                for (BlockPos pos : BlockUtils.getSphere(mc.player, placeRange.getFValue(), false)) {
+
+                    if (!canPlaceCrystal(pos, protocol.is("Current"))) continue;
+
+                    float targetDamage = calculate(pos, crystal);
+
+                    if (targetDamage <= maxDamage) continue;
+
+                    float selfDamage = calculate(pos, mc.player);
+
+                    if (Math.ceil(mc.player.getHealth() + mc.player.getAbsorptionAmount()) - 0.5 <= selfDamage || maxSelfDamage.getFValue() <= selfDamage || targetDamage <= selfDamage)
+                        continue;
+
+                    maxDamage = targetDamage;
+
+                    placePositions = pos;
+
+                }
+
+            }
+            if (mc.crosshairTarget instanceof BlockHitResult hit) {
+                final BlockPos block = hit.getBlockPos();
+                renderPosition = block;
+                place(block);
+            }
+        }
+    }
+
     @Override
     public void onTickPost() {
         List<BlockPos> toRemove = new ArrayList<>();
@@ -167,6 +258,23 @@ public class AutoCrystal extends ModuleBase {
         }
     }
 
+    @Override
+    public void onRender3D(MatrixStack matrixStack) {
+
+        if (renderPosition == null) return;
+
+        Box bb = Interpolation.interpolatePos(renderPosition, 1.0f);
+
+        Render3DUtils.enable3D();
+        matrixStack.push();
+
+        Render3DUtils.drawBox(matrixStack, bb, ColorUtils.alpha(color.getColor(), 70).getRGB());
+        Render3DUtils.drawOutline(matrixStack, bb, ColorUtils.alpha(color.getColor(), 255).getRGB());
+
+        matrixStack.pop();
+        Render3DUtils.disable3D();
+    }
+
     @EventHandler
     public void onPacketReceive(PacketEvent.Receive event) {
         if (explosion.value()) {
@@ -175,8 +283,7 @@ public class AutoCrystal extends ModuleBase {
                     if (ent == null) {
                         return;
                     }
-                    if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(explosionPacket.getX(), explosionPacket.getY(), explosionPacket.getZ()) <= 6.0d)
-                    {
+                    if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(explosionPacket.getX(), explosionPacket.getY(), explosionPacket.getZ()) <= 6.0d) {
                         int entity = crystal.getId();
                         mc.executeSync(() -> {
                             mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
@@ -206,16 +313,12 @@ public class AutoCrystal extends ModuleBase {
             }
         }
 
-        if (event.getPacket() instanceof EntitySpawnS2CPacket spawnPacket)
-        {
-            if (spawnPacket.getId() == 51)
-            {
-                for (Entity ent : mc.world.getEntities())
-                {
+        if (event.getPacket() instanceof EntitySpawnS2CPacket spawnPacket) {
+            if (spawnPacket.getId() == 51) {
+                for (Entity ent : mc.world.getEntities()) {
                     if (ent == null) return;
 
-                    if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(spawnPacket.getX(), spawnPacket.getY(), spawnPacket.getZ()) <= hitRange.getFValue())
-                    {
+                    if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(spawnPacket.getX(), spawnPacket.getY(), spawnPacket.getZ()) <= hitRange.getFValue()) {
                         int entity = crystal.getId();
                         mc.executeSync(() -> {
                             mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
@@ -246,14 +349,14 @@ public class AutoCrystal extends ModuleBase {
         return false;
     }
 
-    private boolean isValid(Entity entity)
-    {
+    private boolean isValid(Entity entity) {
         return entity instanceof PlayerEntity && players.value() || EntityUtils.isMob(entity) && mobs.value() || EntityUtils.isAnimal(entity) && animals.value();
     }
 
-    private void place(BlockPos pos, EndCrystalEntity entity)
-    {
+    private void place(BlockPos pos) {
         Hand hand = null;
+
+        if (pos == null) return;
 
         Direction dir = getDirection(pos);
 
@@ -265,36 +368,114 @@ public class AutoCrystal extends ModuleBase {
         }
 
         Hand finalHand = hand;
-        switch (breaks.getMode()) {
+        switch (places.getMode()) {
             case "Vanilla" -> mc.interactionManager.interactBlock(mc.player, hand, result);
-            case "Packet" ->
-                    sendSeq(id -> new PlayerInteractBlockC2SPacket(finalHand, result, id));
+            case "Packet" -> sendSeq(id -> new PlayerInteractBlockC2SPacket(finalHand, result, id));
         }
+        Infinity.LOGGER.info("its trying to place");
 
         if (swingOn.is("Both") && swingOn.is("Place")) {
             swingType(hand);
         }
     }
 
-    private Direction getDirection(BlockPos blockPos)
-    {
+    private Direction getDirection(BlockPos blockPos) {
 
         int x = blockPos.getX();
         int y = blockPos.getY();
         int z = blockPos.getZ();
 
-        if (mc.world.isInBuildLimit(blockPos))
-        {
+        if (mc.world.isInBuildLimit(blockPos)) {
             return Direction.DOWN;
         }
 
         BlockHitResult result = mc.world.raycast(new RaycastContext(mc.player.getEyePos(), new Vec3d(x + 0.5, y + 0.5, z + 0.5), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, mc.player));
 
-        if (result != null && result.getType() == HitResult.Type.BLOCK)
-        {
+        if (result != null && result.getType() == HitResult.Type.BLOCK) {
             return result.getSide();
         }
 
         return Direction.UP;
+    }
+
+    public static boolean canPlaceCrystal(BlockPos pos, boolean newVer) {
+        World world = mc.world;
+        BlockPos boost = pos.up();
+
+        if (world.getBlockState(pos).getBlock() != Blocks.BEDROCK && world.getBlockState(pos).getBlock() != Blocks.OBSIDIAN) {
+            return false;
+        }
+
+        BlockPos boost2 = pos.up(2);
+
+        if ((!world.getBlockState(boost).isAir() || !world.getBlockState(boost2).isAir()) && !newVer) {
+            return false;
+        }
+
+        for (Entity entity : world.getOtherEntities(null, new Box(boost))) {
+            if (entity.isRemoved() || entity instanceof EndCrystalEntity) {
+                continue;
+            }
+            return false;
+        }
+
+        for (Entity entity : world.getOtherEntities(null, new Box(boost2))) {
+            if (entity.isRemoved() || entity instanceof EndCrystalEntity) {
+                continue;
+            }
+            return false;
+        }
+
+        return true;
+    }
+
+    public static float calculate(BlockPos pos, LivingEntity entity) {
+        double distance = entity.squaredDistanceTo(pos.getX(), pos.getY(), pos.getZ()) / 12 * 12;
+
+        if (distance > 1.0) return 0.0f;
+
+        BlockPos entityPos = entity.getBlockPos();
+        Vec3d targetPos = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+
+        double density = entityPos.isWithinDistance(targetPos, 12.0) ? 0.0 : 1.0 - entity.getWorld().getBlockState(entityPos).getCollisionShape(entity.getWorld(), entityPos).getBoundingBox().getAverageSideLength();
+        double densityDistance = (1.0 - distance) * density;
+
+        float damage = getDifficultyMultiplier((float) ((densityDistance * densityDistance + distance) / 2.0 * 85.0));
+
+        Explosion explosion = new Explosion(mc.world, null, pos.getX(), pos.getY(), pos.getZ(), 6.0f, false, Explosion.DestructionType.DESTROY);
+
+        if (explosion.getCausingEntity() == null) return 0.0f;
+
+        damage = applyArmorCalculations(damage, entity, explosion.getCausingEntity().getRecentDamageSource());
+        damage = applyPotionEffects(damage, entity);
+
+        return Math.max(damage, 0.0f);
+    }
+
+    private static float getDifficultyMultiplier(float distance) {
+        return switch (mc.world.getDifficulty()) {
+            case PEACEFUL -> 0.0f;
+            case EASY -> Math.min(distance / 2.0f + 1.0f, distance);
+            case NORMAL -> distance;
+            case HARD -> distance * 3.0f / 2.0f;
+        };
+    }
+
+    private static float applyArmorCalculations(float damage, LivingEntity entity, DamageSource source) {
+        damage = DamageUtil.getDamageLeft(damage, (float) entity.getArmor(), (float) entity.getAttributeInstance(EntityAttributes.GENERIC_ARMOR_TOUGHNESS).getValue());
+
+        int enchantmentModifier = EnchantmentHelper.getProtectionAmount(entity.getArmorItems(), source);
+
+        if (enchantmentModifier > 0) damage = DamageUtil.getInflictedDamage(damage, (float) enchantmentModifier);
+
+        return damage;
+    }
+
+    private static float applyPotionEffects(float damage, LivingEntity entity) {
+        if (entity.hasStatusEffect(StatusEffects.RESISTANCE)) {
+            int resistanceAmplifier = entity.getStatusEffect(StatusEffects.RESISTANCE).getAmplifier();
+            damage = damage * (25 - (resistanceAmplifier + 1) * 5) / 25.0f;
+        }
+        return damage;
     }
 }

@@ -16,7 +16,6 @@ import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationUtils;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
-import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
 import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.impl.modules.client.AntiCheat;
 import club.lyric.infinity.impl.modules.client.Colours;
@@ -67,31 +66,25 @@ public final class Aura extends ModuleBase {
     @Nullable
     private Target target;
 
-    public Aura()
-    {
+    public Aura() {
         super("Aura", "Hits people", Category.Combat);
     }
 
     @EventHandler()
-    public void onInput(KeyPressEvent ignored)
-    {
+    public void onInput(KeyPressEvent ignored) {
         if (target != null) MovementUtil.movementFix();
     }
 
     @EventHandler
     public void onUpdateWalking(UpdateWalkingPlayerEvent event) {
-        if (event.getStage() == 0)
-        {
+        if (event.getStage() == 0) {
             target = computeTarget(mc.player, mc.world);
             attack(target, mc.player, true);
-        }
-        else if (event.getStage() == 1)
-        {
+        } else if (event.getStage() == 1) {
             attack(target, mc.player, false);
         }
 
-        if (target != null && AntiCheat.getRotation())
-        {
+        if (target != null && AntiCheat.getRotation()) {
             Vec3d playerPos = mc.player.getPos();
 
             float[] rotations = RotationUtils.getRotationsTo(playerPos, target.entity.getPos());
@@ -102,10 +95,8 @@ public final class Aura extends ModuleBase {
 
 
     @Override
-    public void onRender3D(MatrixStack matrixStack)
-    {
-        if (target != null && render.value())
-        {
+    public void onRender3D(MatrixStack matrixStack) {
+        if (target != null && render.value()) {
 
             Vec3d vec3D = Interpolation.interpolateEntity(target.entity());
             Color color = Managers.MODULES.getModuleFromClass(Colours.class).getColor();
@@ -122,8 +113,7 @@ public final class Aura extends ModuleBase {
     }
 
     @Override
-    public String moduleInformation()
-    {
+    public String moduleInformation() {
         if (target == null) {
             return Formatting.RED + "none";
         }
@@ -218,7 +208,8 @@ public final class Aura extends ModuleBase {
         return priority;
     }
 
-    public record Target(Entity entity, boolean inRangeForCurrentPos, boolean inRangeForLastPos, @Nullable Vec3d teleportPos) {
+    public record Target(Entity entity, boolean inRangeForCurrentPos, boolean inRangeForLastPos,
+                         @Nullable Vec3d teleportPos) {
         public boolean isBetterThan(@Nullable Target last, ClientPlayerEntity player, boolean recursive) {
             if (last == null || entity instanceof PlayerEntity && !(last.entity instanceof PlayerEntity) || last.teleportPos != null && teleportPos == null/* we prefer to not teleport*/) {
                 return true;
@@ -265,9 +256,7 @@ public final class Aura extends ModuleBase {
     }
 
 
-
-    private boolean isValid(Entity entity)
-    {
+    private boolean isValid(Entity entity) {
         return entity instanceof PlayerEntity && players.value() || EntityUtils.isMob(entity) && mobs.value() || EntityUtils.isAnimal(entity) && animals.value();
     }
 }

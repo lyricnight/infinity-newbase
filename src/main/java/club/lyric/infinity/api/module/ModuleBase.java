@@ -79,9 +79,7 @@ public class ModuleBase implements IMinecraft {
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
 
 
-
-    public ModuleBase(String name, String description, Category category)
-    {
+    public ModuleBase(String name, String description, Category category) {
         super();
 
         this.name = name;
@@ -90,7 +88,7 @@ public class ModuleBase implements IMinecraft {
         this.showSettings = false;
 
         bind = new BindSetting("Bind", -1, this);
-        drawn = new BooleanSetting("Drawn", true,this);
+        drawn = new BooleanSetting("Drawn", true, this);
         id = hashCode();
     }
 
@@ -135,8 +133,7 @@ public class ModuleBase implements IMinecraft {
         }
     }
 
-    public void toggle()
-    {
+    public void toggle() {
         this.setEnabled(!this.isOn());
     }
 
@@ -147,22 +144,19 @@ public class ModuleBase implements IMinecraft {
 
         if (nullCheck()) return;
 
-        if (Managers.MODULES.getModuleFromClass(Notifications.class).toggled.value())
-        {
+        if (Managers.MODULES.getModuleFromClass(Notifications.class).toggled.value()) {
             ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + " was " + Formatting.RESET + "enabled.", id);
         }
     }
 
-    protected void disable()
-    {
+    protected void disable() {
         enabled = false;
         this.onDisable();
         EventBus.getInstance().unregister(this);
 
         if (nullCheck()) return;
 
-        if (Managers.MODULES.getModuleFromClass(Notifications.class).toggled.value())
-        {
+        if (Managers.MODULES.getModuleFromClass(Notifications.class).toggled.value()) {
             ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + " was " + Formatting.RESET + "disabled.", id);
         }
     }
@@ -197,14 +191,12 @@ public class ModuleBase implements IMinecraft {
     }
 
 
-    protected void sendUnsafe(Packet<?> packet)
-    {
+    protected void sendUnsafe(Packet<?> packet) {
         mc.getNetworkHandler().sendPacket(packet);
     }
 
     // this is not threadsafe but it sends instaly
-    public static void sendPacketInstantly(Packet<?> packet)
-    {
+    public static void sendPacketInstantly(Packet<?> packet) {
         if (mc.getNetworkHandler() == null) return;
 
         ClientPlayNetworkHandler networkHandler = mc.getNetworkHandler();
@@ -213,8 +205,7 @@ public class ModuleBase implements IMinecraft {
         connection.send(packet);
     }
 
-    public String moduleInformation()
-    {
+    public String moduleInformation() {
         return "";
     }
 
@@ -223,36 +214,35 @@ public class ModuleBase implements IMinecraft {
         this.settingList.sort(Comparator.comparingInt(s -> s == bind ? 1 : 0));
     }
 
-    public Animation getAnimation()
-    {
+    public Animation getAnimation() {
         return animation;
     }
 
     /**
      * name
+     *
      * @return module name
      */
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     /**
      * gets description
+     *
      * @return above
      */
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
     /**
      * returns the class's settings list.
+     *
      * @return above
      */
-    public List<Setting> getSettings()
-    {
+    public List<Setting> getSettings() {
         return settingList;
     }
 
@@ -276,8 +266,7 @@ public class ModuleBase implements IMinecraft {
         }
     }
 
-    public String getSuffix()
-    {
+    public String getSuffix() {
         if (moduleInformation().isEmpty()) {
             return "";
         }
@@ -286,6 +275,7 @@ public class ModuleBase implements IMinecraft {
 
     /**
      * null convenience
+     *
      * @return if null is present
      */
     public static boolean nullCheck() {

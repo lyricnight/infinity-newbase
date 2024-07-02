@@ -17,8 +17,7 @@ public class EntityMovementEvent extends Event {
 
     private double z;
 
-    public EntityMovementEvent(MovementType type, double x, double y, double z)
-    {
+    public EntityMovementEvent(MovementType type, double x, double y, double z) {
         this.type = type;
         this.x = x;
         this.y = y;

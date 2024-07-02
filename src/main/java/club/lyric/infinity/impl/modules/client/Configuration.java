@@ -19,8 +19,7 @@ public final class Configuration extends PersistentModuleBase {
     }
 
     @Override
-    public String moduleInformation()
-    {
+    public String moduleInformation() {
         return Managers.CONFIG.currentProfile.getName();
     }
 }

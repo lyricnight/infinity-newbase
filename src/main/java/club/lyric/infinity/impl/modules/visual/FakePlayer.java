@@ -11,14 +11,12 @@ import net.minecraft.entity.effect.StatusEffects;
  * @author lyric
  */
 public final class FakePlayer extends ModuleBase {
-    public FakePlayer()
-    {
+    public FakePlayer() {
         super("FakePlayer", "Spawns an entity.", Category.Visual);
     }
 
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
         if (nullCheck()) return;
 
         Fake fake = new Fake(mc.world);
@@ -36,8 +34,7 @@ public final class FakePlayer extends ModuleBase {
     }
 
     @Override
-    public void onDisable()
-    {
+    public void onDisable() {
         if (nullCheck()) return;
         mc.world.removeEntity(-2352352, Entity.RemovalReason.DISCARDED);
     }

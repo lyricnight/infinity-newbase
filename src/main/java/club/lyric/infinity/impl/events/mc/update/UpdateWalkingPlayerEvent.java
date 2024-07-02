@@ -9,13 +9,11 @@ import club.lyric.infinity.api.event.Event;
 public class UpdateWalkingPlayerEvent extends Event {
     private final int stage;
 
-    public UpdateWalkingPlayerEvent(int stage)
-    {
+    public UpdateWalkingPlayerEvent(int stage) {
         this.stage = stage;
     }
 
-    public int getStage()
-    {
+    public int getStage() {
         return stage;
     }
 }

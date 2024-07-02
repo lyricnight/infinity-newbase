@@ -17,15 +17,14 @@ public class Tabs implements RenderableElement {
 
     private boolean isFocused;
 
-    private float posX;
+    private final float posX;
 
-    private float posY;
+    private final float posY;
 
     public float scrollPos;
     boolean on;
 
-    public Tabs(Category category, float posX, float posY)
-    {
+    public Tabs(Category category, float posX, float posY) {
         this.category = category;
         this.posX = posX;
         this.posY = posY;
@@ -34,14 +33,12 @@ public class Tabs implements RenderableElement {
         this.isFocused = false;
     }
 
-    public boolean isFocused()
-    {
+    public boolean isFocused() {
         return isFocused;
     }
 
     @Override
-    public String get()
-    {
+    public String get() {
         return category.name();
     }
 
@@ -49,8 +46,7 @@ public class Tabs implements RenderableElement {
     public void render() {
         ImGui.getStyle().setFrameBorderSize(1.0f);
         int imGuiWindowFlags = 0;
-        if (!Managers.MODULES.getModuleFromClass(ClickGui.class).resizing.value())
-        {
+        if (!Managers.MODULES.getModuleFromClass(ClickGui.class).resizing.value()) {
             imGuiWindowFlags |= ImGuiWindowFlags.AlwaysAutoResize;
         }
         imGuiWindowFlags |= ImGuiWindowFlags.NoDocking;
@@ -97,13 +93,13 @@ public class Tabs implements RenderableElement {
 
             if (isToggled) {
                 /**if (on)
-                {
-                    SoundsUtils.playSound("off.mp3", 100);
-                }
-                else
-                {
-                    SoundsUtils.playSound("on.mp3", 100);
-                }*/
+                 {
+                 SoundsUtils.playSound("off.mp3", 100);
+                 }
+                 else
+                 {
+                 SoundsUtils.playSound("on.mp3", 100);
+                 }*/
                 module.toggle();
             }
 

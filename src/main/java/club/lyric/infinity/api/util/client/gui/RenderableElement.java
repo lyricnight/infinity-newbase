@@ -8,6 +8,7 @@ public interface RenderableElement {
 
     /**
      * for names
+     *
      * @return - the name of this object
      */
     String get();
@@ -17,8 +18,7 @@ public interface RenderableElement {
      */
     void render();
 
-    default Theme getTheme()
-    {
+    default Theme getTheme() {
         return new Theme() {
         };
     }

@@ -28,12 +28,9 @@ public class MixinMouse {
     private void onMouseScroll(long window, double horizontal, double vertical, CallbackInfo ci) {
         if (Managers.MODULES.getModuleFromClass(ClickGui.class).isOn()) {
             double scrollPos = vertical * 30;
-            if (IMLoader.isRendered(Menu.getInstance()))
-            {
-                for (Tabs tabsVar : Menu.getInstance().tabs)
-                {
-                    if (tabsVar.isFocused())
-                    {
+            if (IMLoader.isRendered(Menu.getInstance())) {
+                for (Tabs tabsVar : Menu.getInstance().tabs) {
+                    if (tabsVar.isFocused()) {
                         tabsVar.scrollPos -= (float) scrollPos;
                     }
                 }

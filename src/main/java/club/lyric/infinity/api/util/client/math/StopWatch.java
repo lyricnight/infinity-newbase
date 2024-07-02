@@ -8,12 +8,14 @@ package club.lyric.infinity.api.util.client.math;
 public interface StopWatch {
     /**
      * gets a point in time
+     *
      * @return - time in long
      */
     long getTimePoint();
 
     /**
      * sets the point in time we are at
+     *
      * @param ms - long in
      */
 
@@ -21,20 +23,20 @@ public interface StopWatch {
 
     /**
      * time passed
+     *
      * @return - long of time passed since
      */
-    default long getPassed()
-    {
+    default long getPassed() {
         return Time.getPassedTimeSince(getTimePoint());
     }
 
     /**
      * check if time > input
+     *
      * @param ms - input
      * @return - true/false
      */
-    default boolean hasBeen(long ms)
-    {
+    default boolean hasBeen(long ms) {
         return Time.isTimePointOlderThan(this.getTimePoint(), ms);
     }
 
@@ -42,8 +44,7 @@ public interface StopWatch {
      * resets time
      */
 
-    default void reset()
-    {
+    default void reset() {
         setTimePoint(Time.getMillis());
     }
 
@@ -57,8 +58,7 @@ public interface StopWatch {
             return this.timePoint;
         }
 
-        public void setTimePoint(long timePoint)
-        {
+        public void setTimePoint(long timePoint) {
             this.timePoint = timePoint;
         }
     }
@@ -69,13 +69,11 @@ public interface StopWatch {
     class Multi implements StopWatch {
         private volatile long timePoint;
 
-        public long getTimePoint()
-        {
+        public long getTimePoint() {
             return this.timePoint;
         }
 
-        public void setTimePoint(long timePoint)
-        {
+        public void setTimePoint(long timePoint) {
             this.timePoint = timePoint;
         }
     }

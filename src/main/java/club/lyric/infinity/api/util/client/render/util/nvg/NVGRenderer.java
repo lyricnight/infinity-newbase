@@ -29,8 +29,7 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
  * @author me and lwjgl. (recreated the class from 3arthh4ck fabric)
  */
 @SuppressWarnings("ConstantConditions")
-public class NVGRenderer implements IMinecraft
-{
+public class NVGRenderer implements IMinecraft {
 
     private int program, blendSrc, blendDst, stencilMask, stencilRef, stencilFuncMask, activeTexture, vertexArray, arrayBuffer, textureBinding;
     private boolean depthTest, scissorTest, init = false;
@@ -40,12 +39,10 @@ public class NVGRenderer implements IMinecraft
     private long context = 0;
     private int id = -1;
 
-    public void initialize()
-    {
+    public void initialize() {
         context = NanoVGGL3.nvgCreate(NanoVGGL3.NVG_ANTIALIAS);
 
-        try
-        {
+        try {
             byte[] fontBytes = Managers.MODULES.getModuleFromClass(Fonts.class).selectedFont();
 
             destroyBuffer();
@@ -54,19 +51,17 @@ public class NVGRenderer implements IMinecraft
             buf.put(fontBytes);
             buf.flip();
 
-            if (NanoVG.nvgCreateFontMem(context, Managers.MODULES.getModuleFromClass(Fonts.class).getFontName(), buf, false) == -1) throw new RuntimeException("Failed to create font " +  Managers.MODULES.getModuleFromClass(Fonts.class).getFontName());
+            if (NanoVG.nvgCreateFontMem(context, Managers.MODULES.getModuleFromClass(Fonts.class).getFontName(), buf, false) == -1)
+                throw new RuntimeException("Failed to create font " + Managers.MODULES.getModuleFromClass(Fonts.class).getFontName());
 
             id = NanoVG.nvgFindFont(context, Managers.MODULES.getModuleFromClass(Fonts.class).getFontName());
 
-            if (id == -1)
-            {
+            if (id == -1) {
                 Managers.MODULES.getModuleFromClass(Fonts.class).setEnabled(false);
             }
 
             init = true;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
             Infinity.LOGGER.error(e);
 
@@ -75,26 +70,22 @@ public class NVGRenderer implements IMinecraft
         }
     }
 
-    public void destroyBuffer()
-    {
-        if (buf != null)
-        {
+    public void destroyBuffer() {
+        if (buf != null) {
             MemoryUtil.memFree(buf);
 
             buf = null;
         }
     }
 
-    private void textSized(String text, float x, float y, Color color, boolean shadow)
-    {
+    private void textSized(String text, float x, float y, Color color, boolean shadow) {
         NanoVG.nvgBeginPath(context);
 
         NanoVG.nvgFontFaceId(context, id);
         NanoVG.nvgFontSize(context, Managers.MODULES.getModuleFromClass(Fonts.class).size.getFValue() - 10);
         NanoVG.nvgTextAlign(context, NanoVG.NVG_ALIGN_LEFT | NanoVG.NVG_ALIGN_TOP);
 
-        if (shadow)
-        {
+        if (shadow) {
             Color shadowColor = new Color(ColorUtils.darken(color, 200).getRGB());
 
             NanoVG.nvgFontBlur(context, blur + 0.5f);
@@ -109,26 +100,22 @@ public class NVGRenderer implements IMinecraft
         NanoVG.nvgClosePath(context);
     }
 
-    public void drawText(String text, float x, float y, Color color, boolean shadow)
-    {
+    public void drawText(String text, float x, float y, Color color, boolean shadow) {
         Color activeColor;
         text = text.trim();
 
         String[] textParts = text.split("§");
 
-        if (textParts.length == 1)
-        {
+        if (textParts.length == 1) {
             textSized(text, x, y, color, shadow);
 
             return;
         }
 
-        for (String s : textParts)
-        {
+        for (String s : textParts) {
             if (s.isEmpty()) continue;
 
-            switch (s.charAt(0))
-            {
+            switch (s.charAt(0)) {
 
                 case '0' -> activeColor = new Color(0);
                 case '1' -> activeColor = new Color(170);
@@ -151,8 +138,7 @@ public class NVGRenderer implements IMinecraft
 
             }
 
-            if (s.length() > 1)
-            {
+            if (s.length() > 1) {
                 if (activeColor != color) s = s.substring(1);
 
                 textSized(s, x, y, activeColor, true);
@@ -162,8 +148,7 @@ public class NVGRenderer implements IMinecraft
         }
     }
 
-    public static NVGColor getColorNVG(Color color)
-    {
+    public static NVGColor getColorNVG(Color color) {
         NVGColor clr = NVGColor.create();
 
         clr.r(color.getRed() / 255.0f);
@@ -174,8 +159,7 @@ public class NVGRenderer implements IMinecraft
         return clr;
     }
 
-    public float getWidth(String text)
-    {
+    public float getWidth(String text) {
         text = text.replaceAll("§[0-9abcdeflmno]", "");
 
         float[] bounds = new float[4];
@@ -185,8 +169,7 @@ public class NVGRenderer implements IMinecraft
         return bounds[2] - bounds[0];
     }
 
-    public float getFontHeight()
-    {
+    public float getFontHeight() {
 
         float[] ascent = new float[1];
         float[] descent = new float[1];
@@ -199,8 +182,7 @@ public class NVGRenderer implements IMinecraft
         return ascent[0] - descent[0];
     }
 
-    public void startDraw()
-    {
+    public void startDraw() {
         IntBuffer buffer = BufferUtils.createIntBuffer(1);
         glGetIntegerv(GL_CURRENT_PROGRAM, buffer);
         program = buffer.get(0);
@@ -230,8 +212,7 @@ public class NVGRenderer implements IMinecraft
         NanoVG.nvgBeginFrame(context, mc.getWindow().getScaledWidth(), mc.getWindow().getScaledHeight(), 3f);
     }
 
-    public void endDraw()
-    {
+    public void endDraw() {
         NanoVG.nvgEndFrame(context);
 
         glUseProgram(program);
@@ -253,19 +234,16 @@ public class NVGRenderer implements IMinecraft
         glBindTexture(GL_TEXTURE_2D, textureBinding);
     }
 
-    private void setGlState(int cap, boolean state)
-    {
+    private void setGlState(int cap, boolean state) {
         if (state) glEnable(cap);
         else glDisable(cap);
     }
 
-    public boolean isInitialized()
-    {
+    public boolean isInitialized() {
         return init;
     }
 
-    public void reInit()
-    {
+    public void reInit() {
         init = false;
 
         Managers.MODULES.getModuleFromClass(Fonts.class).setEnabled(false);

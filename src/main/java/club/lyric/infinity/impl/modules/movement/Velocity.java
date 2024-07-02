@@ -43,11 +43,9 @@ public class Velocity extends ModuleBase {
 
         if (nullCheck()) return;
 
-        if (mode.is("JumpReset"))
-        {
+        if (mode.is("JumpReset")) {
 
-            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket && mc.player.hurtTime > 0 && mc.player.isOnGround() && mc.player.isAlive())
-            {
+            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket && mc.player.hurtTime > 0 && mc.player.isOnGround() && mc.player.isAlive()) {
 
                 if (random.nextDouble() < 0.4) {
 
@@ -58,9 +56,7 @@ public class Velocity extends ModuleBase {
                 }
 
             }
-        }
-        else if (mode.is("Grim"))
-        {
+        } else if (mode.is("Grim")) {
 
             if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
 
@@ -71,12 +67,9 @@ public class Velocity extends ModuleBase {
                 event.setCancelled(true);
 
             }
-        }
-        else if (mode.is("Normal"))
-        {
+        } else if (mode.is("Normal")) {
 
-            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket)
-            {
+            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
 
                 ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityX((int) (((double) ((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityX() / 100 - mc.player.getVelocity().x) * horizontal.getIValue() * 100 + mc.player.getVelocity().x * 100));
                 ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityY((int) (((double) ((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityY() / 100 - mc.player.getVelocity().y) * vertical.getIValue() * 100 + mc.player.getVelocity().y * 100));
@@ -84,8 +77,7 @@ public class Velocity extends ModuleBase {
 
             }
 
-            if (event.getPacket() instanceof ExplosionS2CPacket)
-            {
+            if (event.getPacket() instanceof ExplosionS2CPacket) {
 
                 ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityX((int) (((double) ((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityX() / 100 - mc.player.getVelocity().x) * horizontal.getIValue() * 100 + mc.player.getVelocity().x * 100));
                 ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityY((int) (((double) ((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityY() / 100 - mc.player.getVelocity().y) * vertical.getIValue() * 100 + mc.player.getVelocity().y * 100));
@@ -97,10 +89,8 @@ public class Velocity extends ModuleBase {
     }
 
     @Override
-    public String moduleInformation()
-    {
-        if (mode.is("Grim") || mode.is("JumpReset"))
-        {
+    public String moduleInformation() {
+        if (mode.is("Grim") || mode.is("JumpReset")) {
             return mode.getMode();
         }
         return "H" + horizontal.getFValue() + "%" + Formatting.GRAY + "," + Formatting.WHITE + "V" + vertical.getFValue() + "%";

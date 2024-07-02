@@ -13,41 +13,35 @@ import java.util.stream.Stream;
 /**
  * @author valser
  */
-public final class Spotify
-{
+public final class Spotify {
     public static boolean isSpotifyRunning;
     public static String currentTrack;
     public static String lastTrack;
     public static String currentArtist;
     public static ScheduledExecutorService scheduled = Executors.newScheduledThreadPool(10);
 
-    public static void init()
-    {
+    public static void init() {
         scheduled.scheduleAtFixedRate(Spotify::updateCurrentTrack, 100, 100, TimeUnit.MILLISECONDS);
     }
 
-    public static void reset()
-    {
+    public static void reset() {
         currentTrack = null;
         currentArtist = null;
         lastTrack = null;
     }
 
-    public static void updateCurrentTrack()
-    {
+    public static void updateCurrentTrack() {
 
         isSpotifyRunning = isSpotifyActive();
 
-        if (!isSpotifyRunning)
-        {
+        if (!isSpotifyRunning) {
             reset();
             return;
         }
 
         String[] metadata = getCurrentTrack();
 
-        if (metadata == null)
-        {
+        if (metadata == null) {
             reset();
             return;
         }
@@ -55,8 +49,7 @@ public final class Spotify
         String artist = metadata[0];
         String track = metadata[1];
 
-        if (artist == null || track == null)
-        {
+        if (artist == null || track == null) {
             reset();
             return;
         }
@@ -65,8 +58,7 @@ public final class Spotify
         currentTrack = track.trim();
     }
 
-    public static boolean isSpotifyActive()
-    {
+    public static boolean isSpotifyActive() {
 
         AtomicBoolean isRunning = new AtomicBoolean(false);
         Stream<ProcessHandle> liveProcesses = ProcessHandle.allProcesses();
@@ -74,8 +66,7 @@ public final class Spotify
         liveProcesses.filter(ProcessHandle::isAlive).forEach(ph ->
                 ph.info().command().ifPresent(command ->
                 {
-                    if (command.contains("Spotify") || command.contains("spotify"))
-                    {
+                    if (command.contains("Spotify") || command.contains("spotify")) {
                         isRunning.set(true);
                     }
                 }));
@@ -83,53 +74,41 @@ public final class Spotify
         return isRunning.get();
     }
 
-    public static boolean hasMedia()
-    {
+    public static boolean hasMedia() {
         return isSpotifyRunning && currentTrack != null && currentArtist != null;
     }
 
-    public static String getMedia()
-    {
+    public static String getMedia() {
         if (!hasMedia()) return "No song is playing.";
         return currentArtist + " - " + currentTrack;
     }
 
-    public static String[] getCurrentTrack()
-    {
+    public static String[] getCurrentTrack() {
         ArrayList<String> results = new ArrayList<>();
-        try
-        {
+        try {
 
             ProcessBuilder builder = new ProcessBuilder("cmd", "/c", "for /f \"tokens=* skip=9 delims= \" %g in ('tasklist /v /fo list /fi \"imagename eq spotify*\"') do @echo %g");
             builder.redirectErrorStream(true);
             Process process = builder.start();
 
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream())))
-            {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
 
                 String line;
 
-                while ((line = reader.readLine()) != null)
-                {
-                    if (line.contains("Window Title:"))
-                    {
+                while ((line = reader.readLine()) != null) {
+                    if (line.contains("Window Title:")) {
                         results.add(line);
                     }
                 }
             }
-        }
-
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             return null;
         }
 
         if (results.isEmpty()) return null;
 
-        for (String line : results)
-        {
-            if (line.contains("-"))
-            {
+        for (String line : results) {
+            if (line.contains("-")) {
                 String song = line.replace("Window Title: ", "");
 
                 return song.split(" - ", 2);

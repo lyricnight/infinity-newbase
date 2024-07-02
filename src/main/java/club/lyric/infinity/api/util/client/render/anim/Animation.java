@@ -1,6 +1,6 @@
 package club.lyric.infinity.api.util.client.render.anim;
-public class Animation
-{
+
+public class Animation {
 
     private final Easing easing;
     private final long duration;
@@ -11,60 +11,47 @@ public class Animation
     private double value;
     private boolean finished;
 
-    public Animation(final Easing easing, final long duration)
-    {
+    public Animation(final Easing easing, final long duration) {
         this.easing = easing;
         this.startTime = System.currentTimeMillis();
         this.duration = duration;
     }
 
-    public void run(final double destinationValue)
-    {
+    public void run(final double destinationValue) {
         long millis = System.currentTimeMillis();
-        if (this.destinationValue != destinationValue)
-        {
+        if (this.destinationValue != destinationValue) {
             this.destinationValue = destinationValue;
             this.reset();
-        }
-        else
-        {
+        } else {
             this.finished = millis - this.duration > this.startTime;
-            if (this.finished)
-            {
+            if (this.finished) {
                 this.value = destinationValue;
                 return;
             }
         }
 
         final double result = this.easing.getFunction().apply(this.getProgress());
-        if (this.value > destinationValue)
-        {
+        if (this.value > destinationValue) {
             this.value = this.startValue - (this.startValue - destinationValue) * result;
-        }
-        else
-        {
+        } else {
             this.value = this.startValue + (destinationValue - this.startValue) * result;
         }
     }
 
 
-    public double getProgress()
-    {
+    public double getProgress() {
         return (double) (System.currentTimeMillis() - this.startTime) / (double) this.duration;
     }
 
-    public float getValue()
-    {
+    public float getValue() {
         return (float) value;
     }
 
-    public void setValue(float val)
-    {
+    public void setValue(float val) {
         value = val;
     }
 
-    public void reset()
-    {
+    public void reset() {
         this.startTime = System.currentTimeMillis();
         this.startValue = value;
         this.finished = false;

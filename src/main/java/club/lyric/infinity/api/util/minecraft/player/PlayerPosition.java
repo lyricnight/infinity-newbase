@@ -12,7 +12,7 @@ public class PlayerPosition extends Vec3d implements IMinecraft {
 
     private final long timeStamp = Time.getMillis();
     private final float yRot;
-    private float xRot;
+    private final float xRot;
     private final boolean onGround;
 
     public PlayerPosition() {
@@ -63,8 +63,7 @@ public class PlayerPosition extends Vec3d implements IMinecraft {
         return onGround;
     }
 
-    public static PlayerPosition getPosition()
-    {
+    public static PlayerPosition getPosition() {
         //pitch and yaw might be the other way around...
         return new PlayerPosition(mc.player.getX(), mc.player.getY(), mc.player.getZ(), mc.player.getPitch(), mc.player.getYaw(), mc.player.isOnGround());
     }

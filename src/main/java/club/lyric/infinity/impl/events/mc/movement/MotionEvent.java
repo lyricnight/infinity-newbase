@@ -19,8 +19,7 @@ public class MotionEvent extends Event {
 
     private final int stage;
 
-    public MotionEvent(double x, double y, double z, int stage)
-    {
+    public MotionEvent(double x, double y, double z, int stage) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -49,8 +48,7 @@ public class MotionEvent extends Event {
         this.x = x;
     }
 
-    public void setY(double y)
-    {
+    public void setY(double y) {
         this.modified = true;
         this.y = y;
     }

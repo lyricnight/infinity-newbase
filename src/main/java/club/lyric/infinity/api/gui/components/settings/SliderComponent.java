@@ -18,25 +18,22 @@ import org.lwjgl.glfw.GLFW;
 import java.awt.*;
 
 @SuppressWarnings("ConstantConditions")
-public class SliderComponent extends Component implements IMinecraft
-{
+public class SliderComponent extends Component implements IMinecraft {
 
-    public NumberSetting  setting;
+    public NumberSetting setting;
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
     private final Animation rect = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
     protected StopWatch stopWatch = new StopWatch.Single();
     public boolean drag;
 
-    public SliderComponent(NumberSetting setting, Panel panel)
-    {
+    public SliderComponent(NumberSetting setting, Panel panel) {
         this.panel = panel;
         this.setting = setting;
         this.height = 14;
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta)
-    {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 
         if (setting.getName().equals("hudX") || setting.getName().equals("hudY")) return;
 
@@ -48,12 +45,9 @@ public class SliderComponent extends Component implements IMinecraft
 
         Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 2.0f, y, rect.getValue(), height, color.getRGB());
 
-        if (isHovering(mouseX, mouseY))
-        {
+        if (isHovering(mouseX, mouseY)) {
             animation.run(2);
-        }
-        else
-        {
+        } else {
             animation.run(0);
         }
 
@@ -64,8 +58,7 @@ public class SliderComponent extends Component implements IMinecraft
         Managers.TEXT.drawString(name, (int) (panel.getX() + 4.0f), textY, -1);
         context.getMatrices().pop();
 
-        if (drag)
-        {
+        if (drag) {
             double difference = setting.getMaximum() - setting.getMinimum();
             double value = ((mouseX - (panel.getX() + 2)) * difference / (width - 2) + setting.getMinimum());
 
@@ -77,24 +70,20 @@ public class SliderComponent extends Component implements IMinecraft
     }
 
     @Override
-    public void mouseClicked(int mouseX, int mouseY, int button)
-    {
+    public void mouseClicked(int mouseX, int mouseY, int button) {
 
-        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && isHovering(mouseX, mouseY))
-        {
+        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT && isHovering(mouseX, mouseY)) {
             drag = true;
         }
     }
 
     @Override
-    public void mouseReleased(int mouseX, int mouseY, int button)
-    {
+    public void mouseReleased(int mouseX, int mouseY, int button) {
         drag = false;
     }
 
     @Override
-    public float getHeight()
-    {
+    public float getHeight() {
         if (setting.getName().equals("hudX") || setting.getName().equals("hudY")) return 0;
 
         return 14;
@@ -102,15 +91,13 @@ public class SliderComponent extends Component implements IMinecraft
 
     @Override
     public void keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE)
-        {
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
             animation.reset();
             rect.reset();
         }
     }
 
-    protected boolean isHovering(double mouseX, double mouseY)
-    {
+    protected boolean isHovering(double mouseX, double mouseY) {
         return mouseX >= panel.getX() && mouseX <= panel.getX() + width && mouseY >= y && mouseY <= y + height;
     }
 }

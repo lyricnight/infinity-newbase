@@ -36,6 +36,14 @@ public class ModeSetting extends Setting implements Renderable {
         return (index == Arrays.stream(modes).toList().indexOf(mode));
     }
 
+    public void increment() {
+        index = (index + 1) % modes.length;
+    }
+
+    public void decrement() {
+        index = (index - 1 + modes.length) % modes.length;
+    }
+
     @Override
     public void render() {
         ImGui.pushID(moduleBase.getName() + "/" + name);

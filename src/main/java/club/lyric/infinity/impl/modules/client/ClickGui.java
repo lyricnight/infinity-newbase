@@ -24,15 +24,12 @@ public final class ClickGui extends ModuleBase {
 
     public BooleanSetting resizing = new BooleanSetting("Resizing", false, this);
 
-    public ClickGui()
-    {
+    public ClickGui() {
         super("ClickGui", "Displays a graphical user interface.", Category.Client);
-        setBind(GLFW.GLFW_KEY_RIGHT_SHIFT);
     }
 
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
         if (mc.world == null) {
             disable();
             return;
@@ -53,8 +50,7 @@ public final class ClickGui extends ModuleBase {
 
     @EventHandler
     public void onKeyPress(KeyPressEvent event) {
-        if (event.getAction() == GLFW.GLFW_PRESS && event.getKey() == GLFW.GLFW_KEY_ESCAPE)
-        {
+        if (event.getAction() == GLFW.GLFW_PRESS && event.getKey() == GLFW.GLFW_KEY_ESCAPE) {
             setEnabled(false);
         }
     }

@@ -50,20 +50,16 @@ public class PlayerUtils implements IMinecraft {
         return statusEffectNames.computeIfAbsent(effect, effect1 -> StringHelper.stripTextFormat(effect1.getName().getString()));
     }
 
-    public static String getPotionDurationString(StatusEffectInstance effect)
-    {
-        if (effect.isInfinite())
-        {
+    public static String getPotionDurationString(StatusEffectInstance effect) {
+        if (effect.isInfinite()) {
             return "∞∞:∞∞";
-        }
-        else
-        {
+        } else {
             DecimalFormat minuteFormat = new DecimalFormat("0");
             DecimalFormat secondsFormat = new DecimalFormat("00");
             long durationInTicks = effect.getDuration();
-            float durationInSeconds = (float)durationInTicks / 20.0F;
-            long minutes = TimeUnit.SECONDS.toMinutes((long)durationInSeconds);
-            long seconds = TimeUnit.SECONDS.toSeconds((long)durationInSeconds) % 60L;
+            float durationInSeconds = (float) durationInTicks / 20.0F;
+            long minutes = TimeUnit.SECONDS.toMinutes((long) durationInSeconds);
+            long seconds = TimeUnit.SECONDS.toSeconds((long) durationInSeconds) % 60L;
             return minuteFormat.format(minutes) + ":" + secondsFormat.format(seconds);
         }
     }
@@ -71,7 +67,7 @@ public class PlayerUtils implements IMinecraft {
     //TODO: fix this returning false when we drop a block in phase
     @SuppressWarnings("all")
     public static boolean isPhasing() {
-        if(mc.player == null || mc.world == null) return false;
+        if (mc.player == null || mc.world == null) return false;
         Box box = mc.player.getBoundingBox();
         for (int x = floor(box.minX); x < floor(box.maxX) + 1; x++) {
             for (int y = floor(box.minY); y < floor(box.maxY) + 1; y++) {
@@ -124,8 +120,7 @@ public class PlayerUtils implements IMinecraft {
         return burrowList.contains(state.getBlock()) && state.getCollisionShape(mc.world, pos).getBoundingBox().offset(pos).maxY > player.getY();
     }
 
-    public static float getPlayerHealth()
-    {
+    public static float getPlayerHealth() {
         return mc.player.getAbsorptionAmount() + mc.player.getHealth();
     }
 
@@ -138,8 +133,7 @@ public class PlayerUtils implements IMinecraft {
         return mc.world.getBlockState(target.getBlockPos()).getBlock() != Blocks.AIR;
     }
 
-    public static void setMotionY(double y)
-    {
+    public static void setMotionY(double y) {
         Vec3d motion = mc.player.getVelocity();
         mc.player.setVelocity(motion.getX(), y, motion.getZ());
     }

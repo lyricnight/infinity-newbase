@@ -14,23 +14,18 @@ import net.minecraft.util.hit.HitResult;
  * @author lyric
  */
 public final class MCF extends ModuleBase {
-    public MCF()
-    {
+    public MCF() {
         super("MCF", "Add friends using middleclick", Category.Misc);
     }
 
     @SuppressWarnings("unused")
     @EventHandler
-    public void onKeyPress(KeyPressEvent event)
-    {
-        if (mc.currentScreen == null && event.getKey() == 2 && event.getAction() != 0)
-        {
+    public void onKeyPress(KeyPressEvent event) {
+        if (mc.currentScreen == null && event.getKey() == 2 && event.getAction() != 0) {
             HitResult player = mc.crosshairTarget;
-            if (player instanceof EntityHitResult result)
-            {
+            if (player instanceof EntityHitResult result) {
                 Entity entity = result.getEntity();
-                if (entity instanceof PlayerEntity playerEntity)
-                {
+                if (entity instanceof PlayerEntity playerEntity) {
                     Managers.FRIENDS.addFriend(playerEntity.getDisplayName().getString());
                 }
             }

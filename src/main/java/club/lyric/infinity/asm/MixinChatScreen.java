@@ -23,7 +23,8 @@ public abstract class MixinChatScreen implements IMinecraft {
 
     @Inject(method = "init", at = @At(value = "RETURN"))
     private void onInit(CallbackInfo info) {
-        if (Managers.MODULES.getModuleFromClass(Chat.class).infiniteMessages.value()) chatField.setMaxLength(Integer.MAX_VALUE);
+        if (Managers.MODULES.getModuleFromClass(Chat.class).infiniteMessages.value())
+            chatField.setMaxLength(Integer.MAX_VALUE);
     }
 
 }

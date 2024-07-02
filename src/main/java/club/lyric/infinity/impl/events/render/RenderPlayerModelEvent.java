@@ -11,6 +11,7 @@ public class RenderPlayerModelEvent extends Event {
     private final AbstractClientPlayerEntity entity;
     private float yaw;
     private float pitch;
+
     public RenderPlayerModelEvent(AbstractClientPlayerEntity entity) {
         this.entity = entity;
     }
@@ -25,6 +26,7 @@ public class RenderPlayerModelEvent extends Event {
     public float getYaw() {
         return yaw;
     }
+
     public float getPitch() {
         return pitch;
     }

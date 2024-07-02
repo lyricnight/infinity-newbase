@@ -35,8 +35,7 @@ public abstract class MixinChatInputSuggestor {
     public abstract void show(boolean suggestion);
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/TextFieldWidget;getCursor()I", ordinal = 0), method = "refresh()V")
-    private void onRefresh(CallbackInfo ci)
-    {
+    private void onRefresh(CallbackInfo ci) {
 
         String prefix = Managers.COMMANDS.getPrefix();
         String inputText = textField.getText();
@@ -46,8 +45,7 @@ public abstract class MixinChatInputSuggestor {
         int cursorPosition = textField.getCursor();
         String textUpToCursor = inputText.substring(0, cursorPosition);
 
-        if (textUpToCursor.startsWith(prefix))
-        {
+        if (textUpToCursor.startsWith(prefix)) {
 
             int whitespaceEndPosition = getLastWhitespacePosition(textUpToCursor);
             SuggestionsBuilder suggestionsBuilder = new SuggestionsBuilder(textUpToCursor, whitespaceEndPosition);
@@ -61,14 +59,12 @@ public abstract class MixinChatInputSuggestor {
     }
 
     @Unique
-    private int getLastWhitespacePosition(String text)
-    {
+    private int getLastWhitespacePosition(String text) {
 
         Matcher matcher = Pattern.compile("\\s+").matcher(text);
         int lastPosition = 0;
 
-        while (matcher.find())
-        {
+        while (matcher.find()) {
             lastPosition = matcher.end();
         }
 
@@ -76,30 +72,24 @@ public abstract class MixinChatInputSuggestor {
     }
 
     @Unique
-    private void handleCommandSuggestions(String prefix, SuggestionsBuilder builder, String text)
-    {
+    private void handleCommandSuggestions(String prefix, SuggestionsBuilder builder, String text) {
         int spaceCount = StringUtils.countMatches(text, " ");
         List<String> separatedText = Arrays.asList(text.split(" "));
 
-        if (spaceCount == 0)
-        {
+        if (spaceCount == 0) {
             Managers.COMMANDS.getCommands().forEach(command -> builder.suggest(prefix + command.getCommand() + " "));
-        }
-        else
-        {
+        } else {
             suggestCommandArguments(builder, separatedText);
         }
     }
 
     @Unique
-    private void suggestCommandArguments(SuggestionsBuilder builder, List<String> separatedText)
-    {
+    private void suggestCommandArguments(SuggestionsBuilder builder, List<String> separatedText) {
         if (separatedText.isEmpty()) return;
 
         Command command = Managers.COMMANDS.getCommandByName(separatedText.get(0));
 
-        if (command == null)
-        {
+        if (command == null) {
             return;
         }
 
@@ -107,8 +97,7 @@ public abstract class MixinChatInputSuggestor {
 
         if (suggestions == null) return;
 
-        for (String suggestion : suggestions)
-        {
+        for (String suggestion : suggestions) {
             builder.suggest(suggestion + " ");
         }
     }

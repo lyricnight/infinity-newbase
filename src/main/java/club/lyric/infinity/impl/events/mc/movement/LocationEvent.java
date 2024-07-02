@@ -8,11 +8,11 @@ import club.lyric.infinity.api.event.Event;
  */
 public class LocationEvent extends Event {
 
-    private double x;
+    private final double x;
 
-    private double y;
+    private final double y;
 
-    private double z;
+    private final double z;
 
     private float yaw;
 
@@ -70,8 +70,7 @@ public class LocationEvent extends Event {
         this.onGround = onGround;
     }
 
-    public boolean isModified()
-    {
+    public boolean isModified() {
         return modified;
     }
 }

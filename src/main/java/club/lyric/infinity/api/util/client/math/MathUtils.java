@@ -42,22 +42,18 @@ public class MathUtils {
         return num < min ? min : Math.min(num, max);
     }
 
-    public static float square(float in)
-    {
+    public static float square(float in) {
         return in * in;
     }
 
-    public static double square(double in)
-    {
+    public static double square(double in) {
         return in * in;
     }
 
-    public static int angleDirection(float yaw, int disfunctional)
-    {
+    public static int angleDirection(float yaw, int disfunctional) {
         int angle = (int) (yaw + 360 / (2 * disfunctional) + 0.5) % 360;
 
-        if (angle < 0)
-        {
+        if (angle < 0) {
             angle += 360;
         }
 

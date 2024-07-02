@@ -22,6 +22,7 @@ public class MixinChatHudLine implements IChatHudLine {
     private int id;
     @Unique
     private GameProfile sender;
+
     @Override
     public String infinity$getText() {
         return content.getString();

@@ -4,10 +4,6 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
-import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
-import club.lyric.infinity.manager.Managers;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
@@ -18,14 +14,12 @@ import java.awt.*;
 public class Ambience extends ModuleBase {
     public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)), false);
 
-    public Ambience()
-    {
+    public Ambience() {
         super("Ambience", "Changes the worlds color.", Category.Visual);
     }
 
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
         if (nullCheck()) return;
 
         mc.worldRenderer.reload();
@@ -33,14 +27,12 @@ public class Ambience extends ModuleBase {
     }
 
     @Override
-    public void onUpdate()
-    {
+    public void onUpdate() {
         mc.world.getDimensionEffects().adjustFogColor(Vec3d.unpackRgb(color.getColor().getRGB()), 0);
     }
 
     @Override
-    public void onDisable()
-    {
+    public void onDisable() {
         if (nullCheck()) return;
 
         mc.worldRenderer.reload();

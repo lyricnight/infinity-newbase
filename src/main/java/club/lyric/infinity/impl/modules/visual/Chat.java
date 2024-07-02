@@ -9,7 +9,6 @@ import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -26,31 +25,31 @@ import java.util.Date;
 public final class Chat extends ModuleBase {
     public BooleanSetting clear =
             new BooleanSetting(
-            "Clear",
-            true,
-            this
-    );
+                    "Clear",
+                    true,
+                    this
+            );
 
     public BooleanSetting remove =
             new BooleanSetting(
-            "RemoveLine",
-            true,
-            this
-    );
+                    "RemoveLine",
+                    true,
+                    this
+            );
 
     public BooleanSetting infiniteMessages =
             new BooleanSetting(
-            "InfiniteMessages",
-            true,
-            this
-    );
+                    "InfiniteMessages",
+                    true,
+                    this
+            );
 
     public BooleanSetting timeStamps =
             new BooleanSetting(
-            "TimeStamps",
-            false,
-            this
-    );
+                    "TimeStamps",
+                    false,
+                    this
+            );
 
     public BooleanSetting keep = new BooleanSetting("Keep", false, this);
 
@@ -59,16 +58,14 @@ public final class Chat extends ModuleBase {
 
     public final IntList lines = new IntArrayList();
 
-    public Chat()
-    {
+    public Chat() {
         super("Chat", "Handles our chat and how it looks...", Category.Visual);
     }
 
 
     //no point getting/setting message if timestamps aren't on
     @EventHandler(priority = 800)
-    public void onChatReceive(ReceiveChatEvent event)
-    {
+    public void onChatReceive(ReceiveChatEvent event) {
         clear();
         if (timeStamps.value()) {
             Text message = event.getMessage();
@@ -80,8 +77,7 @@ public final class Chat extends ModuleBase {
         }
     }
 
-    public Text timeStamps()
-    {
+    public Text timeStamps() {
         MutableText timeStamps = Text.literal("<" + date.format(new Date()) + "> " + Formatting.RESET);
         return timeStamps.setStyle(timeStamps.getStyle().withColor(Managers.MODULES.getModuleFromClass(Colours.class).getColor().getRGB()));
     }
@@ -89,32 +85,24 @@ public final class Chat extends ModuleBase {
     /**
      * gets rid of background
      */
-    public void clear()
-    {
-        if (mc.options != null)
-        {
-            if (clear.value())
-            {
+    public void clear() {
+        if (mc.options != null) {
+            if (clear.value()) {
                 mc.options.getTextBackgroundOpacity().setValue(0.0);
-            }
-            else
-            {
+            } else {
                 mc.options.getTextBackgroundOpacity().setValue(0.5);
             }
         }
     }
 
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
         clear();
     }
 
     @Override
-    public void onDisable()
-    {
-        if (mc.options.getTextBackgroundOpacity().getValue() != 0.5)
-        {
+    public void onDisable() {
+        if (mc.options.getTextBackgroundOpacity().getValue() != 0.5) {
             mc.options.getTextBackgroundOpacity().setValue(0.5);
         }
     }

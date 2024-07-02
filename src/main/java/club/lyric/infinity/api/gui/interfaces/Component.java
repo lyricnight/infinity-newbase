@@ -30,13 +30,11 @@ public abstract class Component implements IMinecraft {
 
     public abstract void keyPressed(int keyCode, int scanCode, int modifiers);
 
-    public void setY(float y)
-    {
+    public void setY(float y) {
         this.y = y;
     }
 
-    public float getHeight()
-    {
+    public float getHeight() {
         return height;
     }
 }

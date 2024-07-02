@@ -11,17 +11,14 @@ import net.minecraft.text.Text;
  * @author vasler, lyric
  */
 
-public final class ChatUtils implements IMinecraft
-{
+public final class ChatUtils implements IMinecraft {
 
-    public static Text clientMessage()
-    {
-        MutableText clientMessage = Text.literal("[" + "Infinity" +  "]");
+    public static Text clientMessage() {
+        MutableText clientMessage = Text.literal("[" + "Infinity" + "]");
         return clientMessage.setStyle(clientMessage.getStyle().withColor(Managers.MODULES.getModuleFromClass(Colours.class).getColor().getRGB()));
     }
 
-    public static void sendMessagePrivate(String message)
-    {
+    public static void sendMessagePrivate(String message) {
         if (mc.world == null) return;
         MutableText text = Text.empty();
         text.append(clientMessage());
@@ -29,8 +26,7 @@ public final class ChatUtils implements IMinecraft
         mc.inGameHud.getChatHud().addMessage(text);
     }
 
-    public static void sendMessagePrivateColored(String message)
-    {
+    public static void sendMessagePrivateColored(String message) {
         if (mc.world == null) return;
         MutableText text = Text.empty();
         text.append(clientMessage());
@@ -45,26 +41,20 @@ public final class ChatUtils implements IMinecraft
      * ID 3333 = Perfect
      */
     //WTF is this
-    public static void sendOverwriteMessage(String message, int id)
-    {
-        if(mc.world == null) return;
+    public static void sendOverwriteMessage(String message, int id) {
+        if (mc.world == null) return;
         MutableText text = Text.empty();
         text.append(clientMessage());
         text.append(" " + message);
-        if (id == 1111)
-        {
+        if (id == 1111) {
             text.append(" (!)");
             ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
             return;
-        }
-        else if (id == 2222)
-        {
+        } else if (id == 2222) {
             text.append(" (-)");
             ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
             return;
-        }
-        else if (id == 3333)
-        {
+        } else if (id == 3333) {
             text.append(" (*)");
             ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
             return;
@@ -73,25 +63,20 @@ public final class ChatUtils implements IMinecraft
     }
 
     public static void sendOverwriteMessageColored(String message, int id) {
-        if(mc.world == null) return;
+        if (mc.world == null) return;
         MutableText text = Text.empty();
         text.append(clientMessage());
         text.append(" " + message);
         text.setStyle(text.getStyle().withColor(Managers.MODULES.getModuleFromClass(Colours.class).getColor().getRGB()));
-        if (id == 1111)
-        {
+        if (id == 1111) {
             text.append(" (!)");
             ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
             return;
-        }
-        else if (id == 2222)
-        {
+        } else if (id == 2222) {
             text.append(" (-)");
             ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
             return;
-        }
-        else if (id == 3333)
-        {
+        } else if (id == 3333) {
             text.append(" (*)");
             ((IChatHud) mc.inGameHud.getChatHud()).infinity$add(text, id);
             return;

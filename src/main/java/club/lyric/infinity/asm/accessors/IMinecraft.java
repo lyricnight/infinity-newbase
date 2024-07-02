@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface IMinecraft {
     @Accessor(value = "itemUseCooldown")
     void setItemUseCooldown(int cooldown);
-    @Accessor(value="itemUseCooldown")
+
+    @Accessor(value = "itemUseCooldown")
     int getItemUseCooldown();
 }

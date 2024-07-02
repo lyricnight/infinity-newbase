@@ -5,11 +5,9 @@ import club.lyric.infinity.api.module.ModuleBase;
 
 public class Burrow extends ModuleBase {
 
-    public Burrow()
-    {
+    public Burrow() {
         super("Burrow", "aids", Category.Combat);
     }
-
 
 
 }

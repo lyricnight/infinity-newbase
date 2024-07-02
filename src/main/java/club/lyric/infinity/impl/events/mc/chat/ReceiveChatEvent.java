@@ -13,8 +13,7 @@ public class ReceiveChatEvent extends Event {
 
     public int id;
 
-    public ReceiveChatEvent(Text text, MessageIndicator messageIndicator, int id)
-    {
+    public ReceiveChatEvent(Text text, MessageIndicator messageIndicator, int id) {
         this.message = text;
         this.id = id;
         this.indicator = messageIndicator;

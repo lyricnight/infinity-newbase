@@ -10,25 +10,18 @@ import java.awt.*;
  * but the author is actually lyric
  */
 public class ColorUtils implements IMinecraft {
-    public static Color toColor(float red, float green, float blue, float alpha)
-    {
-        if (!(green < 0.0f) && !(green > 100.0f))
-        {
-            if (!(blue < 0.0f) && !(blue > 100.0f))
-            {
-                if (!(alpha < 0.0f) && !(alpha > 1.0f))
-                {
+    public static Color toColor(float red, float green, float blue, float alpha) {
+        if (!(green < 0.0f) && !(green > 100.0f)) {
+            if (!(blue < 0.0f) && !(blue > 100.0f)) {
+                if (!(alpha < 0.0f) && !(alpha > 1.0f)) {
                     red = red % 360.0f / 360.0f;
                     green /= 100.0f;
                     blue /= 100.0f;
 
                     float blueOff;
-                    if (blue < 0.0)
-                    {
+                    if (blue < 0.0) {
                         blueOff = blue * (1.0f + green);
-                    }
-                    else
-                    {
+                    } else {
                         blueOff = blue + green - green * blue;
                     }
 
@@ -40,55 +33,41 @@ public class ColorUtils implements IMinecraft {
                     max = Math.min(max, 1.0f);
                     green = Math.min(green, 1.0f);
                     return new Color(blue, max, green, alpha);
-                }
-                else
-                {
+                } else {
                     throw new IllegalArgumentException(
                             "Color parameter outside of expected range - Alpha");
                 }
-            }
-            else
-            {
+            } else {
                 throw new IllegalArgumentException(
                         "Color parameter outside of expected range - Lightness");
             }
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException(
                     "Color parameter outside of expected range - Saturation");
         }
     }
-    public static float getFactor(float red, float green, float blue)
-    {
-        if (blue < 0.0f)
-        {
+
+    public static float getFactor(float red, float green, float blue) {
+        if (blue < 0.0f) {
             ++blue;
         }
 
-        if (blue > 1.0f)
-        {
+        if (blue > 1.0f) {
             --blue;
         }
 
-        if (6.0f * blue < 1.0f)
-        {
+        if (6.0f * blue < 1.0f) {
             return red + (green - red) * 6.0f * blue;
-        }
-        else if (2.0f * blue < 1.0f)
-        {
+        } else if (2.0f * blue < 1.0f) {
             return green;
-        }
-        else
-        {
+        } else {
             return 3.0F * blue < 2.0f
                     ? red + (green - red) * 6.0f * (0.6666667f - blue)
                     : red;
         }
     }
 
-    public static Color darken(Color color, int amount)
-    {
+    public static Color darken(Color color, int amount) {
         int red = Math.max(color.getRed() - amount, 20);
         int green = Math.max(color.getGreen() - amount, 20);
         int blue = Math.max(color.getBlue() - amount, 20);
@@ -96,28 +75,23 @@ public class ColorUtils implements IMinecraft {
         return new Color(red, green, blue, color.getAlpha());
     }
 
-    public static Color alpha(Color color, int amount)
-    {
+    public static Color alpha(Color color, int amount) {
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), amount);
     }
 
-    public static Color hslToColor(float hue, float sat, float light, float alpha)
-    {
-        if (sat < 0.0f || sat > 100.0f)
-        {
+    public static Color hslToColor(float hue, float sat, float light, float alpha) {
+        if (sat < 0.0f || sat > 100.0f) {
             throw new IllegalArgumentException("Color parameter outside of expected range - Saturation");
         }
-        if (light < 0.0f || light > 100.0f)
-        {
+        if (light < 0.0f || light > 100.0f) {
             throw new IllegalArgumentException("Color parameter outside of expected range - Lightness");
         }
-        if (alpha < 0.0f || alpha > 1.0f)
-        {
+        if (alpha < 0.0f || alpha > 1.0f) {
             throw new IllegalArgumentException("Color parameter outside of expected range - Alpha");
         }
         hue %= 360.0f;
         float f5;
-        f5 = (double)light < 0.5 ? light * (1.0f + sat) : (light /= 100.0f) + (sat /= 100.0f) - sat * light;
+        f5 = (double) light < 0.5 ? light * (1.0f + sat) : (light /= 100.0f) + (sat /= 100.0f) - sat * light;
         sat = 2.0f * light - f5;
         light = Math.max(0.0f, colorCalc(sat, f5, (hue /= 360.0f) + 0.33333334f));
         float f6 = Math.max(0.0f, colorCalc(sat, f5, hue));
@@ -128,26 +102,20 @@ public class ColorUtils implements IMinecraft {
         return new Color(light, f6, sat, alpha);
     }
 
-    private static float colorCalc(float f, float f2, float f3)
-    {
-        if (f3 < 0.0f)
-        {
+    private static float colorCalc(float f, float f2, float f3) {
+        if (f3 < 0.0f) {
             f3 += 1.0f;
         }
-        if (f3 > 1.0f)
-        {
+        if (f3 > 1.0f) {
             f3 -= 1.0f;
         }
-        if (6.0f * f3 < 1.0f)
-        {
+        if (6.0f * f3 < 1.0f) {
             return f + (f2 - f) * 6.0f * f3;
         }
-        if (2.0f * f3 < 1.0f)
-        {
+        if (2.0f * f3 < 1.0f) {
             return f2;
         }
-        if (3.0f * f3 < 2.0f)
-        {
+        if (3.0f * f3 < 2.0f) {
             return f + (f2 - f) * 6.0f * (0.6666667f - f3);
         }
         return f;

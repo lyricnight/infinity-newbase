@@ -8,8 +8,7 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
  */
 //TODO: add this everywhere
 public final class Null implements IMinecraft {
-    public static boolean is()
-    {
+    public static boolean is() {
         return mc.player == null || mc.world == null;
     }
 }

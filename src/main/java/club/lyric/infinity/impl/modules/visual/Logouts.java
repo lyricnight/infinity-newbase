@@ -17,25 +17,20 @@ public class Logouts extends ModuleBase {
 
     protected Map<PlayerEntity, UUID> logouts = new ConcurrentHashMap<>();
 
-    public Logouts()
-    {
+    public Logouts() {
         super("Logouts", "Renders the spots where players have logged out.", Category.Visual);
     }
 
     @Override
-    public void onDisable()
-    {
+    public void onDisable() {
         logouts.clear();
     }
 
-    private void remove(PlayerEntity entity)
-    {
+    private void remove(PlayerEntity entity) {
 
-        for (PlayerEntity e : logouts.keySet())
-        {
+        for (PlayerEntity e : logouts.keySet()) {
 
-            if (e.getName().getString().equals(entity.getName().getString()))
-            {
+            if (e.getName().getString().equals(entity.getName().getString())) {
 
                 logouts.remove(e);
                 break;
@@ -46,8 +41,7 @@ public class Logouts extends ModuleBase {
     }
 
     @Override
-    public void onRender3D(MatrixStack matrixStack)
-    {
+    public void onRender3D(MatrixStack matrixStack) {
 
         logouts.forEach((pos, player) -> {
 
@@ -55,18 +49,14 @@ public class Logouts extends ModuleBase {
     }
 
     @EventHandler
-    private void onPacketReceive(PacketEvent.Receive event)
-    {
-        if (event.getPacket() instanceof PlayerRemoveS2CPacket)
-        {
+    private void onPacketReceive(PacketEvent.Receive event) {
+        if (event.getPacket() instanceof PlayerRemoveS2CPacket) {
 
-            for (UUID uuid : ((PlayerRemoveS2CPacket) event.getPacket()).profileIds())
-            {
+            for (UUID uuid : ((PlayerRemoveS2CPacket) event.getPacket()).profileIds()) {
 
                 PlayerEntity player = mc.world.getPlayerByUuid(uuid);
 
-                if (player != null && player != mc.player)
-                {
+                if (player != null && player != mc.player) {
                     logouts.put(player, uuid);
                 }
 

@@ -6,14 +6,12 @@ import club.lyric.infinity.api.module.ModuleBase;
 
 public final class HudRewrite extends ModuleBase {
 
-    public HudRewrite()
-    {
+    public HudRewrite() {
         super("HudRewrite", "", Category.Client);
     }
 
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
         if (mc.world == null) {
             disable();
             return;

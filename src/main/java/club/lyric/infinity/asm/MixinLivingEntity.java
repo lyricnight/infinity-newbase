@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinLivingEntity {
     @Unique
     private long lastInterp = 0L;
+
     @Inject(method = "updateTrackedPositionAndAngles", at = @At(value = "HEAD"))
     private void updateTrackedPositionAndAnglesHead(double x, double y, double z, float yaw, float pitch, int interpolationSteps, CallbackInfo ci) {
         EventBus.getInstance().post(new InterpolationEvent(LivingEntity.class.cast(this), x, y, z, yaw, pitch, lastInterp));
@@ -30,8 +31,7 @@ public abstract class MixinLivingEntity {
 
     @Inject(at = @At("HEAD"), method = "hasStatusEffect(Lnet/minecraft/entity/effect/StatusEffect;)Z", cancellable = true)
     private void hasStatusEffect(StatusEffect effect, CallbackInfoReturnable<Boolean> cir) {
-        if (effect.equals(StatusEffects.LEVITATION) && Managers.MODULES.getModuleFromClass(AntiLevitation.class).isOn())
-        {
+        if (effect.equals(StatusEffects.LEVITATION) && Managers.MODULES.getModuleFromClass(AntiLevitation.class).isOn()) {
             cir.setReturnValue(false);
         }
     }

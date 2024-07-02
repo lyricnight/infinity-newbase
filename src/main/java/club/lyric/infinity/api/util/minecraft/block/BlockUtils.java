@@ -57,9 +57,11 @@ public class BlockUtils implements IMinecraft {
     public static boolean isBedrock(BlockPos pos) {
         return mc.world.getBlockState(pos).getBlock() == Blocks.BEDROCK;
     }
+
     public static boolean isEchest(BlockPos pos) {
         return mc.world.getBlockState(pos).getBlock() == Blocks.ENDER_CHEST;
     }
+
     public static boolean isSafe(BlockPos pos) {
         return isObby(pos) || isBedrock(pos) || isEchest(pos);
     }

@@ -5,13 +5,11 @@ package club.lyric.infinity.api.util.client.gui;
  * gui themes.
  */
 public interface Theme {
-    default void pre()
-    {
+    default void pre() {
 
     }
 
-    default void post()
-    {
+    default void post() {
 
     }
 }

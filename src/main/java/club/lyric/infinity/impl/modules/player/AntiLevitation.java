@@ -9,8 +9,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 //vasler finish or i delete
 public class AntiLevitation extends ModuleBase {
 
-    public AntiLevitation()
-    {
+    public AntiLevitation() {
         super("AntiLevitation", "ggg", Category.Player);
     }
 }

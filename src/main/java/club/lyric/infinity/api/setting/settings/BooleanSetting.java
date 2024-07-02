@@ -12,8 +12,7 @@ public class BooleanSetting extends Setting implements Renderable {
 
     private boolean value;
 
-    public BooleanSetting(String name, boolean value, ModuleBase moduleBase)
-    {
+    public BooleanSetting(String name, boolean value, ModuleBase moduleBase) {
         this.name = name;
         this.value = value;
         this.moduleBase = moduleBase;
@@ -23,15 +22,16 @@ public class BooleanSetting extends Setting implements Renderable {
 
     /**
      * gets value
+     *
      * @return - value of setting
      */
-    public boolean value()
-    {
+    public boolean value() {
         return value;
     }
 
     /**
      * sets value
+     *
      * @param value - value to set to
      */
     public void setValue(boolean value) {
@@ -41,18 +41,15 @@ public class BooleanSetting extends Setting implements Renderable {
     /**
      * switches the value of the setting.
      */
-    public void toggle()
-    {
+    public void toggle() {
         value = !value;
     }
 
     @Override
-    public void render()
-    {
+    public void render() {
         ImGui.pushID(moduleBase.getName() + "/" + name);
 
-        if (ImGui.checkbox("", value))
-        {
+        if (ImGui.checkbox("", value)) {
             setValue(!value);
         }
         ImGui.sameLine();

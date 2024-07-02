@@ -18,8 +18,7 @@ public final class RotationPoint {
      */
     private boolean instant;
 
-    public RotationPoint(float yaw, float pitch, int priority, boolean instant)
-    {
+    public RotationPoint(float yaw, float pitch, int priority, boolean instant) {
         this.yaw = yaw;
         this.pitch = pitch;
         this.priority = priority;

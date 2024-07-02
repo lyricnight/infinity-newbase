@@ -13,54 +13,45 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
-public class HudEditor extends Screen implements IMinecraft
-{
+public class HudEditor extends Screen implements IMinecraft {
     private static ArrayList<Panel> panels = null;
 
-    public HudEditor()
-    {
+    public HudEditor() {
         super(Text.of("Infinity"));
 
         panels = new ArrayList<>();
 
         int x = 2;
 
-        for (Category category : Category.values())
-        {
+        for (Category category : Category.values()) {
 
-            if (category == Category.Hud)
-            {
+            if (category == Category.Hud) {
                 panels.add(new Panel(category, x, 3, true));
             }
         }
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta)
-    {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
         panels.forEach(panel -> panel.render(context, mouseX, mouseY, delta));
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button)
-    {
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
         panels.forEach(panel -> panel.mouseClicked(mouseX, mouseY, button));
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int releaseButton)
-    {
+    public boolean mouseReleased(double mouseX, double mouseY, int releaseButton) {
         panels.forEach(panel -> panel.mouseReleased(mouseX, mouseY, releaseButton));
         return super.mouseReleased(mouseX, mouseY, releaseButton);
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers)
-    {
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE)
-        {
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
             Managers.MODULES.getModuleFromClass(GuiRewrite.class).setEnabled(false);
             close();
             return true;
@@ -75,8 +66,7 @@ public class HudEditor extends Screen implements IMinecraft
         return false;
     }
 
-    public static ArrayList<Panel> getPanels()
-    {
+    public static ArrayList<Panel> getPanels() {
         return panels;
     }
 }
