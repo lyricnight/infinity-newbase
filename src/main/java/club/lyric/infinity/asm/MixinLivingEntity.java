@@ -8,6 +8,8 @@ import club.lyric.infinity.manager.Managers;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,4 +37,5 @@ public abstract class MixinLivingEntity {
             cir.setReturnValue(false);
         }
     }
+
 }

@@ -3,6 +3,7 @@ package club.lyric.infinity.api.util.minecraft.player;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BedItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class InventoryUtils implements IMinecraft {
@@ -37,6 +38,27 @@ public class InventoryUtils implements IMinecraft {
         }
 
         return counter;
+    }
+
+    public static int getItemCount(Item item) {
+        if (mc.player == null) return 0;
+
+        int counter = 0;
+
+        for (int i = 0; i <= 44; ++i) {
+            ItemStack itemStack = mc.player.getInventory().getStack(i);
+            if (itemStack.getItem() != item) continue;
+            counter += itemStack.getCount();
+        }
+
+        return counter;
+    }
+
+    public static boolean areItemsEqual(ItemStack left, ItemStack right)
+    {
+        return left.getItem() == right.getItem() &&
+                ItemStack.areItemsEqual(left, right) &&
+                (!left.isDamageable() || left.getDamage() == right.getDamage());
     }
 
     public static int getDamage(ItemStack stack) {

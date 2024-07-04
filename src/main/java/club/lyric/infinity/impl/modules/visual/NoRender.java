@@ -8,6 +8,7 @@ import net.minecraft.client.particle.ExplosionLargeParticle;
 
 public class NoRender extends ModuleBase {
 
+
     public NoRender() {
         super("NoRender", "CCC", Category.Visual);
     }

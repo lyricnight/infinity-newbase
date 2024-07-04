@@ -14,7 +14,6 @@ import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
-import java.util.Objects;
 
 @SuppressWarnings("ConstantConditions")
 public class ModeComponent extends Component implements IMinecraft {
@@ -22,6 +21,9 @@ public class ModeComponent extends Component implements IMinecraft {
     public ModeSetting setting;
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
     private final Animation rect = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
+
+    // Mode
+    private final Animation animationMode = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
     private boolean opened;
     private int modeHeight;
 
@@ -54,6 +56,14 @@ public class ModeComponent extends Component implements IMinecraft {
 
         modeHeight = 0;
 
+        if (mouseX >= panel.getX() && mouseX <= panel.getX() + width && mouseY >= y && mouseY <= y + modeHeight + 11.0f + height / 2 - (Managers.TEXT.height(true) >> 1) + height - 1) {
+            animationMode.run(1);
+        }
+        else
+        {
+            animationMode.run(0);
+        }
+
         if (opened) {
 
             for (String string : setting.modes) {
@@ -72,7 +82,7 @@ public class ModeComponent extends Component implements IMinecraft {
                 float modeY = y + modeHeight;
 
                 context.getMatrices().push();
-                Managers.TEXT.drawString(string, (int) (panel.getX() + 4.0f), modeY + height / 2 - (Managers.TEXT.height(true) >> 1) + height, textColor.getRGB());
+                Managers.TEXT.drawString(string, (int) (panel.getX() + 4.0f), modeY + height / 2 - (Managers.TEXT.height(true) >> 1) - animationMode.getValue() + height, textColor.getRGB());
                 context.getMatrices().pop();
 
                 modeHeight += 11;
@@ -92,7 +102,7 @@ public class ModeComponent extends Component implements IMinecraft {
         {
             for (String string : setting.modes)
             {
-                if (mouseX >= panel.getX() && mouseX <= panel.getX() + width && mouseY >= y && mouseY <= y + 11.0f + height / 2 - (Managers.TEXT.height(true) >> 1) + height)
+                if (mouseX >= panel.getX() && mouseX <= panel.getX() + width && mouseY >= y && mouseY <= y + 11.0f + height / 2 - (Managers.TEXT.height(true) >> 1) + height - 1)
                 {
                     setting.setMode(string);
                 }

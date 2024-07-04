@@ -7,11 +7,10 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.*;
 import club.lyric.infinity.impl.modules.combat.*;
 import club.lyric.infinity.impl.modules.exploit.*;
-import club.lyric.infinity.impl.modules.misc.AntiAscii;
-import club.lyric.infinity.impl.modules.misc.IRC;
-import club.lyric.infinity.impl.modules.misc.MCF;
+import club.lyric.infinity.impl.modules.misc.*;
 import club.lyric.infinity.impl.modules.movement.*;
 import club.lyric.infinity.impl.modules.player.*;
+import club.lyric.infinity.impl.modules.player.Reminer;
 import club.lyric.infinity.impl.modules.visual.*;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public final class ModuleManager implements IMinecraft
                 new Configuration(),
                 new AntiCheat(),
                 new RichPresence(),
-                new AutoMine(),
+                new club.lyric.infinity.impl.modules.combat.AutoMine(),
                 new Chat(),
                 new HUD(),
                 new Aura(),
@@ -83,7 +82,15 @@ public final class ModuleManager implements IMinecraft
                 new Fonts(),
                 new GuiRewrite(),
                 new HudRewrite(),
-                new NoRender()
+                new NoRender(),
+                new Replenish(),
+                new FastFall(),
+                new AutoWalk(),
+                new Timer(),
+                new Reminer(),
+                new AutoLog(),
+                new AutoRespawn(),
+                new FovModifier()
         );
         modules.sort(Comparator.comparing(ModuleBase::getName));
         Infinity.LOGGER.info("Initialising modules.");

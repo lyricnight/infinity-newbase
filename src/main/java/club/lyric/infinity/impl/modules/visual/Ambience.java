@@ -29,6 +29,9 @@ public class Ambience extends ModuleBase {
     @Override
     public void onUpdate() {
         mc.world.getDimensionEffects().adjustFogColor(Vec3d.unpackRgb(color.getColor().getRGB()), 0);
+
+        int time;
+        mc.world.setTimeOfDay();
     }
 
     @Override

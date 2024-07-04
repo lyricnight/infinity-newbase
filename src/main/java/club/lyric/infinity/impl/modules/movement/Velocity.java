@@ -69,19 +69,19 @@ public class Velocity extends ModuleBase {
             }
         } else if (mode.is("Normal")) {
 
-            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
+            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket packet) {
 
-                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityX((int) (((double) ((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityX() / 100 - mc.player.getVelocity().x) * horizontal.getIValue() * 100 + mc.player.getVelocity().x * 100));
-                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityY((int) (((double) ((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityY() / 100 - mc.player.getVelocity().y) * vertical.getIValue() * 100 + mc.player.getVelocity().y * 100));
-                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityZ((int) (((double) ((EntityVelocityUpdateS2CPacket) event.getPacket()).getVelocityZ() / 100 - mc.player.getVelocity().z) * horizontal.getIValue() * 100 + mc.player.getVelocity().z * 100));
+                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityX((int) (mc.player.getX() * horizontal.getIValue() / 100));
+                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityY((int) (mc.player.getY() * vertical.getIValue() / 100));
+                ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityZ((int) (mc.player.getZ() * horizontal.getIValue() / 100));
 
             }
 
-            if (event.getPacket() instanceof ExplosionS2CPacket) {
+            if (event.getPacket() instanceof ExplosionS2CPacket packet) {
 
-                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityX((int) (((double) ((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityX() / 100 - mc.player.getVelocity().x) * horizontal.getIValue() * 100 + mc.player.getVelocity().x * 100));
-                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityY((int) (((double) ((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityY() / 100 - mc.player.getVelocity().y) * vertical.getIValue() * 100 + mc.player.getVelocity().y * 100));
-                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityZ((int) (((double) ((ExplosionS2CPacket) event.getPacket()).getPlayerVelocityZ() / 100 - mc.player.getVelocity().z) * horizontal.getIValue() * 100 + mc.player.getVelocity().z * 100));
+                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityX((int) (mc.player.getX() * horizontal.getIValue() / 100));
+                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityY((int) (mc.player.getY() * vertical.getIValue() / 100));
+                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityZ((int) (mc.player.getZ() * horizontal.getIValue() / 100));
 
             }
         }
