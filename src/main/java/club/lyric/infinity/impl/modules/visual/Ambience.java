@@ -31,7 +31,7 @@ public class Ambience extends ModuleBase {
         mc.world.getDimensionEffects().adjustFogColor(Vec3d.unpackRgb(color.getColor().getRGB()), 0);
 
         int time;
-        mc.world.setTimeOfDay();
+        //mc.world.setTimeOfDay();
     }
 
     @Override
