@@ -10,6 +10,9 @@ import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
+/**
+ * @author vasler
+ */
 public final class GuiRewrite extends ModuleBase {
 
     public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(64, 64, 124)), false);

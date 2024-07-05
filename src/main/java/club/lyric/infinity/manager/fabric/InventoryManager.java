@@ -88,7 +88,7 @@ public class InventoryManager implements IMinecraft {
     }
 
     /**
-     * updates values of s
+     * event methods that update values of s
      */
 
     @EventHandler
@@ -113,6 +113,5 @@ public class InventoryManager implements IMinecraft {
         {
             s = packet.getSlot();
         }
-
     }
 }

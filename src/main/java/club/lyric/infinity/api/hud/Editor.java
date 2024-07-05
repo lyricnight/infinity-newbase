@@ -2,6 +2,7 @@ package club.lyric.infinity.api.hud;
 
 import net.minecraft.client.gui.DrawContext;
 
+@Deprecated
 public class Editor {
 
     private int x;

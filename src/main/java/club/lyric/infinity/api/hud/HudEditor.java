@@ -12,6 +12,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 
+@Deprecated
 @SuppressWarnings("ConstantConditions")
 public class HudEditor extends Screen implements IMinecraft {
     private static ArrayList<Panel> panels = null;

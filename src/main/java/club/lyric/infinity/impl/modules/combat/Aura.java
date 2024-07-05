@@ -47,7 +47,7 @@ import java.awt.*;
 /**
  * @author 3arth
  */
-//TODO: dechina this and improve it?
+//TODO: replace this
 @SuppressWarnings("DataFlowIssue")
 public final class Aura extends ModuleBase {
 

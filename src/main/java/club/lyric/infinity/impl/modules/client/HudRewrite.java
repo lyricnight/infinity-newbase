@@ -4,6 +4,10 @@ import club.lyric.infinity.api.hud.HudEditor;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 
+/**
+ * @author vasler
+ */
+@Deprecated
 public final class HudRewrite extends ModuleBase {
 
     public HudRewrite() {

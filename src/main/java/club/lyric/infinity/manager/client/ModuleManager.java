@@ -36,7 +36,7 @@ public final class ModuleManager implements IMinecraft
                 new Configuration(),
                 new AntiCheat(),
                 new RichPresence(),
-                new club.lyric.infinity.impl.modules.combat.AutoMine(),
+                new AutoMine(),
                 new Chat(),
                 new HUD(),
                 new Aura(),
@@ -88,7 +88,6 @@ public final class ModuleManager implements IMinecraft
                 new AutoWalk(),
                 new Timer(),
                 new Reminer(),
-                new AutoLog(),
                 new AutoRespawn(),
                 new FovModifier()
         );
