@@ -42,6 +42,7 @@ import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -101,6 +102,7 @@ public class AutoCrystal extends ModuleBase {
     private BlockPos renderPosition;
     ExecutorService service = Executors.newCachedThreadPool();
     private BlockPos placePositions;
+    private PlayerEntity target;
 
     public AutoCrystal() {
         super("AutoCrystal", "automatically crystal", Category.Combat);
@@ -108,13 +110,21 @@ public class AutoCrystal extends ModuleBase {
 
     @Override
     public String moduleInformation() {
-        return "GG";
+
+        Formatting grey = Formatting.GRAY;
+        Formatting white = Formatting.WHITE;
+
+        if (target == null) return "";
+
+        return target.getName().getString();
     }
 
     @Override
     public void onEnable() {
         breakTimer.reset();
         ownCrystals.clear();
+
+        // Debug calcs
     }
 
     @Override
@@ -132,9 +142,18 @@ public class AutoCrystal extends ModuleBase {
                 .sorted(Comparator.comparing(mc.player::distanceTo))
                 .toList();
 
+
+        for (LivingEntity entity : targets)
+        {
+            target = (PlayerEntity) entity;
+        }
+
         breakCrystals(near, targets);
 
-        if (place.value()) placeCrystals(targets);
+        if (place.value())
+        {
+            placeCrystals(targets);
+        }
 
         if (placePositions != null && AntiCheat.getRotation()) {
             Vec3d playerPos = mc.player.getPos();
@@ -303,6 +322,7 @@ public class AutoCrystal extends ModuleBase {
                         }
                         if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(soundPacket.getX(), soundPacket.getY(), soundPacket.getZ()) < 36.0d) {
                             int entity = crystal.getId();
+
                             mc.executeSync(() -> {
                                 mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
                                 mc.world.removeBlockEntity(crystal.getBlockPos());

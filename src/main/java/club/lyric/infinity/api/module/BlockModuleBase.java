@@ -27,6 +27,8 @@ import java.util.Set;
  * @author lyric
  */
 public class BlockModuleBase extends ModuleBase {
+
+
     /**
      * represents priority for rotations and block placements
      */

@@ -48,6 +48,7 @@ public final class HUD extends ModuleBase {
     public BooleanSetting armorHud = new BooleanSetting("Armor", true, this);
     public BooleanSetting percentage = new BooleanSetting("Percentage", true, this);
     public BooleanSetting watermark = new BooleanSetting("Watermark", true, this);
+    public BooleanSetting build = new BooleanSetting("Build", true, this);
     public BooleanSetting speed = new BooleanSetting("Speed", true, this);
     public BooleanSetting packet = new BooleanSetting("Packets", true, this);
     public BooleanSetting serverBrand = new BooleanSetting("ServerBrand", true, this);
@@ -104,8 +105,16 @@ public final class HUD extends ModuleBase {
 
         if (mc.getDebugHud().shouldShowDebugHud() || Managers.MODULES.getModuleFromClass(ClickGui.class).isOn()) return;
 
-        if (watermark.value()) {
-            Managers.TEXT.drawString(getLabel(Infinity.CLIENT_NAME + Infinity.VERSION + Formatting.GRAY + " build " + Version.DATE),
+        if (watermark.value())
+        {
+            String watermark = Infinity.CLIENT_NAME + Infinity.VERSION;
+
+            if (build.value())
+            {
+                watermark += Formatting.GRAY + " build " + Version.DATE;
+            }
+
+            Managers.TEXT.drawString(getLabel(watermark),
                     2,
                     2,
                     hudColor(2).getRGB()
@@ -508,8 +517,9 @@ public final class HUD extends ModuleBase {
     private String getString(StatusEffectInstance statusEffectInstance) {
         int amplifier = statusEffectInstance.getAmplifier();
         Text name = statusEffectInstance.getEffectType().getName();
+
         return name.getString() +
-                (amplifier > 0 ? (" " + (amplifier + 1) + ": ") : ": ") +
+                (amplifier > 0 ? (" " + (amplifier + 1) + " ") : " ") +
                 Formatting.GRAY +
                 PlayerUtils.getPotionDurationString(statusEffectInstance);
     }
