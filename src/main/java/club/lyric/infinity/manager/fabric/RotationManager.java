@@ -142,6 +142,7 @@ public final class RotationManager implements IMinecraft {
         }
     }
 
+
     /**
      * woo!
      * @return most prioritised rotationPoint

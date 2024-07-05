@@ -16,7 +16,6 @@ public final class AntiCheat extends PersistentModuleBase {
     public NumberSetting holdingTime = new NumberSetting("HoldingTime", this, 0f, 5f, 20f, 0.5f);
     public BooleanSetting strictDirection = new BooleanSetting("StrictDirection", false, this);
     public NumberSetting bpt = new NumberSetting("BPT", this, 4, 1, 20, 1);
-    public BooleanSetting swing = new BooleanSetting("Swing", false, this);
     public BooleanSetting movementFix = new BooleanSetting("MovementFix", false, this);
     public BooleanSetting lower = new BooleanSetting("1.12 Mode", false, this);
 
@@ -38,10 +37,6 @@ public final class AntiCheat extends PersistentModuleBase {
 
     public static int getBlocksPerTick() {
         return Managers.MODULES.getModuleFromClass(AntiCheat.class).bpt.getIValue();
-    }
-
-    public static boolean getSwing() {
-        return Managers.MODULES.getModuleFromClass(AntiCheat.class).swing.value();
     }
 
     public static boolean getFix() {
