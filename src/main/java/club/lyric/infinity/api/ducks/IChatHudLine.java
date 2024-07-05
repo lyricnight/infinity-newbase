@@ -1,15 +1,13 @@
 package club.lyric.infinity.api.ducks;
 
-import com.mojang.authlib.GameProfile;
+/**
+ * @author lyric
+ * duck interface
+ * @see net.minecraft.client.gui.hud.ChatHudLine
+ */
 
 public interface IChatHudLine {
-    String infinity$getText();
-
     int infinity$getId();
 
     void infinity$setId(int id);
-
-    GameProfile infinity$getSender();
-
-    void infinity$setSender(GameProfile profile);
 }

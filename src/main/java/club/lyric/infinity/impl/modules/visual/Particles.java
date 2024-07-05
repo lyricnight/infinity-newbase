@@ -7,8 +7,10 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
 
+/**
+ * @author vasler
+ */
 public class Particles extends ModuleBase {
-
     public NumberSetting radius = new NumberSetting("Radius", this, 15f, 1f, 30f, 1f);
 
     public Particles() {

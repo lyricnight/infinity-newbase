@@ -35,7 +35,6 @@ import java.util.List;
  */
 @Mixin(ChatHud.class)
 public abstract class MixinChatHud implements IChatHud, IMinecraft {
-
     @Shadow
     @Final
     private List<ChatHudLine.Visible> visibleMessages;
@@ -46,10 +45,6 @@ public abstract class MixinChatHud implements IChatHud, IMinecraft {
     private int idConcurrent;
     @Unique
     private boolean addText;
-
-    @Unique
-    private TextFieldWidget chatField;
-
     @Shadow
     protected abstract void addMessage(Text message, @Nullable MessageSignatureData messageSignatureData, int ticks, @Nullable MessageIndicator messageIndicator, boolean refresh);
 

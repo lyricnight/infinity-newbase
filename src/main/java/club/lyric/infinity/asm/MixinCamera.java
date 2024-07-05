@@ -8,6 +8,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+/**
+ * @author vasler
+ */
 @Mixin(Camera.class)
 public class MixinCamera {
     @Inject(method = "clipToSpace", at = @At("HEAD"), cancellable = true)

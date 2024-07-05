@@ -23,7 +23,5 @@ public abstract class MixinTitleScreen {
         Managers.TEXT.drawString(Infinity.CLIENT_NAME + Infinity.VERSION, 2, 2, (Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor(2) : Managers.MODULES.getModuleFromClass(Colours.class).getColor()).getRGB());
 
         Managers.TEXT.drawString(Formatting.GRAY + " build " + Version.DATE, Managers.TEXT.width(Infinity.CLIENT_NAME + Infinity.VERSION, true) + 2, 2, -1);
-
-        //Render2DUtils.drawRoundedRect(context, 2, 2, 30, 30, 6);
     }
 }

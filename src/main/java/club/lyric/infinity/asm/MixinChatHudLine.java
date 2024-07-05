@@ -15,19 +15,8 @@ import org.spongepowered.asm.mixin.Unique;
  */
 @Mixin(value = ChatHudLine.class)
 public class MixinChatHudLine implements IChatHudLine {
-    @Shadow
-    @Final
-    private Text content;
     @Unique
     private int id;
-    @Unique
-    private GameProfile sender;
-
-    @Override
-    public String infinity$getText() {
-        return content.getString();
-    }
-
     @Override
     public int infinity$getId() {
         return id;
@@ -36,15 +25,5 @@ public class MixinChatHudLine implements IChatHudLine {
     @Override
     public void infinity$setId(int id) {
         this.id = id;
-    }
-
-    @Override
-    public GameProfile infinity$getSender() {
-        return sender;
-    }
-
-    @Override
-    public void infinity$setSender(GameProfile profile) {
-        sender = profile;
     }
 }

@@ -9,8 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.slot.SlotActionType;
 
+/**
+ * @author vasler
+ */
 public class Replenish extends ModuleBase {
-
     public NumberSetting threshold = new NumberSetting("Threshold", this, 24.0f, 1.0f, 64.0f, 1f, " items");
     public NumberSetting pearlThreshold = new NumberSetting("PearlThreshold", this, 4.0f, 1.0f, 16.0f, 1f, " items");
 
@@ -22,7 +24,6 @@ public class Replenish extends ModuleBase {
     @Override
     public void onUpdate()
     {
-
         if (mc.currentScreen != null) return;
 
         for (int slot = 0; slot < 9; ++slot)
