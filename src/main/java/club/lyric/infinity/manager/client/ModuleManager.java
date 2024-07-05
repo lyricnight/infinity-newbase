@@ -82,14 +82,12 @@ public final class ModuleManager implements IMinecraft
                 new Fonts(),
                 new GuiRewrite(),
                 new HudRewrite(),
-                new NoRender(),
                 new Replenish(),
                 new FastFall(),
                 new AutoWalk(),
                 new Timer(),
                 new Reminer(),
-                new AutoRespawn(),
-                new FovModifier()
+                new AutoRespawn()
         );
         modules.sort(Comparator.comparing(ModuleBase::getName));
         Infinity.LOGGER.info("Initialising modules.");
