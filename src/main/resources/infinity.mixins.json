@@ -16,7 +16,6 @@
     "MixinSharedConstants",
     "MixinStringHelper",
     "MixinTitleScreen",
-    "MixinAbstractClientPlayerEntity",
     "accessors.ICustomPayloadC2SPacket",
     "accessors.IEntityVelocityUpdateS2CPacket",
     "accessors.IExplosionS2CPacket",
@@ -48,7 +47,6 @@
     "MixinSplashTextResourceSupplier",
     "MixinWindow",
     "MixinWorldRenderer",
-    "MixinParticleManager",
     "accessors.IChatHudLine",
     "accessors.IMinecraft"
   ],
