@@ -5,6 +5,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.PersistentModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.math.Null;
 import club.lyric.infinity.impl.events.render.RenderEntityEvent;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -42,7 +43,7 @@ public class Notifications extends PersistentModuleBase {
     @EventHandler
     public void onRemovalEntity(RenderEntityEvent.Removal event) {
 
-        if (nullCheck()) return;
+        if (Null.is()) return;
 
         if (event.getEntity() instanceof PlayerEntity player && render.value()) {
 
@@ -55,7 +56,7 @@ public class Notifications extends PersistentModuleBase {
     @EventHandler
     public void onRemovalEntity(RenderEntityEvent.Spawn event) {
 
-        if (nullCheck()) return;
+        if (Null.is()) return;
 
         if (event.getEntity() instanceof PlayerEntity player && render.value()) {
 

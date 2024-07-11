@@ -21,6 +21,9 @@ import net.minecraft.util.math.Direction;
 
 import java.awt.*;
 
+/**
+ * @author vasler
+ */
 public class Reminer extends ModuleBase {
 
     public NumberSetting range = new NumberSetting("Range", this, 5.0f, 1.0f, 6.0f, 0.1f);

@@ -2,6 +2,7 @@ package club.lyric.infinity.impl.modules.visual;
 
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.util.client.math.Null;
 import club.lyric.infinity.api.util.minecraft.player.Fake;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -17,7 +18,7 @@ public final class FakePlayer extends ModuleBase {
 
     @Override
     public void onEnable() {
-        if (nullCheck()) return;
+        if (Null.is()) return;
 
         Fake fake = new Fake(mc.world);
         fake.setId(-2352352);
@@ -35,7 +36,7 @@ public final class FakePlayer extends ModuleBase {
 
     @Override
     public void onDisable() {
-        if (nullCheck()) return;
+        if (Null.is()) return;
         mc.world.removeEntity(-2352352, Entity.RemovalReason.DISCARDED);
     }
 }

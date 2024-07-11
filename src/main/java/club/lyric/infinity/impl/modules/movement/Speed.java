@@ -5,6 +5,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
+import club.lyric.infinity.api.util.client.math.Null;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
 import club.lyric.infinity.manager.Managers;
@@ -61,7 +62,7 @@ public class Speed extends ModuleBase {
     @EventHandler
     public void onGang(PlayerMovementEvent event) {
 
-        if (nullCheck() || mc.player.isSpectator() || !MovementUtil.movement()) return;
+        if (Null.is() || mc.player.isSpectator() || !MovementUtil.movement()) return;
 
         if (!inLiquids.value() && (mc.player.isInsideWaterOrBubbleColumn() || mc.player.isInLava())) return;
 
@@ -185,7 +186,7 @@ public class Speed extends ModuleBase {
         } else {
             Managers.TIMER.reset();
         }
-        if (nullCheck()) return;
+        if (Null.is()) return;
 
         double diffX = mc.player.getX() - mc.player.prevX;
         double diffZ = mc.player.getZ() - mc.player.prevZ;

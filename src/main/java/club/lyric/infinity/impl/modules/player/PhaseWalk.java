@@ -7,6 +7,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.util.client.math.Null;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
@@ -82,7 +83,7 @@ public final class PhaseWalk extends ModuleBase {
     @SuppressWarnings("unused")
     @EventHandler
     public void onMove(EntityMovementEvent event) {
-        if (nullCheck()) return;
+        if (Null.is()) return;
         if (mc.player.horizontalCollision && watch.hasBeen(delay.getIValue() * 100L) && PlayerUtils.isPhasing() && !mc.player.isHoldingOntoLadder()) {
             final double[] movementArray = MovementUtil.directionSpeed(speed.getValue() / 100.0);
             double x = mc.player.getX() + movementArray[0];

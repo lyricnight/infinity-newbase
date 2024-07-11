@@ -4,11 +4,13 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.util.client.math.Null;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 
-//pretty sure this doesn't work
-//TODO: add timer
+/**
+ * @author vasler
+ */
 public final class Step extends ModuleBase {
 
     public ModeSetting mode = new ModeSetting("Mode", this, "Vanilla", "Vanilla", "Normal");
@@ -24,7 +26,7 @@ public final class Step extends ModuleBase {
                     "b"
             );
 
-    StopWatch.Single stopWatch = new StopWatch.Single();
+    private final StopWatch.Single stopWatch = new StopWatch.Single();
 
     public Step() {
         super("Step", "steps", Category.Movement);
@@ -42,7 +44,7 @@ public final class Step extends ModuleBase {
 
     @Override
     public void onTickPre() {
-        if (nullCheck()) return;
+        if (Null.is()) return;
 
         if (mode.is("Normal")) {
             double stepHeight = mc.player.getY() - mc.player.prevY;

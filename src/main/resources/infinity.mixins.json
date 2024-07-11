@@ -13,15 +13,16 @@
     "MixinInGameHud",
     "MixinLivingEntity",
     "MixinPacketByteBuf",
+    "MixinServerPlayNetworkHandler",
     "MixinSharedConstants",
     "MixinStringHelper",
     "MixinTitleScreen",
+    "accessors.IClientPlayerInteractionManager",
     "accessors.ICustomPayloadC2SPacket",
     "accessors.IEntityVelocityUpdateS2CPacket",
     "accessors.IExplosionS2CPacket",
     "accessors.ILivingEntity",
-    "accessors.IPlayerMoveC2SPacket",
-    "accessors.IClientPlayerInteractionManager"
+    "accessors.IPlayerMoveC2SPacket"
   ],
   "client": [
     "MixinCamera",

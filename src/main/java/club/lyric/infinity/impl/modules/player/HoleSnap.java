@@ -6,6 +6,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.math.Null;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
 import club.lyric.infinity.api.util.minecraft.block.HoleUtils;
@@ -20,7 +21,7 @@ import net.minecraft.util.math.Vec3d;
 import java.util.Comparator;
 
 /**
- * @author lyric
+ * @author ??
  */
 @SuppressWarnings({"DataFlowIssue", "unused"})
 public final class HoleSnap extends ModuleBase {
@@ -73,7 +74,7 @@ public final class HoleSnap extends ModuleBase {
 
     @Override
     public void onTickPre() {
-        if (nullCheck()) {
+        if (Null.is()) {
             setEnabled(false);
             return;
         }
@@ -92,16 +93,16 @@ public final class HoleSnap extends ModuleBase {
             } else {
                 Managers.TIMER.set(timerIntensity.getFValue());
             }
-            ++this.boosted;
+            ++boosted;
         } else {
-            this.boosted = 0;
+            boosted = 0;
             Managers.TIMER.reset();
         }
     }
 
     @EventHandler
     public void onMove(EntityMovementEvent event) {
-        if (nullCheck()) {
+        if (Null.is()) {
             return;
         }
         if (mc.player.isSpectator()) {

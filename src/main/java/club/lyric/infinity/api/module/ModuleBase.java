@@ -6,6 +6,7 @@ import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.math.Null;
 import club.lyric.infinity.api.util.client.render.anim.Animation;
 import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
@@ -142,7 +143,7 @@ public class ModuleBase implements IMinecraft {
         EventBus.getInstance().register(this);
         this.onEnable();
 
-        if (nullCheck()) return;
+        if (Null.is()) return;
 
         if (Managers.MODULES.getModuleFromClass(Notifications.class).toggled.value()) {
             ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + " was " + Formatting.RESET + "enabled.", id);
@@ -154,7 +155,7 @@ public class ModuleBase implements IMinecraft {
         this.onDisable();
         EventBus.getInstance().unregister(this);
 
-        if (nullCheck()) return;
+        if (Null.is()) return;
 
         if (Managers.MODULES.getModuleFromClass(Notifications.class).toggled.value()) {
             ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + " was " + Formatting.RESET + "disabled.", id);
@@ -274,11 +275,32 @@ public class ModuleBase implements IMinecraft {
     }
 
     /**
-     * null convenience
-     *
-     * @return if null is present
+     * for placement
+     * @param string - type of swapmode
+     * @return the enum value corresponding to string
      */
-    public static boolean nullCheck() {
-        return mc.player == null || mc.world == null;
+
+    protected SwapMode getModeFromString(String string)
+    {
+        switch (string)
+        {
+            case "Normal" -> {
+                return SwapMode.Normal;
+            }
+            case "Silent" -> {
+                return SwapMode.Silent;
+            }
+            case "Slot" -> {
+                return SwapMode.Slot;
+            }
+        }
+        throw new RuntimeException("No SwapMode found. Report this!");
+    }
+
+    protected enum SwapMode
+    {
+        Normal,
+        Silent,
+        Slot;
     }
 }

@@ -1,11 +1,14 @@
 package club.lyric.infinity.api.module;
 
 import club.lyric.infinity.Infinity;
+import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationHandler;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationUtils;
 import club.lyric.infinity.impl.modules.client.AntiCheat;
 import club.lyric.infinity.manager.Managers;
+import club.lyric.infinity.manager.fabric.InventoryManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -17,6 +20,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -27,12 +31,19 @@ import java.util.Set;
  * @author lyric
  */
 public class BlockModuleBase extends ModuleBase {
+    public ModeSetting swapModeSetting = new ModeSetting("SwapMode", this, "Normal", "Normal", "Silent", "Slot");
 
-
+    //quite possibly the stupidest thing in this client
+    public BooleanSetting airPlace = new BooleanSetting("AirPlace", false, this);
     /**
      * represents priority for rotations and block placements
      */
     private final int prio;
+
+    /**
+     * represents slot for switchBack
+     */
+    private int slot;
 
     /**
      * list of placeable blocks, sorted in order of preference.
@@ -100,7 +111,7 @@ public class BlockModuleBase extends ModuleBase {
     }
 
     /**
-     * vasler this is the method you call to place a block
+     * this is the method you call to place a block
      * to construct a RotationHandler, you write something like this:
      * <code>
      *  placeBlock(pos, slot (state, angles) -> if (AntiCheat.getRotations()))
@@ -111,9 +122,9 @@ public class BlockModuleBase extends ModuleBase {
      *  else do nothing because no rotation.
      * </code>
      */
-    protected boolean placeBlock(BlockPos pos, int slot, RotationHandler rotationHandler)
+    protected boolean placeBlock(BlockPos pos, RotationHandler rotationHandler)
     {
-        Direction direction = getDirection(pos);
+        Direction direction = getDirection(pos, airPlace.value());
         if (direction == null && !AntiCheat.getStrictDirection())
         {
             Infinity.LOGGER.info("Logged no direction, defaulting.");
@@ -124,21 +135,22 @@ public class BlockModuleBase extends ModuleBase {
             return false;
         }
         BlockPos neighbor = pos.offset(direction.getOpposite());
-        return placeBlock(neighbor, direction, slot, rotationHandler);
+        return placeBlock(neighbor, direction, rotationHandler);
     }
 
-    private boolean placeBlock(BlockPos pos, Direction direction, int slot, RotationHandler rotationHandler)
+    private boolean placeBlock(BlockPos pos, Direction direction, RotationHandler rotationHandler)
     {
         Vec3d hitVec = pos.toCenterPos().add(new Vec3d(direction.getUnitVector()).multiply(0.5));
-        return placeBlock(new BlockHitResult(hitVec, direction, pos, false), slot, rotationHandler);
+        return placeBlock(new BlockHitResult(hitVec, direction, pos, false), rotationHandler);
     }
 
-    private boolean placeBlock(BlockHitResult hitResult, int slot, RotationHandler rotationHandler)
+    private boolean placeBlock(BlockHitResult hitResult, RotationHandler rotationHandler)
     {
-        boolean isSpoofing = slot != Managers.INVENTORY.getSlot();
-        if (isSpoofing)
+        boolean willSwap = getPlaceableBlockSlot() != Managers.INVENTORY.getSlot();
+        if (willSwap)
         {
-            Managers.INVENTORY.setSlotPacket(slot);
+            slot = Managers.INVENTORY.getClientSlot();
+            swapToBlock(getModeFromString(swapModeSetting.getMode()));
         }
 
         boolean isRotating = rotationHandler != null;
@@ -155,9 +167,13 @@ public class BlockModuleBase extends ModuleBase {
             rotationHandler.handle(false, angles);
         }
 
-        if (isSpoofing)
+        if (willSwap)
         {
-            Managers.INVENTORY.forceSync();
+            switch (getModeFromString(swapModeSetting.getMode()))
+            {
+                case Normal -> swapToItem(slot, SwapMode.Normal);
+                case Silent, Slot -> Managers.INVENTORY.forceSync();
+            }
         }
 
         return result;
@@ -175,7 +191,7 @@ public class BlockModuleBase extends ModuleBase {
     /**
      * gets direction for block placement.
      */
-    private Direction getDirection(BlockPos blockPos)
+    private Direction getDirection(BlockPos blockPos, boolean airPlace)
     {
         Set<Direction> validDirectionsSet = getDirectionsNCP(mc.player.getEyePos().x,mc.player.getEyePos().y, mc.player.getEyePos().z, blockPos.toCenterPos().x, blockPos.toCenterPos().y, blockPos.toCenterPos().z);
         Direction interactDirection = null;
@@ -193,11 +209,12 @@ public class BlockModuleBase extends ModuleBase {
             interactDirection = direction;
             break;
         }
-        if (interactDirection == null)
+        if (interactDirection == null && airPlace)
         {
-            return null;
+            return Direction.UP;
         }
-        return interactDirection.getOpposite();
+        else if (interactDirection == null) return null;
+        return airPlace ? Direction.UP : interactDirection.getOpposite();
     }
 
     /**
@@ -234,5 +251,26 @@ public class BlockModuleBase extends ModuleBase {
             dirs.add(Direction.NORTH);
         }
         return dirs;
+    }
+
+    /**
+     * swapping methods
+     */
+    //TODO: slot
+    protected void swapToBlock(SwapMode mode)
+    {
+        switch (mode) {
+            case Normal -> Managers.INVENTORY.setSlotFull(getPlaceableBlockSlot());
+            case Silent, Slot -> Managers.INVENTORY.setSlotPacket(getPlaceableBlockSlot());
+        }
+    }
+
+    protected void swapToItem(int slot, SwapMode mode)
+    {
+        switch (mode)
+        {
+            case Normal -> Managers.INVENTORY.setSlotFull(slot);
+            case Silent, Slot -> Managers.INVENTORY.setSlotPacket(slot);
+        }
     }
 }

@@ -5,6 +5,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.util.client.math.Null;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.asm.accessors.IEntityVelocityUpdateS2CPacket;
 import club.lyric.infinity.asm.accessors.IExplosionS2CPacket;
@@ -26,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings({"unused"})
 public class Velocity extends ModuleBase {
 
-    public ModeSetting mode = new ModeSetting("Mode", this, "Normal", "Normal", "JumpReset", "Grim");
+    public ModeSetting mode = new ModeSetting("Mode", this, "Normal", "Normal", "JumpReset");
     public NumberSetting horizontal = new NumberSetting("Horizontal", this, 0.0f, -100.0f, 100.0f, 1.0f);
     public NumberSetting vertical = new NumberSetting("Vertical", this, 0.0f, -100.0f, 100.0f, 1.0f);
 
@@ -41,7 +42,7 @@ public class Velocity extends ModuleBase {
     @EventHandler
     public void onEntityVelocity(PacketEvent.Receive event) {
 
-        if (nullCheck()) return;
+        if (Null.is()) return;
 
         if (mode.is("JumpReset")) {
 
@@ -56,18 +57,8 @@ public class Velocity extends ModuleBase {
                 }
 
             }
-        } else if (mode.is("Grim")) {
-
-            if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket) {
-
-                if (!stopWatch.hasBeen(100)) return;
-
-                if (event.getPacket() instanceof PlayerPositionLookS2CPacket) return;
-
-                event.setCancelled(true);
-
-            }
-        } else if (mode.is("Normal")) {
+        }
+        else if (mode.is("Normal")) {
 
             if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket packet) {
 
@@ -90,7 +81,7 @@ public class Velocity extends ModuleBase {
 
     @Override
     public String moduleInformation() {
-        if (mode.is("Grim") || mode.is("JumpReset")) {
+        if (mode.is("JumpReset")) {
             return mode.getMode();
         }
         return "H" + horizontal.getFValue() + "%" + Formatting.GRAY + "," + Formatting.WHITE + "V" + vertical.getFValue() + "%";

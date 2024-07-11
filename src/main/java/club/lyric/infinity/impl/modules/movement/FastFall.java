@@ -3,6 +3,7 @@ package club.lyric.infinity.impl.modules.movement;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.util.client.math.Null;
 
 public class FastFall extends ModuleBase {
 
@@ -35,8 +36,7 @@ public class FastFall extends ModuleBase {
     @Override
     public void onUpdate()
     {
-
-        if (nullCheck()) return;
+        if (Null.is()) return;
 
         if (mc.options.jumpKey.isPressed()) return;
 

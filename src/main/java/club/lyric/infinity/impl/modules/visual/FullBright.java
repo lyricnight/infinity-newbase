@@ -3,6 +3,7 @@ package club.lyric.infinity.impl.modules.visual;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.util.client.math.Null;
 import net.minecraft.world.LightType;
 
 /**
@@ -18,14 +19,14 @@ public class FullBright extends ModuleBase {
 
     @Override
     public void onEnable() {
-        if (nullCheck()) return;
+        if (Null.is()) return;
 
         mc.worldRenderer.reload();
     }
 
     @Override
     public void onDisable() {
-        if (nullCheck()) return;
+        if (Null.is()) return;
 
         mc.worldRenderer.reload();
     }

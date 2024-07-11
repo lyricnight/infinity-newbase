@@ -6,6 +6,7 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.MathUtils;
+import club.lyric.infinity.api.util.client.math.Null;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.MathHelper;
@@ -26,7 +27,7 @@ public final class Clip extends ModuleBase {
 
     @Override
     public void onUpdate() {
-        if (nullCheck()) return;
+        if (Null.is()) return;
         if (MovementUtil.movement()) return;
 
         if (time >= updates.getValue() && disable.value()) {

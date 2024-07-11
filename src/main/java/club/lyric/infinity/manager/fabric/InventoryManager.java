@@ -11,7 +11,6 @@ import net.minecraft.network.packet.s2c.play.UpdateSelectedSlotS2CPacket;
  * @author lyric
  * 'services are overrated'
  */
-//TODO: slot swapping utils
 public class InventoryManager implements IMinecraft {
     /**
      * represents the slot in use
