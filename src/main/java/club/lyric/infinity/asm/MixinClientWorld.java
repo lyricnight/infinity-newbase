@@ -40,7 +40,7 @@ public abstract class MixinClientWorld implements IMinecraft {
         }
     }
 
-    @Inject(method = "addEntity", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "addEntity", at = @At("HEAD"))
     public void addEntityHook(Entity entity, CallbackInfo ci) {
         if (Null.is()) return;
 

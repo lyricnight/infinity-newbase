@@ -9,7 +9,6 @@ import net.minecraft.util.math.Vec3d;
  * @author 3arth
  */
 public class PlayerPosition extends Vec3d implements IMinecraft {
-
     private final long timeStamp = Time.getMillis();
     private final float yRot;
     private final float xRot;

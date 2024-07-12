@@ -3,6 +3,7 @@ package club.lyric.infinity.api.util.client.discord;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 
+@SuppressWarnings("deprecation")
 public interface DiscordRPC extends Library {
 
     DiscordRPC INSTANCE = Native.loadLibrary("discord-rpc", DiscordRPC.class);

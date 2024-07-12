@@ -13,14 +13,13 @@ import java.awt.*;
 /**
  * @author vasler
  */
-public final class GuiRewrite extends ModuleBase {
-
-    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(64, 64, 124)), false);
+public final class ClickGUI extends ModuleBase {
+    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(64, 64, 124)));
     public NumberSetting height = new NumberSetting("Height", this, 16f, 10f, 20f, 1f);
     public NumberSetting speed = new NumberSetting("Speed", this, 250, 0, 1000, 1, "ms");
 
-    public GuiRewrite() {
-        super("ClickGui2", "Displays a graphical user interface.", Category.Client);
+    public ClickGUI() {
+        super("ClickGui", "Displays a graphical user interface.", Category.Client);
         setBind(GLFW.GLFW_KEY_RIGHT_SHIFT);
     }
 
@@ -35,5 +34,4 @@ public final class GuiRewrite extends ModuleBase {
             mc.setScreen(new Gui());
         }
     }
-
 }

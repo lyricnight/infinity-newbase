@@ -1,14 +1,12 @@
 package club.lyric.infinity.api.setting.settings;
 
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
-import imgui.ImGui;
 
 /**
  * @author lyric
  */
-public class BooleanSetting extends Setting implements Renderable {
+public class BooleanSetting extends Setting {
 
     private boolean value;
 
@@ -43,18 +41,5 @@ public class BooleanSetting extends Setting implements Renderable {
      */
     public void toggle() {
         value = !value;
-    }
-
-    @Override
-    public void render() {
-        ImGui.pushID(moduleBase.getName() + "/" + name);
-
-        if (ImGui.checkbox("", value)) {
-            setValue(!value);
-        }
-        ImGui.sameLine();
-        ImGui.text(name);
-
-        ImGui.popID();
     }
 }

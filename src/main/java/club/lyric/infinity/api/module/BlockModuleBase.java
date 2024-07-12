@@ -31,9 +31,15 @@ import java.util.Set;
  * @author lyric
  */
 public class BlockModuleBase extends ModuleBase {
+    /**
+     * I could simplify this so much if I got rid of normal who even uses that shit
+     * isn't in AntiCheat because this only makes sense on a module-by-module basis
+     */
     public ModeSetting swapModeSetting = new ModeSetting("SwapMode", this, "Normal", "Normal", "Silent", "Slot");
 
-    //quite possibly the stupidest thing in this client
+    /**
+     * isn't in AntiCheat because this only makes sense on a module-by-module basis
+     */
     public BooleanSetting airPlace = new BooleanSetting("AirPlace", false, this);
     /**
      * represents priority for rotations and block placements
@@ -181,7 +187,7 @@ public class BlockModuleBase extends ModuleBase {
 
     private boolean place(BlockHitResult result)
     {
-        ActionResult actionResult = mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, result);;
+        ActionResult actionResult = mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, result);
         if (actionResult.isAccepted() && actionResult.shouldSwingHand())
         {
             mc.player.swingHand(Hand.MAIN_HAND);

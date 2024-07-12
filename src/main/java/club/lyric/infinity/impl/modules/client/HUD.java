@@ -38,7 +38,7 @@ import java.util.LinkedList;
  * @since a while ago
  */
 
-@SuppressWarnings({"unused", "ConstantConditions"})
+@SuppressWarnings({"unused"})
 public final class HUD extends ModuleBase {
     public BooleanSetting arraylist = new BooleanSetting("Arraylist", true, this);
     public BooleanSetting fps = new BooleanSetting("FPS", true, this);
@@ -103,7 +103,7 @@ public final class HUD extends ModuleBase {
 
         boolean chatOpened = mc.currentScreen instanceof ChatScreen;
 
-        if (mc.getDebugHud().shouldShowDebugHud() || Managers.MODULES.getModuleFromClass(ClickGui.class).isOn()) return;
+        if (mc.getDebugHud().shouldShowDebugHud() || Managers.MODULES.getModuleFromClass(ClickGUI.class).isOn()) return;
 
         if (watermark.value())
         {

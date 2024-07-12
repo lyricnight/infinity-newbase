@@ -6,9 +6,9 @@ It was intended to be much better in terms of code quality than the horror show 
 ````
 # Credits
 ````
-https://github.com/SpaiR -> Dear-IMGUI java bindings
-Minnced -> Java Discord RPC bindings
-LWJGL -> NanoVG library
+https://github.com/SpaiR -> Dear-IMGUI java bindings -> only for older versions due to gui migration
+Discord -> Discord RPC system files
+finz0 -> IRC implementation
 ````
 # Contact
 ``````

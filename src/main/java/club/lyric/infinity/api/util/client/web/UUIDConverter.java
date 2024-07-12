@@ -24,9 +24,8 @@ public class UUIDConverter {
             scanner.close();
 
             JsonObject jsonObject = JsonParser.parseString(response).getAsJsonArray().get(0).getAsJsonObject();
-            String name = jsonObject.get("name").getAsString();
 
-            return name;
+            return jsonObject.get("name").getAsString();
 
         } catch (IOException e) {
             Infinity.LOGGER.error(e);

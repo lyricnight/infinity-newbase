@@ -29,7 +29,7 @@ public abstract class MixinChatInputSuggestor {
     TextFieldWidget textField;
 
     @Shadow
-    CompletableFuture<Suggestions> pendingSuggestions;
+    private CompletableFuture<Suggestions> pendingSuggestions;
 
     @Shadow
     public abstract void show(boolean suggestion);

@@ -13,7 +13,7 @@ import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
 
-@SuppressWarnings({"unused", "ConstantConditions"})
+@SuppressWarnings({"unused"})
 public class Criticals extends ModuleBase {
 
     public ModeSetting mode = new ModeSetting("Mode", this, "NCP", "NCP", "NCPStrict", "Jump", "LowHop", "Grim");

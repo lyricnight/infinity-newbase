@@ -18,7 +18,7 @@ public final class RichPresence extends ModuleBase {
     public RichPresence() {
         super("RichPresence", "Toggles the Discord Presence", Category.Client);
     }
-
+    /**
     public BooleanSetting ip = new BooleanSetting("ShowIP", false, this);
     public BooleanSetting ign = new BooleanSetting("ShowIGN", false, this);
     private static final DiscordRPC rpc = DiscordRPC.INSTANCE;
@@ -60,6 +60,7 @@ public final class RichPresence extends ModuleBase {
 
                     rpc.Discord_UpdatePresence(presence);
                     try {
+                        //noinspection BusyWait
                         Thread.sleep(2000L);
                     } catch (InterruptedException ignored) {
                     }
@@ -96,6 +97,7 @@ public final class RichPresence extends ModuleBase {
         }
         return "???";
     }
+    */
 
 }
 

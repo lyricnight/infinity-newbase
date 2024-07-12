@@ -9,10 +9,6 @@ import club.lyric.infinity.manager.Managers;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import imgui.ImGui;
-import imgui.flag.ImGuiKey;
-import imgui.type.ImInt;
-import imgui.type.ImString;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -115,61 +110,6 @@ public final class ConfigManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private final ImString currentString = new ImString();
-
-    public void renderGui() {
-        ImGui.pushID("ConfigGUI/ConfigSelector");
-
-        ImGui.text("Config");
-
-        List<String> configNames = profilesByName.keySet().stream().toList();
-        ImInt currentItem = new ImInt(configNames.indexOf(currentProfile.getName()));
-
-        ImGui.pushItemWidth(170f);
-        if (ImGui.combo("", currentItem, namesArray)) {
-            this.currentProfile = this.profilesByName.get(configNames.get(currentItem.get()));
-        }
-        ImGui.popItemWidth();
-
-        ImGui.popID();
-
-
-        ImGui.pushID("ConfigGUI/ConfigSaveNLoad");
-
-        if (ImGui.button("Save")) {
-            this.currentProfile.saveProfile();
-        }
-        ImGui.sameLine();
-        if (ImGui.button("Load")) {
-            this.currentProfile.loadProfile();
-        }
-
-        ImGui.popID();
-
-
-        ImGui.spacing();
-
-
-        ImGui.pushID("ConfigGUI/CreateConfig");
-
-        ImGui.pushItemWidth(170f);
-        ImGui.inputText("", currentString);
-        ImGui.popItemWidth();
-
-        if (ImGui.isItemFocused()) {
-            if (ImGui.isKeyDown(ImGui.getIO().getKeyMap(ImGuiKey.Backspace)) && currentString.isNotEmpty()) {
-                currentString.set(currentString.get().substring(0, currentString.get().length() - 1));
-            }
-        }
-
-        if (ImGui.button("Create")) {
-            addProfile(new ConfigProfile(currentString.get(), pathProfilesFolder.resolve(currentString.get().toLowerCase().trim().replaceAll("[^A-Za-z0-9()\\[\\]]", "")+".json")));
-            currentString.clear();
-        }
-
-        ImGui.popID();
     }
 
     public class ConfigProfile {
@@ -290,7 +230,6 @@ public final class ConfigManager {
                         } else if (setting instanceof ColorSetting colorSetting) {
                             JsonObject colorJson = new JsonObject();
                             colorJson.addProperty("color", colorSetting.getValue().getRGB());
-                            colorJson.addProperty("rainbow", colorSetting.isRainbow());
                             moduleConfig.add(setting.getName(), colorJson);
                         }
                     }

@@ -63,7 +63,7 @@ import java.util.concurrent.Executors;
 /* TODO: make calculated breaking smarter by: calculating enemy and own damage and finding the best possible crystal to break;
  * make placing modes like breaking: do the same shit i just said; ADD PLACING, add id predict*/
 
-@SuppressWarnings({"unused", "ConstantConditions"})
+@SuppressWarnings({"unused"})
 public class AutoCrystal extends ModuleBase {
     // Entities
     public BooleanSetting players = new BooleanSetting("Players", true, this);
@@ -95,7 +95,7 @@ public class AutoCrystal extends ModuleBase {
     public ModeSetting places = new ModeSetting("Placing", this, "Vanilla", "Vanilla", "Packet");
 
     // Render
-    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(50, 50, 255)), false);
+    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(50, 50, 255)));
     private final StopWatch.Single breakTimer = new StopWatch.Single();
     private final Map<BlockPos, Long> ownCrystals = new HashMap<>();
     private final Map<Integer, StopWatch.Single> hitCrystals = new HashMap<>();

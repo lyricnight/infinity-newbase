@@ -9,8 +9,4 @@ import org.spongepowered.asm.mixin.Mixin;
  */
 @Mixin(CustomPayloadC2SPacket.class)
 public interface ICustomPayloadC2SPacket {
-    /**@Accessor(value = "write")
-    void setData(PacketByteBuf buffer);
-     @Accessor(value = "channel")
-     Identifier getChannel();*/
 }

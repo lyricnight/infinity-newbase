@@ -32,8 +32,7 @@ public final class ModuleManager implements IMinecraft
     {
         register(
                 new Notifications(),
-                new ClickGui(),
-                new Configuration(),
+                new ClickGUI(),
                 new AntiCheat(),
                 new RichPresence(),
                 new AutoMine(),
@@ -80,7 +79,6 @@ public final class ModuleManager implements IMinecraft
                 new Particles(),
                 new KickPrevent(),
                 new Fonts(),
-                new GuiRewrite(),
                 new HudRewrite(),
                 new Replenish(),
                 new FastFall(),

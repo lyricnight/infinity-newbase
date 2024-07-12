@@ -13,7 +13,7 @@ import java.awt.*;
  * @author vasler
  */
 public class Ambience extends ModuleBase {
-    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)), false);
+    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)));
 
     public Ambience() {
         super("Ambience", "Changes the worlds color.", Category.Visual);

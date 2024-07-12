@@ -43,6 +43,7 @@ public class BlockUtils implements IMinecraft {
     }
 
     public static boolean canBreak(BlockState state, BlockPos pos) {
+        //noinspection deprecation
         return state.getHardness(mc.world, pos) != -1.0f && state.getBlock() != Blocks.AIR && !state.isLiquid();
     }
 

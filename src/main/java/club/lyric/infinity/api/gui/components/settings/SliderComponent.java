@@ -10,19 +10,18 @@ import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.GuiRewrite;
+import club.lyric.infinity.impl.modules.client.ClickGUI;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
-@SuppressWarnings("ConstantConditions")
 public class SliderComponent extends Component implements IMinecraft {
 
     public NumberSetting setting;
-    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
-    private final Animation rect = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
+    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
+    private final Animation rect = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
     protected StopWatch stopWatch = new StopWatch.Single();
     public boolean drag;
 
@@ -37,7 +36,7 @@ public class SliderComponent extends Component implements IMinecraft {
 
         if (setting.getName().equals("hudX") || setting.getName().equals("hudY")) return;
 
-        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(GuiRewrite.class).color.getColor(), 200);
+        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(ClickGUI.class).color.getColor(), 200);
 
         float length = MathUtils.round(((setting.getFValue() - setting.getMinimum()) / (setting.getMaximum() - setting.getMinimum())) * (width - 2));
 

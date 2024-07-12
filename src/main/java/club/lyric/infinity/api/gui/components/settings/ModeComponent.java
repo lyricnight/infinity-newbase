@@ -8,22 +8,21 @@ import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.GuiRewrite;
+import club.lyric.infinity.impl.modules.client.ClickGUI;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
-@SuppressWarnings("ConstantConditions")
 public class ModeComponent extends Component implements IMinecraft {
 
     public ModeSetting setting;
-    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
-    private final Animation rect = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
+    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
+    private final Animation rect = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
 
     // Mode
-    private final Animation animationMode = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
+    private final Animation animationMode = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
     private boolean opened;
     private int modeHeight;
 
@@ -36,7 +35,7 @@ public class ModeComponent extends Component implements IMinecraft {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 
-        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(GuiRewrite.class).color.getColor(), 200);
+        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(ClickGUI.class).color.getColor(), 200);
 
         rect.run(width - 2.0f);
 

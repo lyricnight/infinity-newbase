@@ -12,7 +12,7 @@ public class EntityUtils {
     }
 
     public static boolean isAnimal(Entity entity) {
-        return entity instanceof AnimalEntity || entity instanceof PassiveEntity;
+        return entity instanceof PassiveEntity;
     }
 
 }

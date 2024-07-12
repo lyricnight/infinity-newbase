@@ -1,7 +1,7 @@
 package club.lyric.infinity.api.util.client.render.colors;
 
 import club.lyric.infinity.Infinity;
-import club.lyric.infinity.impl.modules.client.ClickGui;
+import club.lyric.infinity.impl.modules.client.ClickGUI;
 import club.lyric.infinity.manager.Managers;
 
 import java.awt.*;
@@ -13,15 +13,6 @@ import java.io.Serial;
 public class JColor extends Color {
     @Serial
     private static final long serialVersionUID = 1L;
-
-    public static JColor getGuiColor() {
-        if (Managers.MODULES.getModuleFromClass(ClickGui.class) == null) {
-            Infinity.LOGGER.error("Null check! ClickGui is null. Color defaulting...");
-            return new JColor(Color.GRAY);
-        }
-        return Managers.MODULES.getModuleFromClass(ClickGui.class).color.getValue();
-    }
-
     public JColor(int rgb) {
         super(rgb);
     }

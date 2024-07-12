@@ -9,7 +9,7 @@ import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.GuiRewrite;
+import club.lyric.infinity.impl.modules.client.ClickGUI;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
@@ -21,7 +21,6 @@ import org.lwjgl.glfw.GLFW;
 import java.awt.*;
 import java.util.ArrayList;
 
-@SuppressWarnings("ConstantConditions")
 public class Panel implements IMinecraft {
     private int x;
     private int y;
@@ -32,10 +31,10 @@ public class Panel implements IMinecraft {
     private boolean open;
     public boolean drag;
     private final Category category;
-    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
-    private final Animation alpha = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
-    private final Animation opening = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
-    private final Animation panelOpen = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
+    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
+    private final Animation alpha = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
+    private final Animation opening = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
+    private final Animation panelOpen = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
     float currY;
     boolean search = false;
     boolean capsLock = false;
@@ -53,7 +52,7 @@ public class Panel implements IMinecraft {
         this.y = y;
 
         width = 100;
-        height = Managers.MODULES.getModuleFromClass(GuiRewrite.class).height.getIValue();
+        height = Managers.MODULES.getModuleFromClass(ClickGUI.class).height.getIValue();
         this.open = open;
 
         for (ModuleBase modules : Managers.MODULES.getModulesInCategory(category)) {
@@ -71,7 +70,7 @@ public class Panel implements IMinecraft {
         drag(mouseX, mouseY);
 
         alpha.run(200);
-        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(GuiRewrite.class).color.getColor(), (int) alpha.getValue());
+        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(ClickGUI.class).color.getColor(), (int) alpha.getValue());
 
         Render2DUtils.drawRect(context.getMatrices(), x, y - 1, width, height, color.getRGB());
 

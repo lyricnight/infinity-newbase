@@ -35,7 +35,6 @@ public class MixinInGameHud {
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Inject(method = "renderStatusEffectOverlay", at = @At(value = "HEAD"), cancellable = true)
     private void hookRenderStatusEffectOverlay(DrawContext context, CallbackInfo ci) {
         if (Managers.MODULES.getModuleFromClass(HUD.class).effectHud.is("Remove")) {

@@ -1,13 +1,10 @@
 package club.lyric.infinity.api.util.minecraft.player;
 
-import com.mojang.authlib.GameProfile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MovementType;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -20,17 +17,11 @@ import java.util.List;
 import java.util.function.Function;
 
 public class MovementPlayer extends Fake {
-
     private final Function<Vec3d, Vec3d> moveCallback = Function.identity();
 
     public MovementPlayer(ClientWorld level) {
         super(level);
     }
-
-    public MovementPlayer(ClientWorld clientLevel, GameProfile gameProfile) {
-        super(clientLevel, gameProfile);
-    }
-
     @Override
     public void copyPositionAndRotation(Entity entity) {
         super.copyPositionAndRotation(entity);
@@ -89,38 +80,6 @@ public class MovementPlayer extends Fake {
     public Vec3d adjustMovementForSneaking(Vec3d vec3, MovementType moverType) {
         // make public
         return super.adjustMovementForSneaking(vec3, moverType);
-    }
-
-    @SuppressWarnings("deprecation")
-    public void travel() {
-        Vec3d delta = this.getVelocity();
-        double gravity = 0.08;
-        boolean falling = this.getVelocity().y <= 0.0;
-        if (falling && this.hasStatusEffect(StatusEffects.SLOW_FALLING)) {
-            gravity = 0.01;
-        }
-
-        BlockPos pos = this.getVelocityAffectingPos();
-        float friction = this.getWorld().getBlockState(pos).getBlock().getSlipperiness();
-        float nextFriction = this.isOnGround() ? friction * 0.91f : 0.91f;
-        Vec3d afterMove = this.applyMovementInput(delta, friction);
-        double frictionY = afterMove.y;
-        StatusEffectInstance levitation = this.getStatusEffect(StatusEffects.LEVITATION);
-        if (levitation != null && this.hasStatusEffect(StatusEffects.LEVITATION)) {
-            frictionY += (0.05 * (double) (levitation.getAmplifier() + 1) - afterMove.y) * 0.2;
-        } else if (this.getWorld().isChunkLoaded(pos)) {
-            if (!this.hasNoGravity()) {
-                frictionY -= gravity;
-            }
-        } else {
-            frictionY = this.getY() > (double) this.getWorld().getBottomY() ? -0.1 : 0.0;
-        }
-
-        if (this.hasNoDrag()) {
-            this.setVelocity(afterMove.x, frictionY, afterMove.z);
-        } else {
-            this.setVelocity(afterMove.x * (double) nextFriction, frictionY * (double) 0.98f, afterMove.z * (double) nextFriction);
-        }
     }
 
     public Vec3d collide(Vec3d motion) {

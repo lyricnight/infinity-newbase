@@ -124,10 +124,10 @@ public final class AutoMine extends ModuleBase {
             }
         }
 
-        if (feet.value() && !PlayerUtils.isInPhase(player) && !protocol.value()) {
+        if (feet.value() && PlayerUtils.isInPhase(player) && !protocol.value()) {
             attack(getCity(player));
             if (dev.value()) ChatUtils.sendMessagePrivate("Feet. " + count.addAndGet(1));
-        } else if (feet.value() && !PlayerUtils.isInPhase(player)) {
+        } else if (feet.value() && PlayerUtils.isInPhase(player)) {
             for (Direction direction : Arrays.stream(Direction.values()).filter(direction -> direction.getAxis().isHorizontal()).toList()) {
                 BlockPos pos = player.getBlockPos().offset(direction);
                 boolean canPlace = mc.world.getBlockState(pos.down()).getBlock() == Blocks.BEDROCK || mc.world.getBlockState(pos.down()).getBlock() == Blocks.OBSIDIAN;

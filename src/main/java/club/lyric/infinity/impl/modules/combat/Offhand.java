@@ -23,7 +23,6 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.math.MathHelper;
 
 //TODO: make a service for this
-@SuppressWarnings("ConstantConditions")
 public class Offhand extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "Totem", "Totem", "Crystal", "Gapple", "Sword");
     public NumberSetting health = new NumberSetting("Health", this, 16.0f, 1.0f, 36.0f, 0.1f, "hp");
@@ -76,7 +75,6 @@ public class Offhand extends ModuleBase {
         if (smart.value()) {
             for (Entity ent : mc.world.getEntities()) {
                 if (ent == null && !(ent instanceof EndCrystalEntity)) {
-                    continue;
                 }
             }
         }

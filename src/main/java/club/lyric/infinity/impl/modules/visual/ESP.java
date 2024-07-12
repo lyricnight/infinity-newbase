@@ -45,7 +45,7 @@ public class ESP extends ModuleBase {
     public BooleanSetting chorus = new BooleanSetting("Chorus", true, this);
     public NumberSetting size = new NumberSetting("Size", this, 0.2f, 0.1f, 1.0f, 0.1f);
 
-    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)), false);
+    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)));
     BlockPos chorusPos;
     StopWatch.Single stopWatch = new StopWatch.Single();
 

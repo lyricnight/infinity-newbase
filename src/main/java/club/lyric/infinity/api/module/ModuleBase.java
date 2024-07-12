@@ -1,7 +1,6 @@
 package club.lyric.infinity.api.module;
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -56,11 +55,6 @@ public class ModuleBase implements IMinecraft {
     public List<Setting> settingList = new ArrayList<>();
 
     /**
-     * whether to show settings or not.
-     */
-    private boolean showSettings;
-
-    /**
      * enabled/disabled
      */
     private boolean enabled = false;
@@ -77,8 +71,10 @@ public class ModuleBase implements IMinecraft {
 
     public float animPos = -1;
 
+    /**
+     * represents the module's animation.
+     */
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
-
 
     public ModuleBase(String name, String description, Category category) {
         super();
@@ -86,7 +82,6 @@ public class ModuleBase implements IMinecraft {
         this.name = name;
         this.description = description;
         this.category = category;
-        this.showSettings = false;
 
         bind = new BindSetting("Bind", -1, this);
         drawn = new BooleanSetting("Drawn", true, this);
@@ -247,25 +242,6 @@ public class ModuleBase implements IMinecraft {
         return settingList;
     }
 
-    /**
-     * gui visual functions
-     */
-
-    public boolean showSettings() {
-        return showSettings;
-    }
-
-    public void toggleShowSettings() {
-        this.showSettings = !this.showSettings;
-    }
-
-    public void renderSettings() {
-        for (Setting setting : settingList) {
-            if (setting instanceof Renderable renderable) {
-                renderable.render();
-            }
-        }
-    }
 
     public String getSuffix() {
         if (moduleInformation().isEmpty()) {
@@ -301,6 +277,6 @@ public class ModuleBase implements IMinecraft {
     {
         Normal,
         Silent,
-        Slot;
+        Slot
     }
 }

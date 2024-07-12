@@ -11,7 +11,7 @@ import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.client.sounds.SoundsUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.GuiRewrite;
+import club.lyric.infinity.impl.modules.client.ClickGUI;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
@@ -19,14 +19,13 @@ import org.lwjgl.glfw.GLFW;
 import java.awt.*;
 import java.util.ArrayList;
 
-@SuppressWarnings("ConstantConditions")
 public class ModuleComponent extends Component implements IMinecraft {
 
     private final ArrayList<Component> components = new ArrayList<>();
     private final ModuleBase moduleBase;
-    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
-    private final Animation rect = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
-    private final Animation alpha = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(GuiRewrite.class).speed.getLValue());
+    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
+    private final Animation rect = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
+    private final Animation alpha = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
     float currY;
     boolean open;
 
@@ -69,7 +68,7 @@ public class ModuleComponent extends Component implements IMinecraft {
 
         alpha.run(200);
 
-        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(GuiRewrite.class).color.getColor(), (int) alpha.getValue());
+        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(ClickGUI.class).color.getColor(), (int) alpha.getValue());
 
         Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 1.0f, y, width, height, ColorUtils.alpha(color, 70).getRGB());
 

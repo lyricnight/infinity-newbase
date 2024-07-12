@@ -17,11 +17,10 @@ public class Colours extends PersistentModuleBase {
     public NumberSetting gradientSpeed = new NumberSetting("Speed", this, 1.0f, 0.1f, 3.0f, 0.1f);
 
 
-    public ColorSetting color = new ColorSetting("Start", this, new JColor(new Color(104, 71, 141)), false);
-    public ColorSetting secondColor = new ColorSetting("End", this, new JColor(new Color(230, 230, 230)), true);
-
-    public ColorSetting friendColor = new ColorSetting("FriendColor", this, new JColor(new Color(180, 180, 255)), true);
-    public ColorSetting sneakColor = new ColorSetting("SneakColor", this, new JColor(new Color(255, 180, 255)), true);
+    public ColorSetting color = new ColorSetting("Start", this, new JColor(new Color(104, 71, 141)));
+    public ColorSetting secondColor = new ColorSetting("End", this, new JColor(new Color(230, 230, 230)));
+    public ColorSetting friendColor = new ColorSetting("FriendColor", this, new JColor(new Color(180, 180, 255)));
+    public ColorSetting sneakColor = new ColorSetting("SneakColor", this, new JColor(new Color(255, 180, 255)));
 
     public Colours() {
         super("Colours", "Colours", Category.Client);

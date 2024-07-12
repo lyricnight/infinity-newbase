@@ -2,7 +2,7 @@ package club.lyric.infinity.api.gui;
 
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.GuiRewrite;
+import club.lyric.infinity.impl.modules.client.ClickGUI;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -11,7 +11,6 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 
-@SuppressWarnings("ConstantConditions")
 public class Gui extends Screen implements IMinecraft {
     private static ArrayList<Panel> panels = null;
 
@@ -53,7 +52,7 @@ public class Gui extends Screen implements IMinecraft {
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
-            Managers.MODULES.getModuleFromClass(GuiRewrite.class).setEnabled(false);
+            Managers.MODULES.getModuleFromClass(ClickGUI.class).setEnabled(false);
             close();
             return true;
         }

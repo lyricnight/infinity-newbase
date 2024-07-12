@@ -1,5 +1,6 @@
 package club.lyric.infinity.impl.commands;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.command.CommandState;
 import club.lyric.infinity.api.event.bus.EventBus;
@@ -48,12 +49,14 @@ public class Bind extends Command {
         ChatUtils.sendOverwriteMessageColored("Press any " + Formatting.WHITE + "key" + Formatting.RESET + " on your keyboard.", 8948);
 
         // stopwatch doesnt work here so
+        //yes it does vasler?
+        //StopWatch.Multi
         new Thread(() -> {
             try {
                 Thread.sleep(500);
                 keyPressEnable = true;
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Infinity.LOGGER.atError();
             }
         }).start();
 

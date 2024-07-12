@@ -28,7 +28,6 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 /**
  * @author me and lwjgl. (recreated the class from 3arthh4ck fabric)
  */
-@SuppressWarnings("ConstantConditions")
 public class NVGRenderer implements IMinecraft {
 
     private int program, blendSrc, blendDst, stencilMask, stencilRef, stencilFuncMask, activeTexture, vertexArray, arrayBuffer, textureBinding;

@@ -130,7 +130,7 @@ public class PlayerUtils implements IMinecraft {
     }
 
     public static boolean isInPhase(PlayerEntity target) {
-        return mc.world.getBlockState(target.getBlockPos()).getBlock() != Blocks.AIR;
+        return mc.world.getBlockState(target.getBlockPos()).getBlock() == Blocks.AIR;
     }
 
     public static void setMotionY(double y) {
