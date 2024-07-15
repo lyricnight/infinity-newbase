@@ -32,9 +32,7 @@ import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.thrown.ExperienceBottleEntity;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
+import net.minecraft.item.*;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -96,6 +94,9 @@ public final class Aura extends ModuleBase {
 
     @Override
     public void onRender3D(MatrixStack matrixStack) {
+
+        if (mc.player.isHolding(getSword())) return;
+
         if (target != null && render.value()) {
 
             Vec3d vec3D = Interpolation.interpolateEntity(target.entity());
@@ -253,6 +254,36 @@ public final class Aura extends ModuleBase {
 
             return lowest;
         }
+    }
+
+    public Item getSword() {
+        // DUMB AF LMFAO
+        if (getItemCount(Items.NETHERITE_SWORD) == -1) return Items.DIAMOND_SWORD;
+
+        if (getItemCount(Items.NETHERITE_SWORD) == -1 && getItemCount(Items.DIAMOND_SWORD) == -1)
+            return Items.IRON_SWORD;
+
+        if (getItemCount(Items.NETHERITE_SWORD) == -1 && getItemCount(Items.DIAMOND_SWORD) == -1 && getItemCount(Items.IRON_SWORD) == -1)
+            return Items.STONE_SWORD;
+
+        if (getItemCount(Items.NETHERITE_SWORD) == -1 && getItemCount(Items.DIAMOND_SWORD) == -1 && getItemCount(Items.IRON_SWORD) == -1 && getItemCount(Items.STONE_SWORD) == -1)
+            return Items.WOODEN_SWORD;
+
+        return Items.NETHERITE_SWORD;
+    }
+
+    public int getItemCount(Item item) {
+        if (mc.player == null) return 0;
+
+        int counter = 0;
+
+        for (int i = 0; i <= 44; ++i) {
+            ItemStack itemStack = mc.player.getInventory().getStack(i);
+            if (itemStack.getItem() != item) continue;
+            counter += itemStack.getCount();
+        }
+
+        return counter;
     }
 
 

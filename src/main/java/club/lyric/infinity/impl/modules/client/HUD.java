@@ -345,9 +345,9 @@ public final class HUD extends ModuleBase {
             String pingString;
 
             if (Managers.SERVER.getFastLatencyPing() != 0) {
-                pingString = "Ping " + Formatting.WHITE + Managers.SERVER.getServerPing() + " [" + Managers.SERVER.getFastLatencyPing() + "]";
+                pingString = "Ping " + Formatting.WHITE + Managers.SERVER.getServerPing() + "ms" + " [" + Managers.SERVER.getFastLatencyPing() + "]";
             } else {
-                pingString = "Ping " + Formatting.WHITE + Managers.SERVER.getServerPing();
+                pingString = "Ping " + Formatting.WHITE + Managers.SERVER.getServerPing() + "ms";
             }
 
             pingWidth.run((Managers.TEXT.width(getLabel(pingString), true)));

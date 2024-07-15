@@ -2,7 +2,13 @@ package club.lyric.infinity.api.module;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
+import club.lyric.infinity.api.util.client.math.MathUtils;
+import club.lyric.infinity.api.util.client.math.Null;
+import club.lyric.infinity.api.util.client.render.colors.JColor;
+import club.lyric.infinity.api.util.client.render.util.Interpolation;
+import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationHandler;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationUtils;
@@ -12,20 +18,18 @@ import club.lyric.infinity.manager.fabric.InventoryManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author lyric
@@ -41,6 +45,12 @@ public class BlockModuleBase extends ModuleBase {
      * isn't in AntiCheat because this only makes sense on a module-by-module basis
      */
     public BooleanSetting airPlace = new BooleanSetting("AirPlace", false, this);
+
+    /**
+     * colors for rendering blocks placed
+     */
+    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)));
+
     /**
      * represents priority for rotations and block placements
      */
@@ -50,6 +60,8 @@ public class BlockModuleBase extends ModuleBase {
      * represents slot for switchBack
      */
     private int slot;
+
+    private List<BlockPos> renderingPos = new ArrayList<>();
 
     /**
      * list of placeable blocks, sorted in order of preference.
@@ -187,6 +199,8 @@ public class BlockModuleBase extends ModuleBase {
 
     private boolean place(BlockHitResult result)
     {
+        renderingPos.add(result.getBlockPos());
+
         ActionResult actionResult = mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, result);
         if (actionResult.isAccepted() && actionResult.shouldSwingHand())
         {
@@ -194,6 +208,7 @@ public class BlockModuleBase extends ModuleBase {
         }
         return actionResult.isAccepted();
     }
+
     /**
      * gets direction for block placement.
      */
@@ -278,5 +293,40 @@ public class BlockModuleBase extends ModuleBase {
             case Normal -> Managers.INVENTORY.setSlotFull(slot);
             case Silent, Slot -> Managers.INVENTORY.setSlotPacket(slot);
         }
+    }
+
+    @Override
+    public void onRender3D(MatrixStack matrixStack) {
+
+        if (Null.is()) return;
+
+        for (BlockPos render : renderingPos)
+        {
+            Color colors = color.getColor();
+
+            Box bb = Interpolation.interpolatePos(render, 1.0f);
+
+            Render3DUtils.enable3D();
+            matrixStack.push();
+
+            Render3DUtils.drawBox(matrixStack, bb, new Color(colors.getRed(), colors.getGreen(), colors.getBlue(), 73).getRGB());
+
+            Render3DUtils.drawOutline(matrixStack, bb, new Color(colors.getRed(), colors.getGreen(), colors.getBlue(), 255).getRGB());
+
+            matrixStack.pop();
+            Render3DUtils.disable3D();
+        }
+    }
+
+    public static double fade(double value, double max)
+    {
+        double elapsedTime = System.currentTimeMillis() - value;
+
+        double fadeAmount = MathUtils.normalize(elapsedTime, max);
+
+        int alpha = (int) (fadeAmount * 255.0);
+        alpha = MathHelper.clamp(alpha, 0, 255);
+
+        return 255 - alpha;
     }
 }

@@ -85,7 +85,13 @@ public final class ModuleManager implements IMinecraft
                 new AutoWalk(),
                 new Timer(),
                 new Reminer(),
-                new AutoRespawn()
+                new AutoRespawn(),
+                new AutoTool(),
+                new AutoBowRelease(),
+                new AirPlace(),
+                new InventoryWalk(),
+                new Zoom(),
+                new AutoClicker()
         );
         modules.sort(Comparator.comparing(ModuleBase::getName));
         Infinity.LOGGER.info("Initialising modules.");

@@ -8,3 +8,4 @@ accessible field net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPa
 accessible field net/minecraft/client/network/ClientPlayerEntity ticksSinceLastPositionPacketSent I
 accessible field net/minecraft/entity/Entity onGround Z
 accessible method net/minecraft/client/world/ClientWorld getPendingUpdateManager ()Lnet/minecraft/client/network/PendingUpdateManager;
+accessible method net/minecraft/client/Mouse onMouseButton (JIII)V

@@ -3,7 +3,9 @@ package club.lyric.infinity.impl.modules.player;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
+import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Interpolation;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
@@ -27,6 +29,7 @@ import java.awt.*;
 public class Reminer extends ModuleBase {
 
     public NumberSetting range = new NumberSetting("Range", this, 5.0f, 1.0f, 6.0f, 0.1f);
+    public BooleanSetting fast = new BooleanSetting("Fast", true, this);
     private BlockPos selectedPos;
     private Direction direction;
     private boolean cool;
@@ -72,10 +75,16 @@ public class Reminer extends ModuleBase {
     {
         if (selectedPos == null) return;
         
-        if (mc.player.squaredDistanceTo(selectedPos.toCenterPos()) <= range.getFValue())
+        if (mc.player.squaredDistanceTo(selectedPos.toCenterPos()) <= MathUtils.square(range.getFValue()))
         {
             send(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK, selectedPos, direction));
             send(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, selectedPos, direction));
+
+            if (fast.value())
+            {
+                send(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, selectedPos, direction));
+                send(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, selectedPos, direction));
+            }
         }
         else
         {

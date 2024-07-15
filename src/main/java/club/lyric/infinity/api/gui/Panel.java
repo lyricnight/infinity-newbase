@@ -3,6 +3,7 @@ package club.lyric.infinity.api.gui;
 import club.lyric.infinity.api.gui.components.ModuleComponent;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.util.client.keyboard.KeyUtils;
 import club.lyric.infinity.api.util.client.render.anim.Animation;
 import club.lyric.infinity.api.util.client.render.anim.Easing;
@@ -10,6 +11,7 @@ import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.ClickGUI;
+import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawContext;
@@ -52,7 +54,7 @@ public class Panel implements IMinecraft {
         this.y = y;
 
         width = 100;
-        height = Managers.MODULES.getModuleFromClass(ClickGUI.class).height.getIValue();
+        height = Managers.MODULES.getModuleFromClass(ClickGUI.class).frameHeight.getIValue();
         this.open = open;
 
         for (ModuleBase modules : Managers.MODULES.getModulesInCategory(category)) {
@@ -70,13 +72,13 @@ public class Panel implements IMinecraft {
         drag(mouseX, mouseY);
 
         alpha.run(200);
-        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(ClickGUI.class).color.getColor(), (int) alpha.getValue());
+        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor(y) : Managers.MODULES.getModuleFromClass(Colours.class).getColor(), (int) alpha.getValue());
 
         Render2DUtils.drawRect(context.getMatrices(), x, y - 1, width, height, color.getRGB());
 
 
         if (open) {
-            drawOutlineRect(context.getMatrices(), x + 0.1f, y + height - 1.0F, width - 0.1f, getHeightTotal() - height + 0.5f, color.getRGB());
+            Render2DUtils.drawOutlineRect(context.getMatrices(), x + 0.1f, y + height - 1.0F, width - 0.1f, getHeightTotal() - height + 0.5f, color.getRGB());
         }
 
         if (isHovering(mouseX, mouseY)) {
@@ -88,7 +90,7 @@ public class Panel implements IMinecraft {
         currY = height;
 
         context.getMatrices().push();
-        Managers.TEXT.drawString(category.name(), (int) (x + (float) width / 2 - ((int) Managers.TEXT.width(category.name(), true) >> 1)), y + (float) height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), -1);
+        Managers.TEXT.drawString(category.name(), position(), y + (float) height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), -1);
         context.getMatrices().pop();
 
         if (!open) return;
@@ -109,6 +111,21 @@ public class Panel implements IMinecraft {
         }
         x = x2 + mouseX;
         y = y2 + mouseY;
+    }
+
+    public int position()
+    {
+        ModeSetting module = Managers.MODULES.getModuleFromClass(ClickGUI.class).position;
+
+        if (module.is("Left"))
+        {
+            return x + 2;
+        }
+        else if (module.is("Middle"))
+        {
+           return (int) (x + (float) width / 2 - ((int) Managers.TEXT.width(category.name(), true) >> 1));
+        }
+        return x + (int) (width - Managers.TEXT.width(category.name(), true));
     }
 
     public void mouseClicked(double mouseX, double mouseY, int button) {
@@ -208,29 +225,5 @@ public class Panel implements IMinecraft {
 
     public static String backspace(String string) {
         return (string != null && !string.isEmpty()) ? string.substring(0, string.length() - 1) : string;
-    }
-
-    public static void drawOutlineRect(MatrixStack matrices, float x, float y, float width, float height, int color) {
-        Matrix4f matrix = matrices.peek().getPositionMatrix();
-
-        // Colors
-        float r = (float) (color >> 16 & 255) / 255.0F;
-        float g = (float) (color >> 8 & 255) / 255.0F;
-        float b = (float) (color & 255) / 255.0F;
-        float a = (float) (color >> 24 & 255) / 255.0F;
-
-        // Rect starts here
-        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-        Render2DUtils.setup();
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-        bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
-        bufferBuilder.vertex(matrix, x, y, 0.0F).color(r, g, b, a).next();
-        bufferBuilder.vertex(matrix, x, y + height, 0.0F).color(r, g, b, a).next();
-        bufferBuilder.vertex(matrix, x + width, y + height, 0.0F).color(r, g, b, a).next();
-        bufferBuilder.vertex(matrix, x + width, y, 0.0F).color(r, g, b, a).next();
-        bufferBuilder.vertex(matrix, x, y, 0.0F).color(r, g, b, a).next();
-        Tessellator.getInstance().draw();
-        Render2DUtils.end();
-        // Rect ends here
     }
 }

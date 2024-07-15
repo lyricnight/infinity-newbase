@@ -2,6 +2,8 @@ package club.lyric.infinity.impl.modules.visual;
 
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.option.Perspective;
 
 public final class Freelook extends ModuleBase {
@@ -21,8 +23,7 @@ public final class Freelook extends ModuleBase {
 
     @Override
     public void onUpdate() {
-        mc.player.bodyYaw = 0;
-        mc.player.renderYaw = 0;
+        Managers.ROTATIONS.setRotationPoint(new RotationPoint(lastYaw, lastPitch, 9999, true));
 
         mc.options.setPerspective(Perspective.THIRD_PERSON_BACK);
     }

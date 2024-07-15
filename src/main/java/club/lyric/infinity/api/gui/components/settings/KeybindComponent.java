@@ -25,7 +25,7 @@ public class KeybindComponent extends Component implements IMinecraft {
     public KeybindComponent(BindSetting setting, Panel panel) {
         this.panel = panel;
         this.setting = setting;
-        this.height = 14;
+        this.height = Managers.MODULES.getModuleFromClass(ClickGUI.class).buttonHeight.getIValue();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class KeybindComponent extends Component implements IMinecraft {
         String bind = !binding ? KeyUtils.getKeyName(setting.getCode()) : "Waiting" + listening();
 
         context.getMatrices().push();
-        Managers.TEXT.drawString("Bind: " + bind, (int) (panel.getX() + 4.0f), y + height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), -1);
+        Managers.TEXT.drawString(setting.getName() + ": " + bind, (int) (panel.getX() + 4.0f), y + height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), -1);
         context.getMatrices().pop();
 
     }

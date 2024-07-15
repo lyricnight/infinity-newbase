@@ -1,9 +1,11 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.command.Command;
+import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import org.apache.commons.lang3.StringUtils;
@@ -31,8 +33,20 @@ public abstract class MixinChatInputSuggestor {
     @Shadow
     private CompletableFuture<Suggestions> pendingSuggestions;
 
+    @Unique
+    private boolean render = false;
+
     @Shadow
     public abstract void show(boolean suggestion);
+
+    @Inject(at = {@At("HEAD")}, method = {"render"})
+    private void render(DrawContext context, int mouseX, int mouseY, CallbackInfo ci) {
+        if (render) {
+            int x = textField.getWidth() - 3;
+            int y = textField.getHeight() - 3;
+            Render2DUtils.drawOutlineRect(context.getMatrices(), x, y, textField.getWidth(), textField.getHeight(), -1);
+        }
+    }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/TextFieldWidget;getCursor()I", ordinal = 0), method = "refresh()V")
     private void onRefresh(CallbackInfo ci) {
@@ -44,6 +58,8 @@ public abstract class MixinChatInputSuggestor {
 
         int cursorPosition = textField.getCursor();
         String textUpToCursor = inputText.substring(0, cursorPosition);
+
+        render = inputText.startsWith(prefix);
 
         if (textUpToCursor.startsWith(prefix)) {
 

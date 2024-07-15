@@ -3,6 +3,7 @@ package club.lyric.infinity.impl.modules.movement;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.Null;
@@ -30,6 +31,7 @@ public class Velocity extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "Normal", "Normal", "JumpReset");
     public NumberSetting horizontal = new NumberSetting("Horizontal", this, 0.0f, -100.0f, 100.0f, 1.0f);
     public NumberSetting vertical = new NumberSetting("Vertical", this, 0.0f, -100.0f, 100.0f, 1.0f);
+    public BooleanSetting push = new BooleanSetting("Push", true, this);
 
     protected final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     protected static final Random random = new Random();
@@ -62,6 +64,11 @@ public class Velocity extends ModuleBase {
 
             if (event.getPacket() instanceof EntityVelocityUpdateS2CPacket packet) {
 
+                if (horizontal.getFValue() == 0.0 && vertical.getFValue() == 0.0)
+                {
+                    event.setCancelled(true);
+                }
+
                 ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityX((int) (mc.player.getX() * horizontal.getIValue() / 100));
                 ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityY((int) (mc.player.getY() * vertical.getIValue() / 100));
                 ((IEntityVelocityUpdateS2CPacket) event.getPacket()).setVelocityZ((int) (mc.player.getZ() * horizontal.getIValue() / 100));
@@ -70,10 +77,14 @@ public class Velocity extends ModuleBase {
 
             if (event.getPacket() instanceof ExplosionS2CPacket packet) {
 
+                if (horizontal.getFValue() == 0.0 && vertical.getFValue() == 0.0)
+                {
+                    event.setCancelled(true);
+                }
+
                 ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityX((int) (mc.player.getX() * horizontal.getIValue() / 100));
                 ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityY((int) (mc.player.getY() * vertical.getIValue() / 100));
                 ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityZ((int) (mc.player.getZ() * horizontal.getIValue() / 100));
-
             }
         }
 

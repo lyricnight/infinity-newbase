@@ -3,19 +3,18 @@ package club.lyric.infinity.impl.modules.client;
 import club.lyric.infinity.api.gui.Gui;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.setting.settings.ColorSetting;
+import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
-import club.lyric.infinity.api.util.client.render.colors.JColor;
 import org.lwjgl.glfw.GLFW;
-
-import java.awt.*;
 
 /**
  * @author vasler
  */
 public final class ClickGUI extends ModuleBase {
-    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(64, 64, 124)));
-    public NumberSetting height = new NumberSetting("Height", this, 16f, 10f, 20f, 1f);
+    public NumberSetting frameHeight = new NumberSetting("FrameHeight", this, 16f, 10f, 20f, 1f);
+    public NumberSetting buttonHeight = new NumberSetting("ButtonHeight", this, 16f, 10f, 20f, 1f);
+    public ModeSetting position = new ModeSetting("Position", this, "Left", "Left", "Middle", "Right");
+    public NumberSetting padding = new NumberSetting("Padding", this, 3.0f, 0.0f, 6.0f, 0.1f);
     public NumberSetting speed = new NumberSetting("Speed", this, 250, 0, 1000, 1, "ms");
 
     public ClickGUI() {

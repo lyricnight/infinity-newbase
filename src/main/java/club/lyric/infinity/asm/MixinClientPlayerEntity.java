@@ -9,6 +9,7 @@ import club.lyric.infinity.impl.events.mc.movement.MotionEvent;
 import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
 import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.impl.modules.movement.Sprint;
+import club.lyric.infinity.impl.modules.movement.Velocity;
 import club.lyric.infinity.manager.Managers;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.authlib.GameProfile;
@@ -78,6 +79,15 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 
     public MixinClientPlayerEntity(ClientWorld world, GameProfile profile) {
         super(world, profile);
+    }
+
+    @Inject(method={"pushOutOfBlocks"}, at={@At(value="HEAD")}, cancellable=true)
+    private void pushOut(double x, double z, CallbackInfo ci)
+    {
+        if (Managers.MODULES.getModuleFromClass(Velocity.class).push.value() && Managers.MODULES.getModuleFromClass(Velocity.class).isOn())
+        {
+            ci.cancel();
+        }
     }
 
     @Inject(method = "tick", at = @At("HEAD"))

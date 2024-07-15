@@ -12,6 +12,7 @@ import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.client.sounds.SoundsUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.ClickGUI;
+import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
@@ -33,7 +34,7 @@ public class ModuleComponent extends Component implements IMinecraft {
         this.moduleBase = moduleBase;
         this.panel = panel;
 
-        this.height = 14;
+        this.height = Managers.MODULES.getModuleFromClass(ClickGUI.class).buttonHeight.getIValue();
 
         if (!moduleBase.getSettings().isEmpty()) {
             // bind
@@ -68,7 +69,7 @@ public class ModuleComponent extends Component implements IMinecraft {
 
         alpha.run(200);
 
-        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(ClickGUI.class).color.getColor(), (int) alpha.getValue());
+        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor((int) y) : Managers.MODULES.getModuleFromClass(Colours.class).getColor(), (int) alpha.getValue());
 
         Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 1.0f, y, width, height, ColorUtils.alpha(color, 70).getRGB());
 
@@ -89,7 +90,7 @@ public class ModuleComponent extends Component implements IMinecraft {
         currY = height;
 
         context.getMatrices().push();
-        Managers.TEXT.drawString(moduleBase.getName(), (int) (panel.getX() + 2.0f), y + height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), -1);
+        Managers.TEXT.drawString(moduleBase.getName(), (int) (panel.getX() + Managers.MODULES.getModuleFromClass(ClickGUI.class).padding.getFValue()), y + height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), -1);
         context.getMatrices().pop();
 
         if (!open) return;
@@ -161,10 +162,10 @@ public class ModuleComponent extends Component implements IMinecraft {
                     .mapToDouble(Component::getHeight)
                     .sum();
 
-            return 14.0f + totalHeight + components.size();
+            return Managers.MODULES.getModuleFromClass(ClickGUI.class).buttonHeight.getIValue() + totalHeight + components.size();
         }
 
-        return 14.0f;
+        return Managers.MODULES.getModuleFromClass(ClickGUI.class).buttonHeight.getIValue();
     }
 
     public String getName() {

@@ -12,10 +12,13 @@ import club.lyric.infinity.api.util.client.render.util.Interpolation;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.api.util.client.web.UUIDConverter;
+import club.lyric.infinity.api.util.minecraft.player.Fake;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.impl.events.render.Render3DEvent;
 import club.lyric.infinity.impl.modules.client.Colours;
+import club.lyric.infinity.impl.modules.client.Fonts;
 import club.lyric.infinity.manager.Managers;
+import club.lyric.infinity.manager.client.TextManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.network.PlayerListEntry;
@@ -28,6 +31,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
 
@@ -49,7 +53,7 @@ public class Nametags extends ModuleBase {
     public BooleanSetting health = new BooleanSetting("Health", true, this);
     public BooleanSetting totemPops = new BooleanSetting("TotemPops", true, this);
     public BooleanSetting rect = new BooleanSetting("Rectangle", true, this);
-    public NumberSetting size = new NumberSetting("Size", this, 0.2f, 0.1f, 1.0f, 0.1f);
+    public NumberSetting size = new NumberSetting("Size", this, 0.3f, 0.1f, 1.0f, 0.1f);
     public ColorSetting rectColor = new ColorSetting("RectColor", this, new JColor(new Color(64, 64, 124)));
     public ColorSetting lineColor = new ColorSetting("LineColor", this, new JColor(new Color(64, 64, 124)));
     public NumberSetting range = new NumberSetting("Range", this, 300.0f, 10.0f, 300.0f, 1.0f, "m");
@@ -74,15 +78,11 @@ public class Nametags extends ModuleBase {
     }
 
     private void renderNameTag(PlayerEntity entity, MatrixStack matrices, Vec3d inter) {
-        Vec3d interpolate = Interpolation.getRenderPosition(entity, mc.getTickDelta());
-        Vec3d pos = getCameraPos();
+        Vec3d interpolate = Interpolation.interpolateEntity(entity);
 
-        double x = entity.getX() - interpolate.getX();
-        double y = entity.getY() - interpolate.getY();
-        double z = entity.getZ() - interpolate.getZ();
-
-        TextRenderer textRenderer = mc.textRenderer;
-        Render3DUtils.enable3D();
+        double x = interpolate.getX();
+        double y = interpolate.getY();
+        double z = interpolate.getZ();
 
         double distX = (mc.player.getX() - inter.getX()) - x;
         double distY = (mc.player.getY() - inter.getY()) - y;
@@ -92,84 +92,41 @@ public class Nametags extends ModuleBase {
 
         if (dist > range.getIValue()) return;
 
-        float scale = size.getFValue() / 50 * (float) dist;
+        float scale = 0.0018f + (size.getFValue() / 10 * 0.01f) * (float) dist;
 
         if (dist <= 7) {
-            scale = size.getFValue() / 10;
+            scale = 0.0245f;
         }
 
         matrices.push();
         matrices.translate(
-                x - pos.getX(),
-                y + (double) entity.getHeight() + (entity.isSneaking() ? 0.5f : 0.53f) - pos.getY(),
-                z - pos.getZ()
+                x,
+                y + (entity.isSneaking() ? 0.5 : 0.7) + 1.4f,
+                z
         );
+
         matrices.multiply(mc.getEntityRenderDispatcher().camera.getRotation());
-        matrices.scale(-scale, -scale, scale);
 
-        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+        matrices.scale(-scale, -scale, -scale);
 
-        float height = Managers.TEXT.height(true) + 2.0f;
+        RenderSystem.enableDepthTest();
 
-        if (rect.value()) {
-            Render2DUtils.drawRect(matrices, -Managers.TEXT.width(renderPlayerName(entity), true) / 2 - 2, 0, Managers.TEXT.width(renderPlayerName(entity), true) + 1, height, new Color(rectColor.getColor().getRed(), rectColor.getColor().getGreen(), rectColor.getColor().getBlue(), 85).getRGB());
-            Render2DUtils.drawOutlineRect(matrices, -Managers.TEXT.width(renderPlayerName(entity), true) / 2 - 2, 0, Managers.TEXT.width(renderPlayerName(entity), true) + 1, height, new Color(lineColor.getColor().getRed(), lineColor.getColor().getGreen(), lineColor.getColor().getBlue(), 255).getRGB());
-        }
+        Tessellator tessellator = RenderSystem.renderThreadTesselator();
 
-        //textRenderer.draw(renderPlayerName(entity), -Managers.TEXT.width(renderPlayerName(entity), true) / 2 + 1, 2, getNameColor(entity), false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
-        Managers.TEXT.drawString(
-                renderPlayerName(entity), -Managers.TEXT.width(renderPlayerName(entity), true) / 2 + 1, 2, getNameColor(entity));
+        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(tessellator.getBuffer());
 
-        if (!entity.getMainHandStack().isEmpty()) {
-            renderStackName(entity.getMainHandStack(), -height - Managers.TEXT.height(true), matrices, immediate, textRenderer);
-        }
-
-        int slotIndex = 3;
-        float xPos = 0.0f;
-
-        while (slotIndex >= 0) {
-            ItemStack stack = entity.getInventory().getArmorStack(slotIndex);
-            if (!stack.isEmpty()) {
-
-                if (stack.isDamageable()) {
-                    renderDurability(stack, xPos, -height, matrices, immediate, textRenderer);
-                }
-                xPos += 16.0f;
-            }
-            slotIndex--;
-        }
+        drawText(matrices, immediate, renderPlayerName(entity), -Managers.TEXT.width(renderPlayerName(entity), true) / 2, -8.0f, getNameColor(entity));
 
         immediate.draw();
-        matrices.pop();
-        Render3DUtils.disable3D();
-    }
-
-    private void renderStackName(ItemStack stack, float y, MatrixStack matrices, VertexConsumerProvider immediate, TextRenderer textRenderer) {
-        matrices.push();
-        matrices.scale(0.5f, 0.5f, 0.5f);
 
         RenderSystem.disableDepthTest();
+        RenderSystem.disableBlend();
 
-        String name = stack.getName().getString();
-
-        textRenderer.draw(name, -Managers.TEXT.width(name, true) / 2, y, -1, false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
-
-        RenderSystem.enableDepthTest();
         matrices.pop();
     }
 
-    private void renderDurability(ItemStack stack, float x, float y, MatrixStack matrices, VertexConsumerProvider immediate, TextRenderer textRenderer) {
-        matrices.push();
-        matrices.scale(0.5f, 0.5f, 0.5f);
-
-        RenderSystem.disableDepthTest();
-
-        int percent = (int) InventoryUtils.getPercent(stack);
-
-        textRenderer.draw(percent + "%", x * 2, y, ColorUtils.toColor(percent / 100.0f * 120.0f, 100.0f, 50.0f, 1.0f).getRGB(), false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
-
-        RenderSystem.enableDepthTest();
-        matrices.pop();
+    public static void drawText(MatrixStack matrixStack, VertexConsumerProvider.Immediate immediate, String text, float x, float y, int color) {
+        mc.textRenderer.draw(text, x, y, color, true, matrixStack.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 0xF000F0, mc.textRenderer.isRightToLeft());
     }
 
     private String renderPlayerName(PlayerEntity player) {
@@ -259,11 +216,8 @@ public class Nametags extends ModuleBase {
             return Managers.MODULES.getModuleFromClass(Colours.class).friendColor.getColor().getRGB();
         }
 
-        if (mc.getNetworkHandler() == null) {
-            PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(player.getUuid());
-            if (playerListEntry == null) {
-                return 0xF63E3E;
-            }
+        if (player instanceof Fake) {
+            return 0xF63E3E;
         }
 
         if (player.isInvisible()) {
@@ -314,5 +268,9 @@ public class Nametags extends ModuleBase {
             case SPECTATOR -> "[I] ";
             case ADVENTURE -> "[A] ";
         };
+    }
+
+    public static Entity getEntity() {
+        return mc.getCameraEntity() == null ? mc.player : mc.getCameraEntity();
     }
 }

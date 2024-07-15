@@ -1,0 +1,27 @@
+package club.lyric.infinity.impl.modules.movement;
+
+import club.lyric.infinity.api.module.Category;
+import club.lyric.infinity.api.module.ModuleBase;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
+
+public class InventoryWalk extends ModuleBase {
+
+    public InventoryWalk()
+    {
+        super("InventoryWalk", "AA", Category.Movement);
+    }
+
+    @Override
+    public void onUpdate() {
+
+        if (mc.currentScreen == null) return;
+
+        KeyBinding[] moving = { mc.options.forwardKey, mc.options.backKey, mc.options.leftKey, mc.options.rightKey, mc.options.jumpKey };
+
+        for (KeyBinding bind : moving)
+        {
+            KeyBinding.setKeyPressed(bind.getDefaultKey(), InputUtil.isKeyPressed(mc.getWindow().getHandle(), bind.getDefaultKey().getCode()));
+        }
+    }
+}

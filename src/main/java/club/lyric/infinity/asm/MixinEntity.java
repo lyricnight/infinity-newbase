@@ -4,6 +4,8 @@ import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.mc.movement.EntityMovementEvent;
 import club.lyric.infinity.impl.modules.client.AntiCheat;
+import club.lyric.infinity.impl.modules.movement.Velocity;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.util.math.Box;
@@ -53,6 +55,15 @@ public abstract class MixinEntity implements IMinecraft {
     @Inject(method = "move", at = @At(value = "RETURN"))
     public void moveEntityHookPost(MovementType type, Vec3d vec3d, CallbackInfo info) {
         this.event = null;
+    }
+
+    @Inject(method={"pushAwayFrom"}, at={@At(value="HEAD")}, cancellable=true)
+    private void pushAway(Entity entity, CallbackInfo ci)
+    {
+        if (Managers.MODULES.getModuleFromClass(Velocity.class).push.value() && Managers.MODULES.getModuleFromClass(Velocity.class).isOn())
+        {
+            ci.cancel();
+        }
     }
 
     @Inject(method = "doesNotCollide(Lnet/minecraft/util/math/Box;)Z", at = @At("RETURN"), cancellable = true)

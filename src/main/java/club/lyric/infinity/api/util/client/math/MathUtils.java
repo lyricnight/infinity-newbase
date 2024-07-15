@@ -64,5 +64,10 @@ public class MathUtils {
         return (value - min) / (max - min);
     }
 
+    public static double normalize(double value, double max) {
+        return (value - 0.0) / (max - 0.0);
+    }
+
+
 
 }

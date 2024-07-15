@@ -38,7 +38,7 @@ public class ColorComponent extends Component implements IMinecraft {
     public ColorComponent(ColorSetting setting, Panel panel) {
         this.panel = panel;
         this.setting = setting;
-        this.height = 14;
+        this.height = Managers.MODULES.getModuleFromClass(ClickGUI.class).buttonHeight.getIValue();
     }
 
     @Override
@@ -160,10 +160,11 @@ public class ColorComponent extends Component implements IMinecraft {
 
     @Override
     public float getHeight() {
+
         if (opened)
             heightButton.run(110);
         else
-            heightButton.run(14);
+            heightButton.run(Managers.MODULES.getModuleFromClass(ClickGUI.class).buttonHeight.getIValue());
 
         return heightButton.getValue();
     }

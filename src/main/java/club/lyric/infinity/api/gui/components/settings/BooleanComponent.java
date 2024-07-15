@@ -10,6 +10,7 @@ import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.client.sounds.SoundsUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.ClickGUI;
+import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
@@ -24,13 +25,13 @@ public class BooleanComponent extends Component implements IMinecraft {
     public BooleanComponent(BooleanSetting setting, Panel panel) {
         this.panel = panel;
         this.setting = setting;
-        this.height = 14;
+        this.height = Managers.MODULES.getModuleFromClass(ClickGUI.class).buttonHeight.getIValue();
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 
-        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(ClickGUI.class).color.getColor(), 200);
+        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor((int) y) : Managers.MODULES.getModuleFromClass(Colours.class).getColor(), 200);
 
         if (setting.value()) {
             rect.run(width - 2.0f);

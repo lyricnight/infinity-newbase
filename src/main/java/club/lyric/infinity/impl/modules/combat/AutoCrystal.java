@@ -334,17 +334,15 @@ public class AutoCrystal extends ModuleBase {
         }
 
         if (event.getPacket() instanceof EntitySpawnS2CPacket spawnPacket) {
-            if (spawnPacket.getId() == 51) {
-                for (Entity ent : mc.world.getEntities()) {
-                    if (ent == null) return;
+            for (Entity ent : mc.world.getEntities()) {
+                if (ent == null) return;
 
-                    if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(spawnPacket.getX(), spawnPacket.getY(), spawnPacket.getZ()) <= hitRange.getFValue()) {
-                        int entity = crystal.getId();
-                        mc.executeSync(() -> {
-                            mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
-                            mc.world.removeBlockEntity(crystal.getBlockPos());
-                        });
-                    }
+                if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(spawnPacket.getX(), spawnPacket.getY(), spawnPacket.getZ()) <= hitRange.getFValue()) {
+                    int entity = crystal.getId();
+                    mc.executeSync(() -> {
+                        mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
+                        mc.world.removeBlockEntity(crystal.getBlockPos());
+                    });
                 }
             }
         }

@@ -11,6 +11,7 @@ import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.ClickGUI;
+import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
@@ -28,7 +29,7 @@ public class SliderComponent extends Component implements IMinecraft {
     public SliderComponent(NumberSetting setting, Panel panel) {
         this.panel = panel;
         this.setting = setting;
-        this.height = 14;
+        this.height = Managers.MODULES.getModuleFromClass(ClickGUI.class).buttonHeight.getIValue();
     }
 
     @Override
@@ -36,7 +37,7 @@ public class SliderComponent extends Component implements IMinecraft {
 
         if (setting.getName().equals("hudX") || setting.getName().equals("hudY")) return;
 
-        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(ClickGUI.class).color.getColor(), 200);
+        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor((int) y) : Managers.MODULES.getModuleFromClass(Colours.class).getColor(), 200);
 
         float length = MathUtils.round(((setting.getFValue() - setting.getMinimum()) / (setting.getMaximum() - setting.getMinimum())) * (width - 2));
 
@@ -85,7 +86,7 @@ public class SliderComponent extends Component implements IMinecraft {
     public float getHeight() {
         if (setting.getName().equals("hudX") || setting.getName().equals("hudY")) return 0;
 
-        return 14;
+        return Managers.MODULES.getModuleFromClass(ClickGUI.class).buttonHeight.getIValue();
     }
 
     @Override

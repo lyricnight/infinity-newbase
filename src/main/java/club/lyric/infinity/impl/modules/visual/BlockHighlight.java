@@ -33,9 +33,9 @@ public class BlockHighlight extends ModuleBase {
     @Override
     public void onRender3D(MatrixStack matrixStack) {
 
-        if (mc.crosshairTarget == null || !(mc.crosshairTarget instanceof BlockHitResult blockHitResult)) return;
+        if (!(mc.crosshairTarget instanceof BlockHitResult result)) return;
 
-        BlockPos blockPos = blockHitResult.getBlockPos();
+        BlockPos blockPos = result.getBlockPos();
         Box inter = Interpolation.interpolatePos(blockPos, 1.0f);
 
         Block block = mc.world.getBlockState(blockPos).getBlock();
