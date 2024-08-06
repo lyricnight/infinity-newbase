@@ -3,12 +3,14 @@
 Infinity is a 1.20.4 client, made by lyric and Valser, with a custom event system thanks to RailHack.
 The client was made to learn how to develop on the Fabric platform, and newer versions of Minecraft.
 It was intended to be much better in terms of code quality than the horror show that was the client's 1.12 version, and I can say I'm much more satisfied with it - lyric
+The client is not intended to be used by itself - it is meant to be a 'side' client to something like Future.
 ````
 # Credits
 ````
 https://github.com/SpaiR -> Dear-IMGUI java bindings -> only for older versions due to gui migration
 Discord -> Discord RPC system files
 finz0 -> IRC implementation
+Steinborn -> LazyDFU optimisation
 ````
 # Contact
 ``````

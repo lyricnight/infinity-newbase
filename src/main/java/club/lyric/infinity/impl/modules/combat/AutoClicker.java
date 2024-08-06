@@ -11,9 +11,12 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * @author vasler
+ * why does this exist - lyric
+ */
 public class AutoClicker extends ModuleBase
 {
-
     public NumberSetting max = new NumberSetting("Max", this, 14.0f, 1.0f, 20.0f, 1.0f, " cps");
     public NumberSetting min = new NumberSetting("Min", this, 16.0f, 1.0f, 20.0f, 1.0f, " cps");
     public BooleanSetting blocks = new BooleanSetting("Blocks", true, this);

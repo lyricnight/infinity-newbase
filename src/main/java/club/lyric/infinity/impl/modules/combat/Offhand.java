@@ -22,6 +22,9 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.math.MathHelper;
 
+/**
+ * @author vasler
+ */
 //TODO: make a service for this
 public class Offhand extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "Totem", "Totem", "Crystal", "Gapple", "Sword");

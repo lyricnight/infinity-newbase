@@ -18,7 +18,6 @@
     "MixinStringHelper",
     "MixinTitleScreen",
     "accessors.IClientPlayerInteractionManager",
-    "accessors.ICustomPayloadC2SPacket",
     "accessors.IEntityVelocityUpdateS2CPacket",
     "accessors.IExplosionS2CPacket",
     "accessors.ILivingEntity",

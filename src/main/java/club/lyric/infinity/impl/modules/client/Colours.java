@@ -11,6 +11,9 @@ import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
 
+/**
+ * @author vasler
+ */
 public class Colours extends PersistentModuleBase {
 
     public ModeSetting colorMode = new ModeSetting("Mode", this, "Single", "Single", "Gradient");

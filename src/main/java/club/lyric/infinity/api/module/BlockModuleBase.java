@@ -47,10 +47,18 @@ public class BlockModuleBase extends ModuleBase {
     public BooleanSetting airPlace = new BooleanSetting("AirPlace", false, this);
 
     /**
+     * whether we should render blocks placed.
+     */
+    public BooleanSetting render = new BooleanSetting("Render", false, this);
+
+    /**
      * colors for rendering blocks placed
      */
-    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)));
-
+    public ColorSetting colorVal = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)));
+    /**
+     * again we want this on a module-by-module basis.
+     */
+    public BooleanSetting attack = new BooleanSetting("Attack", false, this);
     /**
      * represents priority for rotations and block placements
      */
@@ -61,7 +69,10 @@ public class BlockModuleBase extends ModuleBase {
      */
     private int slot;
 
-    private List<BlockPos> renderingPos = new ArrayList<>();
+    /**
+     * represents positions where we have placed blocks
+     */
+    private final List<BlockPos> renderingPos = new ArrayList<>();
 
     /**
      * list of placeable blocks, sorted in order of preference.
@@ -88,6 +99,10 @@ public class BlockModuleBase extends ModuleBase {
     /**
      * specific methods
      */
+    protected boolean canPlace()
+    {
+        return getPlaceableBlockSlot() != -1;
+    }
 
     protected int getPlaceableBlockSlot()
     {
@@ -115,9 +130,9 @@ public class BlockModuleBase extends ModuleBase {
         return -1;
     }
 
-    protected void setRotationPoint(float yaw, float pitch)
+    protected void setRotationPoint(float yaw, float pitch, boolean instant)
     {
-        Managers.ROTATIONS.setRotationPoint(new RotationPoint(yaw, pitch, getPriority(), false));
+        Managers.ROTATIONS.setRotationPoint(new RotationPoint(yaw, pitch, getPriority(), instant));
     }
 
     protected boolean blocked() {
@@ -145,7 +160,9 @@ public class BlockModuleBase extends ModuleBase {
         Direction direction = getDirection(pos, airPlace.value());
         if (direction == null && !AntiCheat.getStrictDirection())
         {
-            Infinity.LOGGER.info("Logged no direction, defaulting.");
+            Infinity.LOGGER.error("Logged no direction!");
+            Infinity.LOGGER.error("Resetting to default: (Direction.UP)");
+            Infinity.LOGGER.error("Report this!");
             direction = Direction.UP;
         }
         if (direction == null)
@@ -298,11 +315,11 @@ public class BlockModuleBase extends ModuleBase {
     @Override
     public void onRender3D(MatrixStack matrixStack) {
 
-        if (Null.is()) return;
+        if (Null.is() || !render.value()) return;
 
         for (BlockPos render : renderingPos)
         {
-            Color colors = color.getColor();
+            Color colors = colorVal.getColor();
 
             Box bb = Interpolation.interpolatePos(render, 1.0f);
 
@@ -318,6 +335,12 @@ public class BlockModuleBase extends ModuleBase {
         }
     }
 
+    /**
+     * @vasler put this in renderutils.
+     * @param value
+     * @param max
+     * @return
+     */
     public static double fade(double value, double max)
     {
         double elapsedTime = System.currentTimeMillis() - value;

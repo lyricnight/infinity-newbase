@@ -26,8 +26,8 @@ public class Fonts extends ModuleBase {
         super("Fonts", "ggg", Category.Client);
     }
 
-    public String setFont(String string) {
-        return fontName = string;
+    public void setFont(String string) {
+        fontName = string;
     }
 
     public String getFontName() {

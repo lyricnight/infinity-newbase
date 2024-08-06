@@ -9,6 +9,8 @@ import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.impl.events.render.RenderPlayerModelEvent;
 import club.lyric.infinity.impl.modules.client.AntiCheat;
+import club.lyric.infinity.impl.modules.exploit.Resolver;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import org.jetbrains.annotations.Nullable;
 
@@ -115,8 +117,11 @@ public final class RotationManager implements IMinecraft {
     @EventHandler
     public void onRenderPlayerModel(RenderPlayerModelEvent event) {
         if (event.getEntity() == mc.player && current != null) {
-            event.setYaw(Interpolation.interpolateFloat(prevYaw, serverYaw, mc.getTickDelta()));
-            event.setPitch(Interpolation.interpolateFloat(prevPitch, serverPitch, mc.getTickDelta()));
+            if (!Managers.MODULES.getModuleFromClass(Resolver.class).isOn())
+            {
+                event.setYaw(Interpolation.interpolateFloat(prevYaw, serverYaw, mc.getTickDelta()));
+                event.setPitch(Interpolation.interpolateFloat(prevPitch, serverPitch, mc.getTickDelta()));
+            }
             prevYaw = event.getYaw();
             prevPitch = event.getPitch();
             event.setCancelled(true);
