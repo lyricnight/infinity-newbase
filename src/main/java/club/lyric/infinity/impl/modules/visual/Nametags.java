@@ -57,6 +57,7 @@ public class Nametags extends ModuleBase {
     public ColorSetting rectColor = new ColorSetting("RectColor", this, new JColor(new Color(64, 64, 124)));
     public ColorSetting lineColor = new ColorSetting("LineColor", this, new JColor(new Color(64, 64, 124)));
     public NumberSetting range = new NumberSetting("Range", this, 300.0f, 10.0f, 300.0f, 1.0f, "m");
+
     protected static final Pattern PATTERN = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
 
     public Nametags() {
@@ -143,7 +144,7 @@ public class Nametags extends ModuleBase {
         }
 
         if (entityId.value()) {
-            name += "ID: " + player.getId();
+            name += "ID: " + player.getId() + " ";
         }
 
         if (gamemode.value() && mc.getNetworkHandler() != null) {

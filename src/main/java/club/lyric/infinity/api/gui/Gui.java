@@ -1,6 +1,7 @@
 package club.lyric.infinity.api.gui;
 
 import club.lyric.infinity.api.module.Category;
+import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.ClickGUI;
 import club.lyric.infinity.manager.Managers;
@@ -9,6 +10,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Gui extends Screen implements IMinecraft {
@@ -27,12 +29,17 @@ public class Gui extends Screen implements IMinecraft {
 
             panels.add(new Panel(category, x, 3, true));
 
-            x += 102;
+            x += 101 + Managers.MODULES.getModuleFromClass(ClickGUI.class).frameWidth.getIValue();
         }
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        Color color = Managers.MODULES.getModuleFromClass(ClickGUI.class).tintColor.getColor();
+
+        if (Managers.MODULES.getModuleFromClass(ClickGUI.class).tint.value())
+            Render2DUtils.drawRect(context.getMatrices(), 0, 0, context.getScaledWindowWidth(), context.getScaledWindowHeight(), new Color(color.getRed(), color.getGreen(), color.getBlue(), 50).getRGB());
+
         panels.forEach(panel -> panel.render(context, mouseX, mouseY, delta));
     }
 

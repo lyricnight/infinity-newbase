@@ -31,7 +31,7 @@ public class KeybindComponent extends Component implements IMinecraft {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 
-        if (isHovering(mouseX, mouseY)) {
+        if (isHovering(mouseX, mouseY) && Managers.MODULES.getModuleFromClass(ClickGUI.class).hover.value()) {
             animation.run(2);
         } else {
             animation.run(0);

@@ -46,14 +46,14 @@ public class ColorComponent extends Component implements IMinecraft {
 
         rect.run(10);
 
-        if (isHovering(mouseX, mouseY)) {
+        if (isHovering(mouseX, mouseY) && Managers.MODULES.getModuleFromClass(ClickGUI.class).hover.value()) {
             animation.run(2);
         } else {
             animation.run(0);
         }
 
         Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 2.0f, y + 2.0f - animation.getValue(), rect.getValue(), rect.getValue(), setting.getColor().getRGB());
-        Render2DUtils.drawOutlineRect(context.getMatrices(), panel.getX() + 2.0f, y + 2.0f - animation.getValue(), rect.getValue(), rect.getValue(), new Color(10, 10, 10, 200).getRGB());
+        Render2DUtils.drawOutlineRect(context.getMatrices(), panel.getX() + 2.0f, y + 2.0f - animation.getValue(), rect.getValue(), rect.getValue(), 1.0f, new Color(10, 10, 10, 200).getRGB());
 
         context.getMatrices().push();
         Managers.TEXT.drawString(setting.getName(), (int) (panel.getX() + width - Managers.TEXT.width(setting.getName(), true)), y + height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), setting.getColor().getRGB());
@@ -79,7 +79,7 @@ public class ColorComponent extends Component implements IMinecraft {
                 Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 4.0f + i, y + height + 86 + 2.0f, 0.1f, 3.0f, ColorUtils.alpha(new Color(Color.getHSBColor(hue, 1.0f, 1.0f).getRGB()), (int) alpha.getValue()).getRGB());
             }
 
-            Render2DUtils.drawOutlineRect(context.getMatrices(), panel.getX() + 4.0f, y + height + 86 + 2.0f, width - 6.0f, 3, new Color(10, 10, 10).getRGB());
+            Render2DUtils.drawOutlineRect(context.getMatrices(), panel.getX() + 4.0f, y + height + 86 + 2.0f, width - 6.0f, 3, 1.0f,new Color(10, 10, 10).getRGB());
 
             if (mouseX >= panel.getX() + 4.0f &&
                     mouseX <= panel.getX() + 4.0f + width - 2.0f &&
@@ -96,7 +96,7 @@ public class ColorComponent extends Component implements IMinecraft {
             }
 
             Render2DUtils.drawRect(context.getMatrices(), cursorX, cursorY, 4, 4, setting.getColor().getRGB());
-            Render2DUtils.drawOutlineRect(context.getMatrices(), cursorX, cursorY, 4, 4, new Color(10, 10, 10).getRGB());
+            Render2DUtils.drawOutlineRect(context.getMatrices(), cursorX, cursorY, 4, 4, 1.0f, new Color(10, 10, 10).getRGB());
 
             if (mouseX >= panel.getX() + 2.0f &&
                     mouseX <= panel.getX() + 2.0f + width - 4.0f &&
@@ -120,7 +120,7 @@ public class ColorComponent extends Component implements IMinecraft {
                 cursorY = mouseY;
 
                 Render2DUtils.drawRect(context.getMatrices(), mouseX, mouseY, 4, 4, setting.getColor().getRGB());
-                Render2DUtils.drawOutlineRect(context.getMatrices(), mouseX, mouseY, 4, 4, new Color(10, 10, 10).getRGB());
+                Render2DUtils.drawOutlineRect(context.getMatrices(), mouseX, mouseY, 4, 4, 1.0f, new Color(10, 10, 10).getRGB());
 
             }
         }
@@ -182,7 +182,7 @@ public class ColorComponent extends Component implements IMinecraft {
         Render2DUtils.drawGradient(context.getMatrices(), panel.getX() + 4.0f, y + height + offset, panel.getX() + width - 2.0f, y + height + heightPicker.getValue(), 0, 0xff000000, false);
 
         if (opened)
-            Render2DUtils.drawOutlineRect(context.getMatrices(), panel.getX() + 4.0f, y + height + offset - 0.5f, 92, heightPicker.getValue() - 2, ColorUtils.alpha(setting.getColor(), (int) alpha.getValue()).getRGB());
+            Render2DUtils.drawOutlineRect(context.getMatrices(), panel.getX() + 4.0f, y + height + offset - 0.5f, 92, heightPicker.getValue() - 2, 1.0f, ColorUtils.alpha(setting.getColor(), (int) alpha.getValue()).getRGB());
     }
 
 }

@@ -44,7 +44,7 @@ public abstract class MixinChatInputSuggestor {
         if (render) {
             int x = textField.getWidth() - 3;
             int y = textField.getHeight() - 3;
-            Render2DUtils.drawOutlineRect(context.getMatrices(), x, y, textField.getWidth(), textField.getHeight(), -1);
+            Render2DUtils.drawOutlineRect(context.getMatrices(), x, y, textField.getWidth(), textField.getHeight(), 1.0f, -1);
         }
     }
 

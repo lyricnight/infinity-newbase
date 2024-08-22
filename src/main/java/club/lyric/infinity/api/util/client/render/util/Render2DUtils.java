@@ -52,7 +52,7 @@ public class Render2DUtils implements IMinecraft {
      * @param height   - the vertical measurement of the rectangle from angle to angle
      * @param color    - color of the rectangle in RGB
      */
-    public static void drawOutlineRect(MatrixStack matrices, float x, float y, float width, float height, int color) {
+    public static void drawOutlineRect(MatrixStack matrices, float x, float y, float width, float height, float lineWidth, int color) {
         Matrix4f matrix = matrices.peek().getPositionMatrix();
 
         // Colors
@@ -60,6 +60,8 @@ public class Render2DUtils implements IMinecraft {
         float g = (float) (color >> 8 & 255) / 255.0F;
         float b = (float) (color & 255) / 255.0F;
         float a = (float) (color >> 24 & 255) / 255.0F;
+
+        RenderSystem.lineWidth(lineWidth);
 
         // Rect starts here
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
@@ -74,6 +76,8 @@ public class Render2DUtils implements IMinecraft {
         Tessellator.getInstance().draw();
         end();
         // Rect ends here
+
+        RenderSystem.lineWidth(1.0F);
     }
 
     public static void drawGradient(MatrixStack matrixStack, float x, float y, float x2, float y2, int startColor, int endColor, boolean sideways) {

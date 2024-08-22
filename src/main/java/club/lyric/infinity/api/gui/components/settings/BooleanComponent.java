@@ -41,7 +41,7 @@ public class BooleanComponent extends Component implements IMinecraft {
 
         Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 2.0f, y, rect.getValue(), height, color.getRGB());
 
-        if (isHovering(mouseX, mouseY)) {
+        if (isHovering(mouseX, mouseY) && Managers.MODULES.getModuleFromClass(ClickGUI.class).hover.value()) {
             animation.run(2);
         } else {
             animation.run(0);

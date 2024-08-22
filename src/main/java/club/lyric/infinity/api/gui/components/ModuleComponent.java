@@ -71,7 +71,7 @@ public class ModuleComponent extends Component implements IMinecraft {
 
         Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor((int) y) : Managers.MODULES.getModuleFromClass(Colours.class).getColor(), (int) alpha.getValue());
 
-        Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 1.0f, y, width, height, ColorUtils.alpha(color, 70).getRGB());
+        Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 1.0f, y, width, height, ColorUtils.alpha(color, 50).getRGB());
 
         if (moduleBase.isOn()) {
             rect.run(width);
@@ -81,7 +81,7 @@ public class ModuleComponent extends Component implements IMinecraft {
 
         Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 1.0f, y, rect.getValue(), height, color.getRGB());
 
-        if (isHovering(mouseX, mouseY)) {
+        if (isHovering(mouseX, mouseY) && Managers.MODULES.getModuleFromClass(ClickGUI.class).hover.value()) {
             animation.run(2);
         } else {
             animation.run(0);
@@ -90,7 +90,7 @@ public class ModuleComponent extends Component implements IMinecraft {
         currY = height;
 
         context.getMatrices().push();
-        Managers.TEXT.drawString(moduleBase.getName(), (int) (panel.getX() + Managers.MODULES.getModuleFromClass(ClickGUI.class).padding.getFValue()), y + height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), -1);
+        Managers.TEXT.drawString(moduleBase.getName(), (int) (panel.getX() + Managers.MODULES.getModuleFromClass(ClickGUI.class).padding.getFValue()), y + height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), moduleBase.isOn() ? Managers.MODULES.getModuleFromClass(ClickGUI.class).textColor.getColor().getRGB() : -1);
         context.getMatrices().pop();
 
         if (Managers.MODULES.getModuleFromClass(ClickGUI.class).gear.value())

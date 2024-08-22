@@ -52,7 +52,7 @@ public class Panel implements IMinecraft {
         this.x = x;
         this.y = y;
 
-        width = 100;
+        width = 99 + Managers.MODULES.getModuleFromClass(ClickGUI.class).frameWidth.getIValue();
         height = Managers.MODULES.getModuleFromClass(ClickGUI.class).frameHeight.getIValue();
         this.open = open;
 
@@ -71,17 +71,17 @@ public class Panel implements IMinecraft {
         drag(mouseX, mouseY);
 
         alpha.run(200);
-        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor(y) : Managers.MODULES.getModuleFromClass(Colours.class).getColor(), (int) alpha.getValue());
+        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(ClickGUI.class).color.getColor(), (int) alpha.getValue());
 
         Render2DUtils.drawRect(context.getMatrices(), x, y - 1, width, height, color.getRGB());
 
 
         if (open) {
 
-            if (Managers.MODULES.getModuleFromClass(ClickGUI.class).line.value())
-                Render2DUtils.drawOutlineRect(context.getMatrices(), x + 0.1f, y + height - 1.0F, width - 0.1f, getHeightTotal() - height + 0.5f, color.getRGB());
-
             Render2DUtils.drawRect(context.getMatrices(), x + 0.1f, y + height - 1.0F, width - 0.1f, getHeightTotal() - height + 0.5f, new Color(5, 5, 5, 119).getRGB());
+
+            if (Managers.MODULES.getModuleFromClass(ClickGUI.class).line.value())
+                Render2DUtils.drawOutlineRect(context.getMatrices(), x + 0.1f, y + height - 1.0F, width - 0.1f, getHeightTotal() - height + 0.5f, 5.0f, color.getRGB());
         }
 
         if (isHovering(mouseX, mouseY)) {
