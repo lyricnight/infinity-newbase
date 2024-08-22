@@ -10,6 +10,7 @@ import club.lyric.infinity.api.util.client.render.anim.Animation;
 import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.network.packet.Packet;
 import org.lwjgl.glfw.GLFW;
 
 public class Zoom extends ModuleBase
@@ -34,6 +35,14 @@ public class Zoom extends ModuleBase
         previousFov = mc.options.getFov().getValue();
     }
 
+    @Override
+    public void onDisable()
+    {
+        if (Null.is()) return;
+
+        mc.options.getFov().setValue(previousFov);
+    }
+
     @EventHandler
     public void onKeyPress(KeyPressEvent event)
     {
@@ -52,10 +61,13 @@ public class Zoom extends ModuleBase
     {
         if (Null.is()) return;
 
-        if (!(zoom.getProgress() == 1.0))
+        if (!(zoom.getProgress() == 1.0) && zoomed)
             zoom.run(mc.options.getFov().getValue() * amount.getFValue());
-        else
+        else {
+            zoomed = false;
+            zoom.run(previousFov);
             return;
+        }
 
         mc.options.getFov().setValue((int) zoom.getValue());
     }

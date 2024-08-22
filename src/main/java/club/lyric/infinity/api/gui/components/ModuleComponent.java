@@ -93,6 +93,9 @@ public class ModuleComponent extends Component implements IMinecraft {
         Managers.TEXT.drawString(moduleBase.getName(), (int) (panel.getX() + Managers.MODULES.getModuleFromClass(ClickGUI.class).padding.getFValue()), y + height / 2 - (Managers.TEXT.height(true) >> 1) - animation.getValue(), -1);
         context.getMatrices().pop();
 
+        if (Managers.MODULES.getModuleFromClass(ClickGUI.class).gear.value())
+            Managers.TEXT.drawString(open ? "-" : "+", panel.getX() + width - Managers.TEXT.width(open ? "-" : "+", true) - 2.0f, y + height / 2 - (Managers.TEXT.height(true) >> 1), -1);
+
         if (!open) return;
 
         for (Component component : components) {

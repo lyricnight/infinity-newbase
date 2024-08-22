@@ -36,7 +36,6 @@ public class Panel implements IMinecraft {
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
     private final Animation alpha = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
     private final Animation opening = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
-    private final Animation panelOpen = new Animation(Easing.EASE_OUT_QUAD, Managers.MODULES.getModuleFromClass(ClickGUI.class).speed.getLValue());
     float currY;
     boolean search = false;
     boolean capsLock = false;
@@ -78,7 +77,11 @@ public class Panel implements IMinecraft {
 
 
         if (open) {
-            Render2DUtils.drawOutlineRect(context.getMatrices(), x + 0.1f, y + height - 1.0F, width - 0.1f, getHeightTotal() - height + 0.5f, color.getRGB());
+
+            if (Managers.MODULES.getModuleFromClass(ClickGUI.class).line.value())
+                Render2DUtils.drawOutlineRect(context.getMatrices(), x + 0.1f, y + height - 1.0F, width - 0.1f, getHeightTotal() - height + 0.5f, color.getRGB());
+
+            Render2DUtils.drawRect(context.getMatrices(), x + 0.1f, y + height - 1.0F, width - 0.1f, getHeightTotal() - height + 0.5f, new Color(5, 5, 5, 119).getRGB());
         }
 
         if (isHovering(mouseX, mouseY)) {

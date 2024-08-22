@@ -8,10 +8,7 @@ import club.lyric.infinity.impl.modules.visual.FullBright;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.LightmapTextureManager;
-import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.world.LightType;
 import org.joml.Matrix4f;
@@ -26,7 +23,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @author vasler
  */
 @Mixin(WorldRenderer.class)
-public class MixinWorldRenderer implements IMinecraft {
+public abstract class MixinWorldRenderer implements IMinecraft {
+
     @Inject(method = "render", at = @At("RETURN"))
     private void render(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f positionMatrix, CallbackInfo ci) {
         mc.getProfiler().push("infinity-rendering-3d");

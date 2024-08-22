@@ -33,7 +33,6 @@ public class Gui extends Screen implements IMinecraft {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        super.render(context, mouseX, mouseY, delta);
         panels.forEach(panel -> panel.render(context, mouseX, mouseY, delta));
     }
 

@@ -36,4 +36,14 @@ public class EntityUtils implements IMinecraft {
 
         return BlockPos.ofFloored(entity.getX(), y, entity.getZ());
     }
+
+    public static boolean inRenderDistance(double posX, double posZ)
+    {
+        double x = Math.abs(mc.gameRenderer.getCamera().getPos().x - posX);
+        double z = Math.abs(mc.gameRenderer.getCamera().getPos().z - posZ);
+
+        double d = (mc.options.getViewDistance().getValue() + 1) * 16;
+
+        return x < d && z < d;
+    }
 }
