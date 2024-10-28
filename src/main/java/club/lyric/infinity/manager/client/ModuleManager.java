@@ -74,7 +74,6 @@ public final class ModuleManager implements IMinecraft
                 new IRC(),
                 new Freelook(),
                 new BlockHighlight(),
-                new NoRotate(),
                 new AntiLevitation(),
                 new Particles(),
                 new KickPrevent(),

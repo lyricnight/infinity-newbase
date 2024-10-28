@@ -41,7 +41,10 @@ public abstract class MixinClientWorld implements IMinecraft {
     @Inject(method = "addEntity", at = @At("HEAD"))
     public void addEntityHook(Entity entity, CallbackInfo ci) {
         if (Null.is()) return;
-        Managers.OTHER.onAddEntity((PlayerEntity) entity);
+        if (entity instanceof PlayerEntity)
+        {
+            Managers.OTHER.onAddEntity((PlayerEntity) entity);
+        }
         if (entity instanceof EnderPearlEntity pearl) {
             World world = pearl.getWorld();
 
@@ -57,7 +60,10 @@ public abstract class MixinClientWorld implements IMinecraft {
     @Inject(method = "removeEntity", at = @At("HEAD"))
     public void removeEntityHook(int entityId, Entity.RemovalReason removalReason, CallbackInfo ci) {
         if (Null.is()) return;
-        Managers.OTHER.onRemoveEntity((PlayerEntity) mc.world.getEntityById(entityId));
+        if (mc.world.getEntityById(entityId) instanceof PlayerEntity)
+        {
+            Managers.OTHER.onRemoveEntity((PlayerEntity) mc.world.getEntityById(entityId));
+        }
     }
 
 
