@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
 /**
  * @author vasler
  */
-public class HoleESP extends ModuleBase {
+public final class HoleESP extends ModuleBase {
 
     // Properties
     public NumberSetting range = new NumberSetting("Range", this, 4f, 1f, 30f, 1f, "m");
@@ -46,7 +46,7 @@ public class HoleESP extends ModuleBase {
     public BooleanSetting fade = new BooleanSetting("Fade", false, this);
 
 
-    protected List<Hole> holes = new ArrayList<>();
+    private List<Hole> holes = new ArrayList<>();
     ExecutorService service = Executors.newCachedThreadPool();
 
     public HoleESP() {
@@ -92,7 +92,6 @@ public class HoleESP extends ModuleBase {
             if (hole.getSecond() != null)
                 bb = new Box(hole.getFirst().getX() - getCameraPos().x, hole.getFirst().getY() - getCameraPos().y, hole.getFirst().getZ() - getCameraPos().z, hole.getSecond().getX() + 1 - getCameraPos().x, hole.getSecond().getY() + size.getFValue() - getCameraPos().y, hole.getSecond().getZ() + 1 - getCameraPos().z);
 
-            // idk why the fuck it changes the alpha of the screen
             Render3DUtils.enable3D();
             matrixStack.push();
 
@@ -108,7 +107,7 @@ public class HoleESP extends ModuleBase {
         }
     }
 
-    public static Vec3d getCameraPos() {
+    private static Vec3d getCameraPos() {
         Camera camera = mc.getBlockEntityRenderDispatcher().camera;
         if (camera == null) {
             return Vec3d.ZERO;
@@ -117,7 +116,7 @@ public class HoleESP extends ModuleBase {
         return camera.getPos();
     }
 
-    public static Box interpolatePos(BlockPos pos, float size) {
+    private static Box interpolatePos(BlockPos pos, float size) {
         return new Box(pos.getX() - getCameraPos().x, pos.getY() - getCameraPos().y, pos.getZ() - getCameraPos().z, pos.getX() - getCameraPos().x + 1, pos.getY() - getCameraPos().y + size, pos.getZ() - getCameraPos().z + 1);
     }
 

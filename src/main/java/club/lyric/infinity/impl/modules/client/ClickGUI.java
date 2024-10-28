@@ -17,11 +17,11 @@ import java.awt.*;
  */
 public final class ClickGUI extends ModuleBase {
     public NumberSetting frameHeight = new NumberSetting("FrameHeight", this, 16f, 10f, 20f, 1f);
-    public NumberSetting buttonHeight = new NumberSetting("ButtonHeight", this, 13f, 10f, 20f, 1f);
+    public NumberSetting buttonHeight = new NumberSetting("ButtonHeight", this, 17f, 12f, 25f, 1f);
     public NumberSetting frameWidth = new NumberSetting("FrameWidth", this, 6f, 1f, 10f, 1f);
-    public ModeSetting position = new ModeSetting("Position", this, "Left", "Left", "Middle", "Right");
-    public NumberSetting padding = new NumberSetting("Padding", this, 3.0f, 0.0f, 6.0f, 0.1f);
-    public NumberSetting speed = new NumberSetting("Speed", this, 250, 0, 1000, 1, "ms");
+    public ModeSetting position = new ModeSetting("Position", this, "Middle", "Left", "Middle", "Right");
+    public NumberSetting padding = new NumberSetting("Padding", this, 4.0f, 1.0f, 6.0f, 0.1f);
+    public NumberSetting speed = new NumberSetting("Speed", this, 400, 0, 1500, 1, "ms");
     public BooleanSetting line = new BooleanSetting("Line", true, this);
     public BooleanSetting gear = new BooleanSetting("Gear", true, this);
     public BooleanSetting hover = new BooleanSetting("Hover", true, this);

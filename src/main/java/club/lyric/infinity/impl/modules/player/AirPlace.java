@@ -7,6 +7,8 @@ import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
 import club.lyric.infinity.api.util.client.render.util.Interpolation;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
+import club.lyric.infinity.impl.modules.client.Colours;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
@@ -20,9 +22,7 @@ import java.awt.*;
 
 public class AirPlace extends ModuleBase
 {
-
     public BooleanSetting render = new BooleanSetting("Render", true, this);
-    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(255, 255, 255)));
 
     public AirPlace()
     {
@@ -63,7 +63,7 @@ public class AirPlace extends ModuleBase
         Render3DUtils.enable3D();
         matrixStack.push();
 
-        Render3DUtils.drawOutline(matrixStack, inter, new Color(color.getColor().getRed(), color.getColor().getGreen(), color.getColor().getBlue(), color.getColor().getAlpha()).getRGB());
+        Render3DUtils.drawOutline(matrixStack, inter, Managers.MODULES.getModuleFromClass(Colours.class).getColor().getRGB());
 
         matrixStack.pop();
         Render3DUtils.disable3D();

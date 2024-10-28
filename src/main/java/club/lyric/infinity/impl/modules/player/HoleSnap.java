@@ -57,6 +57,7 @@ public final class HoleSnap extends ModuleBase {
         if (hole == null) {
             ChatUtils.sendMessagePrivate("HoleSnap failed to find a hole. Disabling.");
             setEnabled(false);
+            return;
         }
         if (hole.getFirst().getY() >= mc.player.getY() && !step.value()) {
             ChatUtils.sendMessagePrivate("HoleSnap failed to find a hole below your Y-Level. Disabling.");
