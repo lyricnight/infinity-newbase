@@ -1,11 +1,9 @@
 package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.client.math.Null;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.mc.item.PearlEvent;
-import club.lyric.infinity.impl.events.render.RenderEntityEvent;
 import club.lyric.infinity.impl.modules.visual.Ambience;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.world.ClientWorld;
@@ -21,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * @author valser
+ * @author valser and lyric
  */
 @Mixin(ClientWorld.class)
 public abstract class MixinClientWorld implements IMinecraft {
@@ -43,10 +41,7 @@ public abstract class MixinClientWorld implements IMinecraft {
     @Inject(method = "addEntity", at = @At("HEAD"))
     public void addEntityHook(Entity entity, CallbackInfo ci) {
         if (Null.is()) return;
-
-        RenderEntityEvent.Spawn event = new RenderEntityEvent.Spawn(entity);
-        EventBus.getInstance().post(event);
-
+        Managers.OTHER.onAddEntity((PlayerEntity) entity);
         if (entity instanceof EnderPearlEntity pearl) {
             World world = pearl.getWorld();
 
@@ -62,10 +57,7 @@ public abstract class MixinClientWorld implements IMinecraft {
     @Inject(method = "removeEntity", at = @At("HEAD"))
     public void removeEntityHook(int entityId, Entity.RemovalReason removalReason, CallbackInfo ci) {
         if (Null.is()) return;
-
-        RenderEntityEvent.Removal event = new RenderEntityEvent.Removal(mc.world.getEntityById(entityId));
-
-        EventBus.getInstance().post(event);
+        Managers.OTHER.onRemoveEntity((PlayerEntity) mc.world.getEntityById(entityId));
     }
 
 

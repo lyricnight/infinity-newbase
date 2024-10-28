@@ -1,6 +1,7 @@
 package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.api.util.client.math.Null;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Notifications;
 import club.lyric.infinity.manager.Managers;
@@ -17,6 +18,7 @@ import java.util.Map;
  */
 public final class OtherEntityManager implements IMinecraft {
     public final Map<Integer, Integer> totemPopMap = new HashMap<>();
+
     public void onTotemPop(Entity playerEntity)
     {
         Integer amount = totemPopMap.get(playerEntity.getId());
@@ -36,6 +38,27 @@ public final class OtherEntityManager implements IMinecraft {
             ChatUtils.sendOverwriteMessageColored(getAppropriateFormatting(playerEntity) + getName(playerEntity) + Formatting.RESET + " died after popping " + Formatting.WHITE + amount + Formatting.RESET + (amount < 2 ? " totem." : " totems."), playerEntity.getId());
         }
     }
+
+    public void onAddEntity(PlayerEntity player)
+    {
+        if (Null.is()) return;
+        if (Managers.MODULES.getModuleFromClass(Notifications.class).render.value()) {
+            if (player.getName().getString().equalsIgnoreCase(mc.player.getName().getString())) return;
+            ChatUtils.sendOverwriteMessageColored(getAppropriateFormatting(player) + player.getDisplayName().getString() + Formatting.RESET + " has entered your render.", player.getId());
+        }
+    }
+
+    public void onRemoveEntity(PlayerEntity player)
+    {
+        if (Null.is()) return;
+        if (Managers.MODULES.getModuleFromClass(Notifications.class).render.value()) {
+            if (player.getName().getString().equalsIgnoreCase(mc.player.getName().getString())) return;
+            ChatUtils.sendOverwriteMessageColored(getAppropriateFormatting(player) + player.getDisplayName().getString() + Formatting.RESET + " has left your render.", player.getId());
+        }
+    }
+
+
+
     public void unload()
     {
         totemPopMap.clear();
@@ -47,6 +70,11 @@ public final class OtherEntityManager implements IMinecraft {
         return totemPopMap.getOrDefault(playerEntity.getId(), 0);
     }
 
+    /**
+     * convenience function
+     * @param player - player
+     * @return correct Formatting
+     */
     public Formatting getAppropriateFormatting(PlayerEntity player)
     {
         if (player == mc.player)

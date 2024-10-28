@@ -9,6 +9,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+/**
+ * @author vasler
+ */
 public class UUIDConverter {
 
     public static String getPlayerName(String uuid) {
