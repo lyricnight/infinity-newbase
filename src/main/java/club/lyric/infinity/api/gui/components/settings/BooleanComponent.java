@@ -31,7 +31,7 @@ public class BooleanComponent extends Component implements IMinecraft {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 
-        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor((int) y) : Managers.MODULES.getModuleFromClass(Colours.class).getColor(), 200);
+        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(ClickGUI.class).color.getColor(), 200);
 
         if (setting.value()) {
             rect.run(width - 2.0f);

@@ -69,7 +69,7 @@ public class ModuleComponent extends Component implements IMinecraft {
 
         alpha.run(200);
 
-        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor((int) y) : Managers.MODULES.getModuleFromClass(Colours.class).getColor(), (int) alpha.getValue());
+        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(ClickGUI.class).color.getColor(), (int) alpha.getValue());
 
         Render2DUtils.drawRect(context.getMatrices(), panel.getX() + 1.0f, y, width, height, ColorUtils.alpha(color, 50).getRGB());
 

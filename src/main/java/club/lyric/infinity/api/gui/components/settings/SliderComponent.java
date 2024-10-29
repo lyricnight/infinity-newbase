@@ -37,7 +37,7 @@ public class SliderComponent extends Component implements IMinecraft {
 
         if (setting.getName().equals("hudX") || setting.getName().equals("hudY")) return;
 
-        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(Colours.class).colorMode.is("Gradient") ? Managers.MODULES.getModuleFromClass(Colours.class).getGradientColor((int) y) : Managers.MODULES.getModuleFromClass(Colours.class).getColor(), 200);
+        Color color = ColorUtils.alpha(Managers.MODULES.getModuleFromClass(ClickGUI.class).color.getColor(), 200);
 
         float length = MathUtils.round(((setting.getFValue() - setting.getMinimum()) / (setting.getMaximum() - setting.getMinimum())) * (width - 2));
 
