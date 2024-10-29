@@ -79,7 +79,6 @@ public final class ModuleManager implements IMinecraft
                 new KickPrevent(),
                 new Fonts(),
                 new Replenish(),
-                new FastFall(),
                 new AutoWalk(),
                 new Timer(),
                 new Reminer(),

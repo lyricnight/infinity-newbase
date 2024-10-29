@@ -140,10 +140,10 @@ public final class Aura extends ModuleBase {
         }
 
         if (cooldown.value() && !(mc.player.getAttackCooldownProgress(0) >= 1.0f)) return;
-        Managers.MODULES.getModuleFromClass(NoAccelerate.class).pause = true;
+        NoAccelerate.pauseGlobal = true;
         mc.interactionManager.attackEntity(mc.player, target.entity());
         mc.player.swingHand(Hand.MAIN_HAND);
-        Managers.MODULES.getModuleFromClass(NoAccelerate.class).pause = false;
+        NoAccelerate.pauseGlobal = false;
         if (sprint.value()) {
             mc.player.setSprinting(true);
         }

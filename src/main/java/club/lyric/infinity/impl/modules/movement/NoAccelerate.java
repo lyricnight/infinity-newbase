@@ -9,21 +9,24 @@ import club.lyric.infinity.impl.events.mc.movement.EntityMovementEvent;
 import net.minecraft.util.Formatting;
 
 /**
- * @author vasler
+ * @author lyric
  */
 public class NoAccelerate extends ModuleBase {
+    private boolean pause = false;
 
-    public boolean pause = false;
+    //stupid code, don't want to call through instance everywhere.
+    public static boolean pauseGlobal = false;
 
     public NoAccelerate()
     {
         super("NoAccelerate", "Instantly reaches your maximum speed with no acceleration.", Category.Movement);
     }
 
+    @SuppressWarnings("unused")
     @EventHandler
-    public void onMovement(EntityMovementEvent event)
+    public void onMovement(EntityMovementEvent ignored)
     {
-        if (pause) return;
+        if (pause || pauseGlobal) return;
         MovementUtil.createSpeed(MovementUtil.getSpeed(true));
     }
     @Override
@@ -35,7 +38,7 @@ public class NoAccelerate extends ModuleBase {
     @Override
     public String moduleInformation()
     {
-        if (pause)
+        if (pause || pauseGlobal)
         {
             return Formatting.RED + "false";
         }

@@ -6,7 +6,9 @@ import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.impl.modules.client.Fonts;
 import club.lyric.infinity.manager.Managers;
 
-//TODO: check if the font is valid before attempting to set it @vasler
+/**
+ * @author vasler
+ */
 public class Font extends Command
 {
 
@@ -31,12 +33,17 @@ public class Font extends Command
         }
 
         String module = args[1];
-
         String result = module.trim();
 
-        Managers.MODULES.getModuleFromClass(Fonts.class).setFont(result);
-
-        ChatUtils.sendMessagePrivate("Font has been set to " + result);
+        if (Managers.MODULES.getModuleFromClass(Fonts.class).isValid(result))
+        {
+            Managers.MODULES.getModuleFromClass(Fonts.class).setFont(result);
+            ChatUtils.sendMessagePrivate("Font has been set to " + result);
+        }
+        else
+        {
+            state(CommandState.ERROR);
+        }
     }
 
     @Override

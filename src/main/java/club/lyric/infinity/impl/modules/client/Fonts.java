@@ -60,4 +60,15 @@ public class Fonts extends ModuleBase {
     public boolean hasChanged() {
         return !Objects.equals(lastName, fontName);
     }
+
+    public boolean isValid(String fontName)
+    {
+        Path fontPath = Paths.get("C:\\Windows\\Fonts", fontName + ".ttf");
+        try {
+            Files.readAllBytes(fontPath);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }
