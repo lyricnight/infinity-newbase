@@ -4,7 +4,9 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.Version;
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.crash.CrashReportSection;
 import org.spongepowered.asm.mixin.Final;
@@ -23,7 +25,7 @@ import java.util.List;
  * @author lyric
  */
 @Mixin(CrashReport.class)
-public final class MixinCrashReport {
+public final class MixinCrashReport implements IMinecraft {
     @Shadow
     @Final
     private List<CrashReportSection> otherSections;
@@ -48,6 +50,7 @@ public final class MixinCrashReport {
         section.add("EventBus", EventBus.getInstance().hashCode());
         section.add("Listeners", EventBus.getInstance().getInvokers());
         section.add("Commands", Managers.COMMANDS.getCommandAmount() + ", " + Managers.COMMANDS.getCommandsAsString());
+        section.add("Mac", MinecraftClient.IS_SYSTEM_MAC);
 
         return section;
     }

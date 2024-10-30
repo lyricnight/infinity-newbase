@@ -49,6 +49,5 @@ public class Infinity implements ModInitializer, ClientModInitializer, IMinecraf
 		Infinity.LOGGER.info("Number of modules loaded: " + Managers.MODULES.getModules().size());
 
 		Runtime.getRuntime().addShutdownHook(new Thread(Managers.CONFIG::saveConfig));
-
 	}
 }

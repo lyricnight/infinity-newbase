@@ -13,9 +13,11 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.packet.Packet;
 import org.lwjgl.glfw.GLFW;
 
+/**
+ * @author vasler
+ */
 public class Zoom extends ModuleBase
 {
-
     public BindSetting zoomBind = new BindSetting("ZoomBind", -1, this);
     public NumberSetting amount = new NumberSetting("Amount", this, 0.2f, 0.1f, 0.9f, 0.1f);
     private final Animation zoom = new Animation(Easing.EASE_OUT_QUAD, 150);

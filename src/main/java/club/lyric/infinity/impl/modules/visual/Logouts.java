@@ -12,7 +12,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-
+/**
+ * @author vasler
+ * TODO
+ */
 public class Logouts extends ModuleBase {
 
     protected Map<PlayerEntity, UUID> logouts = new ConcurrentHashMap<>();

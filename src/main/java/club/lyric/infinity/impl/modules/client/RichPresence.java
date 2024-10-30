@@ -4,12 +4,15 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.discord.DiscordEventHandlers;
 import club.lyric.infinity.api.util.client.discord.DiscordRPC;
 import club.lyric.infinity.api.util.client.discord.DiscordRichPresence;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.AddServerScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
+import net.minecraft.util.Formatting;
 
 /**
  * @author lyric
@@ -18,21 +21,31 @@ public final class RichPresence extends ModuleBase {
     public RichPresence() {
         super("RichPresence", "Toggles the Discord Presence", Category.Client);
     }
-
     public BooleanSetting ip = new BooleanSetting("ShowIP", false, this);
     public BooleanSetting ign = new BooleanSetting("ShowIGN", false, this);
-    private static final DiscordRPC rpc = DiscordRPC.INSTANCE;
+    private static DiscordRPC rpc;
     public static DiscordRichPresence presence = new DiscordRichPresence();
     private boolean started = false;
     private static Thread thread;
 
     @Override
     public void onEnable() {
+        if (MinecraftClient.IS_SYSTEM_MAC)
+        {
+            ChatUtils.sendMessagePrivate(Formatting.RED + "You cannot enable DiscordRPC on a Mac-based system due to ARM dll incompatibility.");
+            disable();
+            return;
+        }
+        rpc = DiscordRPC.INSTANCE;
         start();
     }
 
     @Override
     public void onDisable() {
+        if (MinecraftClient.IS_SYSTEM_MAC)
+        {
+            return;
+        }
         started = false;
         if (thread != null && !thread.isInterrupted()) {
             thread.interrupt();
