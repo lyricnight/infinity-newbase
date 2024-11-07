@@ -5,29 +5,17 @@ import club.lyric.infinity.api.event.Event;
 import java.lang.reflect.Method;
 
 /**
- * @author railhack
+ * @author railhack and lyric
  */
 @FunctionalInterface
 public interface Invoker {
     void invoke(Event event);
-
-    final class MethodInvoker {
-        private final Method method;
-        private final Invoker invoker;
-
-        public MethodInvoker(Method method, Invoker invoker) {
-            this.method = method;
-            this.invoker = invoker;
-        }
-
-        public Method getMethod() {
-            return this.method;
-        }
-
-        public Invoker getInvoker() {
-            return this.invoker;
-        }
-
+    /**
+     * testing converting MethodInvoker into a record for higher speed - lyric
+     * @param method - method to invoke
+     * @param invoker - instance of Invoker
+     */
+    record MethodInvoker(Method method, Invoker invoker) {
         public int getPriority() {
             return this.method.getAnnotation(EventHandler.class).priority();
         }

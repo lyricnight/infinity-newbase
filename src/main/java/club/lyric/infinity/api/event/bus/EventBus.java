@@ -59,16 +59,16 @@ public final class EventBus {
     public void unregister(Object target) {
         RegistrableTarget registrableTarget = new RegistrableTarget(target);
         for (Method method : registrableTarget.getDeclaredMethods()) {
-            this.registeredMethodInvokers.removeIf(methodInvoker -> methodInvoker.getMethod().equals(method));
+            this.registeredMethodInvokers.removeIf(methodInvoker -> methodInvoker.method().equals(method));
         }
     }
 
     public void post(Event event) {
         for (Invoker.MethodInvoker methodInvoker : this.registeredMethodInvokers) {
-            Method method = methodInvoker.getMethod();
+            Method method = methodInvoker.method();
             if (event.getClass().isAssignableFrom(method.getParameters()[0].getType())) {
                 try {
-                    methodInvoker.getInvoker().invoke(event);
+                    methodInvoker.invoker().invoke(event);
                 } catch (Throwable t) {
                     Infinity.LOGGER.error("Failed invoking event: ", t);
                 }
