@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,5 +94,8 @@ public class BlockUtils implements IMinecraft {
         }
 
         return sphere;
+    }
+    public static boolean isInside(Entity entity, Box bb) {
+        return mc.world.getBlockCollisions(entity, bb).iterator().hasNext();
     }
 }

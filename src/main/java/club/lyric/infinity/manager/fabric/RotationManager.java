@@ -177,4 +177,12 @@ public final class RotationManager implements IMinecraft {
     {
         return rotatedTicks > AntiCheat.getHoldingTime();
     }
+
+    public float getPrevYaw() {
+        return prevYaw;
+    }
+
+    public float getPrevPitch() {
+        return prevPitch;
+    }
 }

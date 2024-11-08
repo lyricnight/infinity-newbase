@@ -6,7 +6,6 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
  * @author lyric
  * checks for nulls
  */
-//TODO: add this everywhere
 public final class Null implements IMinecraft {
     public static boolean is() {
         return mc.player == null || mc.world == null;

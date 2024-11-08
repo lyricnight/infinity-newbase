@@ -5,7 +5,6 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.mc.DeathEvent;
 import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
-import club.lyric.infinity.impl.events.mc.movement.MotionEvent;
 import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
 import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
 import club.lyric.infinity.impl.modules.movement.Sprint;
@@ -111,16 +110,6 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
     @Inject(method = "tick", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/ClientPlayerEntity;tickables:Ljava/util/List;", shift = At.Shift.AFTER))
     private void tickHookering(CallbackInfo ci) {
         EventBus.getInstance().post(new UpdateWalkingPlayerEvent(1));
-    }
-
-    @Inject(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;move(Lnet/minecraft/entity/MovementType;Lnet/minecraft/util/math/Vec3d;)V"), cancellable = true)
-    public void tickMovement(MovementType movementType, Vec3d movement, CallbackInfo callbackInfo) {
-        MotionEvent event = new MotionEvent(movement.x, movement.y, movement.z, 0);
-        EventBus.getInstance().post(event);
-        if (event.isCancelled()) {
-            super.move(movementType, new Vec3d(event.getX(), event.getY(), event.getZ()));
-            callbackInfo.cancel();
-        }
     }
 
     @ModifyExpressionValue(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/input/Input;hasForwardMovement()Z"))

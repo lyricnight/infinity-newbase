@@ -207,7 +207,7 @@ public class AutoCrystal extends ModuleBase {
                             switch (breaks.getMode()) {
                                 case "Vanilla" -> mc.interactionManager.attackEntity(mc.player, crystal);
                                 case "Packet" ->
-                                        sendPacketInstantly(PlayerInteractEntityC2SPacket.attack(crystal, mc.player.isSneaking()));
+                                        sendUnsafe(PlayerInteractEntityC2SPacket.attack(crystal, mc.player.isSneaking()));
                             }
 
                             if (swingOn.is("Both") && swingOn.is("Break")) {

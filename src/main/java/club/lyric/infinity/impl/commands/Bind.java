@@ -12,12 +12,13 @@ import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.util.Formatting;
 
+/**
+ * @author vasler
+ */
 public class Bind extends Command {
 
     protected ModuleBase moduleBase;
     protected boolean keyPressEnable;
-    //protected StopWatch stopWatch = new StopWatch.Single();
-
     public Bind()
     {
         super("bind");

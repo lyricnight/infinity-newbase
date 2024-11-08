@@ -8,7 +8,7 @@ import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.impl.events.mc.chat.ReceiveChatEvent;
-import club.lyric.infinity.impl.events.mc.movement.MotionEvent;
+import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -59,7 +59,7 @@ public class AutoReply extends ModuleBase {
     }
 
     @EventHandler
-    public void onMove(MotionEvent ignored) {
+    public void onMove(PlayerMovementEvent ignored) {
         stopWatch.reset();
     }
 
@@ -97,7 +97,7 @@ public class AutoReply extends ModuleBase {
         switch (type) {
             case COORDINATE ->
                     mc.getNetworkHandler().sendChatMessage("/w " + ign + " [Infinity] Coordinates: " + format.format(mc.player.getX()) + ", " + format.format(mc.player.getZ()));
-            case AFK -> mc.getNetworkHandler().sendChatMessage("/w " + ign + " [Infinity] I'm AFK. Wait a bit.");
+            case AFK -> mc.getNetworkHandler().sendChatMessage("/w " + ign + " [Infinity] I'm AFK.");
         }
     }
 

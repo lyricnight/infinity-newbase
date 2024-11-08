@@ -5,8 +5,10 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
 import club.lyric.infinity.impl.modules.client.AntiCheat;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vec3d;
 
 /**
  * @author lyric
@@ -195,4 +197,11 @@ public class MovementUtil implements IMinecraft {
         return Math.toRadians(rotationYaw);
     }
 
+    public static void sendPositionSync(Vec3d vec3d, float yaw, float pitch)
+    {
+        if ((yaw = MathHelper.wrapDegrees(yaw)) >= 0.0f) {
+            yaw = -180.0f - (180.0f - yaw);
+        }
+        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(vec3d.x, vec3d.y, vec3d.z, yaw, pitch, false));
+    }
 }

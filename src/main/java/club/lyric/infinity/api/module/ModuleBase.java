@@ -186,19 +186,8 @@ public class ModuleBase implements IMinecraft {
         sequence.close();
     }
 
-
     protected void sendUnsafe(Packet<?> packet) {
         mc.getNetworkHandler().sendPacket(packet);
-    }
-
-    // this is not threadsafe but it sends instaly
-    public static void sendPacketInstantly(Packet<?> packet) {
-        if (mc.getNetworkHandler() == null) return;
-
-        ClientPlayNetworkHandler networkHandler = mc.getNetworkHandler();
-        ClientConnection connection = networkHandler.getConnection();
-
-        connection.send(packet);
     }
 
     public String moduleInformation() {

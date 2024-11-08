@@ -17,6 +17,7 @@
     "MixinSharedConstants",
     "MixinStringHelper",
     "MixinTitleScreen",
+    "MixinVec3d",
     "accessors.IClientPlayerInteractionManager",
     "accessors.IEntityVelocityUpdateS2CPacket",
     "accessors.IExplosionS2CPacket",
