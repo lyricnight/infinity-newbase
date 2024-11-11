@@ -12,3 +12,4 @@ accessible method net/minecraft/client/Mouse onMouseButton (JIII)V
 accessible field com/mojang/blaze3d/platform/GlStateManager TEXTURES [Lcom/mojang/blaze3d/platform/GlStateManager$Texture2DState;
 accessible field com/mojang/blaze3d/platform/GlStateManager activeTexture I
 accessible field com/mojang/blaze3d/platform/GlStateManager$Texture2DState boundTexture I
+accessible method net/minecraft/entity/player/PlayerEntity adjustMovementForSneaking (Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;

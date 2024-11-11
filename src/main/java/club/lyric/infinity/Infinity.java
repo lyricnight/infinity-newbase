@@ -37,7 +37,7 @@ public class Infinity implements ModInitializer, ClientModInitializer, IMinecraf
 		first = dir.exists();
 		LOGGER.info("Infinity has received onInitializeClient()!");
 		Managers.init();
-		Infinity.LOGGER.info("Infinity has fully initialised in " + (System.nanoTime() / 1000000L - start) + " ms.");
+        Infinity.LOGGER.info("Infinity has fully initialised in {} ms.", System.nanoTime() / 1000000L - start);
 		LOGGER.log(Level.INFO, "  _        __ _       _ _         ");
 		LOGGER.log(Level.INFO, " (_)      / _(_)     (_) |        ");
 		LOGGER.log(Level.INFO, "  _ _ __ | |_ _ _ __  _| |_ _   _ ");
@@ -46,7 +46,7 @@ public class Infinity implements ModInitializer, ClientModInitializer, IMinecraf
 		LOGGER.log(Level.INFO, " |_|_| |_|_| |_|_| |_|_|\\__|\\__, |");
 		LOGGER.log(Level.INFO, "                             __/ |");
 		LOGGER.log(Level.INFO, "                            |___/ ");
-		Infinity.LOGGER.info("Number of modules loaded: " + Managers.MODULES.getModules().size());
+        Infinity.LOGGER.info("Number of modules loaded: {}", Managers.MODULES.getModules().size());
 		Runtime.getRuntime().addShutdownHook(new Thread(Managers.CONFIG::saveConfig));
 	}
 }

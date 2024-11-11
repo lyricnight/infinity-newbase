@@ -1,6 +1,7 @@
 package club.lyric.infinity.api.util.minecraft.player;
 
 
+import club.lyric.infinity.api.ducks.IVec3d;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import net.minecraft.block.Block;
@@ -8,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MovementType;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -16,6 +18,7 @@ import net.minecraft.util.StringHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.shape.VoxelShape;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -23,7 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static net.minecraft.util.math.MathHelper.floor;
+/**
+ * @author various
+ */
 
 public class PlayerUtils implements IMinecraft {
     private static final List<Block> burrowList = Arrays.asList(
@@ -63,27 +68,7 @@ public class PlayerUtils implements IMinecraft {
             return minuteFormat.format(minutes) + ":" + secondsFormat.format(seconds);
         }
     }
-
-    //TODO: fix this returning false when we drop a block in phase
-    @SuppressWarnings("all")
-    public static boolean isPhasing() {
-        if (mc.player == null || mc.world == null) return false;
-        Box box = mc.player.getBoundingBox();
-        for (int x = floor(box.minX); x < floor(box.maxX) + 1; x++) {
-            for (int y = floor(box.minY); y < floor(box.maxY) + 1; y++) {
-                for (int z = floor(box.minZ); z < floor(box.maxZ) + 1; z++) {
-                    if (mc.world.getBlockState(new BlockPos(x, y, z)).blocksMovement()) {
-                        if (box.intersects(new Box(x, y, z, x + 1, y + 1, z + 1))) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
+    
     public static Box getAABBOfRadius(Entity entity, double radius) {
         return new Box(Math.floor(entity.getX() - radius), Math.floor(entity.getY() - radius), Math.floor(entity.getZ() - radius), Math.floor(entity.getX() + radius), Math.floor(entity.getY() + radius), Math.floor(entity.getZ() + radius));
     }
@@ -133,8 +118,40 @@ public class PlayerUtils implements IMinecraft {
         return mc.world.getBlockState(target.getBlockPos()).getBlock() == Blocks.AIR;
     }
 
-    public static void setMotionY(double y) {
-        Vec3d motion = mc.player.getVelocity();
-        mc.player.setVelocity(motion.getX(), y, motion.getZ());
+    public static Vec3d predict(PlayerEntity player) {
+        Vec3d movement = new Vec3d(player.getVelocity().x, player.getVelocity().y, player.getVelocity().z);
+        collide(movement, player);
+        return player.getPos().add(movement);
+    }
+
+    private static void collide(Vec3d movement, PlayerEntity player) {
+        set(movement, player.adjustMovementForSneaking(movement, MovementType.SELF));
+        set(movement, adjustMovementForCollisions(player, movement));
+    }
+
+    private static void set(Vec3d vec, Vec3d to) {
+        ((IVec3d)vec).infinity$set(to.x, to.y, to.z);
+    }
+
+    public static Vec3d adjustMovementForCollisions(Entity entity, Vec3d movement) {
+        Box box = entity.getBoundingBox();
+        List<VoxelShape> list = entity.getWorld().getEntityCollisions(entity, box.stretch(movement));
+        Vec3d vec3d = movement.lengthSquared() == 0.0 ? movement : Entity.adjustMovementForCollisions(entity, movement, box, entity.getWorld(), list);
+        boolean bl = movement.x != vec3d.x;
+        boolean bl2 = movement.y != vec3d.y;
+        boolean bl3 = movement.z != vec3d.z;
+        boolean bl5 = entity.isOnGround() || bl2 && movement.y < 0.0;
+        if (entity.getStepHeight() > 0.0f && bl5 && (bl || bl3)) {
+            Vec3d vec3d4;
+            Vec3d vec3d2 = Entity.adjustMovementForCollisions(entity, new Vec3d(movement.x, entity.getStepHeight(), movement.z), box, entity.getWorld(), list);
+            Vec3d vec3d3 = Entity.adjustMovementForCollisions(entity, new Vec3d(0.0, entity.getStepHeight(), 0.0), box.stretch(movement.x, 0.0, movement.z), entity.getWorld(), list);
+            if (vec3d3.y < entity.getStepHeight() && (vec3d4 = Entity.adjustMovementForCollisions(entity, new Vec3d(movement.x, 0.0, movement.z), box.offset(vec3d3), entity.getWorld(), list).add(vec3d3)).horizontalLengthSquared() > vec3d2.horizontalLengthSquared()) {
+                vec3d2 = vec3d4;
+            }
+            if (vec3d2.horizontalLengthSquared() > vec3d.horizontalLengthSquared()) {
+                return vec3d2.add(Entity.adjustMovementForCollisions(entity, new Vec3d(0.0, -vec3d2.y + movement.y, 0.0), box.offset(vec3d2), entity.getWorld(), list));
+            }
+        }
+        return vec3d;
     }
 }

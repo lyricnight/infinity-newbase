@@ -41,7 +41,7 @@ public final class Managers {
     {
         Infinity.LOGGER.info("Initialising Managers....");
         MODULES.init();
-        //CONFIG.loadConfig();
+        CONFIG.loadConfig();
         COMMANDS.init();
         Spotify.init();
         Infinity.LOGGER.info("Manager initialisation complete.");
@@ -52,7 +52,7 @@ public final class Managers {
      */
     public static void unload()
     {
-        //CONFIG.saveConfig();
+        CONFIG.saveConfig();
         OTHER.unload();
         TIMER.unload();
     }
@@ -66,7 +66,7 @@ public final class Managers {
     {
         for (Object sub : subscribers)
         {
-            Infinity.LOGGER.info("attempting to subscribe " + sub);
+            Infinity.LOGGER.info("attempting to subscribe {}", sub);
             EventBus.getInstance().register(sub);
         }
         Infinity.LOGGER.info("all managers subscribed.");

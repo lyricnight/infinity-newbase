@@ -9,6 +9,7 @@ import club.lyric.infinity.api.util.client.math.Null;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
+import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.impl.events.mc.movement.SpecificMovementEvent;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.manager.Managers;
@@ -183,7 +184,7 @@ public final class PhaseWalk extends ModuleBase {
     }
 
     private boolean preXZ(SpecificMovementEvent.Pre event) {
-        Vec3d vec = MovementPrediction.predict(mc.player);
+        Vec3d vec = PlayerUtils.predict(mc.player);
         Vec3d vec2 = mc.player.getPos().add(event.actual);
         double d = vec.subtract(vec2).horizontalLength();
         double d2 = vec.subtract(mc.player.getPos()).horizontalLength();
