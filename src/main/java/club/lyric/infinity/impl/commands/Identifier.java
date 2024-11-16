@@ -2,6 +2,7 @@ package club.lyric.infinity.impl.commands;
 
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.command.CommandState;
+import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.manager.Managers;
 
@@ -32,13 +33,15 @@ public final class Identifier extends Command {
 
         String module = args[1];
 
-        if (Managers.MODULES.getModuleByName(module) == null)
+        ModuleBase base = Managers.MODULES.getModuleByName(module);
+
+        if (base == null)
         {
             state(CommandState.ERROR);
             return;
         }
 
-        ChatUtils.sendMessagePrivate("Module ID:" + Managers.MODULES.getModuleByName(module).hashCode());
+        ChatUtils.sendMessagePrivate("Module ID:" + base.hashCode());
     }
 
     @Override

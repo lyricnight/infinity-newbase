@@ -74,7 +74,7 @@ public abstract class MixinEntity implements IMinecraft {
 
     @Inject(method = "doesNotCollide(Lnet/minecraft/util/math/Box;)Z", at = @At("RETURN"), cancellable = true)
     private void poseNotCollide(Box box, CallbackInfoReturnable<Boolean> cir) {
-        if (AntiCheat.getProtocol()) {
+        if (Managers.ANTICHEAT.isProtocol()) {
             cir.setReturnValue(true);
         }
     }

@@ -155,7 +155,7 @@ public class AutoCrystal extends ModuleBase {
             placeCrystals(targets);
         }
 
-        if (placePositions != null && AntiCheat.getRotation()) {
+        if (placePositions != null && Managers.ANTICHEAT.isRotations()) {
             Vec3d playerPos = mc.player.getPos();
 
             float[] rotations = RotationUtils.getRotationsTo(playerPos, placePositions.toCenterPos());

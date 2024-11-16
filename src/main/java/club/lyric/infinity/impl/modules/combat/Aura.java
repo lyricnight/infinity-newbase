@@ -82,7 +82,7 @@ public final class Aura extends ModuleBase {
             attack(target, mc.player, false);
         }
 
-        if (target != null && AntiCheat.getRotation()) {
+        if (target != null && Managers.ANTICHEAT.isRotations()) {
             Vec3d playerPos = mc.player.getPos();
 
             float[] rotations = RotationUtils.getRotationsTo(playerPos, target.entity.getPos());

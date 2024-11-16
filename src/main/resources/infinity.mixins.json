@@ -37,7 +37,6 @@
     "MixinClientWorld",
     "MixinDrawContext",
     "MixinEntityRenderer",
-    "MixinGameRenderer",
     "MixinKeyboard",
     "MixinMinecraftClient",
     "MixinMinecraftOptions",

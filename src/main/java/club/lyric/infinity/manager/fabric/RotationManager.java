@@ -175,7 +175,7 @@ public final class RotationManager implements IMinecraft {
 
     private boolean isHoldingTimeFinished()
     {
-        return rotatedTicks > AntiCheat.getHoldingTime();
+        return rotatedTicks > Managers.ANTICHEAT.getHoldingTime();
     }
 
     public float getPrevYaw() {

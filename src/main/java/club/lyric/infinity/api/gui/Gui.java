@@ -24,9 +24,6 @@ public class Gui extends Screen implements IMinecraft {
         int x = 2;
 
         for (Category category : Category.values()) {
-
-            if (category == Category.Hud) return;
-
             panels.add(new Panel(category, x, 3, true));
 
             x += 101 + Managers.MODULES.getModuleFromClass(ClickGUI.class).frameWidth.getIValue();

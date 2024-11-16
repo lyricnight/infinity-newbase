@@ -14,7 +14,7 @@ import java.awt.*;
 /**
  * @author vasler
  */
-public class Colours extends PersistentModuleBase {
+public final class Colours extends PersistentModuleBase {
 
     public ModeSetting colorMode = new ModeSetting("Mode", this, "Single", "Single", "Gradient");
     public NumberSetting gradientSpeed = new NumberSetting("Speed", this, 1.0f, 0.1f, 3.0f, 0.1f);

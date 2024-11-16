@@ -8,7 +8,7 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 /**
  * @author lyric & vasler
  */
-public class Notifications extends PersistentModuleBase {
+public final class Notifications extends PersistentModuleBase {
     public BooleanSetting totemPops =
             new BooleanSetting(
                     "TotemPops",

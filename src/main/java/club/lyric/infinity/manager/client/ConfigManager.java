@@ -1,10 +1,10 @@
 package club.lyric.infinity.manager.client;
 
-import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.*;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
+import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -22,7 +22,7 @@ import java.util.Map;
  * @author ???
  */
 
-public final class ConfigManager {
+public final class ConfigManager implements IMinecraft {
     private final Gson GSON = new Gson();
     private final Path pathConfigFolder;
     private final Path pathProfilesFolder;
@@ -34,9 +34,8 @@ public final class ConfigManager {
     private String[] namesArray;
 
     public ConfigManager() {
-        String tempFolderDirectory = System.getProperty("java.io.tmpdir");
-        Infinity.LOGGER.info(tempFolderDirectory);
-        pathConfigFolder = Paths.get(tempFolderDirectory).resolve("infinity");
+        String folderDirectory = mc.runDirectory.getAbsolutePath();
+        pathConfigFolder = Paths.get(folderDirectory).resolve("infinity");
         pathProfilesFolder = pathConfigFolder.resolve("profiles");
 
         pathConfig = pathConfigFolder.resolve("infinity.json");

@@ -17,7 +17,7 @@ import java.util.Objects;
 /**
  * @author vasler
  */
-public class Fonts extends ModuleBase {
+public final class Fonts extends ModuleBase {
     private String fontName = "Verdana";
     private String lastName;
 

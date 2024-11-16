@@ -12,9 +12,7 @@ import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationHandler;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationUtils;
-import club.lyric.infinity.impl.modules.client.AntiCheat;
 import club.lyric.infinity.manager.Managers;
-import club.lyric.infinity.manager.fabric.InventoryManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -25,7 +23,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.*;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.*;
@@ -158,7 +155,7 @@ public class BlockModuleBase extends ModuleBase {
     protected boolean placeBlock(BlockPos pos, RotationHandler rotationHandler)
     {
         Direction direction = getDirection(pos, airPlace.value());
-        if (direction == null && !AntiCheat.getStrictDirection())
+        if (direction == null && !Managers.ANTICHEAT.isStrictDirection())
         {
             Infinity.LOGGER.error("Logged no direction!");
             Infinity.LOGGER.error("Resetting to default: (Direction.UP)");
@@ -240,7 +237,7 @@ public class BlockModuleBase extends ModuleBase {
             {
                 continue;
             }
-            if (AntiCheat.getStrictDirection() && !validDirectionsSet.contains(direction.getOpposite()))
+            if (Managers.ANTICHEAT.isStrictDirection() && !validDirectionsSet.contains(direction.getOpposite()))
             {
                 continue;
             }

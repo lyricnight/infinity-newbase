@@ -77,8 +77,6 @@ public final class HUD extends ModuleBase {
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
     private final Animation alpha = new Animation(Easing.EASE_OUT_QUAD, 150);
 
-    // width anims. (try to fix idk)
-
     // Info
     private final Animation fpsWidth = new Animation(Easing.EASE_OUT_QUAD, 150);
     private final Animation packetWidth = new Animation(Easing.EASE_OUT_QUAD, 150);

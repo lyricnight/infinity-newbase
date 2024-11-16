@@ -4,6 +4,7 @@ package club.lyric.infinity.api.util.minecraft.movement;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
 import club.lyric.infinity.impl.modules.client.AntiCheat;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.MathHelper;
@@ -152,7 +153,7 @@ public class MovementUtil implements IMinecraft {
 
     public static void movementFix() {
 
-        if (!AntiCheat.getFix()) return;
+        if (!Managers.ANTICHEAT.isMovementFix()) return;
 
         float forward = mc.player.input.movementForward;
         float sideways = mc.player.input.movementSideways;

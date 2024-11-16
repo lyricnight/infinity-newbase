@@ -12,6 +12,5 @@ public enum Category {
     Misc,
     Movement,
     Visual,
-    Client,
-    Hud
+    Client
 }

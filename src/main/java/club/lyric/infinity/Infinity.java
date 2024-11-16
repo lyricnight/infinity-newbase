@@ -8,22 +8,17 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-
 /**
  * @author lyric
  * @since 12/12/23
  * main class.
  */
 
-public class Infinity implements ModInitializer, ClientModInitializer, IMinecraft {
+public final class Infinity implements ModInitializer, ClientModInitializer, IMinecraft {
 	public static String CLIENT_NAME = "Infinity";
 	public static final String VERSION = Version.NIGHTLY ? " v" + Version.VERSION + "-nightly" : " v" + Version.VERSION;
     public static final Logger LOGGER = LogManager.getLogger("Infinity");
-	private static final String tempFolderDirectory = System.getProperty("java.io.tmpdir");
-	private static final File dir = new File(tempFolderDirectory, "infinity");
 	private static long start;
-	public static boolean first = true;
 
 	@Override
 	public void onInitialize() {
@@ -34,7 +29,6 @@ public class Infinity implements ModInitializer, ClientModInitializer, IMinecraf
 
 	@Override
 	public void onInitializeClient() {
-		first = dir.exists();
 		LOGGER.info("Infinity has received onInitializeClient()!");
 		Managers.init();
         Infinity.LOGGER.info("Infinity has fully initialised in {} ms.", System.nanoTime() / 1000000L - start);

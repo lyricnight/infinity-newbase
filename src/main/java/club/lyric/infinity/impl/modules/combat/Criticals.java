@@ -13,6 +13,10 @@ import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.Vec3d;
 
+/**
+ * @author vasler
+ */
+
 @SuppressWarnings({"unused"})
 public class Criticals extends ModuleBase {
 

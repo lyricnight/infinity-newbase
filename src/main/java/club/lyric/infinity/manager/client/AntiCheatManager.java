@@ -12,14 +12,14 @@ import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
  * @author lyric
  * declutters the module
  */
-public class AntiCheatManager implements IMinecraft {
+public final class AntiCheatManager implements IMinecraft {
     private boolean rotations, strictDirection, movementFix, protocol;
     private float holdingTime;
     private int bpt;
     @EventHandler(priority = 2)
     public void onPacketReceive(PacketEvent.Receive event)
     {
-        if (event.getPacket() instanceof GameJoinS2CPacket || event.getPacket() instanceof KeepAliveS2CPacket)
+        if (event.getPacket() instanceof KeepAliveS2CPacket)
         {
             Managers.MODULES.getModuleFromClass(AntiCheat.class).set();
         }

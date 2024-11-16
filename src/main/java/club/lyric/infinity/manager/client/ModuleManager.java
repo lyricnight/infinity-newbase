@@ -12,6 +12,7 @@ import club.lyric.infinity.impl.modules.movement.*;
 import club.lyric.infinity.impl.modules.player.*;
 import club.lyric.infinity.impl.modules.player.Reminer;
 import club.lyric.infinity.impl.modules.visual.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,7 +90,7 @@ public final class ModuleManager implements IMinecraft
                 new Zoom()
         );
         modules.sort(Comparator.comparing(ModuleBase::getName));
-        Infinity.LOGGER.info("Initialising modules.");
+        Infinity.LOGGER.info("Initialising modules complete!");
     }
 
     /**
@@ -108,8 +109,7 @@ public final class ModuleManager implements IMinecraft
      */
 
     @SuppressWarnings("unchecked")
-    public <T extends ModuleBase> T getModuleFromClass(Class<T> clazz)
-    {
+    public <T extends ModuleBase> T getModuleFromClass(Class<T> clazz) {
         for (ModuleBase moduleBase : getModules())
         {
             if(clazz.isInstance(moduleBase))
@@ -117,13 +117,13 @@ public final class ModuleManager implements IMinecraft
                 return (T) moduleBase;
             }
         }
-        return null;
+        throw new RuntimeException("Class does not match any known module! Report this!");
     }
 
     /**
      * Allows you to register every module at once
      */
-    public void register(ModuleBase... module)
+    private void register(ModuleBase... module)
     {
         Collections.addAll(modules, module);
     }
@@ -139,7 +139,6 @@ public final class ModuleManager implements IMinecraft
             if (!module.getName().equalsIgnoreCase(name)) continue;
             return module;
         }
-
         return null;
     }
 
