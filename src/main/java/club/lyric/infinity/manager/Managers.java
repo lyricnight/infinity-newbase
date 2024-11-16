@@ -20,6 +20,7 @@ public final class Managers {
     public static CommandManager COMMANDS = new CommandManager();
     public static ServerManager SERVER = new ServerManager();
     public static TextManager TEXT = new TextManager();
+    public static AntiCheatManager ANTICHEAT = new AntiCheatManager();
     public static TimerManager TIMER = new TimerManager();
     public static OtherEntityManager OTHER = new OtherEntityManager();
     public static InventoryManager INVENTORY = new InventoryManager();
@@ -30,7 +31,7 @@ public final class Managers {
     public static void sub()
     {
         Infinity.LOGGER.info("starting manager subscription.");
-        subscribe(FRIENDS, CONFIG, EVENTS, ROTATIONS, COMMANDS, SERVER, MODULES, TEXT, TIMER);
+        subscribe(FRIENDS, CONFIG, EVENTS, ROTATIONS, COMMANDS, SERVER, MODULES, TEXT, TIMER, ANTICHEAT);
     }
 
 
@@ -39,11 +40,10 @@ public final class Managers {
      */
     public static void init()
     {
-        Infinity.LOGGER.info("Initialising Managers....");
+        Infinity.LOGGER.info("starting manager init.");
         MODULES.init();
         CONFIG.loadConfig();
         COMMANDS.init();
-        Spotify.init();
         Infinity.LOGGER.info("Manager initialisation complete.");
     }
 

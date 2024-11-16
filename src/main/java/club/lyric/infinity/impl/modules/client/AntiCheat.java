@@ -5,12 +5,11 @@ import club.lyric.infinity.api.module.PersistentModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.manager.Managers;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author lyric
  * module that handles all anti-cheat related settings.
- * has static getters for all the anti-cheat settings.
- * maybe just make this a manager instead?
  */
 public final class AntiCheat extends PersistentModuleBase {
     public BooleanSetting rotate = new BooleanSetting("Rotate", false, this);
@@ -24,27 +23,11 @@ public final class AntiCheat extends PersistentModuleBase {
         super("AntiCheat", "Global Module for some specific settings.", Category.Client);
     }
 
-    public static boolean getRotation() {
-        return Managers.MODULES.getModuleFromClass(AntiCheat.class).rotate.value();
-    }
-
-    public static float getHoldingTime() {
-        return Managers.MODULES.getModuleFromClass(AntiCheat.class).holdingTime.getFValue();
-    }
-
-    public static boolean getStrictDirection() {
-        return Managers.MODULES.getModuleFromClass(AntiCheat.class).strictDirection.value();
-    }
-
-    public static int getBlocksPerTick() {
-        return Managers.MODULES.getModuleFromClass(AntiCheat.class).bpt.getIValue();
-    }
-
-    public static boolean getFix() {
-        return Managers.MODULES.getModuleFromClass(AntiCheat.class).movementFix.value();
-    }
-
-    public static boolean getProtocol() {
-        return Managers.MODULES.getModuleFromClass(AntiCheat.class).lower.value();
+    /**
+     * sets values into AntiCheatManager.
+     */
+    public void set()
+    {
+        Managers.ANTICHEAT.set(rotate.value(), strictDirection.value(), movementFix.value(), lower.value(), holdingTime.getFValue(), bpt.getIValue());
     }
 }

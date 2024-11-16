@@ -5,6 +5,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.manager.client.TextManager;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Formatting;
 
 import java.io.IOException;
@@ -36,6 +37,11 @@ public class Fonts extends ModuleBase {
 
     @Override
     public void onEnable() {
+        if (MinecraftClient.IS_SYSTEM_MAC)
+        {
+            ChatUtils.sendMessagePrivate(Formatting.RED + "You can't use this module because you are on a Mac-based system!");
+            disable();
+        }
         lastName = fontName;
     }
 

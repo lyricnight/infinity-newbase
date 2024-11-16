@@ -12,7 +12,7 @@ public class Notifications extends PersistentModuleBase {
     public BooleanSetting totemPops =
             new BooleanSetting(
                     "TotemPops",
-                    false,
+                    true,
                     this
             );
 
@@ -26,7 +26,7 @@ public class Notifications extends PersistentModuleBase {
     public BooleanSetting render =
             new BooleanSetting(
                     "Render",
-                    false,
+                    true,
                     this
             );
 

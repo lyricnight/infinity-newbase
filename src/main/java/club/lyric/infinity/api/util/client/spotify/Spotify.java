@@ -30,6 +30,12 @@ public final class Spotify {
         lastTrack = null;
     }
 
+    public static void unload()
+    {
+        scheduled.shutdown();
+        reset();
+    }
+
     public static void updateCurrentTrack() {
 
         isSpotifyRunning = isSpotifyActive();

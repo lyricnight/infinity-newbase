@@ -7,6 +7,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
+import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.render.anim.Animation;
@@ -17,6 +18,7 @@ import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.manager.Managers;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.resource.language.I18n;
@@ -85,7 +87,26 @@ public final class HUD extends ModuleBase {
     private final Animation pingWidth = new Animation(Easing.EASE_OUT_QUAD, 150);
     private final Animation duraWidth = new Animation(Easing.EASE_OUT_QUAD, 150);
 
-    @EventHandler
+    @Override
+    public void onEnable()
+    {
+        if (!MinecraftClient.IS_SYSTEM_MAC)
+        {
+            ChatUtils.sendMessagePrivate(Formatting.GREEN + "You are playing on a non-mac instance. Spotify API has been activated!");
+            Spotify.init();
+        }
+    }
+
+    @Override
+    public void onDisable()
+    {
+        if (!MinecraftClient.IS_SYSTEM_MAC)
+        {
+            Spotify.unload();
+        }
+    }
+
+    @EventHandler(priority = 1)
     public void onPacketSend(PacketEvent.Send event) {
         packets++;
     }
