@@ -5,9 +5,9 @@ import club.lyric.infinity.api.module.ModuleBase;
 
 /**
  * @author vasler
+ * what a useful module.
  */
-//vasler finish or i delete
-public class AntiLevitation extends ModuleBase {
+public final class AntiLevitation extends ModuleBase {
 
     public AntiLevitation() {
         super("AntiLevitation", "ggg", Category.Player);

@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author vasler
  * TODO
  */
-public class Logouts extends ModuleBase {
+public final class Logouts extends ModuleBase {
 
     protected Map<PlayerEntity, UUID> logouts = new ConcurrentHashMap<>();
 

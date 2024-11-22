@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
 /**
  * @author vasler
  */
-public class Nametags extends ModuleBase {
+public final class Nametags extends ModuleBase {
 
     public BooleanSetting self = new BooleanSetting("Self", true, this);
 

@@ -17,7 +17,7 @@ import net.minecraft.util.math.BlockPos;
 /**
  * @author lyric
  */
-public class Burrow extends BlockModuleBase {
+public final class Burrow extends BlockModuleBase {
     public BooleanSetting strict = new BooleanSetting("Strict", false, this);
     public BooleanSetting persistent = new BooleanSetting("Persistent", false, this);
     public BooleanSetting center = new BooleanSetting("Center", false, this);

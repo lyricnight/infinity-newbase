@@ -5,7 +5,11 @@ import club.lyric.infinity.api.module.ModuleBase;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
-public class InventoryWalk extends ModuleBase {
+/**
+ * @author vasler
+ */
+
+public final class InventoryWalk extends ModuleBase {
 
     public InventoryWalk()
     {

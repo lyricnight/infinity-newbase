@@ -18,8 +18,9 @@ import java.util.stream.Stream;
 
 /**
  * @author lyric
+ * does this shit even work /_/
  */
-public class AutoReply extends ModuleBase {
+public final class AutoReply extends ModuleBase {
     public BooleanSetting armor = new BooleanSetting("Armor", false, this);
     public BooleanSetting coords = new BooleanSetting("Coords", true, this);
     public BooleanSetting afk = new BooleanSetting("AFK Responses", true, this);

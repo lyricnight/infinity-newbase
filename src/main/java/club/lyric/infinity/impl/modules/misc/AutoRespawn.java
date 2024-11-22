@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screen.DeathScreen;
 /**
  * @author vasler
  */
-public class AutoRespawn extends ModuleBase {
+public final class AutoRespawn extends ModuleBase {
     public AutoRespawn()
     {
         super("AutoRespawn", "what do you think idiot", Category.Misc);

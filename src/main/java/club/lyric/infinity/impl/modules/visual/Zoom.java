@@ -16,7 +16,7 @@ import org.lwjgl.glfw.GLFW;
 /**
  * @author vasler
  */
-public class Zoom extends ModuleBase
+public final class Zoom extends ModuleBase
 {
     public BindSetting zoomBind = new BindSetting("ZoomBind", -1, this);
     public NumberSetting amount = new NumberSetting("Amount", this, 0.2f, 0.1f, 0.9f, 0.1f);

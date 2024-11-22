@@ -12,7 +12,7 @@ import net.minecraft.util.Formatting;
 /**
  * @author vasler
  */
-public class IRC extends ModuleBase {
+public final class IRC extends ModuleBase {
 
     public IRC() {
         super("IRC", "Allows you to chat to other Infinity users.", Category.Misc);

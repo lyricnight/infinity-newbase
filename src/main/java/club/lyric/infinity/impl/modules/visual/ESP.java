@@ -37,7 +37,7 @@ import java.awt.*;
 /**
  * @author vasler
  */
-public class ESP extends ModuleBase {
+public final class ESP extends ModuleBase {
     public BooleanSetting players = new BooleanSetting("Players", true, this);
     public BooleanSetting passive = new BooleanSetting("Passive", true, this);
     public BooleanSetting mobs = new BooleanSetting("Mobs", true, this);

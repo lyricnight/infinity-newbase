@@ -5,9 +5,9 @@ import club.lyric.infinity.api.util.minecraft.IMinecraft;
 /**
  * @author vasler and lyric
  */
-public class TimerManager implements IMinecraft {
+public final class TimerManager implements IMinecraft {
     private float temp;
-    protected float timer = 1.0f;
+    private float timer = 1.0f;
     private int ticks = 0;
     private int max;
 

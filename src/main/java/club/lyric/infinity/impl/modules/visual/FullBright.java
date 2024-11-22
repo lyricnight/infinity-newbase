@@ -9,10 +9,7 @@ import net.minecraft.world.LightType;
 /**
  * @author vasler
  */
-public class FullBright extends ModuleBase {
-
-    public BooleanSetting darkness = new BooleanSetting("Darkness", true, this);
-
+public final class FullBright extends ModuleBase {
     public FullBright() {
         super("FullBright", "Makes the game brighter.", Category.Visual);
     }

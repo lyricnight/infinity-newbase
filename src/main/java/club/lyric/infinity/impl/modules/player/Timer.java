@@ -5,7 +5,10 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.manager.Managers;
 
-public class Timer extends ModuleBase {
+/**
+ * @author vasler
+ */
+public final class Timer extends ModuleBase {
     public NumberSetting factor = new NumberSetting("Factor", this, 1.0888f, 0.1f, 4.0f, 0.01f);
     public Timer()
     {

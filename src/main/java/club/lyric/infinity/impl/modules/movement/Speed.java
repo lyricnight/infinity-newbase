@@ -20,7 +20,7 @@ import net.minecraft.util.math.Vec2f;
  * it better not be sixset - lyric
  */
 @SuppressWarnings({"unused"})
-public class Speed extends ModuleBase {
+public final class Speed extends ModuleBase {
 
     public ModeSetting mode = new ModeSetting("Mode", this, "Strafe", "Strafe", "Jump", "Grim", "StrictFast");
     public BooleanSetting timer = new BooleanSetting("Timer", true, this);

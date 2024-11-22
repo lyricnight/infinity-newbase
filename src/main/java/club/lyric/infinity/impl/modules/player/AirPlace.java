@@ -20,7 +20,10 @@ import net.minecraft.util.math.Box;
 
 import java.awt.*;
 
-public class AirPlace extends ModuleBase
+/**
+ * @author lyric
+ */
+public final class AirPlace extends ModuleBase
 {
     public BooleanSetting render = new BooleanSetting("Render", true, this);
 

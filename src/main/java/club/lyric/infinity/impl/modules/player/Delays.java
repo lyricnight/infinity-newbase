@@ -10,7 +10,7 @@ import club.lyric.infinity.asm.accessors.IMinecraft;
 /**
  * @author lyric
  */
-public class Delays extends ModuleBase {
+public final class Delays extends ModuleBase {
     public BooleanSetting breaking = new BooleanSetting("Breaking", false, this);
 
     public NumberSetting placing = new NumberSetting("Placing", this, 0, 0, 5, 1);

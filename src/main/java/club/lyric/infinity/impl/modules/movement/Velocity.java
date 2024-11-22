@@ -23,19 +23,19 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author vasler
- * fix this - lyric
  */
 @SuppressWarnings({"unused"})
-public class Velocity extends ModuleBase {
+public final class Velocity extends ModuleBase {
 
     public ModeSetting mode = new ModeSetting("Mode", this, "Normal", "Normal", "JumpReset");
     public NumberSetting horizontal = new NumberSetting("Horizontal", this, 0.0f, -100.0f, 100.0f, 1.0f);
     public NumberSetting vertical = new NumberSetting("Vertical", this, 0.0f, -100.0f, 100.0f, 1.0f);
     public BooleanSetting push = new BooleanSetting("Push", true, this);
 
-    protected final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-    protected static final Random random = new Random();
-    protected StopWatch.Single stopWatch = new StopWatch.Single();
+    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+
+    private static final Random random = new Random();
+    private final StopWatch.Single stopWatch = new StopWatch.Single();
 
     public Velocity() {
         super("Velocity", "Tries to remove velocity", Category.Movement);

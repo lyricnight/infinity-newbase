@@ -11,7 +11,7 @@ import net.minecraft.util.Formatting;
 /**
  * @author lyric
  */
-public class NoAccelerate extends ModuleBase {
+public final class NoAccelerate extends ModuleBase {
     private boolean pause = false;
 
     //stupid code, don't want to call through instance everywhere.

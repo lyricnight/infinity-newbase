@@ -12,7 +12,7 @@ import java.awt.*;
 /**
  * @author vasler
  */
-public class Ambience extends ModuleBase {
+public final class Ambience extends ModuleBase {
     public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)));
 
     public Ambience() {

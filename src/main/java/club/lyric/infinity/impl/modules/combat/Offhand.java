@@ -26,7 +26,7 @@ import net.minecraft.util.math.MathHelper;
  * @author vasler
  */
 //TODO: make a service for this
-public class Offhand extends ModuleBase {
+public final class Offhand extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "Totem", "Totem", "Crystal", "Gapple", "Sword");
     public NumberSetting health = new NumberSetting("Health", this, 16.0f, 1.0f, 36.0f, 0.1f, "hp");
     public BooleanSetting swordGap = new BooleanSetting("SwordGap", true, this);
@@ -36,29 +36,19 @@ public class Offhand extends ModuleBase {
         super("Offhand", "Allows you to put different items in your offhand slot.", Category.Combat);
     }
 
-    protected Int2ObjectMap<ItemStack> int2ObjectMap = new Int2ObjectOpenHashMap<>();
+    private final Int2ObjectMap<ItemStack> int2ObjectMap = new Int2ObjectOpenHashMap<>();
 
 
     @Override
     public void onUpdate() {
         ScreenHandler screenHandler = mc.player.currentScreenHandler;
-
         Item item = getWeldingItemType();
-
-        // if the item is in their offhand it doesn't switch.
-        if (mc.player.getOffHandStack().getItem() == item) return;
-
-        // xtra check, not rlly needed
-        if (mc.currentScreen != null) return;
-
+        if (mc.player.getOffHandStack().getItem() == item || mc.currentScreen != null) return;
         int slot = getItemSlot(item);
-
         if (slot == -1) return;
-
-        // drags a new item to the offhand slot
-        send(new ClickSlotC2SPacket(0, screenHandler.getRevision(), slot, 0, SlotActionType.PICKUP, screenHandler.getCursorStack().copy(), int2ObjectMap));
-        send(new ClickSlotC2SPacket(0, screenHandler.getRevision(), 45, 0, SlotActionType.PICKUP, screenHandler.getCursorStack().copy(), int2ObjectMap));
-        send(new ClickSlotC2SPacket(0, screenHandler.getRevision(), slot, 0, SlotActionType.PICKUP, screenHandler.getCursorStack().copy(), int2ObjectMap));
+        sendUnsafe(new ClickSlotC2SPacket(0, screenHandler.getRevision(), slot, 0, SlotActionType.PICKUP, screenHandler.getCursorStack().copy(), int2ObjectMap));
+        sendUnsafe(new ClickSlotC2SPacket(0, screenHandler.getRevision(), 45, 0, SlotActionType.PICKUP, screenHandler.getCursorStack().copy(), int2ObjectMap));
+        sendUnsafe(new ClickSlotC2SPacket(0, screenHandler.getRevision(), slot, 0, SlotActionType.PICKUP, screenHandler.getCursorStack().copy(), int2ObjectMap));
 
     }
 
