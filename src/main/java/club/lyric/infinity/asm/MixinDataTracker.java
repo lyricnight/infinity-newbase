@@ -2,7 +2,7 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.asm.accessors.ILivingEntity;
 import club.lyric.infinity.manager.Managers;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.data.DataTracked;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinDataTracker<T> {
     @Shadow
     @Final
-    private Entity trackedEntity;
+    private DataTracked trackedEntity;
 
     @Inject(method = "set(Lnet/minecraft/entity/data/TrackedData;Ljava/lang/Object;Z)V", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/data/DataTracker;dirty:Z"))
     public void setHook(TrackedData<T> key, T value, boolean b1, CallbackInfo ci) {

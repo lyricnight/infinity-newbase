@@ -9,6 +9,7 @@ import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.impl.modules.visual.Chat;
 import club.lyric.infinity.manager.Managers;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
@@ -46,34 +47,37 @@ public abstract class MixinChatHud implements IChatHud, IMinecraft {
     @Unique
     private boolean addText;
     @Shadow
-    protected abstract void addMessage(Text message, @Nullable MessageSignatureData messageSignatureData, int ticks, @Nullable MessageIndicator messageIndicator, boolean refresh);
+    public abstract void addMessage(Text message, @Nullable MessageSignatureData messageSignatureData, @Nullable MessageIndicator messageIndicator);
+    @Shadow
+    public abstract void addMessage(Text message);
+
 
     @Override
     public void infinity$add(Text text, int id) {
         idConcurrent = id;
-        addMessage(text, null, mc.inGameHud.getTicks(), new MessageIndicator(Managers.MODULES.getModuleFromClass(Colours.class).color.getColor().getRGB(), null, null, null), false);
+        addMessage(text);
         idConcurrent = 0;
     }
 
-    @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V", at = @At(value = "INVOKE", target = "Ljava/util/List;add(ILjava/lang/Object;)V", ordinal = 0, shift = At.Shift.AFTER))
-    private void onAddMessageAfterNewChatHudLineVisible(Text message, MessageSignatureData messageSignatureData, int ticks, MessageIndicator messageIndicator, boolean refresh, CallbackInfo callbackInfo) {
-        ((IChatHudLine) (Object) visibleMessages.get(0)).infinity$setId(idConcurrent);
+    @Inject(method = "addVisibleMessage", at = @At(value = "INVOKE", target = "Ljava/util/List;add(ILjava/lang/Object;)V", shift = At.Shift.AFTER))
+    private void onAddMessageAfterNewChatHudLineVisible(ChatHudLine message, CallbackInfo ci) {
+        ((IChatHudLine) (Object) visibleMessages.getFirst()).infinity$setId(idConcurrent);
     }
 
-    @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V", at = @At(value = "INVOKE", target = "Ljava/util/List;add(ILjava/lang/Object;)V", ordinal = 1, shift = At.Shift.AFTER))
-    private void onAddMessageAfterNewChatHudLine(Text message, MessageSignatureData messageSignatureData, int ticks, MessageIndicator messageIndicator, boolean refresh, CallbackInfo callbackInfo) {
-        ((IChatHudLine) (Object) messages.get(0)).infinity$setId(idConcurrent);
+    @Inject(method = "addMessage(Lnet/minecraft/client/gui/hud/ChatHudLine;)V", at = @At(value = "INVOKE", target = "Ljava/util/List;add(ILjava/lang/Object;)V", shift = At.Shift.AFTER))
+    private void onAddMessageAfterNewChatHudLine(ChatHudLine message, CallbackInfo ci) {
+        ((IChatHudLine) (Object) messages.getFirst()).infinity$setId(idConcurrent);
     }
 
-    @Inject(at = @At("HEAD"), method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V", cancellable = true)
-    private void onAddMessage(Text message, @Nullable MessageSignatureData signature, int ticks, @Nullable MessageIndicator indicator, boolean refresh, CallbackInfo info) {
+    @Inject(at = @At("HEAD"), method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V", cancellable = true)
+    private void onAddMessage(Text message, MessageSignatureData signatureData, MessageIndicator indicator, CallbackInfo ci) {
         if (addText) {
             return;
         }
 
         ReceiveChatEvent event = new ReceiveChatEvent(message, indicator, idConcurrent);
         EventBus.getInstance().post(event);
-        if (event.isCancelled()) info.cancel();
+        if (event.isCancelled()) ci.cancel();
         else {
             visibleMessages.removeIf(msg -> ((IChatHudLine) (Object) msg).infinity$getId() == idConcurrent && idConcurrent != 0);
 
@@ -85,27 +89,27 @@ public abstract class MixinChatHud implements IChatHud, IMinecraft {
             }
 
             if (event.hasBeenAdded()) {
-                info.cancel();
+                ci.cancel();
 
                 addText = true;
-                addMessage(event.getMessage(), signature, ticks, event.getIndicator(), refresh);
+                addMessage(event.getMessage(), signatureData, event.getIndicator());
                 addText = false;
             }
         }
     }
 
 
-    @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;isChatFocused()Z"), locals = LocalCapture.CAPTURE_FAILSOFT)
-    private void onBreakChatMessageLines(Text message, MessageSignatureData signature, int ticks, MessageIndicator indicator, boolean refresh, CallbackInfo ci, int i, List<OrderedText> list) {
-        Managers.MODULES.getModuleFromClass(Chat.class).lines.add(0, list.size());
+    @Inject(method = "addVisibleMessage", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;isChatFocused()Z"))
+    private void onBreakChatMessageLines(ChatHudLine message, CallbackInfo ci, @Local List<OrderedText> list) {
+        Managers.MODULES.getModuleFromClass(Chat.class).lines.addFirst(list.size());
     }
 
-    @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V", slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/hud/ChatHud;messages:Ljava/util/List;")), at = @At(value = "INVOKE", target = "Ljava/util/List;remove(I)Ljava/lang/Object;"))
-    private void onRemoveMessage(Text message, MessageSignatureData signature, int ticks, MessageIndicator indicator, boolean refresh, CallbackInfo ci) {
+    @Inject(method = "addMessage(Lnet/minecraft/client/gui/hud/ChatHudLine;)V", at = @At(value = "INVOKE", target = "Ljava/util/List;remove(I)Ljava/lang/Object;"))
+    private void onRemoveMessage(ChatHudLine message, CallbackInfo ci) {
         int size = Managers.MODULES.getModuleFromClass(Chat.class).lines.size();
 
         while (size > 100) {
-            Managers.MODULES.getModuleFromClass(Chat.class).lines.removeInt(size - 1);
+            Managers.MODULES.getModuleFromClass(Chat.class).lines.removeLast();
             size--;
         }
     }

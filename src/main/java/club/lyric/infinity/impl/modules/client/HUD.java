@@ -187,7 +187,7 @@ public final class HUD extends ModuleBase {
                 if (effectHud.is("Move")) {
                     for (StatusEffectInstance statusEffectInstance : mc.player.getStatusEffects()) {
                         effectY = 27;
-                        if (!statusEffectInstance.getEffectType().isBeneficial()) {
+                        if (!statusEffectInstance.getEffectType().value().isBeneficial()) {
                             effectY = 53;
                             break;
                         }
@@ -250,7 +250,7 @@ public final class HUD extends ModuleBase {
             ArrayList<StatusEffectInstance> effectList = new ArrayList<>(mc.player.getStatusEffects());
 
             effectList.sort(Comparator.comparing(
-                    effect -> I18n.translate(effect.getEffectType().getTranslationKey()), Comparator.reverseOrder()
+                    effect -> I18n.translate(effect.getEffectType().value().getTranslationKey()), Comparator.reverseOrder()
             ));
 
             for (StatusEffectInstance statusEffectInstance : effectList) {
@@ -259,7 +259,7 @@ public final class HUD extends ModuleBase {
                 Managers.TEXT.drawString(getLabel(getString(statusEffectInstance)),
                         x,
                         context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
-                        potionColors.is("Normal") ? statusEffectInstance.getEffectType().getColor() : hudColor((int) (context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue())).getRGB()
+                        potionColors.is("Normal") ? statusEffectInstance.getEffectType().value().getColor() : hudColor((int) (context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue())).getRGB()
                 );
                 offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
             }
@@ -535,7 +535,7 @@ public final class HUD extends ModuleBase {
 
     private String getString(StatusEffectInstance statusEffectInstance) {
         int amplifier = statusEffectInstance.getAmplifier();
-        Text name = statusEffectInstance.getEffectType().getName();
+        Text name = statusEffectInstance.getEffectType().value().getName();
 
         return name.getString() +
                 (amplifier > 0 ? (" " + (amplifier + 1) + " ") : " ") +

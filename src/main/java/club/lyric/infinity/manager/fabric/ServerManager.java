@@ -73,8 +73,7 @@ public final class ServerManager implements IMinecraft {
                 long timePerTick = System.currentTimeMillis() - time;
 
                 if (queue.size() > 20) queue.poll();
-
-                queue.add(20.0f * (1000.0f / (float) (timePerTick)));
+                queue.add(20.0f * (1000.0f / (timePerTick)));
 
                 float average = 0.0f;
 

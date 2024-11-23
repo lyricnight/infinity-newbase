@@ -36,7 +36,7 @@ public class MixinInGameHud {
     }
 
     @Inject(method = "renderStatusEffectOverlay", at = @At(value = "HEAD"), cancellable = true)
-    private void hookRenderStatusEffectOverlay(DrawContext context, CallbackInfo ci) {
+    private void hookRenderStatusEffectOverlay(DrawContext context, float tickDelta, CallbackInfo ci) {
         if (Managers.MODULES.getModuleFromClass(HUD.class).effectHud.is("Remove")) {
             ci.cancel();
         }

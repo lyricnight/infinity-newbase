@@ -42,7 +42,7 @@ public class MixinClientConnection {
     public void channelRead0(ChannelHandlerContext channelHandlerContext, Packet<?> packet, CallbackInfo ci) {
         if (channel.isOpen() && packet != null) {
             try {
-                if (packet instanceof CommandSuggestionsS2CPacket commandSuggestionsS2CPacket && commandSuggestionsS2CPacket.getCompletionId() == 1337) {
+                if (packet instanceof CommandSuggestionsS2CPacket commandSuggestionsS2CPacket && commandSuggestionsS2CPacket.id() == 1337) {
                     Managers.SERVER.ping = (int) (System.currentTimeMillis() - Managers.SERVER.responseTime);
                 }
                 PacketEvent.Receive event = new PacketEvent.Receive(packet);

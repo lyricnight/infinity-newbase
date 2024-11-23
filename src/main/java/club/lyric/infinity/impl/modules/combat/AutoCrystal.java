@@ -135,12 +135,7 @@ public class AutoCrystal extends ModuleBase {
                 .map(e -> (LivingEntity) e)
                 .toList();
 
-        List<EndCrystalEntity> near = Streams.stream
-                        (mc.world.getEntities())
-                .filter(e -> e instanceof EndCrystalEntity)
-                .map(e -> (EndCrystalEntity) e)
-                .sorted(Comparator.comparing(mc.player::distanceTo))
-                .toList();
+        List<EndCrystalEntity> near = Streams.stream(mc.world.getEntities()).filter(e -> e instanceof EndCrystalEntity).map(e -> (EndCrystalEntity) e).sorted(Comparator.comparing((mc.player::distanceTo))).toList();
 
 
         for (LivingEntity entity : targets)
@@ -190,19 +185,19 @@ public class AutoCrystal extends ModuleBase {
                     if (mc.player.distanceTo(crystal) >= hitRange.getValue() || !mc.world.getOtherEntities(null, new Box(crystal.getPos(), crystal.getPos()).expand(enemyRange.getFValue()), targets::contains).isEmpty()) {
 
                         if (inhibit.value()) {
-                            StopWatch.Single timer = hitCrystals.get(crystal.getId());
+                            StopWatch.Single timer = hitCrystals.get(Optional.of(crystal.getId()));
                             if (timer != null) {
                                 if (!timer.hasBeen((timeout.getLValue()))) {
                                     continue;
                                 }
-                                hitCrystals.remove(crystal.getId());
+                                hitCrystals.remove(Optional.of(crystal.getId()));
                             }
                         }
 
                         String information = "Breaking";
 
                         service.submit(() -> {
-                            hitCrystals.put(crystal.getId(), new StopWatch.Single());
+                            hitCrystals.put(Integer.valueOf(crystal.getId()), new StopWatch.Single());
 
                             switch (breaks.getMode()) {
                                 case "Vanilla" -> mc.interactionManager.attackEntity(mc.player, crystal);
@@ -351,7 +346,7 @@ public class AutoCrystal extends ModuleBase {
             if (isOwn(packet.getBlockHitResult().getBlockPos().up()))
                 ownCrystals.remove(packet.getBlockHitResult().getBlockPos().up());
 
-            ownCrystals.put(packet.getBlockHitResult().getBlockPos().up(), System.currentTimeMillis());
+            ownCrystals.put(packet.getBlockHitResult().getBlockPos().up(), Long.valueOf(System.currentTimeMillis()));
         }
     }
 
@@ -480,7 +475,7 @@ public class AutoCrystal extends ModuleBase {
     }
 
     private static float applyArmorCalculations(float damage, LivingEntity entity, DamageSource source) {
-        damage = DamageUtil.getDamageLeft(damage, (float) entity.getArmor(), (float) entity.getAttributeInstance(EntityAttributes.GENERIC_ARMOR_TOUGHNESS).getValue());
+        damage = DamageUtil.getDamageLeft(damage, source, (float) entity.getArmor(), (float) entity.getAttributeInstance(EntityAttributes.GENERIC_ARMOR_TOUGHNESS).getValue());
 
         int enchantmentModifier = EnchantmentHelper.getProtectionAmount(entity.getArmorItems(), source);
 

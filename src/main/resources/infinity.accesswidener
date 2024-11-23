@@ -13,3 +13,4 @@ accessible field com/mojang/blaze3d/platform/GlStateManager TEXTURES [Lcom/mojan
 accessible field com/mojang/blaze3d/platform/GlStateManager activeTexture I
 accessible field com/mojang/blaze3d/platform/GlStateManager$Texture2DState boundTexture I
 accessible method net/minecraft/entity/player/PlayerEntity adjustMovementForSneaking (Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;
+accessible method net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket write (Lnet/minecraft/network/PacketByteBuf;)V

@@ -202,7 +202,7 @@ public final class Aura extends ModuleBase {
     }
 
     private boolean isInRange(Entity entity, Vec3d position, double yOffset) {
-        return entity.getBoundingBox().squaredMagnitude(new Vec3d(position.x, position.y + yOffset, position.z)) < ServerPlayNetworkHandler.MAX_BREAK_SQUARED_DISTANCE;
+        return entity.getBoundingBox().squaredMagnitude(new Vec3d(position.x, position.y + yOffset, position.z)) < 6.0f;
     }
 
     public ModeSetting getPriority() {
