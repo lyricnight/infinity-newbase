@@ -3,7 +3,6 @@ package club.lyric.infinity.impl.modules.misc;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.entity.Entity;

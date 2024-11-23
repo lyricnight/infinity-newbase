@@ -1,7 +1,7 @@
 package club.lyric.infinity.impl.events.mc.movement;
 
-import club.lyric.infinity.api.event.Event;
 import club.lyric.infinity.api.ducks.IVec3d;
+import club.lyric.infinity.api.event.Event;
 import net.minecraft.entity.MovementType;
 import net.minecraft.util.math.Vec3d;
 

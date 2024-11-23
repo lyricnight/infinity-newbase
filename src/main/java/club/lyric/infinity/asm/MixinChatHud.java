@@ -5,7 +5,6 @@ import club.lyric.infinity.api.ducks.IChatHudLine;
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.mc.chat.ReceiveChatEvent;
-import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.impl.modules.visual.Chat;
 import club.lyric.infinity.manager.Managers;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -13,7 +12,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
-import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -24,9 +22,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
 

@@ -10,9 +10,7 @@ import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.math.VaslerHouseLocator;
 import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
 import club.lyric.infinity.api.util.minecraft.entity.EntityUtils;
-import club.lyric.infinity.impl.modules.visual.Chat;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
 
 /**
  * @author lyric

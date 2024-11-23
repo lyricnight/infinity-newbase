@@ -13,7 +13,6 @@ import club.lyric.infinity.asm.accessors.IExplosionS2CPacket;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
-import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.util.Formatting;
 
 import java.util.Random;

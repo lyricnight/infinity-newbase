@@ -5,7 +5,6 @@ import club.lyric.infinity.api.module.PersistentModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.manager.Managers;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author lyric

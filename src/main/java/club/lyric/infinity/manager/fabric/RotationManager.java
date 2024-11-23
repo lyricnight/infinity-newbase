@@ -8,7 +8,6 @@ import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;
 import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.impl.events.render.RenderPlayerModelEvent;
-import club.lyric.infinity.impl.modules.client.AntiCheat;
 import club.lyric.infinity.impl.modules.exploit.Resolver;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;

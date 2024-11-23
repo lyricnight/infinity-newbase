@@ -6,7 +6,6 @@ import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.impl.modules.client.AntiCheat;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.network.packet.s2c.common.KeepAliveS2CPacket;
-import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
 
 /**
  * @author lyric

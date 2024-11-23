@@ -15,8 +15,8 @@ import org.lwjgl.glfw.GLFW;
  * for events where I can't keep it in the mixin
  */
 
-@SuppressWarnings("unused")
 public final class EventManager implements IMinecraft {
+    @SuppressWarnings("unused")
     @EventHandler
     public void onKeyPress(KeyPressEvent event) {
         if (event.getAction() == GLFW.GLFW_RELEASE)

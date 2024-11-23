@@ -2,7 +2,6 @@ package club.lyric.infinity.manager;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.util.client.spotify.Spotify;
 import club.lyric.infinity.manager.client.*;
 import club.lyric.infinity.manager.fabric.*;
 

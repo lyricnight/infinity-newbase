@@ -20,7 +20,6 @@ import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationUtils;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.impl.events.network.PacketEvent;
-import club.lyric.infinity.impl.modules.client.AntiCheat;
 import club.lyric.infinity.manager.Managers;
 import com.google.common.collect.Streams;
 import net.minecraft.block.Blocks;

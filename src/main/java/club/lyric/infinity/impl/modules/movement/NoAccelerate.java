@@ -3,7 +3,6 @@ package club.lyric.infinity.impl.modules.movement;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.util.minecraft.movement.MovementUtil;
 import club.lyric.infinity.impl.events.mc.movement.EntityMovementEvent;
 import net.minecraft.util.Formatting;

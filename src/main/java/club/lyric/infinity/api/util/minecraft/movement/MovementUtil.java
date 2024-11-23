@@ -3,7 +3,6 @@ package club.lyric.infinity.api.util.minecraft.movement;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
-import club.lyric.infinity.impl.modules.client.AntiCheat;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;

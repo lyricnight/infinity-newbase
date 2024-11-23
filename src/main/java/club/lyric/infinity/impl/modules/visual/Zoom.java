@@ -10,7 +10,6 @@ import club.lyric.infinity.api.util.client.render.anim.Animation;
 import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.network.packet.Packet;
 import org.lwjgl.glfw.GLFW;
 
 /**

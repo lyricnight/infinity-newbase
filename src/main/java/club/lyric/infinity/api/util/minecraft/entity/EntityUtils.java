@@ -3,7 +3,6 @@ package club.lyric.infinity.api.util.minecraft.entity;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.Monster;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.util.math.BlockPos;
 
