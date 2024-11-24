@@ -30,7 +30,9 @@ import java.util.*;
 
 /**
  * @author lyric
+ * unfinished
  */
+//TODO: implement block placements properly, and update this to make it work properly -> maybe switch to some sort of BlockPlacer service to handle placement queues?
 public class BlockModuleBase extends ModuleBase {
     /**
      * I could simplify this so much if I got rid of normal who even uses that shit

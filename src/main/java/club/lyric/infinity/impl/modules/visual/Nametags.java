@@ -1,6 +1,5 @@
 package club.lyric.infinity.impl.modules.visual;
 
-import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -10,7 +9,6 @@ import club.lyric.infinity.api.util.client.render.colors.JColor;
 import club.lyric.infinity.api.util.client.render.util.Interpolation;
 import club.lyric.infinity.api.util.client.web.UUIDConverter;
 import club.lyric.infinity.api.util.minecraft.player.Fake;
-import club.lyric.infinity.impl.events.render.Render3DEvent;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -49,22 +47,21 @@ public final class Nametags extends ModuleBase {
     public ColorSetting rectColor = new ColorSetting("RectColor", this, new JColor(new Color(64, 64, 124)));
     public ColorSetting lineColor = new ColorSetting("LineColor", this, new JColor(new Color(64, 64, 124)));
     public NumberSetting range = new NumberSetting("Range", this, 300.0f, 10.0f, 300.0f, 1.0f, "m");
-
-    protected static final Pattern PATTERN = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
+    private static final Pattern PATTERN = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
 
     public Nametags() {
         super("Nametags", "Fire", Category.Visual);
     }
 
-    @EventHandler
-    public void onRenderWorld(Render3DEvent event) {
+    @Override
+    public void onRender3D(MatrixStack stack) {
         for (Entity entity : mc.world.getEntities()) {
             Vec3d interpolate = Interpolation.getRenderPosition(mc.getCameraEntity(), mc.getTickDelta());
             if (entity instanceof PlayerEntity player) {
 
                 if (!self.value() && player == mc.player) continue;
 
-                renderNameTag(player, event.getMatrices(), interpolate);
+                renderNameTag(player, stack, interpolate);
             }
 
         }

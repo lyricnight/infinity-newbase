@@ -5,6 +5,7 @@ import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.impl.events.mc.chat.ChatSentEvent;
 import club.lyric.infinity.manager.Managers;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
@@ -53,8 +54,8 @@ public class MixinClientPlayNetworkHandler {
             ci.cancel();
     }
 
-    @Inject(method = "onEntityStatus", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleManager;addEmitter(Lnet/minecraft/entity/Entity;Lnet/minecraft/particle/ParticleEffect;I)V"), locals = LocalCapture.CAPTURE_FAILHARD)
-    public void onEntityStatusHook(EntityStatusS2CPacket packet, CallbackInfo ci, Entity entity, int i) {
+    @Inject(method = "onEntityStatus", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleManager;addEmitter(Lnet/minecraft/entity/Entity;Lnet/minecraft/particle/ParticleEffect;I)V"))
+    public void onEntityStatusHook(EntityStatusS2CPacket packet, CallbackInfo ci, @Local Entity entity) {
         Managers.OTHER.onTotemPop(entity);
     }
 }

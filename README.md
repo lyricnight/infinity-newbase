@@ -1,8 +1,9 @@
 # Infinity
 ````
-Infinity is a 1.20.4 client, made by lyric and Valser, with a custom event system thanks to RailHack.
+Infinity is a 1.20.6 client, made by lyric and Valser, with a custom event system thanks to RailHack.
 The client was made to learn how to develop on the Fabric platform, and newer versions of Minecraft.
-The client is not intended to be used by itself - it is meant to be a 'side' client to something like Future.
+The client is not intended to be used, as none of the people with access to it play the game, making it more of a learning experience.
+The client's design philosophy reflects that of a 'side' client, ie it is intended to be used alongside another client such as Future.
 
 The client has several ways that it is optimised:
 - Using mixins to handle certain reoccuring events rather than the EventBus to reduce latency (see OtherEntityManager for examples)
@@ -10,11 +11,12 @@ The client has several ways that it is optimised:
 - Having a simple setting system
 - Having a custom EventBus that performs extremely well (thanks to RailHack)
 - Limiting the use of @EventHandler as much as possible
+- Making sure most classes are defined as 'final' in order to save JVM memory, and decrease JVM processing time
 ````
 # Credits
 ````
 https://github.com/SpaiR -> Dear-IMGUI java bindings -> only for older versions due to gui migration
-RailHack -> Custom EventBus
+RailHack -> Custom EventBus, (deprecated) loading system, and teaching me how the JVM handles memory
 Discord -> Discord RPC system files
 finz0 -> IRC implementation
 Steinborn -> LazyDFU optimisation

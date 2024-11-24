@@ -41,7 +41,7 @@ public final class Managers {
     {
         Infinity.LOGGER.info("starting manager init.");
         MODULES.init();
-        CONFIG.loadConfig();
+        //CONFIG.loadConfig();
         COMMANDS.init();
         Infinity.LOGGER.info("Manager initialisation complete.");
     }
@@ -51,7 +51,7 @@ public final class Managers {
      */
     public static void unload()
     {
-        CONFIG.saveConfig();
+        //CONFIG.saveConfig();
         OTHER.unload();
         TIMER.unload();
     }

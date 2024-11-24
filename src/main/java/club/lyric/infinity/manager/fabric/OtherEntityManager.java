@@ -25,7 +25,15 @@ public final class OtherEntityManager implements IMinecraft {
         totemPopMap.put(playerEntity.getId(), amount == null ? 1 : amount + 1);
         if (Managers.MODULES.getModuleFromClass(Notifications.class).totemPops.value())
         {
-            ChatUtils.sendOverwriteMessageColored(getAppropriateFormatting((PlayerEntity) playerEntity) + getName((PlayerEntity) playerEntity) + Formatting.RESET + " popped " + Formatting.WHITE + amount + Formatting.RESET + (amount < 2 ? " totem." : " totems."), playerEntity.getId());
+            //check for CC
+            if (amount == null)
+            {
+                ChatUtils.sendOverwriteMessageColored(getAppropriateFormatting((PlayerEntity) playerEntity) + getName((PlayerEntity) playerEntity) + Formatting.RESET + " popped " + Formatting.WHITE + "1" + Formatting.RESET + " totem.", playerEntity.getId());
+            }
+            else
+            {
+                ChatUtils.sendOverwriteMessageColored(getAppropriateFormatting((PlayerEntity) playerEntity) + getName((PlayerEntity) playerEntity) + Formatting.RESET + " popped " + Formatting.WHITE + amount + Formatting.RESET + (amount < 2 ? " totem." : " totems."), playerEntity.getId());
+            }
         }
     }
 

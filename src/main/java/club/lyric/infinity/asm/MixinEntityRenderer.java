@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @author valser
  */
 @Mixin(EntityRenderer.class)
-public class MixinEntityRenderer implements IMinecraft {
+public class MixinEntityRenderer<T extends Entity> implements IMinecraft {
 
     @ModifyReturnValue(method = "getSkyLight", at = @At("RETURN"))
     private int onGetSkyLight(int original) {
@@ -33,10 +33,9 @@ public class MixinEntityRenderer implements IMinecraft {
     }
 
     @Inject(method = "renderLabelIfPresent", at = @At("HEAD"), cancellable = true)
-    private void renderLabelIfPresent(Entity entity, Text text, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
+    private void renderLabelIfPresent(T entity, Text text, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float tickDelta, CallbackInfo ci) {
         if (Managers.MODULES.getModuleFromClass(Nametags.class).isOn()) {
             ci.cancel();
         }
     }
-
 }

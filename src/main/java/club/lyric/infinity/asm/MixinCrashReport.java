@@ -38,20 +38,11 @@ public final class MixinCrashReport implements IMinecraft {
     @Unique
     private CrashReportSection getInfinityCrashReport() {
         CrashReportSection section = new CrashReportSection("Infinity Debug (lyric was here)");
-
-        ArrayList<String> module = new ArrayList<>();
-
-        Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(moduleBase -> module.add(moduleBase.getName()));
-
         section.add("Name", Infinity.CLIENT_NAME);
         section.add("Version", Version.VERSION);
         section.add("Nightly", Version.NIGHTLY);
-        section.add("Enabled Modules", module);
         section.add("EventBus", EventBus.getInstance().hashCode());
         section.add("Listeners", EventBus.getInstance().getInvokers());
-        section.add("Commands", Managers.COMMANDS.getCommandAmount() + ", " + Managers.COMMANDS.getCommandsAsString());
-        section.add("Mac", MinecraftClient.IS_SYSTEM_MAC);
-
         return section;
     }
 }

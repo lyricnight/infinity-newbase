@@ -55,8 +55,10 @@ public final class RotationManager implements IMinecraft {
 
     /**
      * this updates our rotation values
+     * @implNote we can't put this inside the mixin, as it's not the most prioritised usage of packetEvent.
      * @param event event duh
      */
+    @SuppressWarnings("unused")
     @EventHandler(priority = Integer.MAX_VALUE - 2)
     public void onPacketSend(PacketEvent.Send event)
     {
@@ -70,6 +72,7 @@ public final class RotationManager implements IMinecraft {
 
     /**
      * called before modules receive onUpdate, to ensure this has priority before they affect rotations.
+     * :brain: - lyric
      */
     public void update() {
         if (points.isEmpty()) {
@@ -105,11 +108,10 @@ public final class RotationManager implements IMinecraft {
             event.setYaw(current.getYaw());
             event.setPitch(current.getPitch());
             rotating = false;
-            //checks for instant rotation
-            if (current.getInstant())
-            {
-                current = null;
-            }
+        }
+        if(current != null && current.getInstant())
+        {
+            current = null;
         }
     }
 

@@ -40,6 +40,5 @@ public final class Infinity implements ModInitializer, ClientModInitializer, IMi
 		LOGGER.log(Level.INFO, " |_|_| |_|_| |_|_| |_|_|\\__|\\__, |");
 		LOGGER.log(Level.INFO, "                             __/ |");
 		LOGGER.log(Level.INFO, "                            |___/ ");
-		Runtime.getRuntime().addShutdownHook(new Thread(Managers.CONFIG::saveConfig));
 	}
 }
