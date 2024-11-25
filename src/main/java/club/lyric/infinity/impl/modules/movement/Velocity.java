@@ -6,7 +6,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
-import club.lyric.infinity.api.util.client.math.Null;
+import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.asm.accessors.IEntityVelocityUpdateS2CPacket;
 import club.lyric.infinity.asm.accessors.IExplosionS2CPacket;

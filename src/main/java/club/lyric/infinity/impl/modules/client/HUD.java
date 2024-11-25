@@ -13,7 +13,6 @@ import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.render.anim.Animation;
 import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
-import club.lyric.infinity.api.util.client.spotify.Spotify;
 import club.lyric.infinity.api.util.minecraft.player.InventoryUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.impl.events.network.PacketEvent;
@@ -84,25 +83,6 @@ public final class HUD extends ModuleBase {
     private final Animation tpsWidth = new Animation(Easing.EASE_OUT_QUAD, 150);
     private final Animation pingWidth = new Animation(Easing.EASE_OUT_QUAD, 150);
     private final Animation duraWidth = new Animation(Easing.EASE_OUT_QUAD, 150);
-
-    @Override
-    public void onEnable()
-    {
-        if (!MinecraftClient.IS_SYSTEM_MAC)
-        {
-            ChatUtils.sendMessagePrivate(Formatting.GREEN + "You are playing on a non-mac instance. Spotify API has been activated!");
-            Spotify.init();
-        }
-    }
-
-    @Override
-    public void onDisable()
-    {
-        if (!MinecraftClient.IS_SYSTEM_MAC)
-        {
-            Spotify.unload();
-        }
-    }
 
     @EventHandler(priority = 1)
     public void onPacketSend(PacketEvent.Send event) {
@@ -207,7 +187,7 @@ public final class HUD extends ModuleBase {
                         hudColor(arrayOffset).getRGB()
                 );
 
-                arrayOffset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
+                arrayOffset += Managers.TEXT.height(true) + 1;
             }
 
         }
@@ -261,24 +241,18 @@ public final class HUD extends ModuleBase {
                         context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
                         potionColors.is("Normal") ? statusEffectInstance.getEffectType().value().getColor() : hudColor((int) (context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue())).getRGB()
                 );
-                offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
+                offset += Managers.TEXT.height(true) + 1;
             }
         }
 
-        if (spotify.value() && Spotify.currentArtist != null) {
-
-            String artist = Spotify.currentArtist;
-            String track = Spotify.currentTrack;
-
-            String spotify = artist + " - " + track;
-
-            Managers.TEXT.drawString(getLabel(spotify),
-                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(spotify), true)) - 2,
+        if (spotify.value() && Managers.SPOTIFY.isSpotifyRunning()) {
+            Managers.TEXT.drawString(getLabel(Managers.SPOTIFY.getMedia()),
+                    context.getScaledWindowWidth() - (Managers.TEXT.width(getLabel(Managers.SPOTIFY.getMedia()), true)) - 2,
                     context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
 
-            offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
+            offset += Managers.TEXT.height(true) + 1;
         }
 
         if (serverBrand.value()) {
@@ -291,7 +265,7 @@ public final class HUD extends ModuleBase {
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
 
-            offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
+            offset += Managers.TEXT.height(true) + 1;
         }
 
         if (durability.value() && mc.player.getMainHandStack().isDamageable()) {
@@ -321,7 +295,7 @@ public final class HUD extends ModuleBase {
                             1.0f).getRGB()
             );
 
-            offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
+            offset += Managers.TEXT.height(true) + 1;
         }
 
         if (speed.value()) {
@@ -342,7 +316,7 @@ public final class HUD extends ModuleBase {
                     context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
-            offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
+            offset += Managers.TEXT.height(true) + 1;
             speedWidth.reset();
         }
 
@@ -356,7 +330,7 @@ public final class HUD extends ModuleBase {
                     context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
-            offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
+            offset += Managers.TEXT.height(true) + 1;
         }
 
         if (ping.value() && !mc.isInSingleplayer()) {
@@ -377,7 +351,7 @@ public final class HUD extends ModuleBase {
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
 
-            offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
+            offset += Managers.TEXT.height(true) + 1;
         }
 
         if (tps.value() && !mc.isInSingleplayer()) {
@@ -390,7 +364,7 @@ public final class HUD extends ModuleBase {
                     context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
-            offset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
+            offset += Managers.TEXT.height(true) + 1;
         }
 
         if (fps.value()) {
@@ -489,7 +463,7 @@ public final class HUD extends ModuleBase {
                         hudColor(coordinateOffset).getRGB()
                 );
             }
-            coordinateOffset += Managers.MODULES.getModuleFromClass(Fonts.class).isOn() ? Managers.TEXT.height(true) + 2 : Managers.TEXT.height(true) + 1;
+            coordinateOffset += Managers.TEXT.height(true) + 1;
         }
 
         if (direction.value()) {

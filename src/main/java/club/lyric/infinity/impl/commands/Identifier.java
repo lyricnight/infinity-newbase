@@ -42,6 +42,7 @@ public final class Identifier extends Command {
         }
 
         ChatUtils.sendMessagePrivate("Module ID:" + base.hashCode());
+        state(CommandState.PERFORMED);
     }
 
     @Override

@@ -27,8 +27,7 @@ public final class CommandManager implements IMinecraft {
                 new Identifier(),
                 new Toggle(),
                 new Watermark(),
-                new Bind(),
-                new Font()
+                new Bind()
         );
     }
 

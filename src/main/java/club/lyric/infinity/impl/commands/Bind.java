@@ -15,10 +15,12 @@ import net.minecraft.util.Formatting;
 /**
  * @author vasler
  */
-public class Bind extends Command {
+public final class Bind extends Command {
 
-    protected ModuleBase moduleBase;
-    protected boolean keyPressEnable;
+    private ModuleBase moduleBase;
+
+    private boolean keyPressEnable;
+
     public Bind()
     {
         super("bind");
@@ -69,7 +71,7 @@ public class Bind extends Command {
         return new String[]{"<module>"};
     }
 
-    @EventHandler
+    @EventHandler(priority = 3)
     public void onKeyPress(KeyPressEvent event) {
 
         if (!keyPressEnable) return;
@@ -79,5 +81,4 @@ public class Bind extends Command {
         moduleBase.setBind(event.getKey());
         ChatUtils.sendOverwriteMessageColored("The bind for " + moduleBase.getName() + " has changed to " + Formatting.WHITE + KeyUtils.getKeyName(event.getKey()) + Formatting.RESET + ".", 8948);
     }
-
 }

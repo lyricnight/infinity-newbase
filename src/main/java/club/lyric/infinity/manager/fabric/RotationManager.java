@@ -1,7 +1,7 @@
 package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
-import club.lyric.infinity.api.util.client.math.Null;
+import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.api.util.client.render.util.Interpolation;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;

@@ -5,12 +5,12 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
-import club.lyric.infinity.api.util.client.math.Null;
+import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.api.util.client.math.StopWatch;
-import club.lyric.infinity.api.util.client.math.VaslerHouseLocator;
 import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
 import club.lyric.infinity.api.util.minecraft.entity.EntityUtils;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * @author lyric
@@ -22,7 +22,7 @@ public final class Burrow extends BlockModuleBase {
 
     public ModeSetting offset = new ModeSetting("Offset", this, "Constant", "Constant", "Smart");
     //TODO: dynamic allocation of some sort -> mutable?
-    private VaslerHouseLocator locator = null;
+    private BlockPos locator = null;
     private final StopWatch.Single stopWatch = new StopWatch.Single();
 
     public Burrow() {
@@ -38,7 +38,7 @@ public final class Burrow extends BlockModuleBase {
             toggle();
             return;
         }
-        locator = new VaslerHouseLocator(EntityUtils.getPlayerPos());
+        locator = new BlockPos(EntityUtils.getPlayerPos());
     }
 
     @Override
@@ -59,7 +59,7 @@ public final class Burrow extends BlockModuleBase {
      */
     private boolean checkValidPos()
     {
-        return locator.get().equals(EntityUtils.getPlayerPos()) && mc.world.getBlockState(locator.get()).isReplaceable();
+        return locator.equals(EntityUtils.getPlayerPos()) && mc.world.getBlockState(locator).isReplaceable();
     }
 
     /**

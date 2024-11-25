@@ -25,7 +25,7 @@ public class ColorSetting extends Setting {
         return color;
     }
 
-    public void setColor(JColor color, boolean rainbow) {
+    public void setColor(JColor color) {
         this.color = color;
     }
 }

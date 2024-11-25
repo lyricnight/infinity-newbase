@@ -8,9 +8,8 @@ import club.lyric.infinity.api.util.client.chat.ChatUtils;
 /**
  * @author vasler
  */
-public class Watermark extends Command
+public final class Watermark extends Command
 {
-
     public Watermark()
     {
         super("watermark");
@@ -37,6 +36,8 @@ public class Watermark extends Command
         Infinity.CLIENT_NAME = result;
 
         ChatUtils.sendMessagePrivate("Watermark has been set to " + result);
+
+        state(CommandState.PERFORMED);
     }
 
     @Override

@@ -4,7 +4,7 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
-import club.lyric.infinity.api.util.client.math.Null;
+import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 

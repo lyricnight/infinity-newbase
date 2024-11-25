@@ -92,7 +92,7 @@ public class ColorComponent extends Component implements IMinecraft {
 
                 if (normalX == 1.0f) normalX = 0.990566F;
 
-                setting.setColor(JColor.fromHSB(MathHelper.clamp(normalX, 0.0f, 1.0f), setting.getColor().getHsb()[1], setting.getColor().getHsb()[2]), false);
+                setting.setColor(JColor.fromHSB(MathHelper.clamp(normalX, 0.0f, 1.0f), setting.getColor().getHsb()[1], setting.getColor().getHsb()[2]));
             }
 
             Render2DUtils.drawRect(context.getMatrices(), cursorX, cursorY, 4, 4, setting.getColor().getRGB());
@@ -114,7 +114,7 @@ public class ColorComponent extends Component implements IMinecraft {
 
                 normalY = MathHelper.clamp(-normalY + 1.0f, 0.0f, 1.0f);
 
-                setting.setColor(JColor.fromHSB(setting.getColor().getHsb()[0], normalX, normalY), false);
+                setting.setColor(JColor.fromHSB(setting.getColor().getHsb()[0], normalX, normalY));
 
                 cursorX = mouseX;
                 cursorY = mouseY;

@@ -1,4 +1,7 @@
-package club.lyric.infinity.api.util.client.spotify;
+package club.lyric.infinity.manager.client;
+
+import club.lyric.infinity.Infinity;
+import net.minecraft.client.MinecraftClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,32 +14,57 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 /**
- * @author valser
+ * @author lyric
  */
-public final class Spotify {
-    public static boolean isSpotifyRunning;
-    public static String currentTrack;
-    public static String lastTrack;
-    public static String currentArtist;
+public final class SpotifyManager {
+    private boolean isSpotifyRunning;
+
+    private String currentTrack, currentArtist;
+
     public static ScheduledExecutorService scheduled = Executors.newScheduledThreadPool(10);
 
-    public static void init() {
-        scheduled.scheduleAtFixedRate(Spotify::updateCurrentTrack, 100, 100, TimeUnit.MILLISECONDS);
+    /**
+     * public methods
+     */
+
+    public void init() {
+        if (MinecraftClient.IS_SYSTEM_MAC)
+        {
+            Infinity.LOGGER.error("System detected as a Mac -> SpotifyManager disabled.");
+            return;
+        }
+        scheduled.scheduleAtFixedRate(this::updateCurrentTrack, 100, 100, TimeUnit.MILLISECONDS);
     }
 
-    public static void reset() {
+    public void reset() {
+        if (MinecraftClient.IS_SYSTEM_MAC)
+        {
+            return;
+        }
         currentTrack = null;
         currentArtist = null;
-        lastTrack = null;
     }
 
-    public static void unload()
+    public void unload()
     {
-        scheduled.shutdown();
+        if (MinecraftClient.IS_SYSTEM_MAC)
+        {
+            return;
+        }
+        scheduled.shutdownNow();
         reset();
     }
 
-    public static void updateCurrentTrack() {
+    public String getMedia() {
+        if (!hasMedia()) return "No song is playing.";
+        return currentArtist + " - " + currentTrack;
+    }
+
+    /**
+     * util methods
+     */
+
+    private void updateCurrentTrack() {
 
         isSpotifyRunning = isSpotifyActive();
 
@@ -64,7 +92,7 @@ public final class Spotify {
         currentTrack = track.trim();
     }
 
-    public static boolean isSpotifyActive() {
+    private boolean isSpotifyActive() {
 
         AtomicBoolean isRunning = new AtomicBoolean(false);
         Stream<ProcessHandle> liveProcesses = ProcessHandle.allProcesses();
@@ -80,16 +108,19 @@ public final class Spotify {
         return isRunning.get();
     }
 
-    public static boolean hasMedia() {
+    private boolean hasMedia() {
         return isSpotifyRunning && currentTrack != null && currentArtist != null;
     }
 
-    public static String getMedia() {
-        if (!hasMedia()) return "No song is playing.";
-        return currentArtist + " - " + currentTrack;
+    /**
+     * getters..
+     */
+
+    public boolean isSpotifyRunning() {
+        return isSpotifyRunning;
     }
 
-    public static String[] getCurrentTrack() {
+    private String[] getCurrentTrack() {
         ArrayList<String> results = new ArrayList<>();
         try {
 

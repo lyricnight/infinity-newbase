@@ -69,8 +69,6 @@ public final class Friend extends Command implements IMinecraft {
 
     private String[] getOnlineUsernames() {
         List<ServerPlayerEntity> players = server.getPlayerManager().getPlayerList();
-        return players.stream()
-                .map(ServerPlayerEntity::getName)
-                .toArray(String[]::new);
+        return players.stream().map(ServerPlayerEntity::getName).toArray(String[]::new);
     }
 }

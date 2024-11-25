@@ -38,14 +38,6 @@ public class Interpolation implements IMinecraft {
                 entity.getZ() - MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ()));
     }
 
-    public static double interpolateLastTickPos(double pos, double lastPos) {
-        return lastPos + (pos - lastPos) * mc.getTickDelta();
-    }
-
-    public static Box interpolatePos(BlockPos pos) {
-        return interpolatePos(pos, 1.0f);
-    }
-
     public static Box interpolatePos(BlockPos pos, float height) {
         return new Box(pos.getX() - getCameraPos().x, pos.getY() - getCameraPos().y, pos.getZ() - getCameraPos().z, pos.getX() - getCameraPos().x + 1, pos.getY() - getCameraPos().y + height, pos.getZ() - getCameraPos().z + 1);
     }
@@ -57,6 +49,4 @@ public class Interpolation implements IMinecraft {
     public static float interpolateFloat(float prev, float value, float factor) {
         return prev + ((value - prev) * factor);
     }
-
-
 }

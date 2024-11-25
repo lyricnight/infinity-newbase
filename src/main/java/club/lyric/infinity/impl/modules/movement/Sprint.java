@@ -3,7 +3,7 @@ package club.lyric.infinity.impl.modules.movement;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
-import club.lyric.infinity.api.util.client.math.Null;
+import club.lyric.infinity.api.util.client.nulls.Null;
 import net.minecraft.client.option.KeyBinding;
 
 /**

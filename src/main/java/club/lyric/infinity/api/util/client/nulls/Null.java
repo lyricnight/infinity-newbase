@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.util.client.math;
+package club.lyric.infinity.api.util.client.nulls;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 

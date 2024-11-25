@@ -23,6 +23,7 @@ public final class Managers {
     public static TimerManager TIMER = new TimerManager();
     public static OtherEntityManager OTHER = new OtherEntityManager();
     public static InventoryManager INVENTORY = new InventoryManager();
+    public static SpotifyManager SPOTIFY = new SpotifyManager();
 
     /**
      * subscribing all managers...
@@ -41,8 +42,9 @@ public final class Managers {
     {
         Infinity.LOGGER.info("starting manager init.");
         MODULES.init();
-        //CONFIG.loadConfig();
+        CONFIG.loadConfig();
         COMMANDS.init();
+        SPOTIFY.init();
         Infinity.LOGGER.info("Manager initialisation complete.");
     }
 
@@ -51,7 +53,8 @@ public final class Managers {
      */
     public static void unload()
     {
-        //CONFIG.saveConfig();
+        SPOTIFY.unload();
+        CONFIG.saveConfig();
         OTHER.unload();
         TIMER.unload();
     }

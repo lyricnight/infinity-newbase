@@ -74,7 +74,6 @@ public final class ModuleManager implements IMinecraft
                 new BlockHighlight(),
                 new AntiLevitation(),
                 new KickPrevent(),
-                new Fonts(),
                 new Replenish(),
                 new Timer(),
                 new Reminer(),
