@@ -95,7 +95,7 @@ public class AutoCrystal extends ModuleBase {
     public ModeSetting places = new ModeSetting("Placing", this, "Vanilla", "Vanilla", "Packet");
 
     // Render
-    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(50, 50, 255)));
+    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(50, 50, 255)), true);
     private final StopWatch.Single breakTimer = new StopWatch.Single();
     private final Map<BlockPos, Long> ownCrystals = new HashMap<>();
     private final Map<Integer, StopWatch.Single> hitCrystals = new HashMap<>();

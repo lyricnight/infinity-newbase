@@ -15,7 +15,7 @@ The client has several ways that it is optimised:
 ````
 # Credits
 ````
-https://github.com/SpaiR -> Dear-IMGUI java bindings -> only for older versions due to gui migration
+https://github.com/SpaiR -> Dear-IMGUI java bindings
 RailHack -> Custom EventBus, (deprecated) loading system, and teaching me how the JVM handles memory
 Discord -> Discord RPC system files
 finz0 -> IRC implementation

@@ -1,6 +1,7 @@
 package club.lyric.infinity.api.module;
 
 import club.lyric.infinity.api.event.bus.EventBus;
+import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
@@ -28,7 +29,7 @@ import java.util.List;
  * module
  */
 
-@SuppressWarnings({"unused"})
+@SuppressWarnings("unused")
 public class ModuleBase implements IMinecraft {
 
     /**
@@ -51,6 +52,11 @@ public class ModuleBase implements IMinecraft {
      * setting list
      */
     public List<Setting> settingList = new ArrayList<>();
+
+    /**
+     * whether to show settings or not -> for GUI.
+     */
+    private boolean showSettings = false;
 
     /**
      * enabled/disabled
@@ -227,6 +233,32 @@ public class ModuleBase implements IMinecraft {
      */
     public List<Setting> getSettings() {
         return settingList;
+    }
+
+    /**
+     * getter for showing settings.
+     */
+    public boolean showSettings() {
+        return showSettings;
+    }
+
+    /**
+     * toggle function for above.
+     */
+
+    public void toggleShowSettings() {
+        this.showSettings = !this.showSettings;
+    }
+
+    /**
+     * rendering for GUI.
+     */
+    public void renderSettings() {
+        for (Setting setting : settingList) {
+            if (setting instanceof Renderable renderable) {
+                renderable.render();
+            }
+        }
     }
 
 

@@ -53,7 +53,7 @@ public class BlockModuleBase extends ModuleBase {
     /**
      * colors for rendering blocks placed
      */
-    public ColorSetting colorVal = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)));
+    public ColorSetting colorVal = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)), true);
     /**
      * again we want this on a module-by-module basis.
      */

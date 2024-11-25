@@ -40,9 +40,12 @@
     "MixinKeyboard",
     "MixinMinecraftClient",
     "MixinMinecraftOptions",
+    "MixinMouse",
     "MixinPlayerEntityRenderer",
+    "MixinRenderSystem",
     "MixinRenderTickCounter",
     "MixinSplashTextResourceSupplier",
+    "MixinWindow",
     "MixinWorldRenderer",
     "accessors.IChatHudLine",
     "accessors.IMinecraft"

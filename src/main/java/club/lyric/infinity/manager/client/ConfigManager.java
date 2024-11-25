@@ -192,7 +192,7 @@ public final class ConfigManager implements IMinecraft {
                                 continue;
 
                             JsonObject colorJson = settingJson.getAsJsonObject();
-                            colorSetting.setColor(new JColor(colorJson.get("color").getAsInt()));
+                            colorSetting.setColor(new JColor(colorJson.get("color").getAsInt()), colorJson.get("rainbow").getAsBoolean());
                         }
                     }
                 }

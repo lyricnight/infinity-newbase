@@ -33,9 +33,9 @@ public final class HoleESP extends ModuleBase {
     public NumberSetting size = new NumberSetting("Size", this, 1f, 0.01f, 1f, 0.1f);
 
     // Color
-    public ColorSetting bedrock = new ColorSetting("Bedrock", this, new JColor(new Color(50, 255, 50)));
-    public ColorSetting obsidian = new ColorSetting("Obsidian", this, new JColor(new Color(255, 50, 50)));
-    public ColorSetting doubles = new ColorSetting("Doubles", this, new JColor(new Color(50, 50, 255)));
+    public ColorSetting bedrock = new ColorSetting("Bedrock", this, new JColor(new Color(50, 255, 50)), false);
+    public ColorSetting obsidian = new ColorSetting("Obsidian", this, new JColor(new Color(255, 50, 50)), false);
+    public ColorSetting doubles = new ColorSetting("Doubles", this, new JColor(new Color(50, 50, 255)), false);
 
     // Box
     public BooleanSetting doublez = new BooleanSetting("Doubles", true, this);

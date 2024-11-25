@@ -21,8 +21,8 @@ import java.awt.*;
  * @author vasler
  */
 public final class BlockHighlight extends ModuleBase {
-    public ColorSetting lineColor = new ColorSetting("LineColor", this, new JColor(new Color(50, 255, 50, 255)));
-    public ColorSetting boxColor = new ColorSetting("BoxColor", this, new JColor(new Color(50, 255, 50, 255)));
+    public ColorSetting lineColor = new ColorSetting("LineColor", this, new JColor(new Color(50, 255, 50, 255)), false);
+    public ColorSetting boxColor = new ColorSetting("BoxColor", this, new JColor(new Color(50, 255, 50, 255)), false);
     public BooleanSetting outline = new BooleanSetting("Outline", true, this);
     public BooleanSetting box = new BooleanSetting("Box", true, this);
 

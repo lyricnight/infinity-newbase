@@ -1,12 +1,17 @@
 package club.lyric.infinity.api.setting.settings;
 
 import club.lyric.infinity.api.module.ModuleBase;
+import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
+import imgui.ImGui;
+import imgui.flag.ImGuiDataType;
+import imgui.type.ImDouble;
+import imgui.type.ImInt;
 
 /**
  * @author lyric
  */
-public class NumberSetting extends Setting {
+public class NumberSetting extends Setting implements Renderable {
     private double value;
     private double minimum;
     private double maximum;
@@ -91,5 +96,41 @@ public class NumberSetting extends Setting {
 
     public void setIncrement(double increment) {
         this.increment = increment;
+    }
+
+    @Override
+    public void render() {
+        ImGui.pushID(moduleBase.getName() + "/" + name);
+
+        ImGui.text(name + ": ");
+
+        ImGui.sameLine();
+        if (decimal) {
+            ImGui.text(String.format("%.2f", value));
+        } else {
+            ImGui.text(String.format("%d", (int) value));
+        }
+
+        boolean changed;
+
+        if (decimal) {
+            ImDouble val = new ImDouble(value);
+
+            ImGui.pushItemWidth(210f);
+            changed = ImGui.sliderScalar("", ImGuiDataType.Double, val, minimum, maximum, "%.2f");
+            ImGui.popItemWidth();
+
+            if (changed) value = val.get();
+        } else {
+            ImInt val = new ImInt((int) value);
+
+            ImGui.pushItemWidth(210f);
+            changed = ImGui.sliderScalar("", ImGuiDataType.S32, val, (int) minimum, (int) maximum);
+            ImGui.popItemWidth();
+
+            if (changed) this.value = val.get();
+        }
+
+        ImGui.popID();
     }
 }

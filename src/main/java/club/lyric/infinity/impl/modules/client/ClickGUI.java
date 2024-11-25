@@ -1,34 +1,31 @@
 package club.lyric.infinity.impl.modules.client;
 
-import club.lyric.infinity.api.gui.Gui;
+import club.lyric.infinity.api.event.bus.EventHandler;
+import club.lyric.infinity.api.gui.Menu;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ColorSetting;
-import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
+import club.lyric.infinity.api.util.client.render.util.Render2DUtils;
+import club.lyric.infinity.impl.events.client.KeyPressEvent;
+import net.minecraft.client.gui.DrawContext;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
+
 /**
- * @author vasler
+ * @author lyric
  */
 public final class ClickGUI extends ModuleBase {
-    public NumberSetting frameHeight = new NumberSetting("FrameHeight", this, 16f, 10f, 20f, 1f);
-    public NumberSetting buttonHeight = new NumberSetting("ButtonHeight", this, 17f, 12f, 25f, 1f);
-    public NumberSetting frameWidth = new NumberSetting("FrameWidth", this, 6f, 1f, 10f, 1f);
-    public ModeSetting position = new ModeSetting("Position", this, "Middle", "Left", "Middle", "Right");
-    public NumberSetting padding = new NumberSetting("Padding", this, 4.0f, 1.0f, 6.0f, 0.1f);
-    public NumberSetting speed = new NumberSetting("Speed", this, 400, 0, 1500, 1, "ms");
-    public BooleanSetting line = new BooleanSetting("Line", true, this);
-    public BooleanSetting gear = new BooleanSetting("Gear", true, this);
-    public BooleanSetting hover = new BooleanSetting("Hover", true, this);
-    public BooleanSetting tint = new BooleanSetting("Tint", true, this);
-    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(180, 50, 255)));
-    public ColorSetting textColor = new ColorSetting("TextColor", this, new JColor(new Color(180, 50, 255)));
-    public ColorSetting tintColor = new ColorSetting("TintColor", this, new JColor(new Color(180, 50, 255)));
+
+    public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(180, 50, 255)), false);
+
+    public NumberSetting alpha = new NumberSetting("BackgroundAlpha", this, 60, 0, 255, 5);
+
+    public BooleanSetting resizing = new BooleanSetting("Resizing", false, this);
 
     public ClickGUI() {
         super("ClickGui", "Displays a graphical user interface.", Category.Client);
@@ -41,9 +38,29 @@ public final class ClickGUI extends ModuleBase {
             disable();
             return;
         }
+        Menu.getInstance().toggle();
+        mc.mouse.unlockCursor();
+    }
 
-        if (mc.currentScreen == null) {
-            mc.setScreen(new Gui());
+    @Override
+    public void onDisable() {
+        if (mc.world == null) {
+            return;
         }
+        mc.setScreenAndRender(null);
+        Menu.getInstance().toggle();
+        if (mc.currentScreen == null) mc.mouse.lockCursor();
+    }
+
+    @EventHandler
+    public void onKeyPress(KeyPressEvent event) {
+        if (event.getAction() == GLFW.GLFW_PRESS && (event.getKey() == GLFW.GLFW_KEY_ESCAPE || event.getKey() == bind.getCode())) {
+            setEnabled(false);
+        }
+    }
+
+    @Override
+    public void onRender2D(DrawContext context) {
+        Render2DUtils.drawRect(context.getMatrices(), 0, 0, context.getScaledWindowWidth(), context.getScaledWindowHeight(), new Color(color.getColor().getRed(), color.getColor().getGreen(), color.getColor().getBlue(), alpha.getIValue()).getRGB());
     }
 }
