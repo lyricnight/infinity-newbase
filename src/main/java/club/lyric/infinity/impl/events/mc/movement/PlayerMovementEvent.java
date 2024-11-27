@@ -4,6 +4,9 @@ import club.lyric.infinity.api.event.Event;
 import net.minecraft.entity.MovementType;
 import net.minecraft.util.math.Vec3d;
 
+/**
+ * @author lyric
+ */
 public class PlayerMovementEvent extends Event {
     private final MovementType type;
     private double x, y, z;

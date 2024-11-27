@@ -7,7 +7,7 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
  * @author lyric
  * fired whenever our player model is drawn.
  */
-public class RenderPlayerModelEvent extends Event {
+public final class RenderPlayerModelEvent extends Event {
     private final AbstractClientPlayerEntity entity;
     private float yaw;
     private float pitch;

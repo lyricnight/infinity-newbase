@@ -6,6 +6,7 @@ import net.minecraft.entity.LivingEntity;
 /**
  * @author lyric
  * event fired whenever an entity is interpolated client-side
+ * @see club.lyric.infinity.impl.modules.exploit.Resolver;
  */
 public final class InterpolationEvent extends Event {
     private final LivingEntity entity;

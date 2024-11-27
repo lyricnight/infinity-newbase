@@ -3,10 +3,7 @@ package club.lyric.infinity.asm;
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.Version;
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.manager.Managers;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.crash.CrashReportSection;
 import org.spongepowered.asm.mixin.Final;
@@ -18,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

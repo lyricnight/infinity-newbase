@@ -3,7 +3,6 @@ package club.lyric.infinity.asm;
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.events.mc.DeathEvent;
 import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
 import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
 import club.lyric.infinity.impl.events.mc.update.UpdateWalkingPlayerEvent;
@@ -18,7 +17,6 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.MovementType;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.MathHelper;
@@ -93,12 +91,6 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
     private void tickHook(CallbackInfo ci) {
         Managers.ROTATIONS.update();
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onUpdate);
-        if (mc.world == null) return;
-        for (PlayerEntity player : mc.world.getPlayers()) {
-            if (player == null || player.getHealth() > 0.0F)
-                continue;
-            EventBus.getInstance().post(new DeathEvent(player));
-        }
     }
 
 

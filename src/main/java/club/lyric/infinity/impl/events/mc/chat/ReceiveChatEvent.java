@@ -4,6 +4,9 @@ import club.lyric.infinity.api.event.Event;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.text.Text;
 
+/**
+ * @author lyric
+ */
 public class ReceiveChatEvent extends Event {
 
     private Text message;

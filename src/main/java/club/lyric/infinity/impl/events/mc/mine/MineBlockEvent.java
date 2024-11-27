@@ -5,6 +5,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
+/**
+ * @author lyric
+ */
 public class MineBlockEvent extends Event {
     private final BlockPos pos;
     private final BlockState state;
