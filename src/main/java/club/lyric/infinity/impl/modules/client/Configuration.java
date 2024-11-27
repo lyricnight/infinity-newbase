@@ -7,7 +7,7 @@ import club.lyric.infinity.manager.Managers;
 /**
  * @author lyric
  */
-public class Configuration extends PersistentModuleBase {
+public final class Configuration extends PersistentModuleBase {
     public Configuration()
     {
         super("Configuration", "Manages the configuration of the client.", Category.Client);
