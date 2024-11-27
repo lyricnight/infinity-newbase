@@ -38,7 +38,7 @@ public final class AntiAscii extends ModuleBase {
 
             if (counter >= offset.getIValue()) {
                 event.setCancelled(true);
-                ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + "Blocked a chat message with " + Formatting.RESET + counter + Formatting.WHITE + " flags.", 2222);
+                ChatUtils.sendOverwriteMessageColored(Formatting.RED + "Blocked a chat message with " + counter + " flags.", 2222);
             }
         }
     }

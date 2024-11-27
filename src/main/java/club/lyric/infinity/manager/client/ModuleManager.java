@@ -32,6 +32,7 @@ public final class ModuleManager implements IMinecraft
         register(
                 new Notifications(),
                 new ClickGUI(),
+                new Configuration(),
                 new AntiCheat(),
                 new RichPresence(),
                 new AutoMine(),

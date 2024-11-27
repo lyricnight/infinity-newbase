@@ -87,7 +87,7 @@ public class IMLoader implements IMinecraft {
         fontAtlas.addFontDefault();
         fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesCyrillic());
 
-        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/Roboto-Bold.ttf")) {
+        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/Comfortaa-Bold.ttf")) {
             if (is != null) {
                 byte[] fontData = is.readAllBytes();
 
@@ -97,7 +97,7 @@ public class IMLoader implements IMinecraft {
             Infinity.LOGGER.atError();
         }
 
-        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/Roboto-Regular.ttf")) {
+        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/Comfortaa-Regular.ttf")) {
             if (is != null) {
                 byte[] fontData = is.readAllBytes();
 
@@ -107,7 +107,7 @@ public class IMLoader implements IMinecraft {
             Infinity.LOGGER.atError();
         }
 
-        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/Roboto-Regular.ttf")) {
+        try (InputStream is = IMLoader.class.getClassLoader().getResourceAsStream("assets/Comfortaa-Regular.ttf")) {
             if (is != null) {
                 byte[] fontData = is.readAllBytes();
 
