@@ -3,7 +3,7 @@ package club.lyric.infinity.api.event;
 /**
  * @author lyric
  */
-public class Event {
+public final class Event {
     /**
      * represents whether an event is cancelled or not.
      */

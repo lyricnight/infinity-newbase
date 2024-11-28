@@ -52,7 +52,7 @@ public final class EventBus {
                 }
             }
         } catch (Throwable t) {
-            Infinity.LOGGER.error("Failed to register " + target + ": ", t);
+            Infinity.LOGGER.error("Failed to register {}: ", target, t);
         }
     }
 
