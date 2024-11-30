@@ -65,13 +65,10 @@ public final class OtherEntityManager implements IMinecraft {
         }
     }
 
-
-
     public void unload()
     {
         totemPopMap.clear();
     }
-
 
     public int getTotemPops(PlayerEntity playerEntity)
     {
