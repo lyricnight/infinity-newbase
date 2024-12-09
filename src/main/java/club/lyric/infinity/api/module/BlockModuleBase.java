@@ -148,8 +148,8 @@ public class BlockModuleBase extends ModuleBase {
      * <code>
      *  placeBlock(pos, slot (state, angles) -> if (AntiCheat.getRotations()))
      *  {
-     *      if state -> rotate normally
-     *      else rotate sync
+     *      if state -> setRotationSilently(angles[0], angles[1])
+     *      else sync();
      *  }
      *  else do nothing because no rotation.
      * </code>

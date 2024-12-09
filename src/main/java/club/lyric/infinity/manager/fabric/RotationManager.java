@@ -129,6 +129,10 @@ public final class RotationManager implements IMinecraft {
         }
     }
 
+    /**
+     * method used to deliver submissions
+     * @param rotationPoint - point to rotate to.
+     */
     public void setRotationPoint(RotationPoint rotationPoint)
     {
         //instant for max value
@@ -148,6 +152,18 @@ public final class RotationManager implements IMinecraft {
         }
     }
 
+    /**
+     * used when we don't want a rotationPoint
+     */
+    public void setRotationSilently(float yaw, float pitch)
+    {
+        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, mc.player.isOnGround()));
+    }
+
+    public void sync()
+    {
+        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(mc.player.getYaw(), mc.player.getPitch(), mc.player.isOnGround()));
+    }
 
     /**
      * woo!
