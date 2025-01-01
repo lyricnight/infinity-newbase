@@ -13,10 +13,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Mixin(Camera.class)
 public class MixinCamera {
+
     @Inject(method = "clipToSpace", at = @At("HEAD"), cancellable = true)
-    private void onClipToSpace(double desiredCameraDistance, CallbackInfoReturnable<Double> info) {
+    private void onClipToSpace(float f, CallbackInfoReturnable<Float> cir) {
         if (Managers.MODULES.getModuleFromClass(CameraClip.class).isOn()) {
-            info.setReturnValue(Managers.MODULES.getModuleFromClass(CameraClip.class).range.getValue());
+            cir.setReturnValue(Managers.MODULES.getModuleFromClass(CameraClip.class).range.getFValue());
         }
     }
 }

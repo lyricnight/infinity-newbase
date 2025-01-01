@@ -17,9 +17,11 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.util.BufferAllocator;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -48,6 +50,7 @@ public final class Nametags extends ModuleBase {
     public ColorSetting lineColor = new ColorSetting("LineColor", this, new JColor(new Color(64, 64, 124)), false);
     public NumberSetting range = new NumberSetting("Range", this, 300.0f, 10.0f, 300.0f, 1.0f, "m");
     private static final Pattern PATTERN = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
+    private final BufferAllocator buffer = new BufferAllocator(2048);
 
     public Nametags() {
         super("Nametags", "Fire", Category.Visual);
@@ -56,7 +59,7 @@ public final class Nametags extends ModuleBase {
     @Override
     public void onRender3D(MatrixStack stack) {
         for (Entity entity : mc.world.getEntities()) {
-            Vec3d interpolate = Interpolation.getRenderPosition(mc.getCameraEntity(), mc.getTickDelta());
+            Vec3d interpolate = Interpolation.getRenderPosition(mc.getCameraEntity(), mc.getRenderTickCounter().getTickDelta(false));
             if (entity instanceof PlayerEntity player) {
 
                 if (!self.value() && player == mc.player) continue;
@@ -103,7 +106,7 @@ public final class Nametags extends ModuleBase {
 
         Tessellator tessellator = RenderSystem.renderThreadTesselator();
 
-        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(tessellator.getBuffer());
+        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(buffer);
 
         drawText(matrices, immediate, renderPlayerName(entity), -Managers.TEXT.width(renderPlayerName(entity), true) / 2, -8.0f, getNameColor(entity));
 
@@ -116,7 +119,7 @@ public final class Nametags extends ModuleBase {
     }
 
     public static void drawText(MatrixStack matrixStack, VertexConsumerProvider.Immediate immediate, String text, float x, float y, int color) {
-        mc.textRenderer.draw(text, x, y, color, true, matrixStack.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 0xF000F0, mc.textRenderer.isRightToLeft());
+        mc.textRenderer.draw(Text.of(text), x, y, color, true, matrixStack.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 0xF000F0, mc.textRenderer.isRightToLeft());
     }
 
     private String renderPlayerName(PlayerEntity player) {

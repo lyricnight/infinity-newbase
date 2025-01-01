@@ -24,9 +24,9 @@ public class Interpolation implements IMinecraft {
         double y;
         double z;
         {
-            x = entity.prevX + (entity.getX() - entity.prevX) * mc.getTickDelta() - getCameraPos().x;
-            y = entity.prevY + (entity.getY() - entity.prevY) * mc.getTickDelta() - getCameraPos().y;
-            z = entity.prevZ + (entity.getZ() - entity.prevZ) * mc.getTickDelta() - getCameraPos().z;
+            x = entity.prevX + (entity.getX() - entity.prevX) * mc.getRenderTickCounter().getTickDelta(false) - getCameraPos().x;
+            y = entity.prevY + (entity.getY() - entity.prevY) * mc.getRenderTickCounter().getTickDelta(false) - getCameraPos().y;
+            z = entity.prevZ + (entity.getZ() - entity.prevZ) * mc.getRenderTickCounter().getTickDelta(false) - getCameraPos().z;
         }
 
         return new Vec3d(x, y, z);

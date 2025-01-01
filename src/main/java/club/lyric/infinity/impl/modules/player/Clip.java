@@ -42,15 +42,15 @@ public final class Clip extends ModuleBase {
                 //might be wrong
                 else if (mc.player.ticksSinceLastPositionPacketSent % delay.getValue() == 0) {
                     mc.player.setPosition(mc.player.getX() + MathHelper.clamp(MathUtils.roundToClosest(mc.player.getX(), Math.floor(mc.player.getX()) + 0.241, Math.floor(mc.player.getX()) + 0.759) - mc.player.getX(), -0.03, 0.03), mc.player.getY(), mc.player.getZ() + MathHelper.clamp(MathUtils.roundToClosest(mc.player.getZ(), Math.floor(mc.player.getZ()) + 0.241, Math.floor(mc.player.getZ()) + 0.759) - mc.player.getZ(), -0.03, 0.03));
-                    send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY(), mc.player.getZ(), true));
-                    send(new PlayerMoveC2SPacket.PositionAndOnGround(MathUtils.roundToClosest(mc.player.getX(), Math.floor(mc.player.getX()) + 0.23, Math.floor(mc.player.getX()) + 0.77), mc.player.getY(), MathUtils.roundToClosest(mc.player.getZ(), Math.floor(mc.player.getZ()) + 0.23, Math.floor(mc.player.getZ()) + 0.77), true));
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY(), mc.player.getZ(), true, false));
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(MathUtils.roundToClosest(mc.player.getX(), Math.floor(mc.player.getX()) + 0.23, Math.floor(mc.player.getX()) + 0.77), mc.player.getY(), MathUtils.roundToClosest(mc.player.getZ(), Math.floor(mc.player.getZ()) + 0.23, Math.floor(mc.player.getZ()) + 0.77), true, false));
                 }
             }
             case "NoCheck" -> {
-                send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() - 0.0042123, mc.player.getZ(), mc.player.isOnGround()));
-                send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() - 0.02141, mc.player.getZ(), mc.player.isOnGround()));
+                send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() - 0.0042123, mc.player.getZ(), mc.player.isOnGround(), mc.player.horizontalCollision));
+                send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() - 0.02141, mc.player.getZ(), mc.player.isOnGround(), mc.player.horizontalCollision));
                 //illegal / overflow angles because some servers don't bother checking for them.
-                send(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY() - 0.097421, mc.player.getZ(), 500, 500, mc.player.isOnGround()));
+                send(new PlayerMoveC2SPacket.Full(mc.player.getX(), mc.player.getY() - 0.097421, mc.player.getZ(), 500, 500, mc.player.isOnGround(), mc.player.horizontalCollision));
             }
         }
         time++;

@@ -5,6 +5,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,9 +28,6 @@ public abstract class MixinDrawContext implements IDrawContext {
     @Shadow
     private VertexConsumerProvider.Immediate vertexConsumers;
 
-    @Shadow
-    @Deprecated
-    protected abstract void tryDraw();
 
     @Override
     public float infinity_newbase$drawText(TextRenderer renderer, @Nullable String text, float x, float y, int color, boolean shadow) {
@@ -39,11 +37,11 @@ public abstract class MixinDrawContext implements IDrawContext {
         } else {
 
             if (!shadow) {
-                renderer.draw(text, x + 0.5f, y + 0.5f, color, false, this.matrices.peek().getPositionMatrix(), this.vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, 0, renderer.isRightToLeft());
+                renderer.draw(Text.of(text), x + 0.5f, y + 0.5f, color, false, this.matrices.peek().getPositionMatrix(), this.vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, 0, renderer.isRightToLeft());
             }
 
-            i = renderer.draw(text, x, y, color, shadow, this.matrices.peek().getPositionMatrix(), this.vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, 15728880, renderer.isRightToLeft());
-            this.tryDraw();
+            i = renderer.draw(Text.of(text), x, y, color, shadow, this.matrices.peek().getPositionMatrix(), this.vertexConsumers, TextRenderer.TextLayerType.NORMAL, 0, 15728880, renderer.isRightToLeft());
+//            draw();
             return i;
         }
     }

@@ -71,7 +71,7 @@ public final class AirPlace extends ModuleBase
     private void place(BlockHitResult result)
     {
         ActionResult actionResult = mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, result);;
-        if (actionResult.isAccepted() && actionResult.shouldSwingHand())
+        if (actionResult.isAccepted())
         {
             mc.player.swingHand(Hand.MAIN_HAND);
         }

@@ -218,7 +218,7 @@ public class BlockModuleBase extends ModuleBase {
         renderingPos.add(result.getBlockPos());
 
         ActionResult actionResult = mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, result);
-        if (actionResult.isAccepted() && actionResult.shouldSwingHand())
+        if (actionResult.isAccepted())
         {
             mc.player.swingHand(Hand.MAIN_HAND);
         }

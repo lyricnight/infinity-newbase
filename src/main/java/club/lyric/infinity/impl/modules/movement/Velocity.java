@@ -14,7 +14,9 @@ import club.lyric.infinity.impl.events.network.PacketEvent;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.Vec3d;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -81,9 +83,7 @@ public final class Velocity extends ModuleBase {
                     event.setCancelled(true);
                 }
 
-                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityX((int) (mc.player.getX() * horizontal.getIValue() / 100));
-                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityY((int) (mc.player.getY() * vertical.getIValue() / 100));
-                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityZ((int) (mc.player.getZ() * horizontal.getIValue() / 100));
+                ((IExplosionS2CPacket) event.getPacket()).setPlayerKnockback(Optional.of(new Vec3d(mc.player.getX() * horizontal.getIValue() / 100, mc.player.getY() * vertical.getIValue() / 100, mc.player.getZ() * horizontal.getIValue() / 100)));
             }
         }
 

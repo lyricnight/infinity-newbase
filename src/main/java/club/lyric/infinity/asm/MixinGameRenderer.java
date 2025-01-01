@@ -4,11 +4,15 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.manager.Managers;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.profiler.Profilers;
+import org.lwjgl.opengl.GL11;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,18 +28,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinGameRenderer implements IMinecraft {
 
     @Inject(at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/GameRenderer;renderHand:Z", opcode = Opcodes.GETFIELD, ordinal = 0), method = "renderWorld")
-    void render(float tickDelta, long limitTime, CallbackInfo ci) {
+    void render(RenderTickCounter renderTickCounter, CallbackInfo ci, @Local MatrixStack stack) {
         if (Null.is()) return;
 
+        Profilers.get().push("render-infinity");
         //this is all thanks to 1.20.4 -> 1.20.6, which changed how matrixStack works
         Camera camera = mc.gameRenderer.getCamera();
-        MatrixStack matrixStack = new MatrixStack();
-        RenderSystem.getModelViewStack().pushMatrix().mul(matrixStack.peek().getPositionMatrix());
-        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0f));
-        RenderSystem.applyModelViewMatrix();
-        Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(module -> module.onRender3D(matrixStack));
-        RenderSystem.getModelViewStack().popMatrix();
-        RenderSystem.applyModelViewMatrix();
+
+        stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+        stack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0f));
+
+        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT);
+        Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(module -> module.onRender3D(stack));
+        Profilers.get().pop();
+
     }
 }

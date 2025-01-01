@@ -16,6 +16,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.util.BufferAllocator;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -50,6 +51,7 @@ public final class ESP extends ModuleBase {
     public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)), true);
     BlockPos chorusPos;
     StopWatch.Single stopWatch = new StopWatch.Single();
+    private final BufferAllocator buffer = new BufferAllocator(2048);
 
     public ESP() {
         super("ESP", "Communication outside of normal sensory capability, as in telepathy and clairvoyance.", Category.Visual);
@@ -106,7 +108,7 @@ public final class ESP extends ModuleBase {
 
         if (event.getPacket() instanceof PlaySoundS2CPacket sound) {
 
-            if (sound.getSound() == SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT || sound.getSound() == SoundEvents.ENTITY_ENDERMAN_TELEPORT) {
+            if (sound.getSound().value() == SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT || sound.getSound().value() == SoundEvents.ENTITY_ENDERMAN_TELEPORT) {
 
                 chorusPos = new BlockPos((int) sound.getX(), (int) sound.getY(), (int) sound.getZ());
                 stopWatch.reset();
@@ -162,7 +164,7 @@ public final class ESP extends ModuleBase {
         matrices.multiply(mc.getEntityRenderDispatcher().camera.getRotation());
         matrices.scale(-scale, -scale, scale);
 
-        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
+        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(buffer);
 
         textRenderer.draw(name, -Managers.TEXT.width(name, true) / 2 + 1, 2, -1, false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 15728880);
 

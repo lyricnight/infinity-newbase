@@ -297,7 +297,7 @@ public class AutoCrystal extends ModuleBase {
                     if (ent == null) {
                         return;
                     }
-                    if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(explosionPacket.getX(), explosionPacket.getY(), explosionPacket.getZ()) <= 6.0d) {
+                    if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(explosionPacket.center().x, explosionPacket.center().y, explosionPacket.center().z) <= 6.0d) {
                         int entity = crystal.getId();
                         mc.executeSync(() -> {
                             mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
@@ -455,11 +455,11 @@ public class AutoCrystal extends ModuleBase {
 
         float damage = getDifficultyMultiplier((float) ((densityDistance * densityDistance + distance) / 2.0 * 85.0));
 
-        Explosion explosion = new Explosion(mc.world, null, pos.getX(), pos.getY(), pos.getZ(), 6.0f, false, Explosion.DestructionType.DESTROY);
+//        Explosion explosion = new Explosion(mc.world, null, pos.getX(), pos.getY(), pos.getZ(), 6.0f, false, Explosion.DestructionType.DESTROY);
+//
+//        if (explosion.getCausingEntity() == null) return 0.0f;
 
-        if (explosion.getCausingEntity() == null) return 0.0f;
-
-        damage = applyArmorCalculations(damage, entity, explosion.getCausingEntity().getRecentDamageSource());
+        damage = applyArmorCalculations(damage, entity, mc.world.getDamageSources().explosion(null));
         damage = applyPotionEffects(damage, entity);
 
         return Math.max(damage, 0.0f);
@@ -475,9 +475,9 @@ public class AutoCrystal extends ModuleBase {
     }
 
     private static float applyArmorCalculations(float damage, LivingEntity entity, DamageSource source) {
-        damage = DamageUtil.getDamageLeft(damage, source, (float) entity.getArmor(), (float) entity.getAttributeInstance(EntityAttributes.GENERIC_ARMOR_TOUGHNESS).getValue());
+        damage = DamageUtil.getDamageLeft(entity, damage, source, (float) entity.getArmor(), (float) entity.getAttributeInstance(EntityAttributes.ARMOR_TOUGHNESS).getValue());
 
-        int enchantmentModifier = EnchantmentHelper.getProtectionAmount(entity.getArmorItems(), source);
+        int enchantmentModifier = (int) EnchantmentHelper.getProtectionAmount(mc.getServer().getWorld(World.OVERWORLD), entity, source);
 
         if (enchantmentModifier > 0) damage = DamageUtil.getInflictedDamage(damage, (float) enchantmentModifier);
 

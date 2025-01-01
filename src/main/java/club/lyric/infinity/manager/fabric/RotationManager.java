@@ -120,8 +120,8 @@ public final class RotationManager implements IMinecraft {
         if (event.getEntity() == mc.player && current != null) {
             if (!Managers.MODULES.getModuleFromClass(Resolver.class).isOn())
             {
-                event.setYaw(Interpolation.interpolateFloat(prevYaw, serverYaw, mc.getTickDelta()));
-                event.setPitch(Interpolation.interpolateFloat(prevPitch, serverPitch, mc.getTickDelta()));
+                event.setYaw(Interpolation.interpolateFloat(prevYaw, serverYaw, mc.getRenderTickCounter().getTickDelta(false)));
+                event.setPitch(Interpolation.interpolateFloat(prevPitch, serverPitch, mc.getRenderTickCounter().getTickDelta(false)));
             }
             prevYaw = event.getYaw();
             prevPitch = event.getPitch();
@@ -157,12 +157,12 @@ public final class RotationManager implements IMinecraft {
      */
     public void setRotationSilently(float yaw, float pitch)
     {
-        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, mc.player.isOnGround()));
+        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, mc.player.isOnGround(), mc.player.horizontalCollision));
     }
 
     public void sync()
     {
-        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(mc.player.getYaw(), mc.player.getPitch(), mc.player.isOnGround()));
+        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(mc.player.getYaw(), mc.player.getPitch(), mc.player.isOnGround(), mc.player.horizontalCollision));
     }
 
     /**

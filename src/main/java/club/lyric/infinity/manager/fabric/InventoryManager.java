@@ -110,7 +110,7 @@ public final class InventoryManager implements IMinecraft {
     {
         if (event.getPacket() instanceof UpdateSelectedSlotS2CPacket packet)
         {
-            s = packet.getSlot();
+            s = packet.slot();
         }
     }
 }

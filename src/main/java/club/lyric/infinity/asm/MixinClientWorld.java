@@ -4,11 +4,17 @@ import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.visual.Ambience;
 import club.lyric.infinity.manager.Managers;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.component.type.MapIdComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.EntityLookup;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -19,6 +25,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Mixin(ClientWorld.class)
 public abstract class MixinClientWorld implements IMinecraft {
+
+    @Shadow @Nullable
+    protected abstract EntityLookup<Entity> getEntityLookup();
 
     @Inject(method = "getSkyColor", at = @At("HEAD"), cancellable = true)
     private void getSkyColor(Vec3d cameraPos, float tickDelta, CallbackInfoReturnable<Vec3d> cir) {
@@ -43,14 +52,16 @@ public abstract class MixinClientWorld implements IMinecraft {
         }
     }
 
-    @Inject(method = "removeEntity", at = @At("HEAD"))
-    public void removeEntityHook(int entityId, Entity.RemovalReason removalReason, CallbackInfo ci) {
-        if (Null.is()) return;
-        if (mc.world.getEntityById(entityId) instanceof PlayerEntity)
-        {
-            Managers.OTHER.onRemoveEntity((PlayerEntity) mc.world.getEntityById(entityId));
-        }
-    }
+//    @Inject(method = "removeEntity", at = @At("HEAD"))
+//    public void removeEntityHook(int entityId, Entity.RemovalReason removalReason, CallbackInfo ci) {
+//        if (Null.is()) return;
+//        Entity entity = getEntityLookup().get(entityId);
+//
+//        if (entity instanceof PlayerEntity player)
+//        {
+//            Managers.OTHER.onRemoveEntity(player);
+//        }
+//    }
 
 
 }

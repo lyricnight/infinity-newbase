@@ -2,6 +2,7 @@ package club.lyric.infinity.api.util.client.render.util;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import org.joml.Matrix4f;
@@ -31,15 +32,14 @@ public class Render2DUtils implements IMinecraft {
         float a = (float) (color >> 24 & 255) / 255.0F;
 
         // Rect starts here
-        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         setup();
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-        bufferBuilder.vertex(matrix, x, y + height, 0.0F).color(r, g, b, a).next();
-        bufferBuilder.vertex(matrix, x + width, y + height, 0.0F).color(r, g, b, a).next();
-        bufferBuilder.vertex(matrix, x + width, y, 0.0F).color(r, g, b, a).next();
-        bufferBuilder.vertex(matrix, x, y, 0.0F).color(r, g, b, a).next();
-        Tessellator.getInstance().draw();
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
+        bufferBuilder.vertex(matrix, x, y + height, 0.0F).color(r, g, b, a);
+        bufferBuilder.vertex(matrix, x + width, y + height, 0.0F).color(r, g, b, a);
+        bufferBuilder.vertex(matrix, x + width, y, 0.0F).color(r, g, b, a);
+        bufferBuilder.vertex(matrix, x, y, 0.0F).color(r, g, b, a);
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         end();
         // Rect ends here
     }
@@ -64,16 +64,15 @@ public class Render2DUtils implements IMinecraft {
         RenderSystem.lineWidth(lineWidth);
 
         // Rect starts here
-        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
         setup();
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-        bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
-        bufferBuilder.vertex(matrix, x, y, 0.0F).color(r, g, b, a).next();
-        bufferBuilder.vertex(matrix, x, y + height, 0.0F).color(r, g, b, a).next();
-        bufferBuilder.vertex(matrix, x + width, y + height, 0.0F).color(r, g, b, a).next();
-        bufferBuilder.vertex(matrix, x + width, y, 0.0F).color(r, g, b, a).next();
-        bufferBuilder.vertex(matrix, x, y, 0.0F).color(r, g, b, a).next();
-        Tessellator.getInstance().draw();
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
+        bufferBuilder.vertex(matrix, x, y, 0.0F).color(r, g, b, a);
+        bufferBuilder.vertex(matrix, x, y + height, 0.0F).color(r, g, b, a);
+        bufferBuilder.vertex(matrix, x + width, y + height, 0.0F).color(r, g, b, a);
+        bufferBuilder.vertex(matrix, x + width, y, 0.0F).color(r, g, b, a);
+        bufferBuilder.vertex(matrix, x, y, 0.0F).color(r, g, b, a);
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         end();
         // Rect ends here
 
@@ -99,25 +98,23 @@ public class Render2DUtils implements IMinecraft {
                 (endColor >> 24 & 255) / 255.0F
         };
 
-        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         Matrix4f posMatrix = matrixStack.peek().getPositionMatrix();
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
 
         if (sideways) {
-            bufferBuilder.vertex(posMatrix, x, y, 0.0F).color(startRGBA[0], startRGBA[1], startRGBA[2], startRGBA[3]).next();
-            bufferBuilder.vertex(posMatrix, x, y2, 0.0F).color(startRGBA[0], startRGBA[1], startRGBA[2], startRGBA[3]).next();
-            bufferBuilder.vertex(posMatrix, x2, y2, 0.0F).color(endRGBA[0], endRGBA[1], endRGBA[2], endRGBA[3]).next();
-            bufferBuilder.vertex(posMatrix, x2, y, 0.0F).color(endRGBA[0], endRGBA[1], endRGBA[2], endRGBA[3]).next();
+            bufferBuilder.vertex(posMatrix, x, y, 0.0F).color(startRGBA[0], startRGBA[1], startRGBA[2], startRGBA[3]);
+            bufferBuilder.vertex(posMatrix, x, y2, 0.0F).color(startRGBA[0], startRGBA[1], startRGBA[2], startRGBA[3]);
+            bufferBuilder.vertex(posMatrix, x2, y2, 0.0F).color(endRGBA[0], endRGBA[1], endRGBA[2], endRGBA[3]);
+            bufferBuilder.vertex(posMatrix, x2, y, 0.0F).color(endRGBA[0], endRGBA[1], endRGBA[2], endRGBA[3]);
         } else {
-            bufferBuilder.vertex(posMatrix, x2, y, 0.0F).color(startRGBA[0], startRGBA[1], startRGBA[2], startRGBA[3]).next();
-            bufferBuilder.vertex(posMatrix, x, y, 0.0F).color(startRGBA[0], startRGBA[1], startRGBA[2], startRGBA[3]).next();
-            bufferBuilder.vertex(posMatrix, x, y2, 0.0F).color(endRGBA[0], endRGBA[1], endRGBA[2], endRGBA[3]).next();
-            bufferBuilder.vertex(posMatrix, x2, y2, 0.0F).color(endRGBA[0], endRGBA[1], endRGBA[2], endRGBA[3]).next();
+            bufferBuilder.vertex(posMatrix, x2, y, 0.0F).color(startRGBA[0], startRGBA[1], startRGBA[2], startRGBA[3]);
+            bufferBuilder.vertex(posMatrix, x, y, 0.0F).color(startRGBA[0], startRGBA[1], startRGBA[2], startRGBA[3]);
+            bufferBuilder.vertex(posMatrix, x, y2, 0.0F).color(endRGBA[0], endRGBA[1], endRGBA[2], endRGBA[3]);
+            bufferBuilder.vertex(posMatrix, x2, y2, 0.0F).color(endRGBA[0], endRGBA[1], endRGBA[2], endRGBA[3]);
         }
 
         BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());

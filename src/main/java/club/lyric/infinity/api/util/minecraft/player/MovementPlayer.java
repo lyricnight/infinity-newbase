@@ -56,7 +56,7 @@ public class MovementPlayer extends Fake {
         this.verticalCollision = motion.y != collideVec.y;
         this.groundCollision = this.verticalCollision && motion.y < 0.0;
         this.collidedSoftly = this.horizontalCollision && this.hasCollidedSoftly(collideVec);
-        this.setOnGround(this.groundCollision, collideVec);
+        this.setOnGround(this.groundCollision);
 
         @SuppressWarnings("deprecation") BlockPos blockPos = this.getLandingPos();
         BlockState onPosState = this.getWorld().getBlockState(blockPos);
@@ -71,7 +71,6 @@ public class MovementPlayer extends Fake {
             block.onEntityLand(this.getWorld(), this);
         }
 
-        this.tryCheckBlockCollision();
         float blockSpeedFactor = this.getVelocityMultiplier();
         this.setVelocity(this.getVelocity().multiply(blockSpeedFactor, 1.0, blockSpeedFactor));
     }

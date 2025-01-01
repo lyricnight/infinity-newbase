@@ -22,13 +22,16 @@ public class LocationEvent extends Event {
 
     private boolean modified;
 
-    public LocationEvent(double x, double y, double z, float yaw, float pitch, boolean onGround) {
+    private boolean horizontal;
+
+    public LocationEvent(double x, double y, double z, float yaw, float pitch, boolean onGround, boolean horizontal) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.yaw = yaw;
         this.pitch = pitch;
         this.onGround = onGround;
+        this.horizontal = horizontal;
     }
 
     public float getYaw() {
@@ -72,5 +75,9 @@ public class LocationEvent extends Event {
 
     public boolean isModified() {
         return modified;
+    }
+
+    public boolean getHorizontal() {
+        return horizontal;
     }
 }

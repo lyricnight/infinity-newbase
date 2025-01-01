@@ -26,7 +26,7 @@ public final class MixinCrashReport implements IMinecraft {
     @Final
     private List<CrashReportSection> otherSections;
 
-    @Inject(method = "writeToFile", at = @At("HEAD"))
+    @Inject(method = "writeToFile*", at = @At("HEAD"))
     public void writeToFile(File file, CallbackInfoReturnable<Boolean> cir) {
         otherSections.add(getInfinityCrashReport());
     }
