@@ -1,12 +1,16 @@
 package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.api.ducks.IDrawContext;
+import club.lyric.infinity.api.util.client.render.text.custom.Font;
+import club.lyric.infinity.api.util.client.render.text.custom.GlyphPage;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.HUD;
 import club.lyric.infinity.manager.Managers;
+import com.google.common.base.Preconditions;
 import net.minecraft.client.gui.DrawContext;
 
 import java.awt.*;
+import java.io.InputStream;
 
 /**
  * @author lyric
@@ -21,6 +25,7 @@ public final class TextManager implements IMinecraft {
     private DrawContext context;
 
     private boolean ready;
+    public static Font fontRenderer;
 
     public void init()
     {
@@ -35,6 +40,7 @@ public final class TextManager implements IMinecraft {
         else
         {
             ((IDrawContext) context).infinity_newbase$drawText(mc.textRenderer, value, x, y, color, Managers.MODULES.getModuleFromClass(HUD.class).shadow.value());
+            fontRenderer.draw(context.getMatrices(), value, x, y, color, true);
         }
     }
 
@@ -52,6 +58,23 @@ public final class TextManager implements IMinecraft {
             throw new RuntimeException("height() called too early! Report this!");
         }
         return mc.textRenderer.fontHeight + (shadow ? 1 : 0);
+    }
+
+    public static Font create(String file, float size) {
+
+        java.awt.Font font = null;
+
+        try {
+            InputStream in = Preconditions.checkNotNull(Font.class.getResourceAsStream("/assets/" + file), "Font resource is null");
+            font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, in)
+                    .deriveFont(java.awt.Font.PLAIN, size);
+        } catch (Exception ignored) {
+        }
+
+        GlyphPage regularPage = new GlyphPage(font, true, true);
+        regularPage.generateGlyphPage();
+        regularPage.setupTexture();
+        return fontRenderer = new Font(regularPage);
     }
 
 }

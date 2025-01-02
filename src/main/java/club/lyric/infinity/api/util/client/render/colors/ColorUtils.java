@@ -138,4 +138,37 @@ public class ColorUtils implements IMinecraft {
         return new Color(r, g, b, a);
     }
 
+    public static int replAlpha(int c, int a) {
+        return getColor(red(c), green(c), blue(c), a);
+    }
+
+
+    public static int multDark(int c, float brpc) {
+        return getColor((float) red(c) * brpc, (float) green(c) * brpc, (float) blue(c) * brpc, (float) alpha(c));
+    }
+
+    public int getColor(int r, int g, int b, int a) {
+        return new Color(r, g, b, a).getRGB();
+    }
+
+
+    public static int getColor(float r, float g, float b, float a) {
+        return new Color((int) r, (int) g, (int) b, (int) a).getRGB();
+    }
+
+    public static float red(int c) {
+        return c >> 16 & 0xFF;
+    }
+
+    public static int green(int c) {
+        return c >> 8 & 0xFF;
+    }
+
+    public static int blue(int c) {
+        return c & 0xFF;
+    }
+
+    public static int alpha(int c) {
+        return c >> 24 & 0xFF;
+    }
 }
