@@ -10,7 +10,7 @@ import club.lyric.infinity.manager.Managers;
 public final class Configuration extends PersistentModuleBase {
     public Configuration()
     {
-        super("Configuration", "Manages the configuration of the client.", Category.Client);
+        super("Configuration", "Manages the configuration of the client.", Category.CLIENT);
     }
 
     @Override

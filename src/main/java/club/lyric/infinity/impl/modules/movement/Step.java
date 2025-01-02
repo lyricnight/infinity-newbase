@@ -29,7 +29,7 @@ public final class Step extends ModuleBase {
     private final StopWatch.Single stopWatch = new StopWatch.Single();
 
     public Step() {
-        super("Step", "steps", Category.Movement);
+        super("Step", "steps", Category.MOVEMENT);
     }
 
     @Override

@@ -28,7 +28,7 @@ public final class ClickGUI extends ModuleBase {
     public BooleanSetting resizing = new BooleanSetting("Resizing", false, this);
 
     public ClickGUI() {
-        super("ClickGui", "Displays a graphical user interface.", Category.Client);
+        super("ClickGui", "Displays a graphical user interface.", Category.CLIENT);
         setBind(GLFW.GLFW_KEY_RIGHT_SHIFT);
     }
 

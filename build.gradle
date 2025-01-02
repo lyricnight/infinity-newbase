@@ -55,6 +55,8 @@ dependencies {
 	include(implementation('io.github.spair:imgui-java-natives-linux:1.86.12'))
 	include(implementation('io.github.spair:imgui-java-natives-macos:1.86.12'))
 	implementation(platform("org.lwjgl:lwjgl-bom:$project.lwjgl_version"))
+
+	include implementation('org.reflections:reflections:0.10.2')
 }
 
 

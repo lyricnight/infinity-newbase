@@ -19,7 +19,7 @@ public final class AntiCheat extends PersistentModuleBase {
     public BooleanSetting lower = new BooleanSetting("1.12 Mode", false, this);
 
     public AntiCheat() {
-        super("AntiCheat", "Global Module for some specific settings.", Category.Client);
+        super("AntiCheat", "Global Module for some specific settings.", Category.CLIENT);
     }
 
     /**

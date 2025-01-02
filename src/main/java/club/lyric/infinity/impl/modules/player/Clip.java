@@ -22,7 +22,7 @@ public final class Clip extends ModuleBase {
     int time;
 
     public Clip() {
-        super("Clip", "Clips into blocks.", Category.Player);
+        super("Clip", "Clips into blocks.", Category.PLAYER);
     }
 
     @Override

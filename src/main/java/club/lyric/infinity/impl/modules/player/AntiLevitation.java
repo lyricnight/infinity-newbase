@@ -10,6 +10,6 @@ import club.lyric.infinity.api.module.ModuleBase;
 public final class AntiLevitation extends ModuleBase {
 
     public AntiLevitation() {
-        super("AntiLevitation", "ggg", Category.Player);
+        super("AntiLevitation", "ggg", Category.PLAYER);
     }
 }

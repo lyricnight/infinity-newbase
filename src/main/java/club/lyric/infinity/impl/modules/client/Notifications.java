@@ -31,6 +31,6 @@ public final class Notifications extends PersistentModuleBase {
             );
 
     public Notifications() {
-        super("Notifications", "Notifies in chat for stuff.", Category.Client);
+        super("Notifications", "Notifies in chat for stuff.", Category.CLIENT);
     }
 }

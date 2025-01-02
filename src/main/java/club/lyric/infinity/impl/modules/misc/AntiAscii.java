@@ -22,7 +22,7 @@ public final class AntiAscii extends ModuleBase {
     private static final ThreadLocal<CharsetEncoder> asciiEncoder = ThreadLocal.withInitial(StandardCharsets.US_ASCII::newEncoder);
 
     public AntiAscii() {
-        super("AntiAscii", "Removes ascii from chat to prevent freezes.", Category.Misc);
+        super("AntiAscii", "Removes ascii from chat to prevent freezes.", Category.MISC);
     }
 
     @EventHandler

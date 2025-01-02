@@ -13,6 +13,6 @@ public final class CameraClip extends ModuleBase {
 
     public CameraClip()
     {
-        super("CameraClip", "Allows for your camera to clip into solid blocks", Category.Visual);
+        super("CameraClip", "Allows for your camera to clip into solid blocks", Category.VISUAL);
     }
 }

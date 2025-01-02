@@ -39,7 +39,7 @@ public final class Velocity extends ModuleBase {
     private final StopWatch.Single stopWatch = new StopWatch.Single();
 
     public Velocity() {
-        super("Velocity", "Tries to remove velocity", Category.Movement);
+        super("Velocity", "Tries to remove velocity", Category.MOVEMENT);
     }
 
     @EventHandler

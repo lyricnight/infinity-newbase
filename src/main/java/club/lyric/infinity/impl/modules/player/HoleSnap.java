@@ -41,7 +41,7 @@ public final class HoleSnap extends ModuleBase {
     private int boosted;
 
     public HoleSnap() {
-        super("HoleSnap", "Snaps into holes.", Category.Player);
+        super("HoleSnap", "Snaps into holes.", Category.PLAYER);
     }
 
     @Override

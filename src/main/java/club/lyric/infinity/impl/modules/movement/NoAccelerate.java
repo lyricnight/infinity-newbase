@@ -22,7 +22,7 @@ public final class NoAccelerate extends ModuleBase {
 
     public NoAccelerate()
     {
-        super("NoAccelerate", "Instantly reaches your maximum speed with no acceleration.", Category.Movement);
+        super("NoAccelerate", "Instantly reaches your maximum speed with no acceleration.", Category.MOVEMENT);
     }
 
     @SuppressWarnings("unused")

@@ -43,7 +43,7 @@ public class Tabs implements RenderableElement {
 
     @Override
     public String get() {
-        return category.name();
+        return category.getName;
     }
 
     @Override

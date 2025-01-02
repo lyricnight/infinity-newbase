@@ -32,7 +32,7 @@ public final class Speed extends ModuleBase {
     double strictTicks;
 
     public Speed() {
-        super("Speed", "Increases your speed.", Category.Movement);
+        super("Speed", "Increases your speed.", Category.MOVEMENT);
     }
 
     @Override

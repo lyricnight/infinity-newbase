@@ -4,18 +4,9 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.*;
-import club.lyric.infinity.impl.modules.combat.*;
-import club.lyric.infinity.impl.modules.exploit.*;
-import club.lyric.infinity.impl.modules.misc.*;
-import club.lyric.infinity.impl.modules.movement.*;
-import club.lyric.infinity.impl.modules.player.*;
-import club.lyric.infinity.impl.modules.visual.*;
+import org.reflections.Reflections;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -29,60 +20,21 @@ public final class ModuleManager implements IMinecraft
 
     public void init()
     {
-        register(
-                new Notifications(),
-                new ClickGUI(),
-                new Configuration(),
-                new AntiCheat(),
-                new RichPresence(),
-                new AutoMine(),
-                new Chat(),
-                new HUD(),
-                new Aura(),
-                new Sprint(),
-                new Step(),
-                new HitboxDesync(),
-                new PhaseWalk(),
-                new FastLatency(),
-                new Clip(),
-                new FakePlayer(),
-                new HoleESP(),
-                new HoleSnap(),
-                new AutoCrystal(),
-                new Resolver(),
-                new Delays(),
-                new Colours(),
-                new Nametags(),
-                new Velocity(),
-                new Speed(),
-                new NoAccelerate(),
-                new PingSpoof(),
-                new AntiAscii(),
-                new FastProjectile(),
-                new MCF(),
-                new FakeBrand(),
-                new AutoReply(),
-                new FullBright(),
-                new Offhand(),
-                new CameraClip(),
-                new ESP(),
-                new Criticals(),
-                new Ambience(),
-                new MultiTask(),
-                new RaytraceBypass(),
-                new IRC(),
-                new Freelook(),
-                new BlockHighlight(),
-                new AntiLevitation(),
-                new KickPrevent(),
-                new Replenish(),
-                new Timer(),
-                new Reminer(),
-                new AutoRespawn(),
-                new AirPlace(),
-                new InventoryWalk(),
-                new Zoom()
-        );
+        /**
+         * uses reflections to get modules af
+         */
+        Set<Class<? extends ModuleBase>> set = new Reflections("club.lyric.infinity.impl.modules")
+                .getSubTypesOf(ModuleBase.class);
+
+        for (Class<? extends ModuleBase> mClass : set) {
+            try {
+                ModuleBase module = mClass.getDeclaredConstructor().newInstance();
+                modules.add(module);
+            } catch (Exception e) {
+                Infinity.LOGGER.error("WhyTfThisnotwork");
+            }
+        }
+
         modules.sort(Comparator.comparing(ModuleBase::getName));
         Infinity.LOGGER.info("Initialising modules complete!");
     }

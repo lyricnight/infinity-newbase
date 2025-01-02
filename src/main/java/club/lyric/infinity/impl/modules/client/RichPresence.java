@@ -19,7 +19,7 @@ import net.minecraft.util.Formatting;
  */
 public final class RichPresence extends ModuleBase {
     public RichPresence() {
-        super("RichPresence", "Toggles the Discord Presence", Category.Client);
+        super("RichPresence", "Toggles the Discord Presence", Category.CLIENT);
     }
     public BooleanSetting ip = new BooleanSetting("ShowIP", false, this);
     public BooleanSetting ign = new BooleanSetting("ShowIGN", false, this);

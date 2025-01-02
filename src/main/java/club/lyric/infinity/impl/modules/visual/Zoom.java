@@ -25,7 +25,7 @@ public final class Zoom extends ModuleBase
 
     public Zoom()
     {
-        super("Zoom", "aa", Category.Visual);
+        super("Zoom", "aa", Category.VISUAL);
     }
 
     @Override

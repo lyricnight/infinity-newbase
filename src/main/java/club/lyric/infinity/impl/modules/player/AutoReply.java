@@ -31,7 +31,7 @@ public final class AutoReply extends ModuleBase {
     private final DecimalFormat format = new DecimalFormat("0.##");
 
     public AutoReply() {
-        super("AutoReply", "m", Category.Player);
+        super("AutoReply", "m", Category.PLAYER);
     }
 
     @Override

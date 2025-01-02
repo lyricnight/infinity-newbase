@@ -51,7 +51,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
 
 import java.awt.*;
 import java.util.List;
@@ -105,7 +104,7 @@ public class AutoCrystal extends ModuleBase {
     private PlayerEntity target;
 
     public AutoCrystal() {
-        super("AutoCrystal", "automatically crystal", Category.Combat);
+        super("AutoCrystal", "automatically crystal", Category.COMBAT);
     }
 
     @Override

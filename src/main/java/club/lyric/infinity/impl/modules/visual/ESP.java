@@ -14,7 +14,6 @@ import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.BufferAllocator;
 import net.minecraft.client.util.math.MatrixStack;
@@ -54,7 +53,7 @@ public final class ESP extends ModuleBase {
     private final BufferAllocator buffer = new BufferAllocator(2048);
 
     public ESP() {
-        super("ESP", "Communication outside of normal sensory capability, as in telepathy and clairvoyance.", Category.Visual);
+        super("ESP", "Communication outside of normal sensory capability, as in telepathy and clairvoyance.", Category.VISUAL);
     }
 
     @Override

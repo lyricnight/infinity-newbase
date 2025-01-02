@@ -23,7 +23,7 @@ public final class Criticals extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "NCP", "NCP", "NCPStrict", "Jump", "LowHop", "Grim");
 
     public Criticals() {
-        super("Criticals", "Gives you a critical hit everytime you hit something.", Category.Combat);
+        super("Criticals", "Gives you a critical hit everytime you hit something.", Category.COMBAT);
     }
 
     @EventHandler(priority = Integer.MIN_VALUE + 2)

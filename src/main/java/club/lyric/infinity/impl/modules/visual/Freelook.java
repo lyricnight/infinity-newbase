@@ -12,7 +12,7 @@ public final class Freelook extends ModuleBase {
     float lastYaw;
 
     public Freelook() {
-        super("Freelook", "Allows you to look around your surroundings", Category.Visual);
+        super("Freelook", "Allows you to look around your surroundings", Category.VISUAL);
     }
 
     @Override

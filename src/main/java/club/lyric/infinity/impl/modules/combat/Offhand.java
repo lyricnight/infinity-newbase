@@ -33,7 +33,7 @@ public final class Offhand extends ModuleBase {
     public BooleanSetting smart = new BooleanSetting("Smart", true, this);
 
     public Offhand() {
-        super("Offhand", "Allows you to put different items in your offhand slot.", Category.Combat);
+        super("Offhand", "Allows you to put different items in your offhand slot.", Category.COMBAT);
     }
 
     private final Int2ObjectMap<ItemStack> int2ObjectMap = new Int2ObjectOpenHashMap<>();

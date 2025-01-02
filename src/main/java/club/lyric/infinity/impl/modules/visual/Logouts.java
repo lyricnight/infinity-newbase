@@ -21,7 +21,7 @@ public final class Logouts extends ModuleBase {
     protected Map<PlayerEntity, UUID> logouts = new ConcurrentHashMap<>();
 
     public Logouts() {
-        super("Logouts", "Renders the spots where players have logged out.", Category.Visual);
+        super("Logouts", "Renders the spots where players have logged out.", Category.VISUAL);
     }
 
     @Override

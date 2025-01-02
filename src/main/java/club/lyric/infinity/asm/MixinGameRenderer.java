@@ -31,15 +31,29 @@ public abstract class MixinGameRenderer implements IMinecraft {
     void render(RenderTickCounter renderTickCounter, CallbackInfo ci, @Local MatrixStack stack) {
         if (Null.is()) return;
 
+
         Profilers.get().push("render-infinity");
         //this is all thanks to 1.20.4 -> 1.20.6, which changed how matrixStack works
         Camera camera = mc.gameRenderer.getCamera();
+
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        RenderSystem.enableCull();
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableDepthTest();
 
         stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
         stack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0f));
 
         RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT);
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(module -> module.onRender3D(stack));
+
+        RenderSystem.enableDepthTest();
+        RenderSystem.disableBlend();
+        RenderSystem.disableCull();
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+
         Profilers.get().pop();
 
     }

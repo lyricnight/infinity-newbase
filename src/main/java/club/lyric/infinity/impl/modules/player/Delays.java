@@ -16,7 +16,7 @@ public final class Delays extends ModuleBase {
     public NumberSetting placing = new NumberSetting("Placing", this, 0, 0, 5, 1);
 
     public Delays() {
-        super("Delays", "Manages delays", Category.Player);
+        super("Delays", "Manages delays", Category.PLAYER);
     }
 
     @Override

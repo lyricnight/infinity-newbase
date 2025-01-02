@@ -25,7 +25,7 @@ public final class AirPlace extends ModuleBase
 
     public AirPlace()
     {
-        super("AirPlace", "aa", Category.Player);
+        super("AirPlace", "aa", Category.PLAYER);
     }
 
     @Override

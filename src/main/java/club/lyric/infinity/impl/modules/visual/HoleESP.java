@@ -42,7 +42,7 @@ public final class HoleESP extends ModuleBase {
     public BooleanSetting outline = new BooleanSetting("Outline", true, this);
     public BooleanSetting box = new BooleanSetting("Box", true, this);
 
-    // Misc
+    // MISC
     public BooleanSetting fade = new BooleanSetting("Fade", false, this);
 
 
@@ -50,7 +50,7 @@ public final class HoleESP extends ModuleBase {
     ExecutorService service = Executors.newCachedThreadPool();
 
     public HoleESP() {
-        super("HoleESP", "Esps holes", Category.Visual);
+        super("HoleESP", "Esps holes", Category.VISUAL);
     }
 
     @Override

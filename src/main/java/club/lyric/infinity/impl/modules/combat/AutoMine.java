@@ -49,7 +49,7 @@ public final class AutoMine extends ModuleBase {
     private boolean first;
 
     public AutoMine() {
-        super("AutoMine", "Requires another client's speedmine to use.", Category.Combat);
+        super("AutoMine", "Requires another client's speedmine to use.", Category.COMBAT);
     }
 
     @Override

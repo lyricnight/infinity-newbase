@@ -13,7 +13,7 @@ import net.minecraft.entity.effect.StatusEffects;
  */
 public final class FakePlayer extends ModuleBase {
     public FakePlayer() {
-        super("FakePlayer", "Spawns an entity.", Category.Visual);
+        super("FakePlayer", "Spawns an entity.", Category.VISUAL);
     }
 
     @Override

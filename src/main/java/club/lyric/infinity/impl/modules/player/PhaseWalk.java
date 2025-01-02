@@ -49,7 +49,7 @@ public final class PhaseWalk extends ModuleBase {
     private final StopWatch stopWatch = new StopWatch.Single();
 
     public PhaseWalk() {
-        super("PhaseWalk", "Allows walking through walls.", Category.Player);
+        super("PhaseWalk", "Allows walking through walls.", Category.PLAYER);
     }
     @Override
     public void onDisable() {

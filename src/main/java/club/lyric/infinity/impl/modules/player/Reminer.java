@@ -35,7 +35,7 @@ public final class Reminer extends ModuleBase {
     private boolean cool;
 
     public Reminer() {
-        super("Reminer", "aa", Category.Player);
+        super("Reminer", "aa", Category.PLAYER);
     }
 
     @Override

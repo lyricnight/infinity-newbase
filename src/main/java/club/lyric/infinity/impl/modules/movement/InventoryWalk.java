@@ -14,7 +14,7 @@ public final class InventoryWalk extends ModuleBase {
 
     public InventoryWalk()
     {
-        super("InventoryWalk", "AA", Category.Movement);
+        super("InventoryWalk", "AA", Category.MOVEMENT);
     }
 
     @Override

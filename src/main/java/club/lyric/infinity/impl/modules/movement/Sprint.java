@@ -14,7 +14,7 @@ public final class Sprint extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "Rage", "Rage", "Legit");
 
     public Sprint() {
-        super("Sprint", "Sprints for you", Category.Movement);
+        super("Sprint", "Sprints for you", Category.MOVEMENT);
     }
 
     @Override

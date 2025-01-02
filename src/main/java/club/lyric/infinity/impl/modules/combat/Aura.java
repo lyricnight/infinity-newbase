@@ -31,7 +31,7 @@ public final class Aura extends ModuleBase {
 
     public Aura()
     {
-        super("Aura", "Melee attack bot.", Category.Combat);
+        super("Aura", "Melee attack bot.", Category.COMBAT);
     }
 
     @Override

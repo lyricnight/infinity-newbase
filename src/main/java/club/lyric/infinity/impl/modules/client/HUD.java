@@ -63,7 +63,7 @@ public final class HUD extends ModuleBase {
     public ModeSetting potionColors = new ModeSetting("PotionColors", this, "Normal", "Normal", "Global");
 
     public HUD() {
-        super("HUD", "Displays HUD elements on the screen.", Category.Client);
+        super("HUD", "Displays HUD elements on the screen.", Category.CLIENT);
     }
 
     private final LinkedList<Long> frames = new LinkedList<>();
@@ -130,7 +130,7 @@ public final class HUD extends ModuleBase {
                 text = "Merry Christmas, " + mc.player.getName().getString() + " :^)";
             }
 
-            int x = (int) (context.getScaledWindowWidth() / 2 - Managers.TEXT.width(text, true) / 2 + 2);
+            int x = (int) (context.getScaledWindowWidth() / 2.0f - Managers.TEXT.width(text, true) / 2 + 2);
 
             Managers.TEXT.drawString(getLabel(text),
                     x,

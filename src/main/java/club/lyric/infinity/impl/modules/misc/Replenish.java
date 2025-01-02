@@ -18,7 +18,7 @@ public final class Replenish extends ModuleBase {
 
     public Replenish()
     {
-        super("Replenish", "", Category.Misc);
+        super("Replenish", "", Category.MISC);
     }
 
     @Override

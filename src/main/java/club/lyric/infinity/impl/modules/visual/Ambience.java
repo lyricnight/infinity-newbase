@@ -16,7 +16,7 @@ public final class Ambience extends ModuleBase {
     public ColorSetting color = new ColorSetting("Color", this, new JColor(new Color(104, 71, 141)), false);
 
     public Ambience() {
-        super("Ambience", "Changes the worlds color.", Category.Visual);
+        super("Ambience", "Changes the worlds color.", Category.VISUAL);
     }
 
     @Override

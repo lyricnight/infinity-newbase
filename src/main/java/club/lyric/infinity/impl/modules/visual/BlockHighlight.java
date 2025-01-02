@@ -27,7 +27,7 @@ public final class BlockHighlight extends ModuleBase {
     public BooleanSetting box = new BooleanSetting("Box", true, this);
 
     public BlockHighlight() {
-        super("BlockHighlight", "hhh", Category.Visual);
+        super("BlockHighlight", "hhh", Category.VISUAL);
     }
 
     @Override

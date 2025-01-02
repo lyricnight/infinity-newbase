@@ -26,7 +26,7 @@ public final class Colours extends PersistentModuleBase {
     public ColorSetting sneakColor = new ColorSetting("SneakColor", this, new JColor(new Color(255, 180, 255)), true);
 
     public Colours() {
-        super("Colours", "Colours", Category.Client);
+        super("Colours", "Colours", Category.CLIENT);
     }
 
     public Color getColor() {

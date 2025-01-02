@@ -6,6 +6,8 @@ import club.lyric.infinity.impl.modules.client.HUD;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.gui.DrawContext;
 
+import java.awt.*;
+
 /**
  * @author lyric
  * I spent 2 hours reading minecraft code to figure out how to instantiate DrawContext
@@ -45,12 +47,11 @@ public final class TextManager implements IMinecraft {
         return mc.textRenderer.getWidth(value) + (shadow ? 1 : 0);
     }
 
-    public int height(boolean shadow)
-    {
-        if(!ready)
-        {
+    public int height(boolean shadow) {
+        if (!ready) {
             throw new RuntimeException("height() called too early! Report this!");
         }
         return mc.textRenderer.fontHeight + (shadow ? 1 : 0);
     }
+
 }

@@ -53,7 +53,7 @@ public final class Nametags extends ModuleBase {
     private final BufferAllocator buffer = new BufferAllocator(2048);
 
     public Nametags() {
-        super("Nametags", "Fire", Category.Visual);
+        super("Nametags", "Fire", Category.VISUAL);
     }
 
     @Override

@@ -12,7 +12,7 @@ public final class Timer extends ModuleBase {
     public NumberSetting factor = new NumberSetting("Factor", this, 1.0888f, 0.1f, 4.0f, 0.01f);
     public Timer()
     {
-        super("Timer", "aa", Category.Player);
+        super("Timer", "aa", Category.PLAYER);
     }
 
     @Override

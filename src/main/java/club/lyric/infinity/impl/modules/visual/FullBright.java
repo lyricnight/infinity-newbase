@@ -10,7 +10,7 @@ import net.minecraft.world.LightType;
  */
 public final class FullBright extends ModuleBase {
     public FullBright() {
-        super("FullBright", "Makes the game brighter.", Category.Visual);
+        super("FullBright", "Makes the game brighter.", Category.VISUAL);
     }
 
     @Override

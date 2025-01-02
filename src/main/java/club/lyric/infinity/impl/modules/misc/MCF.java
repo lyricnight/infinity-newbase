@@ -15,7 +15,7 @@ import net.minecraft.util.hit.HitResult;
  */
 public final class MCF extends ModuleBase {
     public MCF() {
-        super("MCF", "Add friends using middleclick", Category.Misc);
+        super("MCF", "Add friends using middleclick", Category.MISC);
     }
 
     @SuppressWarnings("unused")

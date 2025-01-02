@@ -59,7 +59,7 @@ public final class Chat extends ModuleBase {
     public final IntList lines = new IntArrayList();
 
     public Chat() {
-        super("Chat", "Handles our chat and how it looks...", Category.Visual);
+        super("Chat", "Handles our chat and how it looks...", Category.VISUAL);
     }
 
 

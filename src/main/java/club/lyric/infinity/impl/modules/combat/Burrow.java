@@ -26,7 +26,7 @@ public final class Burrow extends BlockModuleBase {
     private final StopWatch.Single stopWatch = new StopWatch.Single();
 
     public Burrow() {
-        super("Burrow", "aids", Category.Combat, Integer.MAX_VALUE);
+        super("Burrow", "aids", Category.COMBAT, Integer.MAX_VALUE);
     }
 
     @Override
