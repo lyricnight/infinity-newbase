@@ -14,12 +14,12 @@ import net.minecraft.util.math.BlockPos;
 
 /**
  * @author lyric
+ * WIP
  */
 public final class Burrow extends BlockModuleBase {
     public BooleanSetting strict = new BooleanSetting("Strict", false, this);
-    public BooleanSetting persistent = new BooleanSetting("Persistent", false, this);
+    public BooleanSetting disable = new BooleanSetting("Disable", false, this);
     public BooleanSetting center = new BooleanSetting("Center", false, this);
-
     public ModeSetting offset = new ModeSetting("Offset", this, "Constant", "Constant", "Smart");
     //TODO: dynamic allocation of some sort -> mutable?
     private BlockPos locator = null;
@@ -32,6 +32,8 @@ public final class Burrow extends BlockModuleBase {
     @Override
     public void onEnable()
     {
+        ChatUtils.sendMessagePrivate(Formatting.RED + "WIP module, doesn't do anything yet.");
+        disable();
         if (initialCheck())
         {
             ChatUtils.sendMessagePrivate(Formatting.RED + "Burrow cannot place at this time. Disabling...");
@@ -62,6 +64,7 @@ public final class Burrow extends BlockModuleBase {
 
     /**
      * convenience
+     * this is very stupid but needs to be done this way
      * @return whether we can burrow or not
      */
     private boolean initialCheck()

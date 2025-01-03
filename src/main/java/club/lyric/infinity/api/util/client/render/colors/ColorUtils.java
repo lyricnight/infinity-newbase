@@ -9,7 +9,7 @@ import java.awt.*;
 
 /**
  * @author vasler
- * but the author is actually lyric
+ * but the author is actually lyric for some of it
  */
 public class ColorUtils implements IMinecraft {
     public static Color toColor(float red, float green, float blue, float alpha) {
@@ -139,7 +139,7 @@ public class ColorUtils implements IMinecraft {
         final float a = sa * value + ea * (1.0f - value);
         return new Color(r, g, b, a);
     }
-
+    
     public static int replAlpha(int c, int a) {
         return getColor(red(c), green(c), blue(c), a);
     }
@@ -173,8 +173,9 @@ public class ColorUtils implements IMinecraft {
     public static int alpha(int c) {
         return c >> 24 & 0xFF;
     }
-
-    public static double fade(double value, double max) {
+    
+    public static double fade(double value, double max)
+    {
         double elapsedTime = System.currentTimeMillis() - value;
 
         double fadeAmount = MathUtils.normalize(elapsedTime, max);

@@ -16,8 +16,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
+import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -41,6 +45,7 @@ public class BlockModuleBase extends ModuleBase {
 
     /**
      * isn't in AntiCheat because this only makes sense on a module-by-module basis
+     * however, some blockPlacing modules shouldn't have this setting ie Burrow...
      */
     public BooleanSetting airPlace = new BooleanSetting("AirPlace", false, this);
 
@@ -153,8 +158,18 @@ public class BlockModuleBase extends ModuleBase {
      *  else do nothing because no rotation.
      * </code>
      */
-    protected boolean placeBlock(BlockPos pos, RotationHandler rotationHandler)
-    {
+    protected boolean placeBlock(BlockPos pos, RotationHandler rotationHandler) {
+        if (attack.value())
+        {
+            List<Entity> entities = mc.world.getOtherEntities(null, new Box(pos)).stream().filter(entity -> entity instanceof EndCrystalEntity).toList();
+            //probably totally useless since there should only ever be 1 crystal that we're going to attack.
+            for (Entity entity : entities)
+            {
+                mc.getNetworkHandler().sendPacket(PlayerInteractEntityC2SPacket.attack(entity, mc.player.isSneaking()));
+                mc.getNetworkHandler().sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));
+            }
+        }
+
         Direction direction = getDirection(pos, airPlace.value());
         if (direction == null && !Managers.ANTICHEAT.isStrictDirection())
         {
