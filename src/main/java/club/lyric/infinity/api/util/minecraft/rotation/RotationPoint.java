@@ -1,9 +1,14 @@
 package club.lyric.infinity.api.util.minecraft.rotation;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author lyric
  * class that represents a rotation to a point.
  */
+@Getter
+@Setter
 public final class RotationPoint {
     private float yaw, pitch;
 
@@ -22,46 +27,6 @@ public final class RotationPoint {
         this.yaw = yaw;
         this.pitch = pitch;
         this.priority = priority;
-        this.instant = instant;
-    }
-
-    /**
-     * getters
-     */
-
-    public float getYaw() {
-        return yaw;
-    }
-
-    public float getPitch() {
-        return pitch;
-    }
-
-    public int getPriority() {
-        return priority;
-    }
-
-    public boolean getInstant() {
-        return instant;
-    }
-
-    /**
-     * setters
-     */
-
-    public void setYaw(float yaw) {
-        this.yaw = yaw;
-    }
-
-    public void setPitch(float pitch) {
-        this.pitch = pitch;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-
-    public void setInstant(boolean instant) {
         this.instant = instant;
     }
 }

@@ -7,6 +7,7 @@ import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiConfigFlags;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
+import lombok.Getter;
 import net.minecraft.util.profiler.Profilers;
 
 import java.io.IOException;
@@ -26,8 +27,11 @@ public class IMLoader implements IMinecraft {
     private static final Set<RenderableElement> toRemove = new HashSet<>();
     private static final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
     private static final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
+    @Getter
     private static ImFont customFont;
+    @Getter
     private static ImFont customFontSemiBold;
+    @Getter
     private static ImFont customFontSmaller;
 
     public static void onGlfwInit(long handle) {
@@ -158,18 +162,6 @@ public class IMLoader implements IMinecraft {
 
     public static boolean isRendered(RenderableElement renderable) {
         return renderstack.contains(renderable);
-    }
-
-    public static ImFont getCustomFont() {
-        return customFont;
-    }
-
-    public static ImFont getCustomFontSemiBold() {
-        return customFontSemiBold;
-    }
-
-    public static ImFont getCustomFontSmaller() {
-        return customFontSmaller;
     }
 
     private IMLoader() {

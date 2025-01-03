@@ -2,6 +2,7 @@ package club.lyric.infinity.api.util.client.render.text.custom;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import com.mojang.blaze3d.systems.RenderSystem;
+import lombok.Getter;
 import net.minecraft.client.render.*;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
@@ -25,6 +26,7 @@ public class GlyphPage implements IMinecraft {
     public static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" + "0123456789" + "!?@#$%^&*()-_=+[]{}|\\;:'\"<>,./`~";
     private static final float GLYPH_OFFSET = 8F;
     private int imgSize;
+    @Getter
     private int maxFontHeight = -1;
     private final Font font;
     private final boolean antiAliasing;
@@ -187,10 +189,6 @@ public class GlyphPage implements IMinecraft {
         if (glyph == null)
             return 0;
         return glyph.width;
-    }
-
-    public int getMaxFontHeight() {
-        return maxFontHeight;
     }
 
     public static class Glyph {

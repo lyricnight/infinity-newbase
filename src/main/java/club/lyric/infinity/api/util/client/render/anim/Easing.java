@@ -1,5 +1,6 @@
 package club.lyric.infinity.api.util.client.render.anim;
 
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.function.Function;
@@ -7,6 +8,7 @@ import java.util.function.Function;
 import static java.lang.Math.pow;
 import static java.lang.Math.sin;
 
+@Getter
 @SuppressWarnings("unused")
 public enum Easing {
     LINEAR(x -> x),
@@ -51,10 +53,6 @@ public enum Easing {
 
     public float apply(float x) {
         return getFunction().apply((double) x).floatValue();
-    }
-
-    public Function<Double, Double> getFunction() {
-        return function;
     }
 
     @Override

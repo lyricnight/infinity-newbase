@@ -1,5 +1,8 @@
 package club.lyric.infinity.api.util.client.math;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author lyric
  * tried to make this threaded and non-threaded
@@ -51,30 +54,20 @@ public interface StopWatch {
     /**
      * when you don't use it in a thread.
      */
+    @Getter
+    @Setter
     class Single implements StopWatch {
         private long timePoint;
 
-        public long getTimePoint() {
-            return this.timePoint;
-        }
-
-        public void setTimePoint(long timePoint) {
-            this.timePoint = timePoint;
-        }
     }
 
     /**
      * for multiple threads.
      */
+    @Setter
+    @Getter
     class Multi implements StopWatch {
         private volatile long timePoint;
 
-        public long getTimePoint() {
-            return this.timePoint;
-        }
-
-        public void setTimePoint(long timePoint) {
-            this.timePoint = timePoint;
-        }
     }
 }

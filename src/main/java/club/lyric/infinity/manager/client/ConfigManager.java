@@ -234,20 +234,19 @@ public final class ConfigManager implements IMinecraft {
                         if (settingJson == null)
                             continue;
 
-                        if (setting instanceof BooleanSetting booleanSetting) {
-                            booleanSetting.setValue(settingJson.getAsBoolean());
-                        } else if (setting instanceof BindSetting bindSetting) {
-                            bindSetting.setCode(settingJson.getAsInt());
-                        } else if (setting instanceof ModeSetting modeSetting) {
-                            modeSetting.setMode(settingJson.getAsString());
-                        } else if (setting instanceof NumberSetting numberSetting) {
-                            numberSetting.setValue(settingJson.getAsDouble());
-                        } else if (setting instanceof ColorSetting colorSetting) {
-                            if (!settingJson.isJsonObject())
-                                continue;
+                        switch (setting) {
+                            case BooleanSetting booleanSetting -> booleanSetting.setValue(settingJson.getAsBoolean());
+                            case BindSetting bindSetting -> bindSetting.setCode(settingJson.getAsInt());
+                            case ModeSetting modeSetting -> modeSetting.setMode(settingJson.getAsString());
+                            case NumberSetting numberSetting -> numberSetting.setValue(settingJson.getAsDouble());
+                            case ColorSetting colorSetting -> {
+                                if (!settingJson.isJsonObject())
+                                    continue;
 
-                            JsonObject colorJson = settingJson.getAsJsonObject();
-                            colorSetting.setColor(new JColor(colorJson.get("color").getAsInt()), colorJson.get("rainbow").getAsBoolean());
+                                JsonObject colorJson = settingJson.getAsJsonObject();
+                                colorSetting.setColor(new JColor(colorJson.get("color").getAsInt()), colorJson.get("rainbow").getAsBoolean());
+                            }
+                            default -> {}
                         }
                     }
                 }

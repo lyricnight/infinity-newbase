@@ -35,7 +35,7 @@ public abstract class MixinMinecraftClient implements IMinecraft {
         try {
             TextManager.fontRenderer = TextManager.create("Roboto-Regular.ttf", 18);
         } catch (Exception e) {
-            e.printStackTrace();
+            Infinity.LOGGER.atError();
         }
     }
 

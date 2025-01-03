@@ -78,21 +78,15 @@ public class IRCChat implements IMinecraft {
 
     private static class JoinCommand {
         private final String cmd = "join";
-        private final String channel;
-        private final String nick;
 
         JoinCommand(String channel, String nick) {
-            this.channel = channel;
-            this.nick = nick;
         }
     }
 
     private static class ChatCommand {
         private final String cmd = "chat";
-        private final String text;
 
         ChatCommand(String text) {
-            this.text = text;
         }
     }
 
@@ -104,12 +98,10 @@ public class IRCChat implements IMinecraft {
 
         private final String nick;
         private final String text;
-        private final long time;
 
         ReceivedChat(String nick, String text, long time) {
             this.nick = nick;
             this.text = text;
-            this.time = time;
         }
     }
 }

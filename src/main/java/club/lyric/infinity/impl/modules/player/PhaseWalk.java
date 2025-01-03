@@ -39,7 +39,12 @@ public final class PhaseWalk extends ModuleBase {
 
     private int phase, rotation, progress, timeLeft, id;
 
-    private boolean waiting, goingDown, goingUp, ignore, setTimerToValue, rubberbanded, previous;
+    private boolean goingDown;
+    private boolean goingUp;
+    private boolean ignore;
+    private boolean setTimerToValue;
+    private boolean rubberbanded;
+    private boolean previous;
 
     /**
      * representation in double form -> makes it easier
@@ -103,7 +108,7 @@ public final class PhaseWalk extends ModuleBase {
     private void phase(SpecificMovementEvent.Pre event) {
         phase++;
         rotation++;
-        waiting = false;
+        boolean waiting = false;
         boolean willDo = BlockUtils.isInside(mc.player, mc.player.getBoundingBox().contract(0.0625));
         if (!willDo) {
             if (previous && rubberbanded && resync.value()) {

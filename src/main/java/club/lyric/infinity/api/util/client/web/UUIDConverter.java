@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -18,7 +19,7 @@ public class UUIDConverter {
         String url = "https://api.mojang.com/user/profiles/" + uuid.replace("-", "") + "/names";
 
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            HttpURLConnection connection = (HttpURLConnection) URI.create(url).toURL().openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
 

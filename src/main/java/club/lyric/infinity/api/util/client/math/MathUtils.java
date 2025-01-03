@@ -51,7 +51,7 @@ public class MathUtils {
     }
 
     public static int angleDirection(float yaw, int disfunctional) {
-        int angle = (int) (yaw + 360 / (2 * disfunctional) + 0.5) % 360;
+        int angle = (int) (yaw + (double) 360 / (2 * disfunctional) + 0.5) % 360;
 
         if (angle < 0) {
             angle += 360;

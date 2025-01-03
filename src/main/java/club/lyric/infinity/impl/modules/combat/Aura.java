@@ -29,16 +29,8 @@ public final class Aura extends ModuleBase {
      */
     private boolean rotated;
 
-    public Aura()
-    {
+    public Aura() {
         super("Aura", "Melee attack bot.", Category.COMBAT);
     }
-
-    @Override
-    public void onUpdate()
-    {
-    }
-
-
 
 }

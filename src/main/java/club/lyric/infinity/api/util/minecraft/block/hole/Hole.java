@@ -1,5 +1,7 @@
 package club.lyric.infinity.api.util.minecraft.block.hole;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.util.math.BlockPos;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -8,7 +10,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 
 
+@Getter
 public class Hole {
+    @Setter
     private BlockPos first;
     private BlockPos second;
     private final HoleTypes holeTypes;
@@ -22,26 +26,6 @@ public class Hole {
         this.first = first;
         this.second = second;
         this.holeTypes = holeTypes;
-    }
-
-    public void setFirst(BlockPos first) {
-        this.first = first;
-    }
-
-    public BlockPos getFirst() {
-        return this.first;
-    }
-
-    public void setSecond(BlockPos second) {
-        this.second = second;
-    }
-
-    public BlockPos getSecond() {
-        return this.second;
-    }
-
-    public HoleTypes getHoleTypes() {
-        return this.holeTypes;
     }
 
     public String toString() {

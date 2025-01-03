@@ -196,7 +196,7 @@ public class AutoCrystal extends ModuleBase {
                         String information = "Breaking";
 
                         service.submit(() -> {
-                            hitCrystals.put(Integer.valueOf(crystal.getId()), new StopWatch.Single());
+                            hitCrystals.put(crystal.getId(), new StopWatch.Single());
 
                             switch (breaks.getMode()) {
                                 case "Vanilla" -> mc.interactionManager.attackEntity(mc.player, crystal);
@@ -345,7 +345,7 @@ public class AutoCrystal extends ModuleBase {
             if (isOwn(packet.getBlockHitResult().getBlockPos().up()))
                 ownCrystals.remove(packet.getBlockHitResult().getBlockPos().up());
 
-            ownCrystals.put(packet.getBlockHitResult().getBlockPos().up(), Long.valueOf(System.currentTimeMillis()));
+            ownCrystals.put(packet.getBlockHitResult().getBlockPos().up(), System.currentTimeMillis());
         }
     }
 

@@ -10,6 +10,7 @@ import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.impl.events.render.RenderPlayerModelEvent;
 import club.lyric.infinity.impl.modules.exploit.Resolver;
 import club.lyric.infinity.manager.Managers;
+import lombok.Getter;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,6 +29,7 @@ public final class RotationManager implements IMinecraft {
     /**
      * previous and current rotation values.
      */
+    @Getter
     private float serverYaw, serverPitch, prevYaw, prevPitch;
 
     /**
@@ -46,6 +48,7 @@ public final class RotationManager implements IMinecraft {
     /**
      * if we need to rotate or not
      */
+    @Getter
     private boolean rotating;
 
     /**
@@ -185,21 +188,8 @@ public final class RotationManager implements IMinecraft {
         return current != null && current.getPriority() > priority;
     }
 
-    public boolean isRotating()
-    {
-        return rotating;
-    }
-
     private boolean isHoldingTimeFinished()
     {
         return rotatedTicks > Managers.ANTICHEAT.getHoldingTime();
-    }
-
-    public float getPrevYaw() {
-        return prevYaw;
-    }
-
-    public float getPrevPitch() {
-        return prevPitch;
     }
 }

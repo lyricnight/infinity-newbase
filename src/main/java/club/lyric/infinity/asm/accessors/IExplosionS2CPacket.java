@@ -9,7 +9,6 @@ import java.util.Optional;
 
 @Mixin(ExplosionS2CPacket.class)
 public interface IExplosionS2CPacket {
-
     @Accessor(value = "playerKnockback")
     void setPlayerKnockback(Optional<Vec3d> playerKnockback);
 }

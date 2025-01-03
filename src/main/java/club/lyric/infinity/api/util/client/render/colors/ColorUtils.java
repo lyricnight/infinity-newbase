@@ -146,7 +146,7 @@ public class ColorUtils implements IMinecraft {
 
 
     public static int multDark(int c, float brpc) {
-        return getColor((float) red(c) * brpc, (float) green(c) * brpc, (float) blue(c) * brpc, (float) alpha(c));
+        return getColor(red(c) * brpc, (float) green(c) * brpc, (float) blue(c) * brpc, (float) alpha(c));
     }
 
     public int getColor(int r, int g, int b, int a) {

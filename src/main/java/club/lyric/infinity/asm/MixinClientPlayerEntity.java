@@ -35,8 +35,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(ClientPlayerEntity.class)
 public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity implements IMinecraft {
-    @Unique
-    private LocationEvent eventGlobal;
     @Shadow
     private double lastX;
     @Shadow
@@ -113,7 +111,7 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
 
     @Inject(method = "sendMovementPackets", at = @At(value = "HEAD"), cancellable = true)
     private void onSendMovementPacketsHead(CallbackInfo info) {
-        eventGlobal = new LocationEvent(mc.player.getX(), mc.player.getY(), mc.player.getZ(), mc.player.getYaw(), mc.player.getPitch(), mc.player.isOnGround(), mc.player.horizontalCollision);
+        LocationEvent eventGlobal = new LocationEvent(mc.player.getX(), mc.player.getY(), mc.player.getZ(), mc.player.getYaw(), mc.player.getPitch(), mc.player.isOnGround(), mc.player.horizontalCollision);
         EventBus.getInstance().post(eventGlobal);
         double x = eventGlobal.getX();
         double y = eventGlobal.getY();

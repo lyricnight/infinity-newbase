@@ -2,6 +2,7 @@ package club.lyric.infinity.api.util.minecraft.player;
 
 import club.lyric.infinity.api.util.client.math.Time;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import lombok.Getter;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
@@ -9,9 +10,11 @@ import net.minecraft.util.math.Vec3d;
  * @author 3arth
  */
 public class PlayerPosition extends Vec3d implements IMinecraft {
+    @Getter
     private final long timeStamp = Time.getMillis();
     private final float yRot;
     private final float xRot;
+    @Getter
     private final boolean onGround;
 
     public PlayerPosition() {
@@ -52,14 +55,6 @@ public class PlayerPosition extends Vec3d implements IMinecraft {
 
     public float getYRot() {
         return yRot;
-    }
-
-    public long getTimeStamp() {
-        return timeStamp;
-    }
-
-    public boolean isOnGround() {
-        return onGround;
     }
 
     public static PlayerPosition getPosition() {

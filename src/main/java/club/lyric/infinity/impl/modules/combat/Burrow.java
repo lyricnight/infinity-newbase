@@ -48,9 +48,7 @@ public final class Burrow extends BlockModuleBase {
         {
             ChatUtils.sendMessagePrivate(Formatting.RED + "Burrow disabling due to movement.");
             toggle();
-            return;
         }
-
     }
 
     /**

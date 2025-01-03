@@ -11,7 +11,7 @@ import org.joml.Matrix4f;
  * @author vasler, railhack
  * visual util
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "resource"})
 
 public class Render2DUtils implements IMinecraft {
     /**
@@ -22,6 +22,7 @@ public class Render2DUtils implements IMinecraft {
      * @param height   - the vertical measurement of the rectangle from angle to angle
      * @param color    - color of the rectangle in RGB
      */
+    @SuppressWarnings("resource")
     public static void drawRect(MatrixStack matrices, float x, float y, float width, float height, int color) {
         Matrix4f matrix = matrices.peek().getPositionMatrix();
 
