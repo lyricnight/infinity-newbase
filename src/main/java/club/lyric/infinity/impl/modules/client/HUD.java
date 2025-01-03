@@ -72,7 +72,6 @@ public final class HUD extends ModuleBase {
     private final StopWatch spotifyTimer = new StopWatch.Single();
     int packets;
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
-    private final Animation alpha = new Animation(Easing.EASE_OUT_QUAD, 150);
 
     // Info
     private final Animation fpsWidth = new Animation(Easing.EASE_OUT_QUAD, 150);

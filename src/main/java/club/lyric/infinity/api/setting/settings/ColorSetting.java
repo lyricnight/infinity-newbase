@@ -7,6 +7,7 @@ import club.lyric.infinity.api.util.client.render.colors.JColor;
 import imgui.ImGui;
 import imgui.flag.ImGuiDataType;
 import imgui.type.ImInt;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class ColorSetting extends Setting implements Renderable {
     private final ArrayList<Renderable> renderableSettings = new ArrayList<>();
     private final boolean alpha;
     private boolean showSliders;
+    @Getter
     private boolean rainbow;
 
     public ColorSetting(String name, ModuleBase moduleBase, JColor color, boolean alpha) {
@@ -85,10 +87,6 @@ public class ColorSetting extends Setting implements Renderable {
 
             ImGui.popID();
         }
-    }
-
-    public boolean isRainbow() {
-        return rainbow;
     }
 
     public JColor getValue() {

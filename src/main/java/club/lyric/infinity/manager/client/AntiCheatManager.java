@@ -6,12 +6,14 @@ import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.impl.modules.client.AntiCheat;
 import club.lyric.infinity.manager.Managers;
+import lombok.Getter;
 import net.minecraft.network.packet.s2c.common.KeepAliveS2CPacket;
 
 /**
  * @author lyric
  * declutters the module
  */
+@Getter
 public final class AntiCheatManager implements IMinecraft {
     private boolean rotations, strictDirection, movementFix, protocol;
     private float holdingTime;
@@ -33,27 +35,4 @@ public final class AntiCheatManager implements IMinecraft {
         this.bpt = bpt;
     }
 
-    public float getHoldingTime() {
-        return holdingTime;
-    }
-
-    public int getBpt() {
-        return bpt;
-    }
-
-    public boolean isRotations() {
-        return rotations;
-    }
-
-    public boolean isMovementFix() {
-        return movementFix;
-    }
-
-    public boolean isProtocol() {
-        return protocol;
-    }
-
-    public boolean isStrictDirection() {
-        return strictDirection;
-    }
 }

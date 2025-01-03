@@ -3,11 +3,15 @@ package club.lyric.infinity.manager.client;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
  * @author lyric
  */
+@Setter
+@Getter
 public final class FriendsManager  {
     private JsonObject friends = new JsonObject();
 
@@ -42,15 +46,6 @@ public final class FriendsManager  {
         {
             ChatUtils.sendOverwriteMessage(name + " is not on your friends list!", 9349);
         }
-    }
-
-    public JsonObject getFriends() {
-        return friends;
-    }
-
-    public void setFriends(JsonObject friends)
-    {
-        this.friends = friends;
     }
 
     private String getUniqueIdentifier(String name)

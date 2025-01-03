@@ -2,10 +2,12 @@ package club.lyric.infinity.impl.events.mc.update;
 
 
 import club.lyric.infinity.api.event.Event;
+import lombok.Getter;
 
 /**
  * @author vasler
  */
+@Getter
 public class UpdateWalkingPlayerEvent extends Event {
     private final int stage;
 
@@ -13,7 +15,4 @@ public class UpdateWalkingPlayerEvent extends Event {
         this.stage = stage;
     }
 
-    public int getStage() {
-        return stage;
-    }
 }

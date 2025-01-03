@@ -9,7 +9,6 @@ import club.lyric.infinity.manager.Managers;
 import com.google.common.base.Preconditions;
 import net.minecraft.client.gui.DrawContext;
 
-import java.awt.*;
 import java.io.InputStream;
 
 /**

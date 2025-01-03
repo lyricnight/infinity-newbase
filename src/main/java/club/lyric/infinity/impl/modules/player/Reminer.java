@@ -47,7 +47,7 @@ public final class Reminer extends ModuleBase {
     @EventHandler
     public void onMineBlock(MineBlockEvent event) {
         BlockPos pos = event.getPos();
-        Direction dir = event.getDir();
+        Direction dir = event.getDirection();
 
         if (!isBlockBreakable(pos)) return;
 

@@ -2,6 +2,7 @@ package club.lyric.infinity.api.event.bus;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.Event;
+import lombok.Getter;
 
 import java.lang.invoke.*;
 import java.lang.reflect.Method;
@@ -13,6 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author railhack
  */
 public final class EventBus {
+    @Getter
     private static final EventBus instance = new EventBus();
 
     private final MethodHandles.Lookup lookup = MethodHandles.lookup();
@@ -87,10 +89,6 @@ public final class EventBus {
             index++;
         }
         this.registeredMethodInvokers.add(index, methodInvoker);
-    }
-
-    public static EventBus getInstance() {
-        return instance;
     }
 
     public int getInvokers() {

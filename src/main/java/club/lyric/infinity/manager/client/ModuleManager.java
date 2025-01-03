@@ -4,6 +4,7 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import lombok.Getter;
 import org.reflections.Reflections;
 
 import java.util.*;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
  * register the modules
 */
 
+@Getter
 public final class ModuleManager implements IMinecraft
 {
     private final List<ModuleBase> modules = new ArrayList<>();
@@ -40,14 +42,6 @@ public final class ModuleManager implements IMinecraft
     }
 
     /**
-     * gets modules
-     */
-    public List<ModuleBase> getModules()
-    {
-        return modules;
-    }
-
-    /**
      * gets a module from a class.
      * @param clazz - class in
      * @return - the corresponding module
@@ -65,15 +59,6 @@ public final class ModuleManager implements IMinecraft
         }
         throw new RuntimeException("Class does not match any known module! Report this!");
     }
-
-    /**
-     * Allows you to register every module at once
-     */
-    private void register(ModuleBase... module)
-    {
-        Collections.addAll(modules, module);
-    }
-
 
     /**
      * for toggle command

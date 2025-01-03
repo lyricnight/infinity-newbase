@@ -2,6 +2,7 @@ package club.lyric.infinity.api.command;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import lombok.Getter;
 import net.minecraft.util.Formatting;
 
 /**
@@ -9,6 +10,7 @@ import net.minecraft.util.Formatting;
  * command global that can be extended.
  */
 
+@Getter
 public abstract class Command {
 
     /**
@@ -21,10 +23,6 @@ public abstract class Command {
     }
 
     //overridden methods
-
-    public String getCommand() {
-        return command;
-    }
 
     public String theCommand() {
         return "";

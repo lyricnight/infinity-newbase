@@ -1,12 +1,15 @@
 package club.lyric.infinity.impl.events.mc.movement;
 
 import club.lyric.infinity.api.event.Event;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.entity.MovementType;
 
 /**
  * @author lyric
  * event fired when we move.
  */
+@Getter @Setter
 public class EntityMovementEvent extends Event {
 
     private final MovementType type;
@@ -21,34 +24,6 @@ public class EntityMovementEvent extends Event {
         this.type = type;
         this.x = x;
         this.y = y;
-        this.z = z;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-    public MovementType getType() {
-        return type;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public void setZ(double z) {
         this.z = z;
     }
 }

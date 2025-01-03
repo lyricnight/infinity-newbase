@@ -1,12 +1,15 @@
 package club.lyric.infinity.impl.events.mc.movement;
 
 import club.lyric.infinity.api.event.Event;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.entity.MovementType;
 import net.minecraft.util.math.Vec3d;
 
 /**
  * @author lyric
  */
+@Getter @Setter
 public class PlayerMovementEvent extends Event {
     private final MovementType type;
     private double x, y, z;
@@ -18,35 +21,7 @@ public class PlayerMovementEvent extends Event {
         this.z = movement.getZ();
     }
 
-    public MovementType getType() {
-        return type;
-    }
-
     public Vec3d getMovement() {
         return new Vec3d(x, y, z);
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-    public void setZ(double z) {
-        this.z = z;
     }
 }

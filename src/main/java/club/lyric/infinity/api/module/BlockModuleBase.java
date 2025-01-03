@@ -4,7 +4,6 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
-import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
 import club.lyric.infinity.api.util.client.render.util.Interpolation;
@@ -332,23 +331,5 @@ public class BlockModuleBase extends ModuleBase {
             matrixStack.pop();
             Render3DUtils.disable3D();
         }
-    }
-
-    /**
-     * @vasler put this in renderutils.
-     * @param value
-     * @param max
-     * @return
-     */
-    public static double fade(double value, double max)
-    {
-        double elapsedTime = System.currentTimeMillis() - value;
-
-        double fadeAmount = MathUtils.normalize(elapsedTime, max);
-
-        int alpha = (int) (fadeAmount * 255.0);
-        alpha = MathHelper.clamp(alpha, 0, 255);
-
-        return 255 - alpha;
     }
 }

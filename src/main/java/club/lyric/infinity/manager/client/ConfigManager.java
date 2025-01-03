@@ -13,6 +13,7 @@ import imgui.ImGui;
 import imgui.flag.ImGuiKey;
 import imgui.type.ImInt;
 import imgui.type.ImString;
+import lombok.Getter;
 
 import java.io.File;
 import java.io.IOException;
@@ -172,7 +173,9 @@ public final class ConfigManager implements IMinecraft {
     }
 
     public class ConfigProfile {
+        @Getter
         private String name;
+        @Getter
         private Path pathProfile;
         private JsonObject jsonProfile;
 
@@ -203,14 +206,6 @@ public final class ConfigManager implements IMinecraft {
             }
         }
 
-        public String getName() {
-            return name;
-        }
-
-        public Path getPathProfile() {
-            return pathProfile;
-        }
-
         public ConfigProfile setPathProfile(Path pathProfile) {
             this.pathProfile = pathProfile;
             return this;
@@ -234,7 +229,7 @@ public final class ConfigManager implements IMinecraft {
                     if (enabledJson.getAsBoolean())
                         moduleBase.setEnabled(true);
 
-                    for (Setting setting : moduleBase.getSettings()) {
+                    for (Setting setting : moduleBase.getSettingList()) {
                         JsonElement settingJson = moduleConfig.get(setting.getName());
                         if (settingJson == null)
                             continue;
@@ -277,7 +272,7 @@ public final class ConfigManager implements IMinecraft {
                     JsonObject moduleConfig = new JsonObject();
 
                     moduleConfig.addProperty("enabled", moduleBase.isOn());
-                    for (Setting setting : moduleBase.getSettings()) {
+                    for (Setting setting : moduleBase.getSettingList()) {
                         if (setting instanceof BooleanSetting booleanSetting) {
                             moduleConfig.addProperty(setting.getName(), booleanSetting.value());
                         } else if (setting instanceof BindSetting bindSetting) {

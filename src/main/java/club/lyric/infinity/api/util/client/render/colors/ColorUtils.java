@@ -1,7 +1,9 @@
 package club.lyric.infinity.api.util.client.render.colors;
 
 
+import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
 
@@ -170,5 +172,16 @@ public class ColorUtils implements IMinecraft {
 
     public static int alpha(int c) {
         return c >> 24 & 0xFF;
+    }
+
+    public static double fade(double value, double max) {
+        double elapsedTime = System.currentTimeMillis() - value;
+
+        double fadeAmount = MathUtils.normalize(elapsedTime, max);
+
+        int alpha = (int) (fadeAmount * 255.0);
+        alpha = MathHelper.clamp(alpha, 0, 255);
+
+        return 255 - alpha;
     }
 }

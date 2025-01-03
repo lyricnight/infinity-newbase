@@ -8,6 +8,8 @@ import club.lyric.infinity.api.setting.Setting;
 import club.lyric.infinity.api.util.client.keyboard.KeyUtils;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import imgui.ImGui;
+import lombok.Getter;
+import lombok.Setter;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -16,6 +18,7 @@ import org.lwjgl.glfw.GLFW;
  */
 
 public class BindSetting extends Setting implements Renderable {
+    @Setter @Getter
     public int code;
 
     private boolean wasPressed;
@@ -26,14 +29,6 @@ public class BindSetting extends Setting implements Renderable {
         this.moduleBase = moduleBase;
 
         moduleBase.addSettings(this);
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     @Override

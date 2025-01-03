@@ -1,7 +1,9 @@
 package club.lyric.infinity.impl.events.client;
 
 import club.lyric.infinity.api.event.Event;
+import lombok.Getter;
 
+@Getter
 public class KeyPressEvent extends Event {
     private final int key;
     private final int action;
@@ -11,11 +13,4 @@ public class KeyPressEvent extends Event {
         this.action = action;
     }
 
-    public int getKey() {
-        return key;
-    }
-
-    public int getAction() {
-        return action;
-    }
 }

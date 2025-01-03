@@ -7,10 +7,13 @@ import imgui.ImGui;
 import imgui.flag.ImGuiDataType;
 import imgui.type.ImDouble;
 import imgui.type.ImInt;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author lyric
  */
+@Getter @Setter
 public class NumberSetting extends Setting implements Renderable {
     private double value;
     private double minimum;
@@ -44,15 +47,6 @@ public class NumberSetting extends Setting implements Renderable {
         if (moduleBase != null) moduleBase.addSettings(this);
     }
 
-    public double getValue() {
-        return this.value;
-    }
-
-
-    public String getAppend() {
-        return append;
-    }
-
     public float getFValue() {
         return (float) this.value;
     }
@@ -72,30 +66,6 @@ public class NumberSetting extends Setting implements Renderable {
 
     public void increment(boolean positive) {
         setValue(getValue() + (positive ? 1 : -1) * this.increment);
-    }
-
-    public double getMinimum() {
-        return this.minimum;
-    }
-
-    public void setMinimum(double minimum) {
-        this.minimum = minimum;
-    }
-
-    public double getMaximum() {
-        return this.maximum;
-    }
-
-    public void setMaximum(double maximum) {
-        this.maximum = maximum;
-    }
-
-    public double getIncrement() {
-        return this.increment;
-    }
-
-    public void setIncrement(double increment) {
-        this.increment = increment;
     }
 
     @Override

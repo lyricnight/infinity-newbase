@@ -1,12 +1,14 @@
 package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import lombok.Getter;
 
 /**
  * @author vasler and lyric
  */
 public final class TimerManager implements IMinecraft {
     private float temp;
+    @Getter
     private float timer = 1.0f;
     private int ticks = 0;
     private int max;
@@ -46,10 +48,6 @@ public final class TimerManager implements IMinecraft {
 
     public void set(float timer) {
         this.timer = timer <= 0.0f ? 0.1f : timer;
-    }
-
-    public float getTimer() {
-        return timer;
     }
 
     public void reset() {

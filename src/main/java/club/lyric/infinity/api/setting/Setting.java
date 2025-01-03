@@ -1,11 +1,13 @@
 package club.lyric.infinity.api.setting;
 
 import club.lyric.infinity.api.module.ModuleBase;
+import lombok.Getter;
 
 /**
  * @author lyric
  * make things simple
  */
+@Getter
 public abstract class Setting {
     /**
      * name of our setting.
@@ -18,13 +20,5 @@ public abstract class Setting {
     protected ModuleBase moduleBase;
 
     protected boolean visibility;
-
-    public String getName() {
-        return name;
-    }
-
-    public ModuleBase getModuleBase() {
-        return moduleBase;
-    }
 }
 

@@ -4,10 +4,12 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.Renderable;
 import club.lyric.infinity.api.setting.Setting;
 import imgui.ImGui;
+import lombok.Setter;
 
 /**
  * @author lyric
  */
+@Setter
 public class BooleanSetting extends Setting implements Renderable {
 
     private boolean value;
@@ -27,15 +29,6 @@ public class BooleanSetting extends Setting implements Renderable {
      */
     public boolean value() {
         return value;
-    }
-
-    /**
-     * sets value
-     *
-     * @param value - value to set to
-     */
-    public void setValue(boolean value) {
-        this.value = value;
     }
 
     /**

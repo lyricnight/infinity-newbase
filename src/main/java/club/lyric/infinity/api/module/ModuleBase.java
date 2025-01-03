@@ -7,11 +7,10 @@ import club.lyric.infinity.api.setting.settings.BindSetting;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.nulls.Null;
-import club.lyric.infinity.api.util.client.render.anim.Animation;
-import club.lyric.infinity.api.util.client.render.anim.Easing;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Notifications;
 import club.lyric.infinity.manager.Managers;
+import lombok.*;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.PendingUpdateManager;
 import net.minecraft.client.network.SequencedPacketCreator;
@@ -29,7 +28,7 @@ import java.util.List;
  * module
  */
 
-@SuppressWarnings("unused")
+@Getter @Setter @ToString @SuppressWarnings("unused")
 public class ModuleBase implements IMinecraft {
 
     /**
@@ -75,10 +74,6 @@ public class ModuleBase implements IMinecraft {
 
     public float animPos = -1;
 
-    /**
-     * represents the module's animation.
-     */
-    private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
 
     public ModuleBase(String name, String description, Category category) {
         super();
@@ -92,86 +87,62 @@ public class ModuleBase implements IMinecraft {
         id = hashCode();
     }
 
-    public void onEnable() {
-    }
+    public void onEnable() {}
 
-    public void onDisable() {
-    }
+    public void onDisable() {}
 
-    public void onTickPre() {
-    }
+    public void onTickPre() {}
 
-    public void onTickPost() {
-    }
+    public void onTickPost() {}
 
-    public void onUpdate() {
-    }
+    public void onUpdate() {}
 
-    public void onRender2D(DrawContext drawContext) {
-    }
+    public void onRender2D(DrawContext drawContext) {}
 
-    public void onRender3D(MatrixStack matrixStack) {
-    }
+    public void onRender3D(MatrixStack matrixStack) {}
 
-    public boolean isOn() {
-        return enabled;
-    }
+    public boolean isOn() { return enabled; }
 
-    public boolean isOff() {
-        return !enabled;
-    }
+    public boolean isOff() { return !enabled; }
 
-    public boolean isDrawn() {
-        return drawn.value();
-    }
+    public boolean isDrawn() { return drawn.value(); }
 
     public void setEnabled(boolean enabled) {
-        if (enabled) {
-            this.enable();
-        } else {
-            this.disable();
-        }
+        if (enabled)
+            enable();
+        else
+            disable();
     }
 
     public void toggle() {
-        this.setEnabled(!this.isOn());
+        setEnabled(!isOn());
     }
 
     protected void enable() {
         enabled = true;
         EventBus.getInstance().register(this);
-        this.onEnable();
+        onEnable();
 
         if (Null.is()) return;
 
-        if (Managers.MODULES.getModuleFromClass(Notifications.class).toggled.value()) {
+        if (Managers.MODULES.getModuleFromClass(Notifications.class).toggled.value())
             ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + " was " + Formatting.RESET + "enabled.", id);
-        }
     }
 
     protected void disable() {
         enabled = false;
-        this.onDisable();
+        onDisable();
         EventBus.getInstance().unregister(this);
 
         if (Null.is()) return;
 
-        if (Managers.MODULES.getModuleFromClass(Notifications.class).toggled.value()) {
+        if (Managers.MODULES.getModuleFromClass(Notifications.class).toggled.value())
             ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + " was " + Formatting.RESET + "disabled.", id);
-        }
     }
 
-    public Category getCategory() {
-        return this.category;
-    }
+    public int getBind() { return this.bind.getCode(); }
 
-    public int getBind() {
-        return this.bind.getCode();
-    }
-
-    public void setBind(int key) {
-        this.bind.setCode(key);
-    }
+    public void setBind(int key) { this.bind.setCode(key); }
 
     protected void send(Packet<?> packet) {
         if (mc.getNetworkHandler() == null) return;
@@ -190,82 +161,42 @@ public class ModuleBase implements IMinecraft {
         sequence.close();
     }
 
-    protected void sendUnsafe(Packet<?> packet) {
-        mc.getNetworkHandler().sendPacket(packet);
-    }
+    protected void sendUnsafe(Packet<?> packet) { mc.getNetworkHandler().sendPacket(packet); }
 
     public String moduleInformation() {
         return "";
     }
 
     public void addSettings(Setting... settings) {
-        this.settingList.addAll(Arrays.asList(settings));
-        this.settingList.sort(Comparator.comparingInt(s -> s == bind ? 1 : 0));
-    }
-
-    public Animation getAnimation() {
-        return animation;
-    }
-
-    /**
-     * name
-     *
-     * @return module name
-     */
-
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * gets description
-     *
-     * @return above
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * returns the class's settings list.
-     *
-     * @return above
-     */
-    public List<Setting> getSettings() {
-        return settingList;
+        settingList.addAll(Arrays.asList(settings));
+        settingList.sort(Comparator.comparingInt(s -> s == bind ? 1 : 0));
     }
 
     /**
      * getter for showing settings.
      */
-    public boolean showSettings() {
-        return showSettings;
-    }
+    public boolean showSettings() { return showSettings; }
 
     /**
      * toggle function for above.
      */
 
-    public void toggleShowSettings() {
-        this.showSettings = !this.showSettings;
-    }
+    public void toggleShowSettings() { showSettings = !showSettings; }
 
     /**
      * rendering for GUI.
      */
     public void renderSettings() {
         for (Setting setting : settingList) {
-            if (setting instanceof Renderable renderable) {
+            if (setting instanceof Renderable renderable)
                 renderable.render();
-            }
         }
     }
 
 
     public String getSuffix() {
-        if (moduleInformation().isEmpty()) {
-            return "";
-        }
+        if (moduleInformation().isEmpty()) return "";
+
         return Formatting.GRAY + " [" + Formatting.WHITE + moduleInformation() + Formatting.GRAY + "]";
     }
 
@@ -275,25 +206,16 @@ public class ModuleBase implements IMinecraft {
      * @return the enum value corresponding to string
      */
 
-    protected SwapMode getModeFromString(String string)
-    {
-        switch (string)
-        {
-            case "Normal" -> {
-                return SwapMode.Normal;
-            }
-            case "Silent" -> {
-                return SwapMode.Silent;
-            }
-            case "Slot" -> {
-                return SwapMode.Slot;
-            }
+    protected SwapMode getModeFromString(String string) {
+        switch (string) {
+            case "Normal" -> { return SwapMode.Normal; }
+            case "Silent" -> { return SwapMode.Silent; }
+            case "Slot" -> { return SwapMode.Slot; }
         }
         throw new RuntimeException("No SwapMode found. Report this!");
     }
 
-    protected enum SwapMode
-    {
+    protected enum SwapMode {
         Normal,
         Silent,
         Slot

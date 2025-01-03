@@ -1,12 +1,14 @@
 package club.lyric.infinity.impl.events.mc.chat;
 
 import club.lyric.infinity.api.event.Event;
+import lombok.Getter;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.text.Text;
 
 /**
  * @author lyric
  */
+@Getter
 public class ReceiveChatEvent extends Event {
 
     private Text message;
@@ -22,13 +24,6 @@ public class ReceiveChatEvent extends Event {
         this.indicator = messageIndicator;
     }
 
-    public Text getMessage() {
-        return message;
-    }
-
-    public MessageIndicator getIndicator() {
-        return indicator;
-    }
 
     public void setMessage(Text message) {
         this.message = message;

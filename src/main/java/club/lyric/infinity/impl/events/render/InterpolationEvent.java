@@ -1,6 +1,7 @@
 package club.lyric.infinity.impl.events.render;
 
 import club.lyric.infinity.api.event.Event;
+import lombok.Getter;
 import net.minecraft.entity.LivingEntity;
 
 /**
@@ -8,6 +9,7 @@ import net.minecraft.entity.LivingEntity;
  * event fired whenever an entity is interpolated client-side
  * @see club.lyric.infinity.impl.modules.exploit.Resolver;
  */
+@Getter
 public final class InterpolationEvent extends Event {
     private final LivingEntity entity;
     private final double x;
@@ -27,31 +29,4 @@ public final class InterpolationEvent extends Event {
         this.lastInterp = lastInterp;
     }
 
-    public LivingEntity getEntity() {
-        return entity;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-    public float getxRot() {
-        return xRot;
-    }
-
-    public float getyRot() {
-        return yRot;
-    }
-
-    public long getLastInterp() {
-        return lastInterp;
-    }
 }

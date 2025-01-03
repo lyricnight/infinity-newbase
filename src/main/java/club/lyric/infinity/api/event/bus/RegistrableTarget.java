@@ -1,5 +1,6 @@
 package club.lyric.infinity.api.event.bus;
 
+import lombok.Getter;
 import org.objectweb.asm.Opcodes;
 
 import java.lang.invoke.MethodHandle;
@@ -11,6 +12,7 @@ import java.util.Arrays;
 /**
  * @author railhack
  */
+@Getter
 public final class RegistrableTarget {
     private final Class<?> targetClass;
     private final AccessType accessType;
@@ -52,14 +54,6 @@ public final class RegistrableTarget {
             case STATIC -> (Invoker) targetHandle.invokeExact();
             case VIRTUAL -> (Invoker) targetHandle.invoke(instance);
         };
-    }
-
-    public Class<?> getTargetClass() {
-        return this.targetClass;
-    }
-
-    public AccessType getAccessType() {
-        return this.accessType;
     }
 
     public enum AccessType {
