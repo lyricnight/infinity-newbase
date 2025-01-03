@@ -38,3 +38,7 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+# version file
+src/main/java/club/lyric/infinity/Version.java
+
