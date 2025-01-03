@@ -1,10 +1,10 @@
 package club.lyric.infinity.manager.client;
 
+import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.commands.*;
+import org.reflections.Reflections;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,19 +20,17 @@ public final class CommandManager implements IMinecraft {
 
     public void init()
     {
-        register(
-                new Prefix(),
-                new Friend(),
-                new List(),
-                new Identifier(),
-                new Toggle(),
-                new Watermark(),
-                new Bind()
-        );
-    }
+        Set<Class<? extends Command>> set = new Reflections("club.lyric.infinity.impl.commands")
+                .getSubTypesOf(Command.class);
 
-    public void register(Command... command) {
-        Collections.addAll(commands, command);
+        for (Class<? extends Command> mClass : set) {
+            try {
+                Command command = mClass.getDeclaredConstructor().newInstance();
+                commands.add(command);
+            } catch (Exception e) {
+                Infinity.LOGGER.error("WhyTfThisnotwork (Command Edition)");
+            }
+        }
     }
 
     //prefix methods
