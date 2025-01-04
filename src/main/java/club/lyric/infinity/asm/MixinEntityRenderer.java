@@ -22,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(EntityRenderer.class)
 public class MixinEntityRenderer<S extends EntityRenderState> implements IMinecraft {
-
     @ModifyReturnValue(method = "getSkyLight", at = @At("RETURN"))
     private int onGetSkyLight(int original) {
         return Math.max(Managers.MODULES.getModuleFromClass(FullBright.class).getLuminance(LightType.SKY), original);

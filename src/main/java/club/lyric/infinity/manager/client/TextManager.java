@@ -4,6 +4,7 @@ import club.lyric.infinity.api.ducks.IDrawContext;
 import club.lyric.infinity.api.util.client.render.text.custom.Font;
 import club.lyric.infinity.api.util.client.render.text.custom.GlyphPage;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
+import club.lyric.infinity.impl.modules.client.CustomFont;
 import club.lyric.infinity.impl.modules.client.HUD;
 import club.lyric.infinity.manager.Managers;
 import com.google.common.base.Preconditions;
@@ -38,8 +39,14 @@ public final class TextManager implements IMinecraft {
         }
         else
         {
-            ((IDrawContext) context).infinity_newbase$drawText(mc.textRenderer, value, x, y, color, Managers.MODULES.getModuleFromClass(HUD.class).shadow.value());
-            fontRenderer.draw(context.getMatrices(), value, x, y, color, true);
+            if (Managers.MODULES.getModuleFromClass(CustomFont.class).isOn())
+            {
+                fontRenderer.draw(context.getMatrices(), value, x, y, color, Managers.MODULES.getModuleFromClass(CustomFont.class).shadow.value());
+            }
+            else
+            {
+                ((IDrawContext) context).infinity_newbase$drawText(mc.textRenderer, value, x, y, color, Managers.MODULES.getModuleFromClass(HUD.class).shadow.value());
+            }
         }
     }
 
@@ -49,16 +56,30 @@ public final class TextManager implements IMinecraft {
         {
             throw new RuntimeException("width() called too early! Report this!");
         }
-        return mc.textRenderer.getWidth(value) + (shadow ? 1 : 0);
+        if (Managers.MODULES.getModuleFromClass(CustomFont.class).isOn())
+        {
+            return fontRenderer.getWidth(value);
+        }
+        else return mc.textRenderer.getWidth(value) + (shadow ? 1 : 0);
     }
 
     public int height(boolean shadow) {
         if (!ready) {
             throw new RuntimeException("height() called too early! Report this!");
         }
-        return mc.textRenderer.fontHeight + (shadow ? 1 : 0);
+        if (Managers.MODULES.getModuleFromClass(CustomFont.class).isOn())
+        {
+            return (int) fontRenderer.getHeight();
+        }
+        else return mc.textRenderer.fontHeight + (shadow ? 1 : 0);
     }
 
+    /**
+     * vasler wrote this so idk about this - lyric
+     * @param file - font file
+     * @param size - font size
+     * @return new fontRenderer
+     */
     public static Font create(String file, float size) {
 
         java.awt.Font font = null;

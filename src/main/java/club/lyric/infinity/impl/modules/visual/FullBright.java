@@ -9,10 +9,11 @@ import net.minecraft.world.LightType;
  * @author vasler
  */
 public final class FullBright extends ModuleBase {
+
     public FullBright() {
         super("FullBright", "Makes the game brighter.", Category.VISUAL);
     }
-
+    /*
     @Override
     public void onEnable() {
         if (Null.is()) return;
@@ -26,6 +27,8 @@ public final class FullBright extends ModuleBase {
 
         mc.worldRenderer.reload();
     }
+
+     */
 
 
     public int getLuminance(LightType type) {

@@ -11,10 +11,6 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
  */
 @Getter @Setter
 public final class RenderPlayerModelEvent extends Event {
-    /**
-     * -- GETTER --
-     *  getters
-     */
     private final AbstractClientPlayerEntity entity;
     private float yaw;
     private float pitch;

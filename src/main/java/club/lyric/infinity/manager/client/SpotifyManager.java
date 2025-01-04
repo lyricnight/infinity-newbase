@@ -30,7 +30,7 @@ public final class SpotifyManager {
     public void init() {
         if (MinecraftClient.IS_SYSTEM_MAC)
         {
-            Infinity.LOGGER.error("System detected as a Mac -> SpotifyManager disabled.");
+            Infinity.LOGGER.info("System detected as a Mac -> SpotifyManager disabled.");
             return;
         }
         scheduled.scheduleAtFixedRate(this::updateCurrentTrack, 100, 100, TimeUnit.MILLISECONDS);

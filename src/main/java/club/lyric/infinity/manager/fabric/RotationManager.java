@@ -23,7 +23,7 @@ import java.util.Optional;
  * @author lyric
  * handling player rotations
  */
-//TODO: long in the future, try to make this threaded? have some sort of .submit( -> ) runnable that executes constant rotationPoint submissions?
+//TODO: delete all of this. its literally garbage what did i think i was doing with this
 public final class RotationManager implements IMinecraft {
 
     /**
@@ -112,7 +112,7 @@ public final class RotationManager implements IMinecraft {
             event.setPitch(current.getPitch());
             rotating = false;
         }
-        if(current != null && current.getInstant())
+        if(current != null && current.isInstant())
         {
             current = null;
         }

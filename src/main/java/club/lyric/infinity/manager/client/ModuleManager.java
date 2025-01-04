@@ -57,6 +57,7 @@ public final class ModuleManager implements IMinecraft
                 new NoAccelerate(),
                 new PingSpoof(),
                 new AntiAscii(),
+                new CustomFont(),
                 new FastProjectile(),
                 new MCF(),
                 new FakeBrand(),

@@ -21,6 +21,7 @@ public final class RotationPoint {
     /**
      * will the rotation be instantaneous?
      */
+    @Getter
     private boolean instant;
 
     public RotationPoint(float yaw, float pitch, int priority, boolean instant) {

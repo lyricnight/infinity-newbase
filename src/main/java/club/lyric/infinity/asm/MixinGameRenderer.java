@@ -34,6 +34,7 @@ public abstract class MixinGameRenderer implements IMinecraft {
 
         Profilers.get().push("render-infinity");
         //this is all thanks to 1.20.4 -> 1.20.6, which changed how matrixStack works
+        //TODO check if this causes crash
         Camera camera = mc.gameRenderer.getCamera();
 
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

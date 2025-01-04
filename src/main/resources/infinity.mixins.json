@@ -3,7 +3,6 @@
   "compatibilityLevel": "JAVA_21",
   "priority": 1001,
   "mixinPriority": 1001,
-  "minVersion": "0.8.7",
   "package": "club.lyric.infinity.asm",
   "mixins": [
     "MixinClientConnection",

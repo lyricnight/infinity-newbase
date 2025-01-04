@@ -30,15 +30,6 @@ public abstract class MixinMinecraftClient implements IMinecraft {
     @Shadow
     private IntegratedServer server;
 
-    @Inject(method = "<init>", at = @At("TAIL"))
-    private void postWindowInit(RunArgs args, CallbackInfo ci) {
-        try {
-            TextManager.fontRenderer = TextManager.create("Roboto-Regular.ttf", 18);
-        } catch (Exception e) {
-            Infinity.LOGGER.atError();
-        }
-    }
-
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void tick(CallbackInfo callbackInfo) {
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(ModuleBase::onTickPre);

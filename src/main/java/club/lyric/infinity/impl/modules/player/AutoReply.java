@@ -18,12 +18,13 @@ import java.util.stream.Stream;
 
 /**
  * @author lyric
- * does this shit even work /_/
  */
+//TODO debug
 public final class AutoReply extends ModuleBase {
     public BooleanSetting armor = new BooleanSetting("Armor", false, this);
     public BooleanSetting coords = new BooleanSetting("Coords", true, this);
     public BooleanSetting afk = new BooleanSetting("AFK Responses", true, this);
+    public BooleanSetting sendAnyway = new BooleanSetting("Send", false, this);
     public BooleanSetting debug = new BooleanSetting("d", false, this);
     public NumberSetting time = new NumberSetting("AFK Time", this, 30, 10, 100, 5);
     private final StopWatch.Single stopWatch = new StopWatch.Single();
@@ -50,6 +51,13 @@ public final class AutoReply extends ModuleBase {
         String ign = string.split(" ")[0];
         if (debug.value()) {
             ChatUtils.sendMessagePrivate("Got message:" + string);
+        }
+        if (sendAnyway.value())
+        {
+            send(MessageType.COORDINATE, "hi");
+            send(MessageType.AFK, "hi");
+            sendAnyway.setValue(false);
+            return;
         }
         if (Stream.of("whispers:", "says:", "whispers to you:").anyMatch(string::contains) && !message.getString().contains(Formatting.WHITE.toString())) {
             if (debug.value()) {
@@ -96,8 +104,7 @@ public final class AutoReply extends ModuleBase {
             ChatUtils.sendMessagePrivate("Got SEND");
         }
         switch (type) {
-            case COORDINATE ->
-                    mc.getNetworkHandler().sendChatMessage("/w " + ign + " [Infinity] Coordinates: " + format.format(mc.player.getX()) + ", " + format.format(mc.player.getZ()));
+            case COORDINATE -> mc.getNetworkHandler().sendChatMessage("/w " + ign + " [Infinity] Coordinates: " + format.format(mc.player.getX()) + ", " + format.format(mc.player.getZ()));
             case AFK -> mc.getNetworkHandler().sendChatMessage("/w " + ign + " [Infinity] I'm AFK.");
         }
     }

@@ -19,6 +19,7 @@ public final class Ambience extends ModuleBase {
         super("Ambience", "Changes the worlds color.", Category.VISUAL);
     }
 
+    /*
     @Override
     public void onEnable() {
         if (Null.is()) return;
@@ -37,4 +38,6 @@ public final class Ambience extends ModuleBase {
 
         mc.worldRenderer.reload();
     }
+
+     */
 }
