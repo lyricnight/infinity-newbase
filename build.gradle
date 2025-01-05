@@ -54,12 +54,9 @@ dependencies {
 	include(implementation("io.github.spair:imgui-java-natives-windows:$project.imgui_version"))
 	include(implementation("io.github.spair:imgui-java-natives-linux:$project.imgui_version"))
 	include(implementation("io.github.spair:imgui-java-natives-macos:$project.imgui_version"))
-
-	include(implementation('org.reflections:reflections:0.10.2'))
+	
 	compileOnly("org.projectlombok:lombok:$project.lombok_version")
 	annotationProcessor("org.projectlombok:lombok:$project.lombok_version")
-
-	include(implementation("org.javassist:javassist:3.28.0-GA"))
 }
 
 
