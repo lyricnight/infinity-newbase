@@ -71,6 +71,7 @@ public final class HUD extends ModuleBase {
     private final StopWatch packetTimer = new StopWatch.Single();
     private final StopWatch spotifyTimer = new StopWatch.Single();
     int packets;
+    int packetsServer;
     private final Animation animation = new Animation(Easing.EASE_OUT_QUAD, 150);
 
     // Info
@@ -86,11 +87,17 @@ public final class HUD extends ModuleBase {
         packets++;
     }
 
+    @EventHandler(priority = 2)
+    public void onPacketSend(PacketEvent.Receive event) {
+        packetsServer++;
+    }
+
     @Override
     public void onRender2D(DrawContext context) {
 
         if (packetTimer.hasBeen(1000)) {
             packets = 0;
+            packetsServer = 0;
             packetTimer.reset();
         }
 
@@ -184,7 +191,7 @@ public final class HUD extends ModuleBase {
                         hudColor(arrayOffset).getRGB()
                 );
 
-                arrayOffset += Managers.TEXT.height(true) + 1;
+                arrayOffset += Managers.TEXT.height(true);
             }
 
         }
@@ -217,7 +224,7 @@ public final class HUD extends ModuleBase {
                     context.getMatrices().pop();
 
                     context.drawItem(stack, width / 2 + x, height - y);
-                    context.drawItemTooltip(mc.textRenderer, stack, width / 2 + x, height - y);
+                    context.drawStackOverlay(mc.textRenderer, stack, width / 2 + x, height - y);
                     x += 18;
                 }
             }
@@ -238,7 +245,7 @@ public final class HUD extends ModuleBase {
                         context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
                         potionColors.is("Normal") ? statusEffectInstance.getEffectType().value().getColor() : hudColor((int) (context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue())).getRGB()
                 );
-                offset += Managers.TEXT.height(true) + 1;
+                offset += Managers.TEXT.height(true);
             }
         }
 
@@ -249,12 +256,12 @@ public final class HUD extends ModuleBase {
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
 
-            offset += Managers.TEXT.height(true) + 1;
+            offset += Managers.TEXT.height(true);
         }
 
         if (serverBrand.value()) {
 
-            String server = "ServerBrand " + Formatting.WHITE + (mc.isInSingleplayer() ? "Singleplayer (Integrated)" : mc.getNetworkHandler().getBrand());
+            String server = "Server Brand " + Formatting.WHITE + (mc.isInSingleplayer() ? "Singleplayer (Integrated)" : mc.getNetworkHandler().getBrand());
 
             Managers.TEXT.drawString(getLabel(server),
                     context.getScaledWindowWidth() - Managers.TEXT.width(getLabel(server), true) - 2,
@@ -262,7 +269,7 @@ public final class HUD extends ModuleBase {
                     hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
             );
 
-            offset += Managers.TEXT.height(true) + 1;
+            offset += Managers.TEXT.height(true);
         }
 
         if (durability.value() && mc.player.getMainHandStack().isDamageable()) {
@@ -292,7 +299,13 @@ public final class HUD extends ModuleBase {
                             1.0f).getRGB()
             );
 
-            offset += Managers.TEXT.height(true) + 1;
+            offset += Managers.TEXT.height(true);
+        }
+
+        if (packet.value()) {
+            String packet = "Packets " + Formatting.WHITE + packets + Formatting.GRAY + " -> " + Formatting.WHITE + packetsServer + " s";
+
+            offset = getOffset(context, offset, packet, packetWidth);
         }
 
         if (speed.value()) {
@@ -306,28 +319,8 @@ public final class HUD extends ModuleBase {
                             Math.pow(distanceZ, 2))) / 1000) / (0.05F / 3600)) +
                     " km/h";
 
-            speedWidth.run((Managers.TEXT.width(getLabel(speed), true)));
-
-            Managers.TEXT.drawString(getLabel(speed),
-                    context.getScaledWindowWidth() - speedWidth.getValue() - 2,
-                    context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
-                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
-            );
-            offset += Managers.TEXT.height(true) + 1;
+            offset = getOffset(context, offset, speed, speedWidth);
             speedWidth.reset();
-        }
-
-        if (packet.value()) {
-            String packet = "Packets " + Formatting.GRAY + "[" + Formatting.WHITE + packets + Formatting.GRAY + "]";
-
-            packetWidth.run((Managers.TEXT.width(getLabel(packet), true)));
-
-            Managers.TEXT.drawString(getLabel(packet),
-                    context.getScaledWindowWidth() - packetWidth.getValue() - 2,
-                    context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
-                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
-            );
-            offset += Managers.TEXT.height(true) + 1;
         }
 
         if (ping.value() && !mc.isInSingleplayer()) {
@@ -340,28 +333,13 @@ public final class HUD extends ModuleBase {
                 pingString = "Ping " + Formatting.WHITE + Managers.SERVER.getServerPing() + "ms";
             }
 
-            pingWidth.run((Managers.TEXT.width(getLabel(pingString), true)));
-
-            Managers.TEXT.drawString(getLabel(pingString),
-                    context.getScaledWindowWidth() - pingWidth.getValue() - 2,
-                    context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
-                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
-            );
-
-            offset += Managers.TEXT.height(true) + 1;
+            offset = getOffset(context, offset, pingString, pingWidth);
         }
 
         if (tps.value() && !mc.isInSingleplayer()) {
             String tps = "TPS " + Formatting.WHITE + Managers.SERVER.getOurTPS();
 
-            tpsWidth.run((Managers.TEXT.width(getLabel(tps), true)));
-
-            Managers.TEXT.drawString(getLabel(tps),
-                    context.getScaledWindowWidth() - tpsWidth.getValue() - 2,
-                    context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
-                    hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
-            );
-            offset += Managers.TEXT.height(true) + 1;
+            offset = getOffset(context, offset, tps, tpsWidth);
         }
 
         if (fps.value()) {
@@ -412,17 +390,7 @@ public final class HUD extends ModuleBase {
                                 ", " +
                                 getFormatting(mc.player.getPos().z * 8.0) +
                                 Formatting.GRAY +
-                                "] " +
-                                Formatting.GRAY +
-                                "[" +
-                                Formatting.WHITE +
-                                getFormatting(MathHelper.wrapDegrees(mc.player.getYaw())) +
-                                Formatting.GRAY +
-                                ", " +
-                                Formatting.WHITE +
-                                getFormatting(mc.player.getPitch()) +
-                                Formatting.GRAY +
-                                "]"
+                                "] "
                         ),
                         2,
                         context.getScaledWindowHeight() - 9 - 2 - animation.getValue(),
@@ -443,24 +411,14 @@ public final class HUD extends ModuleBase {
                                 ", " +
                                 getFormatting(mc.player.getPos().z / 8.0) +
                                 Formatting.GRAY +
-                                "] " +
-                                Formatting.GRAY +
-                                "(" +
-                                Formatting.WHITE +
-                                getFormatting(MathHelper.wrapDegrees(mc.player.getYaw())) +
-                                Formatting.GRAY +
-                                ", " +
-                                Formatting.WHITE +
-                                getFormatting(mc.player.getPitch()) +
-                                Formatting.GRAY +
-                                ")"
+                                "] "
                         ),
                         2F,
                         context.getScaledWindowHeight() - 9 - coordinateOffset - 2 - animation.getValue(),
                         hudColor(coordinateOffset).getRGB()
                 );
             }
-            coordinateOffset += Managers.TEXT.height(true) + 1;
+            coordinateOffset += Managers.TEXT.height(true);
         }
 
         if (direction.value()) {
@@ -477,6 +435,18 @@ public final class HUD extends ModuleBase {
         } else {
             animation.run(0);
         }
+    }
+
+    private int getOffset(DrawContext context, int offset, String speed, Animation speedWidth) {
+        speedWidth.run((Managers.TEXT.width(getLabel(speed), true)));
+
+        Managers.TEXT.drawString(getLabel(speed),
+                context.getScaledWindowWidth() - speedWidth.getValue() - 2,
+                context.getScaledWindowHeight() - 9 - offset - 2 - animation.getValue(),
+                hudColor(context.getScaledWindowHeight() - 9 - offset - 2).getRGB()
+        );
+        offset += Managers.TEXT.height(true);
+        return offset;
     }
 
     private String getDirections() {
