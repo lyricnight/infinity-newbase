@@ -82,8 +82,9 @@ public final class Velocity extends ModuleBase {
                 {
                     event.setCancelled(true);
                 }
-
-                ((IExplosionS2CPacket) event.getPacket()).setPlayerKnockback(Optional.of(new Vec3d(mc.player.getX() * horizontal.getIValue() / 100, mc.player.getY() * vertical.getIValue() / 100, mc.player.getZ() * horizontal.getIValue() / 100)));
+                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityX((int) (mc.player.getX() * horizontal.getIValue() / 100));
+                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityY((int) (mc.player.getY() * vertical.getIValue() / 100));
+                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityZ((int) (mc.player.getZ() * horizontal.getIValue() / 100));
             }
         }
 

@@ -2,7 +2,6 @@ package club.lyric.infinity.api.util.client.render.util;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Box;
@@ -34,7 +33,7 @@ public class Render3DUtils implements IMinecraft {
         Matrix4f matrix = matrixStack.peek().getPositionMatrix();
         Tessellator tessellator = RenderSystem.renderThreadTesselator();
         BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
-        RenderSystem.setShader(ShaderProgramKeys.POSITION);
+        RenderSystem.setShader(GameRenderer::getPositionProgram);
 
         float alpha = (color >> 24 & 255) / 255.0F;
         float red = (color >> 16 & 255) / 255.0F;
@@ -79,7 +78,7 @@ public class Render3DUtils implements IMinecraft {
         Matrix4f matrix = matrixStack.peek().getPositionMatrix();
         Tessellator tessellator = RenderSystem.renderThreadTesselator();
         BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION);
-        RenderSystem.setShader(ShaderProgramKeys.POSITION);
+        RenderSystem.setShader(GameRenderer::getPositionProgram);
 
         float alpha = (color >> 24 & 255) / 255.0F;
         float red = (color >> 16 & 255) / 255.0F;

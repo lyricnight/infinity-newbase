@@ -295,7 +295,7 @@ public class AutoCrystal extends ModuleBase {
                     if (ent == null) {
                         return;
                     }
-                    if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(explosionPacket.center().x, explosionPacket.center().y, explosionPacket.center().z) <= 6.0d) {
+                    if (ent instanceof EndCrystalEntity crystal && crystal.squaredDistanceTo(explosionPacket.getX(), explosionPacket.getY(), explosionPacket.getZ()) <= 6.0d) {
                         int entity = crystal.getId();
                         mc.executeSync(() -> {
                             mc.world.removeEntity(entity, Entity.RemovalReason.KILLED);
@@ -473,7 +473,7 @@ public class AutoCrystal extends ModuleBase {
     }
 
     private static float applyArmorCalculations(float damage, LivingEntity entity, DamageSource source) {
-        damage = DamageUtil.getDamageLeft(entity, damage, source, (float) entity.getArmor(), (float) entity.getAttributeInstance(EntityAttributes.ARMOR_TOUGHNESS).getValue());
+        damage = DamageUtil.getDamageLeft(entity, damage, source, (float) entity.getArmor(), (float) entity.getAttributeInstance(EntityAttributes.GENERIC_ARMOR_TOUGHNESS).getValue());
 
         int enchantmentModifier = (int) EnchantmentHelper.getProtectionAmount(mc.getServer().getWorld(World.OVERWORLD), entity, source);
 

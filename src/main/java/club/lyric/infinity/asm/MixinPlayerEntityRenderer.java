@@ -4,8 +4,9 @@ import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.render.RenderPlayerModelEvent;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
-import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
+import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,8 +21,8 @@ public class MixinPlayerEntityRenderer implements IMinecraft {
     @Unique
     private float yaw, prevYaw, bodyYaw, prevBodyYaw, headYaw, prevHeadYaw, pitch, prevPitch;
 
-    @Inject(method = "updateRenderState(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/client/render/entity/state/PlayerEntityRenderState;F)V", at = @At(value = "HEAD"))
-    private void onRenderHead(AbstractClientPlayerEntity abstractClientPlayerEntity, PlayerEntityRenderState playerEntityRenderState, float f, CallbackInfo ci) {
+    @Inject(method = "render(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "HEAD"))
+    private void onRenderHead(AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
         RenderPlayerModelEvent renderPlayerModelEvent = new RenderPlayerModelEvent(abstractClientPlayerEntity);
         EventBus.getInstance().post(renderPlayerModelEvent);
         yaw = abstractClientPlayerEntity.getYaw();
@@ -44,8 +45,8 @@ public class MixinPlayerEntityRenderer implements IMinecraft {
         }
     }
 
-    @Inject(method = "updateRenderState(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/client/render/entity/state/PlayerEntityRenderState;F)V", at = @At(value = "TAIL"))
-    private void onRenderTail(AbstractClientPlayerEntity abstractClientPlayerEntity, PlayerEntityRenderState playerEntityRenderState, float f, CallbackInfo ci) {
+    @Inject(method = "render(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "TAIL"))
+    private void onRenderTail(AbstractClientPlayerEntity abstractClientPlayerEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
         abstractClientPlayerEntity.setYaw(yaw);
         abstractClientPlayerEntity.prevYaw = prevYaw;
         abstractClientPlayerEntity.setBodyYaw(bodyYaw);

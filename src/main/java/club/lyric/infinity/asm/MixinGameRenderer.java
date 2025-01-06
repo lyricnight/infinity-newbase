@@ -11,7 +11,6 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.profiler.Profilers;
 import org.lwjgl.opengl.GL11;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,9 +31,7 @@ public abstract class MixinGameRenderer implements IMinecraft {
         if (Null.is()) return;
 
 
-        Profilers.get().push("render-infinity");
-        //this is all thanks to 1.20.4 -> 1.20.6, which changed how matrixStack works
-        //TODO check if this causes crash
+        mc.getProfiler().push("render-infinity");
         Camera camera = mc.gameRenderer.getCamera();
 
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -47,7 +44,7 @@ public abstract class MixinGameRenderer implements IMinecraft {
         stack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
         stack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180.0f));
 
-        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT);
+        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, false);
         Managers.MODULES.getModules().stream().filter(ModuleBase::isOn).forEach(module -> module.onRender3D(stack));
 
         RenderSystem.enableDepthTest();
@@ -55,7 +52,7 @@ public abstract class MixinGameRenderer implements IMinecraft {
         RenderSystem.disableCull();
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
 
-        Profilers.get().pop();
+        mc.getProfiler().pop();
 
     }
 }

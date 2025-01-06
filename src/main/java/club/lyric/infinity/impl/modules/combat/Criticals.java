@@ -36,18 +36,18 @@ public final class Criticals extends ModuleBase {
             switch (mode.getMode()) {
                 case "Grim" -> {
                     if (!mc.player.isOnGround())
-                        send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y - 0.000001, z, false, false));
+                        send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y - 0.000001, z, false));
                 }
                 case "NCP" -> {
-                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y + 0.05, z, false, false));
-                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, false, false));
-                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y + 0.03, z, false, false));
-                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, false, false));
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y + 0.05, z, false));
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, false));
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y + 0.03, z, false));
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, false));
                 }
                 case "NCPStrict" -> {
-                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y + 0.0625d, z, false, false));
-                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, false, false));
-                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y + 1.1e-5d, z, false, false));
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y + 0.0625d, z, false));
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, false));
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(x, y + 1.1e-5d, z, false));
                 }
                 case "Jump" -> mc.player.jump();
                 case "LowHop" -> {

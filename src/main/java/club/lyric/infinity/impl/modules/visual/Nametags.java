@@ -119,7 +119,7 @@ public final class Nametags extends ModuleBase {
     }
 
     public static void drawText(MatrixStack matrixStack, VertexConsumerProvider.Immediate immediate, String text, float x, float y, int color) {
-        mc.textRenderer.draw(Text.of(text), x, y, color, true, matrixStack.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 0xF000F0, mc.textRenderer.isRightToLeft());
+        mc.textRenderer.draw((text), x, y, color, true, matrixStack.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.NORMAL, 0, 0xF000F0, mc.textRenderer.isRightToLeft());
     }
 
     private String renderPlayerName(PlayerEntity player) {

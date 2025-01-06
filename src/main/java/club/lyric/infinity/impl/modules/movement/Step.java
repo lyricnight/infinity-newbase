@@ -44,7 +44,7 @@ public final class Step extends ModuleBase {
 
             if (offsets != null && offsets.length > 1) {
                 for (double offset : offsets) {
-                    send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + offset, mc.player.getZ(), false, false));
+                    send(new PlayerMoveC2SPacket.PositionAndOnGround(mc.player.getX(), mc.player.getY() + offset, mc.player.getZ(), false));
                 }
             }
             stopWatch.reset();

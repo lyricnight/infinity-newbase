@@ -224,7 +224,7 @@ public final class HUD extends ModuleBase {
                     context.getMatrices().pop();
 
                     context.drawItem(stack, width / 2 + x, height - y);
-                    context.drawStackOverlay(mc.textRenderer, stack, width / 2 + x, height - y);
+                    context.drawItemInSlot(mc.textRenderer, stack, width / 2 + x, height - y);
                     x += 18;
                 }
             }

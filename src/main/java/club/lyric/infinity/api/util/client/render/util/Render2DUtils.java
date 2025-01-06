@@ -2,7 +2,6 @@ package club.lyric.infinity.api.util.client.render.util;
 
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gl.ShaderProgramKeys;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import org.joml.Matrix4f;
@@ -35,7 +34,7 @@ public class Render2DUtils implements IMinecraft {
         // Rect starts here
         BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         setup();
-        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         bufferBuilder.vertex(matrix, x, y + height, 0.0F).color(r, g, b, a);
         bufferBuilder.vertex(matrix, x + width, y + height, 0.0F).color(r, g, b, a);
         bufferBuilder.vertex(matrix, x + width, y, 0.0F).color(r, g, b, a);
@@ -67,7 +66,7 @@ public class Render2DUtils implements IMinecraft {
         // Rect starts here
         BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
         setup();
-        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
         bufferBuilder.vertex(matrix, x, y, 0.0F).color(r, g, b, a);
         bufferBuilder.vertex(matrix, x, y + height, 0.0F).color(r, g, b, a);
         bufferBuilder.vertex(matrix, x + width, y + height, 0.0F).color(r, g, b, a);
@@ -104,7 +103,7 @@ public class Render2DUtils implements IMinecraft {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(ShaderProgramKeys.POSITION_COLOR);
+        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
 
         if (sideways) {
             bufferBuilder.vertex(posMatrix, x, y, 0.0F).color(startRGBA[0], startRGBA[1], startRGBA[2], startRGBA[3]);

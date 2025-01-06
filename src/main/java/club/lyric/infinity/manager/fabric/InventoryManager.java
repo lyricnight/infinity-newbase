@@ -4,6 +4,7 @@ import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import net.minecraft.network.packet.s2c.play.UpdateSelectedSlotS2CPacket;
 
@@ -12,6 +13,15 @@ import net.minecraft.network.packet.s2c.play.UpdateSelectedSlotS2CPacket;
  * 'services are overrated'
  */
 public final class InventoryManager implements IMinecraft {
+    private ItemStack stack = null;
+
+    private ItemStack stackAlt = null;
+
+    /**
+     * convenience variable, for slot swapping.
+     */
+    private int last = -1;
+
     /**
      * represents the slot in use
      */
@@ -41,6 +51,20 @@ public final class InventoryManager implements IMinecraft {
             sendPacket(slot);
         }
     }
+
+    /**
+     * TODO
+     * uses the alternative swap slot method to swap.
+     * @param slot - int value of slot we swap to.
+     */
+    public void setSlotSwap(int slot)
+    {
+        last = mc.player.getInventory().selectedSlot;
+        stackAlt = mc.player.getMainHandStack();
+        slot = convert(slot);
+        if (mc.player.getInventory().selectedSlot != slot && slot > 35 && slot < 45) {}
+    }
+
 
     /**
      * call when a desync is detected: causes us to send a packet swap to client slot.
@@ -90,6 +114,24 @@ public final class InventoryManager implements IMinecraft {
      * event methods that update values of s
      */
 
+    /**
+     * converts itemstack to slot.
+     * @param slot - slot in
+     * @return converted slot.
+     */
+    private int convert(int slot)
+    {
+        if (slot == -2) {
+            return 45;
+        }
+
+        if (slot > -1 && slot < 9) {
+            return 36 + slot;
+        }
+
+        return slot;
+    }
+
     @EventHandler
     public void onPacketSend(PacketEvent.Send event)
     {
@@ -108,9 +150,9 @@ public final class InventoryManager implements IMinecraft {
     @EventHandler
     public void onPacketReceive(PacketEvent.Receive event)
     {
-        if (event.getPacket() instanceof UpdateSelectedSlotS2CPacket(int slot))
+        if (event.getPacket() instanceof UpdateSelectedSlotS2CPacket updateSelectedSlotS2CPacket)
         {
-            s = slot;
+            s = updateSelectedSlotS2CPacket.getSlot();
         }
     }
 }

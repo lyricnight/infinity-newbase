@@ -119,7 +119,6 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
         float yaw = eventGlobal.getYaw();
         float pitch = eventGlobal.getPitch();
         boolean onGround = eventGlobal.isOnGround();
-        boolean horizontal = eventGlobal.getHorizontal();
         if (eventGlobal.isCancelled()) {
             info.cancel();
             sendSprintingPacket();
@@ -140,16 +139,16 @@ public abstract class MixinClientPlayerEntity extends AbstractClientPlayerEntity
                 boolean bl3 = g != 0.0 || h != 0.0;
                 if (hasVehicle()) {
                     Vec3d vec3d = getVelocity();
-                    networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(vec3d.x, -999.0, vec3d.z, getYaw(), getPitch(), onGround, horizontal));
+                    networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(vec3d.x, -999.0, vec3d.z, getYaw(), getPitch(), onGround));
                     bl2 = false;
                 } else if (bl2 && bl3) {
-                    networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, onGround, horizontal));
+                    networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(x, y, z, yaw, pitch, onGround));
                 } else if (bl2) {
-                    networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, onGround, horizontal));
+                    networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, onGround));
                 } else if (bl3) {
-                    networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, onGround, horizontal));
+                    networkHandler.sendPacket(new PlayerMoveC2SPacket.LookAndOnGround(yaw, pitch, onGround));
                 } else if (lastOnGround != isOnGround()) {
-                    networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(onGround, horizontal));
+                    networkHandler.sendPacket(new PlayerMoveC2SPacket.OnGroundOnly(onGround));
                 }
                 if (bl2) {
                     lastX = x;

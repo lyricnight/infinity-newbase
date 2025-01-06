@@ -89,7 +89,7 @@ public class MovementUtil implements IMinecraft {
      */
     public static boolean movement() {
         //noinspection DataFlowIssue
-        return mc.player.input.playerInput.left() || mc.player.input.playerInput.right() || mc.player.input.playerInput.backward() || mc.player.input.playerInput.forward() || mc.player.input.playerInput.sneak();
+        return mc.player.input.pressingLeft || mc.player.input.pressingRight || mc.player.input.pressingBack || mc.player.input.pressingForward || mc.player.input.sneaking;
     }
 
     public static double calcEffects(double speed) {
@@ -202,6 +202,6 @@ public class MovementUtil implements IMinecraft {
         if ((yaw = MathHelper.wrapDegrees(yaw)) >= 0.0f) {
             yaw = -180.0f - (180.0f - yaw);
         }
-        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(vec3d.x, vec3d.y, vec3d.z, yaw, pitch, false, false));
+        mc.getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.Full(vec3d.x, vec3d.y, vec3d.z, yaw, pitch, false));
     }
 }

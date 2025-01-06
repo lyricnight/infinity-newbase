@@ -5,7 +5,8 @@ import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gl.ShaderProgramKeys;
+import net.minecraft.client.gl.ShaderProgram;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13C;
@@ -164,8 +165,7 @@ public class Font implements IMinecraft {
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
         GL13C.glActiveTexture(GL13C.GL_TEXTURE0);
 
-        //noinspection resource
-        RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         currentGlyphPage.bindTexture();
         matrixStack.scale(0.5F, 0.5F, 0.5F);
         for (int i = 0; i < text.length(); ++i) {

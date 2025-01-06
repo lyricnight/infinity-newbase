@@ -66,7 +66,7 @@ public final class PhaseWalk extends ModuleBase {
             timeLeft = 0;
             phase = 0;
             Vec3d pos = mc.player.getPos();
-            send(new PlayerMoveC2SPacket.Full(pos.x, pos.y + 1.0, pos.z, Managers.ROTATIONS.getPrevYaw() + 5.0f, Managers.ROTATIONS.getPrevPitch(), false, mc.player.horizontalCollision));
+            send(new PlayerMoveC2SPacket.Full(pos.x, pos.y + 1.0, pos.z, Managers.ROTATIONS.getPrevYaw() + 5.0f, Managers.ROTATIONS.getPrevPitch(), false));
         }
     }
 
@@ -116,7 +116,7 @@ public final class PhaseWalk extends ModuleBase {
                 phase = 0;
                 //might have to use a packet listener here instead, watch out
                 Vec3d pos = mc.player.getPos();
-                send(new PlayerMoveC2SPacket.Full(pos.x, pos.y + 1.0, pos.z, Managers.ROTATIONS.getPrevYaw() + 5.0f, Managers.ROTATIONS.getPrevPitch(), false, mc.player.horizontalCollision));
+                send(new PlayerMoveC2SPacket.Full(pos.x, pos.y + 1.0, pos.z, Managers.ROTATIONS.getPrevYaw() + 5.0f, Managers.ROTATIONS.getPrevPitch(), false));
             }
             rubberbanded = false;
         }
@@ -243,8 +243,8 @@ public final class PhaseWalk extends ModuleBase {
     private void sendBounds(Vec3d to) {
         rubberbanded = true;
         timeLeft = 5;
-        send(new PlayerMoveC2SPacket.PositionAndOnGround(to.x, to.y, to.z, mc.player.isOnGround(), mc.player.horizontalCollision));
-        send(new PlayerMoveC2SPacket.PositionAndOnGround(to.x, to.y - 87.0, to.z, mc.player.isOnGround(), mc.player.horizontalCollision));
+        send(new PlayerMoveC2SPacket.PositionAndOnGround(to.x, to.y, to.z, mc.player.isOnGround()));
+        send(new PlayerMoveC2SPacket.PositionAndOnGround(to.x, to.y - 87.0, to.z, mc.player.isOnGround()));
         send(getIncrement());
         ignore = true;
         if (sync.value()) {

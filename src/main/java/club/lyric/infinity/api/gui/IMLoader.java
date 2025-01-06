@@ -8,7 +8,6 @@ import imgui.flag.ImGuiConfigFlags;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
 import lombok.Getter;
-import net.minecraft.util.profiler.Profilers;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,11 +46,11 @@ public class IMLoader implements IMinecraft {
         ImGui.newFrame();
 
         for (RenderableElement renderable : renderstack) {
-            Profilers.get().push("ImGui Render " + renderable.get());
+            mc.getProfiler().push("ImGui Render " + renderable.get());
             renderable.getTheme().pre();
             renderable.render();
             renderable.getTheme().post();
-            Profilers.get().pop();
+            mc.getProfiler().pop();
         }
 
         ImGui.render();

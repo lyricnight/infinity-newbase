@@ -7,7 +7,6 @@ import club.lyric.infinity.manager.Managers;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
@@ -21,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @author valser
  */
 @Mixin(EntityRenderer.class)
-public class MixinEntityRenderer<S extends EntityRenderState> implements IMinecraft {
+public class MixinEntityRenderer<T extends Entity> implements IMinecraft {
     @ModifyReturnValue(method = "getSkyLight", at = @At("RETURN"))
     private int onGetSkyLight(int original) {
         return Math.max(Managers.MODULES.getModuleFromClass(FullBright.class).getLuminance(LightType.SKY), original);
@@ -33,7 +32,7 @@ public class MixinEntityRenderer<S extends EntityRenderState> implements IMinecr
     }
 
     @Inject(method = "renderLabelIfPresent", at = @At("HEAD"), cancellable = true)
-    private void renderLabelIfPresent(S state, Text text, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
+    private void renderLabelIfPresent(T entity, Text text, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, float tickDelta, CallbackInfo ci) {
         if (Managers.MODULES.getModuleFromClass(Nametags.class).isOn()) {
             ci.cancel();
         }
