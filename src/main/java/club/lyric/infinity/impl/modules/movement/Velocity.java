@@ -9,14 +9,11 @@ import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.asm.accessors.IEntityVelocityUpdateS2CPacket;
-import club.lyric.infinity.asm.accessors.IExplosionS2CPacket;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.math.Vec3d;
 
-import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -24,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author vasler
+ * TODO fix velocity
  */
 @SuppressWarnings({"unused"})
 public final class Velocity extends ModuleBase {
@@ -82,9 +80,9 @@ public final class Velocity extends ModuleBase {
                 {
                     event.setCancelled(true);
                 }
-                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityX((int) (mc.player.getX() * horizontal.getIValue() / 100));
-                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityY((int) (mc.player.getY() * vertical.getIValue() / 100));
-                ((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityZ((int) (mc.player.getZ() * horizontal.getIValue() / 100));
+                //((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityX((int) (mc.player.getX() * horizontal.getIValue() / 100));
+                //((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityY((int) (mc.player.getY() * vertical.getIValue() / 100));
+                //((IExplosionS2CPacket) event.getPacket()).setPlayerVelocityZ((int) (mc.player.getZ() * horizontal.getIValue() / 100));
             }
         }
 

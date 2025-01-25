@@ -125,7 +125,7 @@ public class ModuleBase implements IMinecraft {
         if (Null.is()) return;
 
         if (Managers.MODULES.getModuleFromClass(Notifications.class).toggled.value())
-            ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + " was " + Formatting.RESET + "enabled.", id);
+            Managers.MESSAGES.sendOverwriteMessage(Formatting.WHITE + getName() + " was " + Formatting.RESET + "enabled.", id, true);
     }
 
     protected void disable() {
@@ -136,7 +136,7 @@ public class ModuleBase implements IMinecraft {
         if (Null.is()) return;
 
         if (Managers.MODULES.getModuleFromClass(Notifications.class).toggled.value())
-            ChatUtils.sendOverwriteMessageColored(Formatting.WHITE + getName() + " was " + Formatting.RESET + "disabled.", id);
+            Managers.MESSAGES.sendOverwriteMessage(Formatting.WHITE + getName() + " was " + Formatting.RESET + "disabled.", id, true);
     }
 
     public int getBind() { return this.bind.getCode(); }

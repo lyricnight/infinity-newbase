@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPlayNetworkHandler.class)
 public class MixinClientPlayNetworkHandler {
+
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     private void sendChatMessageHook(String message, CallbackInfo ci) {
 
@@ -40,7 +41,7 @@ public class MixinClientPlayNetworkHandler {
                 }
             }
             if (!isCommand) {
-                ChatUtils.sendMessagePrivate(Formatting.RED + "Unknown command. Try " + Managers.COMMANDS.getPrefix() + "commands for a list of available commands.");
+                Managers.MESSAGES.sendMessage(Formatting.RED + "Unknown command. Try " + Managers.COMMANDS.getPrefix() + "commands for a list of available commands.", false);
             }
             ci.cancel();
         }
