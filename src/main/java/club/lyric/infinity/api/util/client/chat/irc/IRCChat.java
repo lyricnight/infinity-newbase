@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author chelldev/finz0
  */
-public class IRCChat implements IMinecraft {
+public final class IRCChat implements IMinecraft {
     private static final HttpClient client = HttpClient.newHttpClient();
     private static final WebSocket.Builder builder = client.newWebSocketBuilder();
     private static WebSocket ws = null;

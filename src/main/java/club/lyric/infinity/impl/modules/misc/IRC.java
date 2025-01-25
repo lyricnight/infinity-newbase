@@ -3,10 +3,10 @@ package club.lyric.infinity.impl.modules.misc;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.chat.irc.IRCChat;
 import club.lyric.infinity.impl.events.irc.IRCEvent;
 import club.lyric.infinity.impl.events.mc.chat.ChatSentEvent;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.util.Formatting;
 
 /**
@@ -21,7 +21,7 @@ public final class IRC extends ModuleBase {
     @Override
     public void onEnable() {
         IRCChat.join();
-        ChatUtils.sendMessagePrivate(Formatting.GRAY + "You can chat in the IRC by using the % prefix.");
+        Managers.MESSAGES.sendMessage(Formatting.GRAY + "You can chat in the IRC by using the % prefix.", false);
     }
 
     @Override
@@ -37,7 +37,7 @@ public final class IRC extends ModuleBase {
             if (sub.length() < 150) {
                 IRCChat.chat(sub);
             } else {
-                ChatUtils.sendMessagePrivateColored(Formatting.GRAY + "Messages cannot be above 150 characters.");
+                Managers.MESSAGES.sendMessage(Formatting.GRAY + "Messages cannot be above 150 characters.", true);
             }
         }
     }
@@ -46,7 +46,7 @@ public final class IRC extends ModuleBase {
     public void onReceived(IRCEvent event) {
         String text = event.getText().length() < 150 ? event.getText() : Formatting.RED + "Messages cannot be above 150 characters.";
         if (mc.player != null) {
-            ChatUtils.sendMessagePrivateColored(event.getNick() + ": " + Formatting.GRAY + text);
+            Managers.MESSAGES.sendMessage(event.getNick() + ": " + Formatting.GRAY + text, true);
         }
     }
 

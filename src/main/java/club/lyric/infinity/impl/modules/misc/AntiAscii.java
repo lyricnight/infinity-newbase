@@ -4,8 +4,8 @@ import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.impl.events.network.PacketEvent;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
 import net.minecraft.util.Formatting;
 
@@ -38,7 +38,7 @@ public final class AntiAscii extends ModuleBase {
 
             if (counter >= offset.getIValue()) {
                 event.setCancelled(true);
-                ChatUtils.sendOverwriteMessageColored(Formatting.RED + "Blocked a chat message with " + counter + " flags.", 2222);
+                Managers.MESSAGES.sendOverwriteMessage(Formatting.RED + "Blocked a chat message with " + counter + " flags.", 2222, true);
             }
         }
     }

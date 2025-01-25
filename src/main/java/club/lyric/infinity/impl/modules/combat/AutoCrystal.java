@@ -58,6 +58,9 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * @author vasler
+ */
 /* TODO: make calculated breaking smarter by: calculating enemy and own damage and finding the best possible crystal to break;
  * make placing modes like breaking: do the same shit i just said; ADD PLACING, add id predict*/
 

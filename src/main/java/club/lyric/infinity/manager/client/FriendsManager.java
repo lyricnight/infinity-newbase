@@ -1,6 +1,6 @@
 package club.lyric.infinity.manager.client;
 
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.manager.Managers;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import lombok.Getter;
@@ -28,11 +28,11 @@ public final class FriendsManager  {
     {
         if (isFriend(name))
         {
-            ChatUtils.sendOverwriteMessage(name + " is already on your friends list!", 9349);
+            Managers.MESSAGES.sendOverwriteMessage(name + " is already on your friends list!", 9349, false);
             return;
         }
         this.friends.add(getUniqueIdentifier(name), new JsonPrimitive(name));
-        ChatUtils.sendOverwriteMessage("Added " + name + " to your friends list.", 9349);
+        Managers.MESSAGES.sendOverwriteMessage("Added " + name + " to your friends list.", 9349, false);
     }
 
     public void removeFriend(String name)
@@ -40,11 +40,11 @@ public final class FriendsManager  {
         if (isFriend(name))
         {
             this.friends.remove(getUniqueIdentifier(name));
-            ChatUtils.sendOverwriteMessage("Removed " + name + " from your friends list.", 9349);
+            Managers.MESSAGES.sendOverwriteMessage("Removed " + name + " from your friends list.", 9349, false);
         }
         else
         {
-            ChatUtils.sendOverwriteMessage(name + " is not on your friends list!", 9349);
+            Managers.MESSAGES.sendOverwriteMessage(name + " is not on your friends list!", 9349, false);
         }
     }
 

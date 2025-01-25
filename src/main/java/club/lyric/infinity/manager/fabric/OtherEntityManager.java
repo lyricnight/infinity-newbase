@@ -1,6 +1,5 @@
 package club.lyric.infinity.manager.fabric;
 
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.modules.client.Notifications;
@@ -26,6 +25,7 @@ public final class OtherEntityManager implements IMinecraft {
         if (Managers.MODULES.getModuleFromClass(Notifications.class).totemPops.value())
         {
             //check for CC
+            //?
             if (amount == null)
             {
                 ChatUtils.sendOverwriteMessageColored(getAppropriateFormatting((PlayerEntity) playerEntity) + getName((PlayerEntity) playerEntity) + Formatting.RESET + " popped " + Formatting.WHITE + "1" + Formatting.RESET + " totem.", playerEntity.getId());

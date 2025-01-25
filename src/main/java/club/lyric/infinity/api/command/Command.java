@@ -1,7 +1,7 @@
 package club.lyric.infinity.api.command;
 
 import club.lyric.infinity.Infinity;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.manager.Managers;
 import lombok.Getter;
 import net.minecraft.util.Formatting;
 
@@ -35,7 +35,7 @@ public abstract class Command {
      */
     public void state(CommandState state) {
         switch (state) {
-            case ERROR -> ChatUtils.sendMessagePrivate(Formatting.RED + "Command failed. Correct syntax: " + theCommand());
+            case ERROR -> Managers.MESSAGES.sendMessage(Formatting.RED + "Command failed. Correct syntax: " + theCommand(), false);
             case PERFORMED -> Infinity.LOGGER.info("Command success registered. Command: {}", theCommand());
         }
     }

@@ -3,7 +3,7 @@ package club.lyric.infinity.impl.commands;
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.command.CommandState;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.manager.Managers;
 
 /**
  * @author vasler
@@ -35,7 +35,7 @@ public final class Watermark extends Command
 
         Infinity.CLIENT_NAME = result;
 
-        ChatUtils.sendMessagePrivate("Watermark has been set to " + result);
+        Managers.MESSAGES.sendMessage("Watermark has been set to " + result, true);
 
         state(CommandState.PERFORMED);
     }

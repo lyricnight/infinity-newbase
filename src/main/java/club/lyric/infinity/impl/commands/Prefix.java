@@ -2,7 +2,6 @@ package club.lyric.infinity.impl.commands;
 
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.command.CommandState;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.util.Formatting;
 
@@ -38,7 +37,7 @@ public final class Prefix extends Command {
 
         Managers.COMMANDS.setPrefix(character);
 
-        ChatUtils.sendMessagePrivate(Formatting.GREEN + "Prefix changed to " + Formatting.WHITE + character);
+        Managers.MESSAGES.sendMessage(Formatting.GREEN + "Prefix changed to " + Formatting.WHITE + character, true);
 
         state(CommandState.PERFORMED);
     }

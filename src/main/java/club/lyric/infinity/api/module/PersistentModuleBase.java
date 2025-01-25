@@ -1,6 +1,6 @@
 package club.lyric.infinity.api.module;
 
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
+import club.lyric.infinity.manager.Managers;
 
 /**
  * @author lyric
@@ -23,6 +23,6 @@ public class PersistentModuleBase extends ModuleBase {
 
     @Override
     public void disable() {
-        ChatUtils.sendMessagePrivate("You can't disable this module.");
+        Managers.MESSAGES.sendMessage("You can't disable this module.", false);
     }
 }

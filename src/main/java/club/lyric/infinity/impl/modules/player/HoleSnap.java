@@ -5,7 +5,6 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
@@ -55,12 +54,12 @@ public final class HoleSnap extends ModuleBase {
         }
         hole = getTarget(range.getFValue());
         if (hole == null) {
-            ChatUtils.sendMessagePrivate("HoleSnap failed to find a hole. Disabling.");
+            Managers.MESSAGES.sendMessage("HoleSnap failed to find a hole. Disabling.", false);
             setEnabled(false);
             return;
         }
         if (hole.getFirst().getY() >= mc.player.getY() && !step.value()) {
-            ChatUtils.sendMessagePrivate("HoleSnap failed to find a hole below your Y-Level. Disabling.");
+            Managers.MESSAGES.sendMessage("HoleSnap failed to find a hole below your Y-Level. Disabling.", false);
             setEnabled(false);
         }
     }

@@ -1,13 +1,14 @@
 package club.lyric.infinity.impl.events.render;
 
 import club.lyric.infinity.api.event.Event;
+import club.lyric.infinity.impl.modules.exploit.Interpolation;
 import lombok.Getter;
 import net.minecraft.entity.LivingEntity;
 
 /**
  * @author lyric
  * event fired whenever an entity is interpolated client-side
- * @see club.lyric.infinity.impl.modules.exploit.Resolver;
+ * @see Interpolation ;
  */
 @Getter
 public final class InterpolationEvent extends Event {

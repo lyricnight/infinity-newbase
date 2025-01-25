@@ -18,6 +18,7 @@ import net.minecraft.util.math.Box;
 
 /**
  * @author lyric
+ * this allows manual air placement, block air placement has been implemented into BlockModuleBase
  */
 public final class AirPlace extends ModuleBase
 {

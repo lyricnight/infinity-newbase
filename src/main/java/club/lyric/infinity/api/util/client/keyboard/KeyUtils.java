@@ -5,9 +5,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.glfw.GLFW;
 
 /**
- * @author ??
+ * @author vasler
  */
 public class KeyUtils implements IMinecraft {
+    /**
+     * stupid.
+     * @param keyCode - GLFW key code
+     * @return - key name as string.
+     * @apiNote this is bad and stupid, but its kinda needed.
+     */
+
     public static String getKeyName(int keyCode) {
         switch (keyCode) {
             case GLFW.GLFW_MOUSE_BUTTON_2 -> {
@@ -199,14 +206,5 @@ public class KeyUtils implements IMinecraft {
                 return StringUtils.capitalize(keyName);
             }
         }
-    }
-
-    public static boolean isKeyPressed(int keyCode) {
-        if (keyCode < 0) return false;
-
-        if (keyCode <= 8)
-            return GLFW.glfwGetMouseButton(mc.getWindow().getHandle(), keyCode) == GLFW.GLFW_PRESS;
-
-        return GLFW.glfwGetKey(mc.getWindow().getHandle(), keyCode) == GLFW.GLFW_PRESS;
     }
 }

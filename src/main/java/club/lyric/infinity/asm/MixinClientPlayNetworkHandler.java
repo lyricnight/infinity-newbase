@@ -2,7 +2,6 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.api.command.Command;
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.impl.events.mc.chat.ChatSentEvent;
 import club.lyric.infinity.manager.Managers;
 import com.llamalad7.mixinextras.sugar.Local;

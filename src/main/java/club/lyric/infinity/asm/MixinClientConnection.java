@@ -2,7 +2,6 @@ package club.lyric.infinity.asm;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventBus;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.impl.modules.exploit.KickPrevent;
 import club.lyric.infinity.manager.Managers;
@@ -73,7 +72,7 @@ public class MixinClientConnection {
     @Inject(method = "exceptionCaught", at = @At("HEAD"), cancellable = true)
     private void exceptionCaught(ChannelHandlerContext context, Throwable throwable, CallbackInfo ci) {
         if (!(throwable instanceof TimeoutException) && !(throwable instanceof PacketEncoderException) && Managers.MODULES.getModuleFromClass(KickPrevent.class).isOn()) {
-            ChatUtils.sendMessagePrivateColored(Formatting.RED + "[KickPrevent] Infinity caught an exception in the network stack: " + throwable.getMessage());
+            Managers.MESSAGES.sendMessage(Formatting.RED + "[KickPrevent] Infinity caught an exception in the network stack: " + throwable.getMessage(), true);
             ci.cancel();
         }
     }

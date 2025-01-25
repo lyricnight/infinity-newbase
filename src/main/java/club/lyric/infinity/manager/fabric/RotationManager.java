@@ -2,13 +2,12 @@ package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.util.client.nulls.Null;
-import club.lyric.infinity.api.util.client.render.util.Interpolation;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;
 import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.impl.events.render.RenderPlayerModelEvent;
-import club.lyric.infinity.impl.modules.exploit.Resolver;
+import club.lyric.infinity.impl.modules.exploit.Interpolation;
 import club.lyric.infinity.manager.Managers;
 import lombok.Getter;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
@@ -121,10 +120,10 @@ public final class RotationManager implements IMinecraft {
     @EventHandler
     public void onRenderPlayerModel(RenderPlayerModelEvent event) {
         if (event.getEntity() == mc.player && current != null) {
-            if (!Managers.MODULES.getModuleFromClass(Resolver.class).isOn())
+            if (!Managers.MODULES.getModuleFromClass(Interpolation.class).isOn())
             {
-                event.setYaw(Interpolation.interpolateFloat(prevYaw, serverYaw, mc.getRenderTickCounter().getTickDelta(false)));
-                event.setPitch(Interpolation.interpolateFloat(prevPitch, serverPitch, mc.getRenderTickCounter().getTickDelta(false)));
+                event.setYaw(club.lyric.infinity.api.util.client.render.util.Interpolation.interpolateFloat(prevYaw, serverYaw, mc.getRenderTickCounter().getTickDelta(false)));
+                event.setPitch(club.lyric.infinity.api.util.client.render.util.Interpolation.interpolateFloat(prevPitch, serverPitch, mc.getRenderTickCounter().getTickDelta(false)));
             }
             prevYaw = event.getYaw();
             prevPitch = event.getPitch();

@@ -1,16 +1,10 @@
 package club.lyric.infinity.manager.client;
 
 import club.lyric.infinity.api.ducks.IDrawContext;
-import club.lyric.infinity.api.util.client.render.text.custom.Font;
-import club.lyric.infinity.api.util.client.render.text.custom.GlyphPage;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import club.lyric.infinity.impl.modules.client.CustomFont;
 import club.lyric.infinity.impl.modules.client.HUD;
 import club.lyric.infinity.manager.Managers;
-import com.google.common.base.Preconditions;
 import net.minecraft.client.gui.DrawContext;
-
-import java.io.InputStream;
 
 /**
  * @author lyric
@@ -25,10 +19,8 @@ public final class TextManager implements IMinecraft {
     private DrawContext context;
 
     private boolean ready;
-    public static Font fontRenderer;
 
-    public void init()
-    {
+    public void init() {
         context = new DrawContext(mc, mc.getBufferBuilders().getEntityVertexConsumers());
         ready = true;
     }
@@ -36,65 +28,22 @@ public final class TextManager implements IMinecraft {
     public void drawString(String value, float x, float y, int color) {
         if (!ready) {
             throw new RuntimeException("drawString() called too early! Report this!");
-        }
-        else
-        {
-            if (Managers.MODULES.getModuleFromClass(CustomFont.class).isOn())
-            {
-                fontRenderer.draw(context.getMatrices(), value, x, y, color, Managers.MODULES.getModuleFromClass(CustomFont.class).shadow.value());
-            }
-            else
-            {
-                ((IDrawContext) context).infinity_newbase$drawText(mc.textRenderer, value, x, y, color, Managers.MODULES.getModuleFromClass(HUD.class).shadow.value());
-            }
+        } else {
+            ((IDrawContext) context).infinity_newbase$drawText(mc.textRenderer, value, x, y, color, Managers.MODULES.getModuleFromClass(HUD.class).shadow.value());
         }
     }
 
-    public float width(String value, boolean shadow)
-    {
-        if (!ready)
-        {
+    public float width(String value, boolean shadow) {
+        if (!ready) {
             throw new RuntimeException("width() called too early! Report this!");
         }
-        if (Managers.MODULES.getModuleFromClass(CustomFont.class).isOn())
-        {
-            return fontRenderer.getWidth(value);
-        }
-        else return mc.textRenderer.getWidth(value) + (shadow ? 1 : 0);
+        return mc.textRenderer.getWidth(value) + (shadow ? 1 : 0);
     }
 
     public int height(boolean shadow) {
         if (!ready) {
             throw new RuntimeException("height() called too early! Report this!");
         }
-        if (Managers.MODULES.getModuleFromClass(CustomFont.class).isOn())
-        {
-            return (int) fontRenderer.getHeight();
-        }
-        else return mc.textRenderer.fontHeight + (shadow ? 1 : 0);
+        return mc.textRenderer.fontHeight + (shadow ? 1 : 0);
     }
-
-    /**
-     * vasler wrote this so idk about this - lyric
-     * @param file - font file
-     * @param size - font size
-     * @return new fontRenderer
-     */
-    public static Font create(String file, float size) {
-
-        java.awt.Font font = null;
-
-        try {
-            InputStream in = Preconditions.checkNotNull(Font.class.getResourceAsStream("/assets/" + file), "Font resource is null");
-            font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, in)
-                    .deriveFont(java.awt.Font.PLAIN, size);
-        } catch (Exception ignored) {
-        }
-
-        GlyphPage regularPage = new GlyphPage(font, true, true);
-        regularPage.generateGlyphPage();
-        regularPage.setupTexture();
-        return fontRenderer = new Font(regularPage);
-    }
-
 }

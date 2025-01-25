@@ -4,10 +4,10 @@ import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.discord.DiscordEventHandlers;
 import club.lyric.infinity.api.util.client.discord.DiscordRPC;
 import club.lyric.infinity.api.util.client.discord.DiscordRichPresence;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.AddServerScreen;
@@ -32,7 +32,7 @@ public final class RichPresence extends ModuleBase {
     public void onEnable() {
         if (MinecraftClient.IS_SYSTEM_MAC)
         {
-            ChatUtils.sendMessagePrivate(Formatting.RED + "You cannot enable DiscordRPC on a Mac-based system due to ARM dll incompatibility.");
+            Managers.MESSAGES.sendMessage(Formatting.RED + "You cannot enable DiscordRPC on a Mac-based system due to ARM dll incompatibility.", false);
             disable();
             return;
         }
@@ -108,9 +108,7 @@ public final class RichPresence extends ModuleBase {
         if (mc.isInSingleplayer()) {
             return "Playing singleplayer.";
         }
-        return "???";
+        return "Loading the game.";
     }
-
-
 }
 

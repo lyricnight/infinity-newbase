@@ -5,13 +5,13 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
 import club.lyric.infinity.api.util.minecraft.block.HoleUtils;
 import club.lyric.infinity.api.util.minecraft.combat.TargetUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
@@ -77,13 +77,13 @@ public final class AutoMine extends ModuleBase {
         }
 
         if (dev.value()) {
-            ChatUtils.sendMessagePrivate("Target:" + player.getDisplayName() + " " + count.addAndGet(1));
+            Managers.MESSAGES.sendMessage("Target:" + player.getDisplayName() + " " + count.addAndGet(1), false);
         }
 
         BlockPos targetPos = player.getBlockPos();
 
         if (burrow.value() && PlayerUtils.isInBurrow(player)) {
-            if (dev.value()) ChatUtils.sendMessagePrivate("Burrow. " + targetPos + " " + count.addAndGet(1));
+            if (dev.value()) Managers.MESSAGES.sendMessage("Burrow. " + targetPos + " " + count.addAndGet(1), false);
             attack(targetPos);
             return;
         }
@@ -92,7 +92,7 @@ public final class AutoMine extends ModuleBase {
             for (BlockPos pos : BlockUtils.Offsets.FACE_PLACE) {
                 if (mc.world.getBlockState(targetPos.add(pos)).getBlock() == Blocks.OBSIDIAN && mc.world.getBlockState(targetPos.add(pos.up())).getBlock() == Blocks.AIR) {
                     if (dev.value())
-                        ChatUtils.sendMessagePrivate("Face. " + targetPos.add(pos) + " " + count.addAndGet(1));
+                        Managers.MESSAGES.sendMessage("Face. " + targetPos.add(pos) + " " + count.addAndGet(1), false);
                     attack(targetPos.add(pos));
                     return;
                 }
@@ -106,18 +106,18 @@ public final class AutoMine extends ModuleBase {
             } else if (mc.world.getBlockState(targetPos.up(3)).getBlock() == Blocks.AIR) {
                 aaa = targetPos.up(2);
             }
-            if (dev.value()) ChatUtils.sendMessagePrivate("Cev. " + count.addAndGet(1));
+            if (dev.value()) Managers.MESSAGES.sendMessage("Cev. " + count.addAndGet(1), false);
             attack(aaa);
             return;
         }
 
-        if (dev.value()) ChatUtils.sendMessagePrivate("Checking side. " + count.addAndGet(1));
+        if (dev.value()) Managers.MESSAGES.sendMessage("Checking side. " + count.addAndGet(1), false);
 
         checkSide();
 
         if (!protocol.value()) {
             if (getCity(player) == null) {
-                if (dev.value()) ChatUtils.sendMessagePrivate("No city -> side. " + count.addAndGet(1));
+                if (dev.value()) Managers.MESSAGES.sendMessage("No city -> side. " + count.addAndGet(1), false);
                 checkSide();
                 breakEnderChests();
                 return;
@@ -126,13 +126,13 @@ public final class AutoMine extends ModuleBase {
 
         if (feet.value() && PlayerUtils.isInPhase(player) && !protocol.value()) {
             attack(getCity(player));
-            if (dev.value()) ChatUtils.sendMessagePrivate("Feet. " + count.addAndGet(1));
+            if (dev.value()) Managers.MESSAGES.sendMessage("Feet. " + count.addAndGet(1), false);
         } else if (feet.value() && PlayerUtils.isInPhase(player)) {
             for (Direction direction : Arrays.stream(Direction.values()).filter(direction -> direction.getAxis().isHorizontal()).toList()) {
                 BlockPos pos = player.getBlockPos().offset(direction);
                 boolean canPlace = mc.world.getBlockState(pos.down()).getBlock() == Blocks.BEDROCK || mc.world.getBlockState(pos.down()).getBlock() == Blocks.OBSIDIAN;
                 if (mc.world.getBlockState(pos).getBlock() == Blocks.OBSIDIAN && canPlace) {
-                    if (dev.value()) ChatUtils.sendMessagePrivate("Feet2. " + pos + " " + count.addAndGet(1));
+                    if (dev.value()) Managers.MESSAGES.sendMessage("Feet2. " + pos + " " + count.addAndGet(1), false);
                     attack(pos);
                 }
             }
@@ -141,11 +141,11 @@ public final class AutoMine extends ModuleBase {
 
     private void attack(BlockPos pos) {
         if (pos == null) {
-            ChatUtils.sendMessagePrivate("Attack failed: null");
+            Managers.MESSAGES.sendMessage("Attack failed: null", false);
             return;
         }
         if (dev.value()) {
-            ChatUtils.sendMessagePrivate("Attacking: " + pos);
+            Managers.MESSAGES.sendMessage("Attacking: " + pos, false);
         }
         if (BlockUtils.getDistanceSq(pos) > MathUtils.square(this.range.getFValue())) {
             return;
@@ -228,13 +228,13 @@ public final class AutoMine extends ModuleBase {
                 BlockPos fullOffset = offsetPos.offset(direction);
                 if (mc.world.getBlockState(fullOffset).getBlock() == Blocks.AIR) {
                     if (isPlaceable(fullOffset.down()) && mc.world.getBlockState(fullOffset.up()).getBlock() == Blocks.AIR) {
-                        if (dev.value()) ChatUtils.sendMessagePrivate("City. " + offsetPos + " " + count.addAndGet(1));
+                        if (dev.value()) Managers.MESSAGES.sendMessage("City. " + offsetPos + " " + count.addAndGet(1), false);
                         return offsetPos;
                     }
                 }
             }
         }
-        if (dev.value()) ChatUtils.sendMessagePrivate("City failed. " + count.addAndGet(1));
+        if (dev.value()) Managers.MESSAGES.sendMessage("City failed. " + count.addAndGet(1), false);
         return null;
     }
 
@@ -245,19 +245,19 @@ public final class AutoMine extends ModuleBase {
                 BlockPos offsetPos = targetPos.add(pos);
                 if (mc.world.getBlockState(offsetPos).getBlock() == Blocks.OBSIDIAN && mc.world.getBlockState(offsetPos.up()).getBlock() == Blocks.AIR) {
                     if (dev.value())
-                        ChatUtils.sendMessagePrivate("Side. " + targetPos.add(pos) + " " + count.addAndGet(1));
+                        Managers.MESSAGES.sendMessage("Side. " + targetPos.add(pos) + " " + count.addAndGet(1), false);
                     attack(offsetPos);
                 }
             }
         } else {
-            if (dev.value()) ChatUtils.sendMessagePrivate("Checkside failed. " + count.addAndGet(1));
+            if (dev.value()) Managers.MESSAGES.sendMessage("Checkside failed. " + count.addAndGet(1), false);
         }
     }
 
     private void breakEnderChests() {
         if (ender.value()) {
             if (dev.value()) {
-                ChatUtils.sendMessagePrivate("EChests." + count.addAndGet(1));
+                Managers.MESSAGES.sendMessage("EChests." + count.addAndGet(1), false);
             }
             for (BlockPos pos : BlockUtils.getSphere(mc.player, range.getFValue(), true)) {
                 if (mc.world.getBlockState(pos).getBlock() == Blocks.ENDER_CHEST) {

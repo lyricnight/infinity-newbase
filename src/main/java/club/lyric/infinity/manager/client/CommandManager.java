@@ -15,12 +15,11 @@ import java.util.Set;
  * simple command system
  */
 
+@Getter
 public final class CommandManager implements IMinecraft {
-    @Getter
     @Setter
-    private static String prefix = "-";
-    @Getter
-    private static final Set<Command> commands = new HashSet<>();
+    private String prefix = "-";
+    private final Set<Command> commands = new HashSet<>();
 
 
     public void init()

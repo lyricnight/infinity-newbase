@@ -24,6 +24,7 @@ public final class AntiCheat extends PersistentModuleBase {
 
     /**
      * sets values into AntiCheatManager.
+     * TODO change this to a better system.
      */
     public void set()
     {

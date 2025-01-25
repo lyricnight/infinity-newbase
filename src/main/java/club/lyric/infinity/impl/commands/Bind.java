@@ -6,7 +6,6 @@ import club.lyric.infinity.api.command.CommandState;
 import club.lyric.infinity.api.event.bus.EventBus;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.keyboard.KeyUtils;
 import club.lyric.infinity.impl.events.client.KeyPressEvent;
 import club.lyric.infinity.manager.Managers;
@@ -49,7 +48,7 @@ public final class Bind extends Command {
             return;
         }
 
-        ChatUtils.sendOverwriteMessageColored("Press any " + Formatting.WHITE + "key" + Formatting.RESET + " on your keyboard.", 8948);
+        Managers.MESSAGES.sendOverwriteMessage("Press any " + Formatting.WHITE + "key" + Formatting.RESET + " on your keyboard.", 8948, true);
 
         // stopwatch doesnt work here so
         //yes it does vasler?
@@ -71,7 +70,7 @@ public final class Bind extends Command {
         return new String[]{"<module>"};
     }
 
-    @EventHandler(priority = 3)
+    @EventHandler(priority = -3)
     public void onKeyPress(KeyPressEvent event) {
 
         if (!keyPressEnable) return;
@@ -79,6 +78,6 @@ public final class Bind extends Command {
         keyPressEnable = false;
 
         moduleBase.setBind(event.getKey());
-        ChatUtils.sendOverwriteMessageColored("The bind for " + moduleBase.getName() + " has changed to " + Formatting.WHITE + KeyUtils.getKeyName(event.getKey()) + Formatting.RESET + ".", 8948);
+        Managers.MESSAGES.sendOverwriteMessage("The bind for " + moduleBase.getName() + " has changed to " + Formatting.WHITE + KeyUtils.getKeyName(event.getKey()) + Formatting.RESET + ".", 8948, true);
     }
 }

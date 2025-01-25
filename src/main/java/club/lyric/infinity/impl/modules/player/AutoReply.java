@@ -5,7 +5,6 @@ import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.impl.events.mc.chat.ReceiveChatEvent;
 import club.lyric.infinity.impl.events.mc.movement.PlayerMovementEvent;
@@ -39,7 +38,7 @@ public final class AutoReply extends ModuleBase {
     public void onEnable() {
         stopWatch.reset();
         if (!afk.value() && !coords.value() && !armor.value()) {
-            ChatUtils.sendMessagePrivate(Formatting.RED + "You have not enabled either coordinate reply or afk mode, disabling...");
+            Managers.MESSAGES.sendMessage(Formatting.RED + "You have not enabled either coordinate reply or afk mode, disabling...", false);
             disable();
         }
     }
@@ -50,7 +49,7 @@ public final class AutoReply extends ModuleBase {
         String string = message.getString();
         String ign = string.split(" ")[0];
         if (debug.value()) {
-            ChatUtils.sendMessagePrivate("Got message:" + string);
+            Managers.MESSAGES.sendMessage("Got message:" + string, false);
         }
         if (sendAnyway.value())
         {
@@ -61,7 +60,7 @@ public final class AutoReply extends ModuleBase {
         }
         if (Stream.of("whispers:", "says:", "whispers to you:").anyMatch(string::contains) && !message.getString().contains(Formatting.WHITE.toString())) {
             if (debug.value()) {
-                ChatUtils.sendMessagePrivate("Got checkandsend:" + string + ", " + ign);
+                Managers.MESSAGES.sendMessage("Got checkandsend:" + string + ", " + ign, false);
             }
             checkAndSend(string, ign);
         }
@@ -82,18 +81,18 @@ public final class AutoReply extends ModuleBase {
     private MessageType determineMessageType(String message, String ign) {
         if (Stream.of("coords", "cords", "wya", "where u at", "where", "location").anyMatch(message::contains) && Managers.FRIENDS.isFriend(ign) && mc.player.getZ() < 10000 && mc.player.getX() < 10000 && coords.value()) {
             if (debug.value()) {
-                ChatUtils.sendMessagePrivate("Got COORDINATE");
+                Managers.MESSAGES.sendMessage("Got COORDINATE", false);
             }
             return MessageType.COORDINATE;
         }
         if (afk.value() && stopWatch.hasBeen(time.getIValue() * 1000L)) {
             if (debug.value()) {
-                ChatUtils.sendMessagePrivate("Got AFK");
+                Managers.MESSAGES.sendMessage("Got AFK", false);
             }
             return MessageType.AFK;
         } else {
             if (debug.value()) {
-                ChatUtils.sendMessagePrivate("Got NONE");
+                Managers.MESSAGES.sendMessage("Got NONE", false);
             }
             return MessageType.NONE;
         }
@@ -101,11 +100,11 @@ public final class AutoReply extends ModuleBase {
 
     private void send(MessageType type, String ign) {
         if (debug.value()) {
-            ChatUtils.sendMessagePrivate("Got SEND");
+            Managers.MESSAGES.sendMessage("Got SEND", false);
         }
         switch (type) {
-            case COORDINATE -> mc.getNetworkHandler().sendChatMessage("/w " + ign + " [Infinity] Coordinates: " + format.format(mc.player.getX()) + ", " + format.format(mc.player.getZ()));
-            case AFK -> mc.getNetworkHandler().sendChatMessage("/w " + ign + " [Infinity] I'm AFK.");
+            case COORDINATE -> mc.getNetworkHandler().sendChatCommand("/w " + ign + " [Infinity] Coordinates: " + format.format(mc.player.getX()) + ", " + format.format(mc.player.getZ()));
+            case AFK -> mc.getNetworkHandler().sendChatCommand("/w " + ign + " [Infinity] I'm AFK.");
         }
     }
 

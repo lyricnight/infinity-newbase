@@ -4,11 +4,11 @@ import club.lyric.infinity.api.module.BlockModuleBase;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
-import club.lyric.infinity.api.util.client.chat.ChatUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
 import club.lyric.infinity.api.util.minecraft.entity.EntityUtils;
+import club.lyric.infinity.manager.Managers;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 
@@ -32,11 +32,11 @@ public final class Burrow extends BlockModuleBase {
     @Override
     public void onEnable()
     {
-        ChatUtils.sendMessagePrivate(Formatting.RED + "WIP module, doesn't do anything yet.");
+        Managers.MESSAGES.sendMessage(Formatting.RED + "WIP module, doesn't do anything yet.", false);
         disable();
         if (initialCheck())
         {
-            ChatUtils.sendMessagePrivate(Formatting.RED + "Burrow cannot place at this time. Disabling...");
+            Managers.MESSAGES.sendMessage(Formatting.RED + "Burrow cannot place at this time. Disabling...", false);
             toggle();
             return;
         }
@@ -48,7 +48,7 @@ public final class Burrow extends BlockModuleBase {
     {
         if (!checkValidPos())
         {
-            ChatUtils.sendMessagePrivate(Formatting.RED + "Burrow disabling due to movement.");
+            Managers.MESSAGES.sendMessage(Formatting.RED + "Burrow disabling due to movement.", false);
             toggle();
         }
     }
