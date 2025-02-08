@@ -9,7 +9,6 @@ import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
 import club.lyric.infinity.api.util.minecraft.block.HoleUtils;
-import club.lyric.infinity.api.util.minecraft.combat.TargetUtils;
 import club.lyric.infinity.api.util.minecraft.player.PlayerUtils;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.block.Blocks;
@@ -23,10 +22,11 @@ import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author lyric
- * this is getting redone
+ * @author unknown
+ * used as a TESTING MODULE to check if client functionality works
  */
-//TODO: delete this and make it actually good?
+//TODO: delete this
+@Deprecated
 public final class AutoMine extends ModuleBase {
     public ModeSetting mode = new ModeSetting("Mode", this, "Vanilla", "Vanilla", "Packet", "Both");
     public NumberSetting range = new NumberSetting("Range", this, 5.0, 0.0, 6.0, 0.1, "m");
@@ -70,7 +70,7 @@ public final class AutoMine extends ModuleBase {
             return;
         }
 
-        player = TargetUtils.getTarget(enemyRange.getValue());
+        player = Managers.OTHER.getTarget(enemyRange.getValue());
         if (player == null) {
             breakEnderChests();
             return;

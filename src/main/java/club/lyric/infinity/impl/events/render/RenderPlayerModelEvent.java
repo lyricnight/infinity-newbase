@@ -1,6 +1,7 @@
 package club.lyric.infinity.impl.events.render;
 
 import club.lyric.infinity.api.event.Event;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -9,7 +10,8 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
  * @author lyric
  * fired whenever our player model is drawn.
  */
-@Getter @Setter
+@Getter
+@Setter
 public final class RenderPlayerModelEvent extends Event {
     private final AbstractClientPlayerEntity entity;
     private float yaw;

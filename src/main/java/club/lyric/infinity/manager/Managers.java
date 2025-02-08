@@ -10,7 +10,6 @@ import club.lyric.infinity.manager.fabric.*;
  * for all managers.
  */
 public final class Managers {
-
     public static MessageManager MESSAGES = new MessageManager();
     public static ModuleManager MODULES = new ModuleManager();
     public static FriendsManager FRIENDS = new FriendsManager();

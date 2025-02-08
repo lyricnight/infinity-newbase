@@ -6,7 +6,7 @@ import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.setting.settings.ModeSetting;
 import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
-import club.lyric.infinity.api.util.client.render.util.Interpolation;
+import club.lyric.infinity.api.util.client.render.util.InterpolationUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationHandler;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;
@@ -334,7 +334,7 @@ public class BlockModuleBase extends ModuleBase {
         {
             Color colors = colorVal.getColor();
 
-            Box bb = Interpolation.interpolatePos(render, 1.0f);
+            Box bb = InterpolationUtils.interpolatePos(render, 1.0f);
 
             Render3DUtils.enable3D();
             matrixStack.push();

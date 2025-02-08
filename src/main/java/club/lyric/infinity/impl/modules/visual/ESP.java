@@ -8,7 +8,7 @@ import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
-import club.lyric.infinity.api.util.client.render.util.Interpolation;
+import club.lyric.infinity.api.util.client.render.util.InterpolationUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.manager.Managers;
@@ -74,19 +74,19 @@ public final class ESP extends ModuleBase {
                     && mobs.value()
             ) {
 
-                Vec3d vec3D = Interpolation.interpolateEntity(entity);
+                Vec3d vec3D = InterpolationUtils.interpolateEntity(entity);
 
-                renderBox(matrixStack, Interpolation.interpolatedBox(entity, vec3D));
+                renderBox(matrixStack, InterpolationUtils.interpolatedBox(entity, vec3D));
 
             }
 
             if (entity instanceof ItemEntity) {
-                Vec3d vec = Interpolation.interpolateEntity(entity);
+                Vec3d vec = InterpolationUtils.interpolateEntity(entity);
 
                 ItemStack itemStack = ((ItemEntity) entity).getStack();
 
 
-                //renderNameTag(itemStack.getItem().getName().getString() + " x" + itemStack.getCount(), matrixStack, vec, vec.x, vec.y, vec.z);
+                renderNameTag(itemStack.getItem().getName().getString() + " x" + itemStack.getCount(), matrixStack, vec, vec.x, vec.y, vec.z);
             }
 
         }

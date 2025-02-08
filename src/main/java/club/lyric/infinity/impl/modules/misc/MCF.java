@@ -23,11 +23,8 @@ public final class MCF extends ModuleBase {
     public void onKeyPress(KeyPressEvent event) {
         if (mc.currentScreen == null && event.getKey() == 2) {
             HitResult player = mc.crosshairTarget;
-            if (player instanceof EntityHitResult result) {
-                Entity entity = result.getEntity();
-                if (entity instanceof PlayerEntity playerEntity) {
-                    Managers.FRIENDS.addFriend(playerEntity.getDisplayName().getString());
-                }
+            if (player instanceof EntityHitResult result && result.getEntity() instanceof PlayerEntity) {
+                Managers.FRIENDS.addFriend(result.getEntity().getDisplayName().getString());
             }
         }
     }

@@ -15,9 +15,9 @@ import org.apache.logging.log4j.Logger;
 
 public final class Infinity implements ModInitializer, ClientModInitializer, IMinecraft {
 	public static String CLIENT_NAME = "Infinity";
-	public static final String VERSION = Version.NIGHTLY ? " v" + Version.VERSION + "-nightly" : " v" + Version.VERSION;
+	public static final String VERSION = "2.0-dev";
     public static final Logger LOGGER = LogManager.getLogger("Infinity");
-	private static long start;
+	private static long start = 0;
 
 	@Override
 	public void onInitialize() {

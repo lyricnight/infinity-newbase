@@ -7,7 +7,7 @@ import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
-import club.lyric.infinity.api.util.client.render.util.Interpolation;
+import club.lyric.infinity.api.util.client.render.util.InterpolationUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.asm.accessors.IClientPlayerInteractionManager;
 import club.lyric.infinity.impl.events.mc.mine.MineBlockEvent;
@@ -104,7 +104,7 @@ public final class Reminer extends ModuleBase {
     public void onRender3D(MatrixStack matrixStack) {
         if (selectedPos == null) return;
 
-        Box boundingBox = Interpolation.interpolatePos(selectedPos, 1.0f);
+        Box boundingBox = InterpolationUtils.interpolatePos(selectedPos, 1.0f);
 
         Render3DUtils.enable3D();
         matrixStack.push();

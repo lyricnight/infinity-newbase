@@ -19,7 +19,6 @@ public final class InventoryWalk extends ModuleBase {
 
     @Override
     public void onUpdate() {
-
         if (mc.currentScreen == null || mc.currentScreen instanceof ChatScreen) return;
 
         KeyBinding[] moving = { mc.options.forwardKey, mc.options.backKey, mc.options.leftKey, mc.options.rightKey, mc.options.jumpKey };

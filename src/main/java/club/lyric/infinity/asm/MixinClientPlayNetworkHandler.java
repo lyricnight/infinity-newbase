@@ -7,6 +7,7 @@ import club.lyric.infinity.manager.Managers;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
@@ -55,6 +56,6 @@ public class MixinClientPlayNetworkHandler {
 
     @Inject(method = "onEntityStatus", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleManager;addEmitter(Lnet/minecraft/entity/Entity;Lnet/minecraft/particle/ParticleEffect;I)V"))
     public void onEntityStatusHook(EntityStatusS2CPacket packet, CallbackInfo ci, @Local Entity entity) {
-        Managers.OTHER.onTotemPop(entity);
+        Managers.OTHER.onTotemPop((PlayerEntity) entity);
     }
 }

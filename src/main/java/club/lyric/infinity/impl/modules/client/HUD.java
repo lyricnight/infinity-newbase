@@ -1,7 +1,6 @@
 package club.lyric.infinity.impl.modules.client;
 
 import club.lyric.infinity.Infinity;
-import club.lyric.infinity.Version;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
@@ -114,7 +113,7 @@ public final class HUD extends ModuleBase {
 
             if (build.value())
             {
-                watermark += Formatting.GRAY + " build " + Version.DATE;
+                watermark += Formatting.GRAY + " local build ";
             }
 
             Managers.TEXT.drawString(getLabel(watermark),
@@ -327,8 +326,8 @@ public final class HUD extends ModuleBase {
 
             String pingString;
 
-            if (Managers.SERVER.getFastLatencyPing() != 0) {
-                pingString = "Ping " + Formatting.WHITE + Managers.SERVER.getServerPing() + "ms" + " [" + Managers.SERVER.getFastLatencyPing() + "]";
+            if (Managers.SERVER.getPing() != 0) {
+                pingString = "Ping " + Formatting.WHITE + Managers.SERVER.getServerPing() + "ms" + " [" + Managers.SERVER.getPing() + "]";
             } else {
                 pingString = "Ping " + Formatting.WHITE + Managers.SERVER.getServerPing() + "ms";
             }

@@ -9,7 +9,8 @@ import net.minecraft.util.math.Vec3d;
 /**
  * @author lyric
  */
-@Getter @Setter
+@Getter
+@Setter
 public class PlayerMovementEvent extends Event {
     private final MovementType type;
     private double x, y, z;

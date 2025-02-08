@@ -1,6 +1,8 @@
 package club.lyric.infinity.impl.events.mc.movement;
 
 import club.lyric.infinity.api.event.Event;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -8,6 +10,7 @@ import lombok.Getter;
  * fired whenever player movement/rotation is sent to server.
  */
 @Getter
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class LocationEvent extends Event {
 
     private final double x;

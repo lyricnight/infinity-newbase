@@ -28,17 +28,6 @@ def currentDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date())
 compileJava {
 	// unicode fixer
 	options.encoding 'UTF-8'
-
-	doLast {
-		def versionFile = new File(project.projectDir, 'src/main/java/club/lyric/infinity/Version.java')
-		versionFile.parentFile.mkdirs()
-		versionFile.text = "package club.lyric.infinity;\n" +
-				"\npublic class Version {\n" +
-				"    public static final String VERSION = \"${project.mod_version}\";\n" +
-				"    public static final String DATE = \"${currentDate}\";\n" +
-				"    public static final boolean NIGHTLY = ${project.isNightly};\n" +
-				"}\n"
-	}
 }
 
 ext {
@@ -54,7 +43,6 @@ dependencies {
 	include(implementation("io.github.spair:imgui-java-natives-windows:$project.imgui_version"))
 	include(implementation("io.github.spair:imgui-java-natives-linux:$project.imgui_version"))
 	include(implementation("io.github.spair:imgui-java-natives-macos:$project.imgui_version"))
-	
 	compileOnly("org.projectlombok:lombok:$project.lombok_version")
 	annotationProcessor("org.projectlombok:lombok:$project.lombok_version")
 }

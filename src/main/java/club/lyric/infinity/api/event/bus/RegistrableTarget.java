@@ -24,12 +24,8 @@ public final class RegistrableTarget {
 
     public Method[] getDeclaredMethods() {
         return switch (this.accessType) {
-            case STATIC -> Arrays.stream(this.targetClass.getDeclaredMethods())
-                    .filter(m -> (m.getModifiers() & Opcodes.ACC_STATIC) != 0)
-                    .toArray(Method[]::new);
-            case VIRTUAL -> Arrays.stream(this.targetClass.getDeclaredMethods())
-                    .filter(m -> (m.getModifiers() & Opcodes.ACC_STATIC) == 0)
-                    .toArray(Method[]::new);
+            case STATIC -> Arrays.stream(this.targetClass.getDeclaredMethods()).filter(m -> (m.getModifiers() & Opcodes.ACC_STATIC) != 0).toArray(Method[]::new);
+            case VIRTUAL -> Arrays.stream(this.targetClass.getDeclaredMethods()).filter(m -> (m.getModifiers() & Opcodes.ACC_STATIC) == 0).toArray(Method[]::new);
         };
     }
 
@@ -42,10 +38,8 @@ public final class RegistrableTarget {
 
     public MethodHandle retrieveHandle(MethodHandles.Lookup lookup, Method method) throws NoSuchMethodException, IllegalAccessException {
         return switch (this.accessType) {
-            case STATIC ->
-                    lookup.findStatic(this.targetClass, method.getName(), MethodType.methodType(method.getReturnType(), method.getParameters()[0].getType()));
-            case VIRTUAL ->
-                    lookup.findVirtual(this.targetClass, method.getName(), MethodType.methodType(method.getReturnType(), method.getParameters()[0].getType()));
+            case STATIC -> lookup.findStatic(this.targetClass, method.getName(), MethodType.methodType(method.getReturnType(), method.getParameters()[0].getType()));
+            case VIRTUAL -> lookup.findVirtual(this.targetClass, method.getName(), MethodType.methodType(method.getReturnType(), method.getParameters()[0].getType()));
         };
     }
 

@@ -3,14 +3,14 @@ package club.lyric.infinity.impl.modules.misc;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.util.client.chat.irc.IRCChat;
+import club.lyric.infinity.api.util.client.chat.IRCChat;
 import club.lyric.infinity.impl.events.irc.IRCEvent;
 import club.lyric.infinity.impl.events.mc.chat.ChatSentEvent;
 import club.lyric.infinity.manager.Managers;
 import net.minecraft.util.Formatting;
 
 /**
- * @author vasler
+ * @author vasler and finz0
  */
 public final class IRC extends ModuleBase {
 

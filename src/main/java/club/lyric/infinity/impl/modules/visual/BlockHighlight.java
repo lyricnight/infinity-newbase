@@ -5,7 +5,7 @@ import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
 import club.lyric.infinity.api.setting.settings.ColorSetting;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
-import club.lyric.infinity.api.util.client.render.util.Interpolation;
+import club.lyric.infinity.api.util.client.render.util.InterpolationUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
@@ -36,7 +36,7 @@ public final class BlockHighlight extends ModuleBase {
         if (!(mc.crosshairTarget instanceof BlockHitResult result)) return;
 
         BlockPos blockPos = result.getBlockPos();
-        Box inter = Interpolation.interpolatePos(blockPos, 1.0f);
+        Box inter = InterpolationUtils.interpolatePos(blockPos, 1.0f);
 
         Block block = mc.world.getBlockState(blockPos).getBlock();
 

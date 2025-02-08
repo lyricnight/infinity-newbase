@@ -34,5 +34,4 @@ public final class AntiCheatManager implements IMinecraft {
         this.holdingTime = holdingTime;
         this.bpt = bpt;
     }
-
 }

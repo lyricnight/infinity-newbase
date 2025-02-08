@@ -5,13 +5,12 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 /**
  * @author vasler
  */
-public class Interpolation implements IMinecraft {
+public class InterpolationUtils implements IMinecraft {
     public static Vec3d getCameraPos() {
         Camera camera = mc.getBlockEntityRenderDispatcher().camera;
         if (camera == null) return Vec3d.ZERO;
@@ -30,12 +29,6 @@ public class Interpolation implements IMinecraft {
         }
 
         return new Vec3d(x, y, z);
-    }
-
-    public static Vec3d getRenderPosition(Entity entity, float tickDelta) {
-        return new Vec3d(entity.getX() - MathHelper.lerp(tickDelta, entity.lastRenderX, entity.getX()),
-                entity.getY() - MathHelper.lerp(tickDelta, entity.lastRenderY, entity.getY()),
-                entity.getZ() - MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ()));
     }
 
     public static Box interpolatePos(BlockPos pos, float height) {

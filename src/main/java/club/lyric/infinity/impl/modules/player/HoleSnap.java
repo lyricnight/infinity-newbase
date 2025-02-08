@@ -20,7 +20,7 @@ import net.minecraft.util.math.Vec3d;
 import java.util.Comparator;
 
 /**
- * @author ??
+ * @author vasler (according to himself)
  */
 @SuppressWarnings({"DataFlowIssue", "unused"})
 public final class HoleSnap extends ModuleBase {
@@ -88,7 +88,6 @@ public final class HoleSnap extends ModuleBase {
         }
         if (boosted <= timerLength.getValue()) {
             if (remove.value()) {
-                //might not work properly
                 Managers.TIMER.set(Math.max(timerIntensity.getFValue() - local, 1.0f));
             } else {
                 Managers.TIMER.set(timerIntensity.getFValue());

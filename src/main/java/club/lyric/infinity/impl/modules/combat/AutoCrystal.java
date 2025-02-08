@@ -11,7 +11,7 @@ import club.lyric.infinity.api.setting.settings.NumberSetting;
 import club.lyric.infinity.api.util.client.math.StopWatch;
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
-import club.lyric.infinity.api.util.client.render.util.Interpolation;
+import club.lyric.infinity.api.util.client.render.util.InterpolationUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.api.util.minecraft.block.BlockUtils;
 import club.lyric.infinity.api.util.minecraft.entity.EntityUtils;
@@ -60,7 +60,7 @@ import java.util.concurrent.Executors;
 
 /**
  * @author vasler
- */
+ * this shit 100% pasted LOL - lyric
 /* TODO: make calculated breaking smarter by: calculating enemy and own damage and finding the best possible crystal to break;
  * make placing modes like breaking: do the same shit i just said; ADD PLACING, add id predict*/
 
@@ -278,7 +278,7 @@ public class AutoCrystal extends ModuleBase {
 
         if (renderPosition == null) return;
 
-        Box bb = Interpolation.interpolatePos(renderPosition, 1.0f);
+        Box bb = InterpolationUtils.interpolatePos(renderPosition, 1.0f);
 
         Render3DUtils.enable3D();
         matrixStack.push();

@@ -10,18 +10,9 @@ import net.minecraft.network.packet.s2c.play.UpdateSelectedSlotS2CPacket;
 
 /**
  * @author lyric
- * 'services are overrated'
+ * TODO this sucks (fix it)
  */
 public final class InventoryManager implements IMinecraft {
-    private ItemStack stack = null;
-
-    private ItemStack stackAlt = null;
-
-    /**
-     * convenience variable, for slot swapping.
-     */
-    private int last = -1;
-
     /**
      * represents the slot in use
      */
@@ -51,20 +42,6 @@ public final class InventoryManager implements IMinecraft {
             sendPacket(slot);
         }
     }
-
-    /**
-     * TODO
-     * uses the alternative swap slot method to swap.
-     * @param slot - int value of slot we swap to.
-     */
-    public void setSlotSwap(int slot)
-    {
-        last = mc.player.getInventory().selectedSlot;
-        stackAlt = mc.player.getMainHandStack();
-        slot = convert(slot);
-        if (mc.player.getInventory().selectedSlot != slot && slot > 35 && slot < 45) {}
-    }
-
 
     /**
      * call when a desync is detected: causes us to send a packet swap to client slot.

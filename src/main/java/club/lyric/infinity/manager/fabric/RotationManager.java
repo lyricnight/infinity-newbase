@@ -2,6 +2,7 @@ package club.lyric.infinity.manager.fabric;
 
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.util.client.nulls.Null;
+import club.lyric.infinity.api.util.client.render.util.InterpolationUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;
 import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
@@ -122,8 +123,8 @@ public final class RotationManager implements IMinecraft {
         if (event.getEntity() == mc.player && current != null) {
             if (!Managers.MODULES.getModuleFromClass(Interpolation.class).isOn())
             {
-                event.setYaw(club.lyric.infinity.api.util.client.render.util.Interpolation.interpolateFloat(prevYaw, serverYaw, mc.getRenderTickCounter().getTickDelta(false)));
-                event.setPitch(club.lyric.infinity.api.util.client.render.util.Interpolation.interpolateFloat(prevPitch, serverPitch, mc.getRenderTickCounter().getTickDelta(false)));
+                event.setYaw(InterpolationUtils.interpolateFloat(prevYaw, serverYaw, mc.getRenderTickCounter().getTickDelta(false)));
+                event.setPitch(InterpolationUtils.interpolateFloat(prevPitch, serverPitch, mc.getRenderTickCounter().getTickDelta(false)));
             }
             prevYaw = event.getYaw();
             prevPitch = event.getPitch();

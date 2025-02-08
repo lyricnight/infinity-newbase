@@ -3,8 +3,11 @@ package club.lyric.infinity.manager.fabric;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.client.math.StopWatch;
+import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.network.PacketEvent;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.network.packet.s2c.play.ChatMessageS2CPacket;
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
@@ -37,12 +40,16 @@ public final class ServerManager implements IMinecraft {
     /**
      * our Latency ping.
      */
-    public int ping = 0;
+    @Getter
+    @Setter
+    private int ping = 0;
 
     /**
      * used in Latency
      */
-    public long responseTime;
+    @Getter
+    @Setter
+    private long responseTime;
 
     /**
      * used in TPS
@@ -55,12 +62,17 @@ public final class ServerManager implements IMinecraft {
      */
     public int getServerPing()
     {
-        if (mc.getNetworkHandler() == null || mc.player == null) return 0;
+        if (Null.is()) return 0;
         PlayerListEntry playerListEntry = mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid());
         if (playerListEntry == null) return 0;
         return playerListEntry.getLatency();
     }
 
+    /**
+     * highest priority event for events.
+     * @param event - packet event.
+     * @see club.lyric.infinity.impl.modules.exploit.FastLatency
+     */
     @EventHandler(priority = Integer.MAX_VALUE)
     public void onPacketReceive(PacketEvent.Receive event)
     {
@@ -88,17 +100,6 @@ public final class ServerManager implements IMinecraft {
     public float getOurTPS()
     {
         return MathUtils.round(tps);
-    }
-
-
-    /**
-     * this gets fastLatency ping
-     * you MUST CHECK if this returns 0 (means fastLatency is off
-     * @return ping
-     */
-    public int getFastLatencyPing()
-    {
-        return ping;
     }
 
     public boolean isServerNotResponding() {

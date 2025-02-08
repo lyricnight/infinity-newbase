@@ -71,6 +71,7 @@ public final class ConfigManager implements IMinecraft {
         }
     }
 
+    //TODO make a command for this or implement it into config gui
     public void removeProfile(ConfigProfile configProfile) {
         profiles.remove(configProfile.getPathProfile());
     }

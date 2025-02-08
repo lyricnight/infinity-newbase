@@ -1,4 +1,4 @@
-package club.lyric.infinity.api.util.client.chat.irc;
+package club.lyric.infinity.api.util.client.chat;
 
 import club.lyric.infinity.Infinity;
 import club.lyric.infinity.api.event.bus.EventBus;

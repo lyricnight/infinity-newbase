@@ -3,7 +3,7 @@ package club.lyric.infinity.impl.modules.player;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.BooleanSetting;
-import club.lyric.infinity.api.util.client.render.util.Interpolation;
+import club.lyric.infinity.api.util.client.render.util.InterpolationUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
@@ -58,7 +58,7 @@ public final class AirPlace extends ModuleBase
 
         if (!(mc.world.getBlockState(blockPos).getBlock() == Blocks.AIR || mc.world.getBlockState(blockPos).getBlock() == Blocks.LAVA || mc.world.getBlockState(blockPos).getBlock() == Blocks.WATER)) return;
 
-        Box inter = Interpolation.interpolatePos(blockPos, 1.0f);
+        Box inter = InterpolationUtils.interpolatePos(blockPos, 1.0f);
 
         Render3DUtils.enable3D();
         matrixStack.push();

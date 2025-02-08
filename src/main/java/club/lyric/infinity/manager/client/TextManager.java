@@ -9,7 +9,8 @@ import net.minecraft.client.gui.DrawContext;
 /**
  * @author lyric
  * I spent 2 hours reading minecraft code to figure out how to instantiate DrawContext
- * this allows us to draw text whenever we like -> rather than drawing it through getting the drawContext from an event, which means things like drawing text in the server screen become impossible.
+ * this allows us to draw text whenever we like -> rather than drawing it through getting the drawContext from an event, which means things like drawing text in the server screen become annoying.
+ * this is technically just bloat, but it works I suppose.
  */
 public final class TextManager implements IMinecraft {
 

@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(Vec3d.class)
 public class MixinVec3d implements IVec3d {
-
     @Mutable
     @Shadow
     @Final
