@@ -103,13 +103,13 @@ public abstract class MixinChatInputSuggestor {
     private void suggestCommandArguments(SuggestionsBuilder builder, List<String> separatedText) {
         if (separatedText.isEmpty()) return;
 
-        Command command = Managers.COMMANDS.getCommandByName(separatedText.get(0));
+        Command command = Managers.COMMANDS.getCommandByName(separatedText.getFirst());
 
         if (command == null) {
             return;
         }
 
-        String[] suggestions = command.syntax(separatedText.get(separatedText.size() - 1));
+        String[] suggestions = command.syntax(separatedText.getLast());
 
         if (suggestions == null) return;
 

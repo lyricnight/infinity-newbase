@@ -12,6 +12,7 @@ import club.lyric.infinity.api.util.minecraft.rotation.RotationHandler;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationPoint;
 import club.lyric.infinity.api.util.minecraft.rotation.RotationUtils;
 import club.lyric.infinity.manager.Managers;
+import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -65,7 +66,8 @@ public class BlockModuleBase extends ModuleBase {
     /**
      * represents priority for rotations and block placements
      */
-    private final int prio;
+    @Getter
+    private final int priority;
 
     /**
      * represents slot for switchBack
@@ -91,12 +93,12 @@ public class BlockModuleBase extends ModuleBase {
      * @param name - name
      * @param description - desc
      * @param category - category
-     * @param prio - prio
+     * @param priority - priority
      */
-    public BlockModuleBase(String name, String description, Category category, int prio)
+    public BlockModuleBase(String name, String description, Category category, int priority)
     {
         super(name, description, category);
-        this.prio = prio;
+        this.priority = priority;
     }
 
     /**
@@ -140,10 +142,6 @@ public class BlockModuleBase extends ModuleBase {
 
     protected boolean blocked() {
         return Managers.ROTATIONS.isRotationLate(getPriority());
-    }
-
-    public int getPriority() {
-        return prio;
     }
 
     /**
@@ -219,7 +217,7 @@ public class BlockModuleBase extends ModuleBase {
         {
             switch (getModeFromString(swapModeSetting.getMode()))
             {
-                case Normal -> swapToItem(slot, SwapMode.Normal);
+                case Normal -> swapToItem(slot);
                 case Silent, Slot -> Managers.INVENTORY.forceSync();
             }
         }
@@ -316,13 +314,9 @@ public class BlockModuleBase extends ModuleBase {
         }
     }
 
-    protected void swapToItem(int slot, SwapMode mode)
+    protected void swapToItem(int slot)
     {
-        switch (mode)
-        {
-            case Normal -> Managers.INVENTORY.setSlotFull(slot);
-            case Silent, Slot -> Managers.INVENTORY.setSlotPacket(slot);
-        }
+        Managers.INVENTORY.setSlotFull(slot);
     }
 
     @Override

@@ -31,7 +31,9 @@ public class InterpolationUtils implements IMinecraft {
         return new Vec3d(x, y, z);
     }
 
+
     public static Box interpolatePos(BlockPos pos, float height) {
+        if (pos == null) return new Box(0, 0, 0, 1, 1, 1);
         return new Box(pos.getX() - getCameraPos().x, pos.getY() - getCameraPos().y, pos.getZ() - getCameraPos().z, pos.getX() - getCameraPos().x + 1, pos.getY() - getCameraPos().y + height, pos.getZ() - getCameraPos().z + 1);
     }
 

@@ -7,6 +7,7 @@ import club.lyric.infinity.api.util.client.render.util.InterpolationUtils;
 import club.lyric.infinity.api.util.client.render.util.Render3DUtils;
 import club.lyric.infinity.impl.modules.client.Colours;
 import club.lyric.infinity.manager.Managers;
+import net.jpountz.lz4.LZ4FrameOutputStream;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
@@ -32,39 +33,20 @@ public final class AirPlace extends ModuleBase
     @Override
     public void onUpdate()
     {
-        if (!(mc.crosshairTarget instanceof BlockHitResult result)) return;
-
-        BlockPos blockPos = result.getBlockPos();
-
-        if (!(mc.player.getMainHandStack().getItem() instanceof BlockItem || mc.player.getOffHandStack().getItem() instanceof BlockItem)) return;
-
-        if (!(mc.world.getBlockState(blockPos).getBlock() == Blocks.AIR || mc.world.getBlockState(blockPos).getBlock() == Blocks.LAVA || mc.world.getBlockState(blockPos).getBlock() == Blocks.WATER)) return;
-
-        if (mc.options.useKey.isPressed())
+        BlockHitResult result = checkIfValid();
+        if (mc.options.useKey.isPressed() && result != null)
         {
             place(result);
         }
-
     }
 
     @Override
     public void onRender3D(MatrixStack matrixStack) {
-
-        if (!(mc.crosshairTarget instanceof BlockHitResult result)) return;
-
-        BlockPos blockPos = result.getBlockPos();
-
-        if (!(mc.player.getMainHandStack().getItem() instanceof BlockItem || mc.player.getOffHandStack().getItem() instanceof BlockItem)) return;
-
-        if (!(mc.world.getBlockState(blockPos).getBlock() == Blocks.AIR || mc.world.getBlockState(blockPos).getBlock() == Blocks.LAVA || mc.world.getBlockState(blockPos).getBlock() == Blocks.WATER)) return;
-
-        Box inter = InterpolationUtils.interpolatePos(blockPos, 1.0f);
-
+        if (checkIfValid() == null) return;
+        Box inter = InterpolationUtils.interpolatePos(checkIfValid().getBlockPos(), 1.0f);
         Render3DUtils.enable3D();
         matrixStack.push();
-
         Render3DUtils.drawOutline(matrixStack, inter, Managers.MODULES.getModuleFromClass(Colours.class).getColor().getRGB());
-
         matrixStack.pop();
         Render3DUtils.disable3D();
     }
@@ -76,5 +58,20 @@ public final class AirPlace extends ModuleBase
         {
             mc.player.swingHand(Hand.MAIN_HAND);
         }
+    }
+
+    /**
+     * runs our initial check to see if we can air place.
+     */
+    private BlockHitResult checkIfValid()
+    {
+        if (!(mc.crosshairTarget instanceof BlockHitResult result)) return null;
+
+        BlockPos blockPos = result.getBlockPos();
+
+        if (!(mc.player.getMainHandStack().getItem() instanceof BlockItem || mc.player.getOffHandStack().getItem() instanceof BlockItem)) return null;
+
+        if (!(mc.world.getBlockState(blockPos).getBlock() == Blocks.AIR || mc.world.getBlockState(blockPos).getBlock() == Blocks.LAVA || mc.world.getBlockState(blockPos).getBlock() == Blocks.WATER)) return null;
+        return result;
     }
 }

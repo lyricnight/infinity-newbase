@@ -6,6 +6,7 @@ import lombok.Setter;
 /**
  * @author lyric
  * class that represents a rotation to a point.
+ * TODO remove
  */
 @Getter
 @Setter

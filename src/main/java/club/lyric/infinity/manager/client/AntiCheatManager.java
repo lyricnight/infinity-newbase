@@ -3,11 +3,9 @@ package club.lyric.infinity.manager.client;
 import club.lyric.infinity.api.event.bus.EventHandler;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
 import club.lyric.infinity.impl.events.mc.movement.LocationEvent;
-import club.lyric.infinity.impl.events.network.PacketEvent;
 import club.lyric.infinity.impl.modules.client.AntiCheat;
 import club.lyric.infinity.manager.Managers;
 import lombok.Getter;
-import net.minecraft.network.packet.s2c.common.KeepAliveS2CPacket;
 
 /**
  * @author lyric

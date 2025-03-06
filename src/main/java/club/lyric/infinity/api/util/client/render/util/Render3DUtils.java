@@ -9,7 +9,6 @@ import org.joml.Matrix4f;
 
 import static org.lwjgl.opengl.GL11.*;
 
-@SuppressWarnings("resource")
 public class Render3DUtils implements IMinecraft {
 
     public static void enable3D() {

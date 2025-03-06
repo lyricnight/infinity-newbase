@@ -7,7 +7,6 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
 import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 
@@ -154,6 +153,7 @@ public class GlyphPage implements IMinecraft {
     }
 
 
+    @SuppressWarnings("SameParameterValue")
     private void setVertex(Matrix4f matrix, float x, float y, float z, float u, float v, float red, float green, float blue, float alpha) {
         BUFFER.vertex(matrix, x, y, z)
                 .color(red, green, blue, alpha)

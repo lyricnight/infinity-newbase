@@ -3,15 +3,12 @@ package club.lyric.infinity.api.util.client.render.text.custom;
 
 import club.lyric.infinity.api.util.client.render.colors.ColorUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13C;
 
-import java.io.InputStream;
 import java.util.Locale;
 
 import static org.lwjgl.opengl.GL11.*;

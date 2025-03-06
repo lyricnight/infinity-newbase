@@ -1,5 +1,8 @@
 package club.lyric.infinity.api.util.client.render.anim;
 
+/**
+ * @author easings
+ */
 public class Animation {
 
     private final Easing easing;

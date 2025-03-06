@@ -3,9 +3,7 @@ package club.lyric.infinity.impl.modules.visual;
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
 import club.lyric.infinity.api.setting.settings.ColorSetting;
-import club.lyric.infinity.api.util.client.nulls.Null;
 import club.lyric.infinity.api.util.client.render.colors.JColor;
-import net.minecraft.util.math.Vec3d;
 
 import java.awt.*;
 

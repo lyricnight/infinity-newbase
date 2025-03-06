@@ -42,14 +42,4 @@ public class RotationUtils implements IMinecraft {
                         MathHelper.wrapDegrees(pitch)
                 };
     }
-
-    public static Vec3d getRotationAsVec3d(float pitch, float yaw) {
-        float a = pitch * ((float) Math.PI / 180.0f);
-        float b = -yaw * ((float) Math.PI / 180.0f);
-        float c = MathHelper.cos(b);
-        float d = MathHelper.sin(b);
-        float e = MathHelper.cos(a);
-        float f = MathHelper.sin(a);
-        return new Vec3d(d * e, -f, c * e);
-    }
 }

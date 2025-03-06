@@ -106,15 +106,6 @@ public class MovementUtil implements IMinecraft {
         return i;
     }
 
-    public static double getJumpSpeed() {
-        double defaultSpeed = 0.0;
-        if (mc.player.hasStatusEffect(StatusEffects.JUMP_BOOST)) {
-            int amplifier = mc.player.getStatusEffect(StatusEffects.JUMP_BOOST).getAmplifier();
-            defaultSpeed += (double) (amplifier + 1) * 0.1;
-        }
-        return defaultSpeed;
-    }
-
     public static void strafe(PlayerMovementEvent event, double speed) {
         if (movement()) {
             double[] strafe = directionSpeed(speed);
@@ -124,10 +115,6 @@ public class MovementUtil implements IMinecraft {
             event.setX(0.0);
             event.setZ(0.0);
         }
-    }
-
-    public static double getSpeed() {
-        return getSpeed(false);
     }
 
     public static double getSpeed(boolean slowness) {
@@ -142,12 +129,6 @@ public class MovementUtil implements IMinecraft {
             defaultSpeed /= 1.0 + 0.2 * (double) (amplifier + 1);
         }
         return defaultSpeed;
-    }
-
-    public static double getDistanceXZ() {
-        double xDist = mc.player.getX() - mc.player.prevX;
-        double zDist = mc.player.getX() - mc.player.prevZ;
-        return Math.sqrt(xDist * xDist + zDist * zDist);
     }
 
     public static void movementFix() {

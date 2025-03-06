@@ -19,10 +19,6 @@ public class Fake extends AbstractClientPlayerEntity {
         super(clientWorld, RANDOM_GAMEPROFILE);
     }
 
-    public Fake(ClientWorld clientWorld, GameProfile gameProfile) {
-        super(clientWorld, gameProfile);
-    }
-
     @Override
     public boolean isSpectator() {
         return false;

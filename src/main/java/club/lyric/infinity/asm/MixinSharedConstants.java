@@ -2,7 +2,6 @@ package club.lyric.infinity.asm;
 
 import net.minecraft.SharedConstants;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 
 /**
  * for DFU.

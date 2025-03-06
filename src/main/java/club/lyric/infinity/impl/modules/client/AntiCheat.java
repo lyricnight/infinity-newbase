@@ -11,12 +11,12 @@ import club.lyric.infinity.manager.Managers;
  * module that handles all anti-cheat related settings.
  */
 public final class AntiCheat extends PersistentModuleBase {
-    public BooleanSetting rotate = new BooleanSetting("Rotate", false, this);
-    public NumberSetting holdingTime = new NumberSetting("HoldingTime", this, 0f, 5f, 20f, 0.5f);
-    public BooleanSetting strictDirection = new BooleanSetting("StrictDirection", false, this);
-    public NumberSetting bpt = new NumberSetting("BPT", this, 4, 1, 20, 1);
-    public BooleanSetting movementFix = new BooleanSetting("MovementFix", false, this);
-    public BooleanSetting lower = new BooleanSetting("1.12 Mode", false, this);
+    public final BooleanSetting rotate = new BooleanSetting("Rotate", false, this);
+    public final NumberSetting holdingTime = new NumberSetting("HoldingTime", this, 0f, 5f, 20f, 0.5f);
+    public final BooleanSetting strictDirection = new BooleanSetting("StrictDirection", false, this);
+    public final NumberSetting bpt = new NumberSetting("BPT", this, 4, 1, 20, 1);
+    public final BooleanSetting movementFix = new BooleanSetting("MovementFix", false, this);
+    public final BooleanSetting lower = new BooleanSetting("1.12 Mode", false, this);
 
     public AntiCheat() {
         super("AntiCheat", "Global Module for some specific settings.", Category.CLIENT);

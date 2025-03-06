@@ -26,6 +26,7 @@ Some ways that the client could be improved (in terms of code quality and perfor
 # Credits
 ````
 https://projectlombok.org/ -> Project Lombok
+Easings -> easings
 https://github.com/SpaiR -> Dear-IMGUI java bindings
 RailHack -> Custom EventBus, (deprecated) loading system, and teaching me how the JVM handles memory
 Discord -> Discord RPC system files

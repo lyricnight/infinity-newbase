@@ -55,24 +55,6 @@ public class JColor extends Color {
         return new JColor(Color.getHSBColor(hue, saturation, brightness));
     }
 
-    public float getHue() {
-        return RGBtoHSB(getRed(), getGreen(), getBlue(), null)[0];
-    }
-
-    public float getSaturation() {
-        return RGBtoHSB(getRed(), getGreen(), getBlue(), null)[1];
-    }
-
-    public float getBrightness() {
-        return RGBtoHSB(getRed(), getGreen(), getBlue(), null)[2];
-    }
-
-    public float[] getHsb() {
-        float[] hsb = RGBtoHSB(getRed(), getGreen(), getBlue(), null);
-
-        return new float[]{hsb[0], hsb[1], hsb[2]};
-    }
-
     public JColor jDarker() {
         return new JColor(this.darker());
     }

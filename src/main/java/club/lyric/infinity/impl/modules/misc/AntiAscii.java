@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 
 @SuppressWarnings("unused")
 public final class AntiAscii extends ModuleBase {
-    public NumberSetting offset = new NumberSetting("Offset", this, 15f, 1.0f, 256.0f, 1f);
+    public final NumberSetting offset = new NumberSetting("Offset", this, 15f, 1.0f, 256.0f, 1f);
     private static final ThreadLocal<CharsetEncoder> asciiEncoder = ThreadLocal.withInitial(StandardCharsets.US_ASCII::newEncoder);
 
     public AntiAscii() {

@@ -1,7 +1,6 @@
 package club.lyric.infinity.impl.events.render;
 
 import club.lyric.infinity.api.event.Event;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.network.AbstractClientPlayerEntity;

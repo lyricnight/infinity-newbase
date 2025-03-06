@@ -12,7 +12,7 @@ public class KeyUtils implements IMinecraft {
      * stupid.
      * @param keyCode - GLFW key code
      * @return - key name as string.
-     * @apiNote this is bad and stupid, but its kinda needed.
+     * AVERAGE PIECE OF VASLER CODE LOL - lyric
      */
 
     public static String getKeyName(int keyCode) {

@@ -13,7 +13,6 @@ public abstract class Setting {
      * name of our setting.
      */
     protected String name;
-
     /**
      * moduleBase that the setting belongs to.
      */

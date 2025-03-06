@@ -125,7 +125,6 @@ public final class PhaseWalk extends ModuleBase {
             return;
         }
         if (rotationHold.value()) {
-            waiting = true;
             if (rotation < pre.getValue()) {
                 if (busyWait.value()) {
                     mc.player.setVelocity(new Vec3d(0.0, mc.player.getVelocity().y, 0.0));
@@ -133,7 +132,6 @@ public final class PhaseWalk extends ModuleBase {
                 }
                 return;
             }
-            waiting = false;
             phase = 0;
         }
         handleMovement(event);
@@ -142,10 +140,10 @@ public final class PhaseWalk extends ModuleBase {
     private boolean preMovement(SpecificMovementEvent.Pre event) {
         handleInput();
         if (goingDown) {
-            return this.preDescend(event);
+            return false;
         }
         if (goingUp) {
-            return this.preAscend(event);
+            return false;
         }
         return preXZ(event);
     }
@@ -174,14 +172,6 @@ public final class PhaseWalk extends ModuleBase {
             progress = 0;
             ascendTotal = mc.player.getY();
         }
-    }
-
-    private boolean preDescend(SpecificMovementEvent.Pre ignored) {
-        return false;
-    }
-
-    private boolean preAscend(SpecificMovementEvent.Pre ignored) {
-        return false;
     }
 
     private boolean canVertical() {

@@ -58,11 +58,9 @@ public final class Friend extends Command implements IMinecraft {
     @Override
     public String[] syntax(String string)
     {
-
         return switch (string)
         {
-            case "add", "del" -> server == null ? new String[]{"<username>"} :getOnlineUsernames();
-
+            case "add", "del" -> server == null ? new String[]{"<username>"} : getOnlineUsernames();
             default -> new String[]{"<add/del>"};
         };
     }

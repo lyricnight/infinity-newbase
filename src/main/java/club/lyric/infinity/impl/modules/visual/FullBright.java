@@ -2,7 +2,6 @@ package club.lyric.infinity.impl.modules.visual;
 
 import club.lyric.infinity.api.module.Category;
 import club.lyric.infinity.api.module.ModuleBase;
-import club.lyric.infinity.api.util.client.nulls.Null;
 import net.minecraft.world.LightType;
 
 /**

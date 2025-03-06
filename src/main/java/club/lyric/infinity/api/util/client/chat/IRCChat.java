@@ -28,7 +28,7 @@ public final class IRCChat implements IMinecraft {
     public static void join() {
         try {
             ws = builder.buildAsync(URI.create("wss://hack.chat/chat-ws"), new Listener()).get();
-            ws.sendText(gson.toJson(new JoinCommand(channel, nick)), true);
+            ws.sendText(gson.toJson(new JoinCommand()), true);
             connected = true;
         } catch (Exception e) {
             Infinity.LOGGER.atError();
@@ -79,7 +79,7 @@ public final class IRCChat implements IMinecraft {
     private static class JoinCommand {
         private final String cmd = "join";
 
-        JoinCommand(String channel, String nick) {
+        JoinCommand() {
         }
     }
 

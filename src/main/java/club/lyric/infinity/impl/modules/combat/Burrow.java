@@ -32,8 +32,10 @@ public final class Burrow extends BlockModuleBase {
     @Override
     public void onEnable()
     {
-        Managers.MESSAGES.sendMessage(Formatting.RED + "WIP module, doesn't do anything yet.", false);
-        disable();
+        if (Null.is())
+        {
+            return;
+        }
         if (initialCheck())
         {
             Managers.MESSAGES.sendMessage(Formatting.RED + "Burrow cannot place at this time. Disabling...", false);
@@ -69,6 +71,6 @@ public final class Burrow extends BlockModuleBase {
      */
     private boolean initialCheck()
     {
-        return Null.is() || !mc.player.isOnGround() || !BlockUtils.isAir(mc.player.getBlockPos().up(2)) || !canPlace() || !mc.player.verticalCollision;
+        return !mc.player.isOnGround() || !BlockUtils.isAir(mc.player.getBlockPos().up(2)) || !canPlace() || !mc.player.verticalCollision;
     }
 }

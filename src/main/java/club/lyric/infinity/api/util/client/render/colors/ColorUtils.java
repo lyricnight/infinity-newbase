@@ -1,9 +1,6 @@
 package club.lyric.infinity.api.util.client.render.colors;
 
-
-import club.lyric.infinity.api.util.client.math.MathUtils;
 import club.lyric.infinity.api.util.minecraft.IMinecraft;
-import net.minecraft.util.math.MathHelper;
 
 import java.awt.*;
 
@@ -69,59 +66,10 @@ public class ColorUtils implements IMinecraft {
         }
     }
 
-    public static Color darken(Color color, int amount) {
-        int red = Math.max(color.getRed() - amount, 20);
-        int green = Math.max(color.getGreen() - amount, 20);
-        int blue = Math.max(color.getBlue() - amount, 20);
-
-        return new Color(red, green, blue, color.getAlpha());
-    }
-
     public static Color alpha(Color color, int amount) {
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), amount);
     }
 
-    public static Color hslToColor(float hue, float sat, float light, float alpha) {
-        if (sat < 0.0f || sat > 100.0f) {
-            throw new IllegalArgumentException("Color parameter outside of expected range - Saturation");
-        }
-        if (light < 0.0f || light > 100.0f) {
-            throw new IllegalArgumentException("Color parameter outside of expected range - Lightness");
-        }
-        if (alpha < 0.0f || alpha > 1.0f) {
-            throw new IllegalArgumentException("Color parameter outside of expected range - Alpha");
-        }
-        hue %= 360.0f;
-        float f5;
-        f5 = (double) light < 0.5 ? light * (1.0f + sat) : (light /= 100.0f) + (sat /= 100.0f) - sat * light;
-        sat = 2.0f * light - f5;
-        light = Math.max(0.0f, colorCalc(sat, f5, (hue /= 360.0f) + 0.33333334f));
-        float f6 = Math.max(0.0f, colorCalc(sat, f5, hue));
-        sat = Math.max(0.0f, colorCalc(sat, f5, hue - 0.33333334f));
-        light = Math.min(light, 1.0f);
-        f6 = Math.min(f6, 1.0f);
-        sat = Math.min(sat, 1.0f);
-        return new Color(light, f6, sat, alpha);
-    }
-
-    private static float colorCalc(float f, float f2, float f3) {
-        if (f3 < 0.0f) {
-            f3 += 1.0f;
-        }
-        if (f3 > 1.0f) {
-            f3 -= 1.0f;
-        }
-        if (6.0f * f3 < 1.0f) {
-            return f + (f2 - f) * 6.0f * f3;
-        }
-        if (2.0f * f3 < 1.0f) {
-            return f2;
-        }
-        if (3.0f * f3 < 2.0f) {
-            return f + (f2 - f) * 6.0f * (0.6666667f - f3);
-        }
-        return f;
-    }
 
     // INFINITY OLD DEF PASTED
     public static Color interpolate(final float value, final Color start, final Color end) {
@@ -172,17 +120,5 @@ public class ColorUtils implements IMinecraft {
 
     public static int alpha(int c) {
         return c >> 24 & 0xFF;
-    }
-    
-    public static double fade(double value, double max)
-    {
-        double elapsedTime = System.currentTimeMillis() - value;
-
-        double fadeAmount = MathUtils.normalize(elapsedTime, max);
-
-        int alpha = (int) (fadeAmount * 255.0);
-        alpha = MathHelper.clamp(alpha, 0, 255);
-
-        return 255 - alpha;
     }
 }
